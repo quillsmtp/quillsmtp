@@ -1,0 +1,30 @@
+{
+  "name": "quillsmtp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "packages/index.tsx",
+  "scripts": {
+    "dev-client": "wp-scripts start && tsc",
+    "build-client": "wp-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@woocommerce/navigation": "^8.1.0",
+    "@wordpress/scripts": "^26.12.0",
+    "lodash": "^4.17.21",
+    "react-dnd": "^15.1.2",
+    "react-router-dom": "^5.2.0",
+    "react-router-navigation-prompt": "^1.8.13"
+  },
+  "peerDependencies": {
+    "react": "^16.8.5 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.5 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.15",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2"
+  }
+}

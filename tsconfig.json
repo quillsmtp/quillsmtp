@@ -1,0 +1,52 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react-jsx",
+		"target": "esnext",
+		"module": "esnext",
+		"lib": [ "dom", "esnext" ],
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true,
+		"emitDeclarationOnly": true,
+		"isolatedModules": true,
+
+		/* Strict Type-Checking Options */
+		"strict": true,
+
+		/* Additional Checks */
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		/* To prevent Typescript observe the libraries on node modules */
+		"skipLibCheck": true,
+
+		/* Module Resolution Options */
+		"moduleResolution": "node",
+
+		/* This needs to be false so our types are possible to consume without setting this */
+		"esModuleInterop": false,
+		"resolveJsonModule": true,
+		"noImplicitAny": false,
+		"typeRoots": [ "./typings", "./node_modules/@types" ],
+		"types": [],
+		"declarationDir": "build-types",
+		// Some errors in Reakit types with TypeScript 4.3
+		// Remove the following line when they've been addressed.
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"outDir": "./build", // Ensure this points to your build directory
+		"rootDir": "./packages", // Ensure this points to your TypeScript source directory,
+		"diagnostics": true
+	},
+	"include": [
+		"packages/client/**/*",
+		"packages/client/*",
+		"packages/**/*",
+		"packages/*"
+	]
+}

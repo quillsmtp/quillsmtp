@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards for Quill Forms Plugin">
+	<description>Sniffs for WordPress plugins, with minor modifications for Quill Forms</description>
+
+	<exclude-pattern>./vendor/*</exclude-pattern>
+	<exclude-pattern>./dependencies/*</exclude-pattern>
+
+	<rule ref="PHPCompatibility"/>
+	<config name="testVersion" value="7.2-"/>
+
+	<rule ref="WordPress-Core">
+		<type>warning</type>
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="WordPress.PHP.YodaConditions"/>
+	</rule>
+	<rule ref="WordPress-Docs">
+		<type>warning</type>
+	</rule>
+	<rule ref="WordPress.WP.I18n"/>
+	<config name="text_domain" value="quillsmtp,default"/>
+
+	<!-- These special comments are markers for the build process -->
+	<rule ref="Squiz.Commenting.InlineComment.WrongStyle" />
+
+	<rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase" />
+	<rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase" />
+	<rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase" />
+
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
+		<properties>
+			<property name="allowUnusedParametersBeforeUsed" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.CodeAnalysis.EmptyStatement"/>
+
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+		<exclude-pattern>./*</exclude-pattern>
+	</rule>
+
+	<arg value="ps"/>
+	<arg name="extensions" value="php"/>
+
+	<file>./quillsmtp.php</file>
+	<file>./phpunit</file>
+
+	<!-- Do not require docblocks for unit tests -->
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.SpacingAfter">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.Empty">
+    	<exclude-pattern>phpunit/*</exclude-pattern>
+    </rule>
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.VariableComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+
+	<!-- Ignore snake case error in parser -->
+</ruleset>
