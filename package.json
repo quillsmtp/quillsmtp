@@ -2,10 +2,10 @@
   "name": "quillsmtp",
   "version": "1.0.0",
   "description": "",
-  "main": "packages/index.tsx",
+  "main": "client/index.ts",
   "scripts": {
-    "dev-client": "wp-scripts start && tsc",
-    "build-client": "wp-scripts build"
+    "dev": "wp-scripts start",
+    "build": "wp-scripts build"
   },
   "keywords": [],
   "author": "",

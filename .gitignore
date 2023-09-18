@@ -3,6 +3,7 @@
 /languages/*.json
 /node_modules/
 /vendor/
+build-types
 
 # Directories/files that may appear in your environment
 .DS_Store

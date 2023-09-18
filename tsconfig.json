@@ -40,13 +40,9 @@
 		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "./build", // Ensure this points to your build directory
-		"rootDir": "./packages", // Ensure this points to your TypeScript source directory,
+		"rootDir": "./client", // Ensure this points to your TypeScript source directory,
 		"diagnostics": true
 	},
-	"include": [
-		"packages/client/**/*",
-		"packages/client/*",
-		"packages/**/*",
-		"packages/*"
-	]
+	"include": [ "client/**/*.ts", "client/**/*.tsx" ],
+	"exclude": [ "node_modules" ]
 }

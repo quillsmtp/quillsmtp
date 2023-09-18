@@ -1,1 +1,1 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../packages/index.tsx"],"names":[],"mappings":""}
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../client/index.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,CAAC"}
