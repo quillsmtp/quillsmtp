@@ -54,7 +54,37 @@ class Admin_Loader {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
+		// Enqueue admin scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	}
 
+	/**
+	 * Enqueue Scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enqueue_scripts() {
+		$asset_file   = QUILLSMTP_DIR . 'build/client/index.asset.php';
+		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
+		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
+		wp_register_script(
+			'qsmtp-admin',
+			QUILLSMTP_URL . 'build/client/index.js',
+			$dependencies,
+			QUILLSMTP_VERSION,
+			true
+		);
+
+		// Register styles.
+		wp_register_style(
+			'qsmtp-admin',
+			QUILLSMTP_URL . 'build/client/style.css',
+			array(),
+			QUILLSMTP_VERSION
+		);
+
+		// RTL styles.
+		wp_style_add_data( 'qsmtp-admin', 'rtl', 'replace' );
 	}
 
 	/**
@@ -66,10 +96,14 @@ class Admin_Loader {
 		// Important to check for authentication.
 		wp_auth_check_load();
 
+		// Enqueue scripts.
+		wp_enqueue_script( 'qsmtp-admin' );
+		wp_enqueue_style( 'qsmtp-admin' );
+
 		?>
 		<div class="wrap">
-			<div id="qsmpt-admin-root">
-				<div id="qsmpt-admin-root__loader-container" style="
+			<div id="qsmtp-admin-root">
+				<div id="qsmtp-admin-root__loader-container" style="
 					display: flex;
 					align-items: center;
 					justify-content: center;

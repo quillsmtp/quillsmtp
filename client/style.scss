@@ -1,0 +1,16 @@
+#qsmtp-admin-root #qsmtp-admin-root__loader-container > svg {
+	animation: iconPulse 1s 2s infinite;
+}
+@keyframes iconPulse {
+	0% {
+		transform: scaleX(1);
+	}
+
+	50% {
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+
+	to {
+		transform: scaleX(1);
+	}
+}
