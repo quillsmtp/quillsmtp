@@ -7,7 +7,6 @@ import { useEffect } from '@wordpress/element';
  * External Dependencies
  */
 import { parse } from 'qs';
-import classnames from 'classnames';
 import { motion } from 'framer-motion';
 
 /**
@@ -16,6 +15,9 @@ import { motion } from 'framer-motion';
 // import AdminNotices from '../admin-notices';
 import { registerAdminPage } from '../navigation';
 import Home from '../pages/home';
+import EmailTest from '../pages/email-test';
+import Logs from '../pages/logs';
+import AdminNotices from '../admin-notices';
 
 export const Controller = ({ page, match, location }) => {
 	useEffect(() => {
@@ -36,19 +38,14 @@ export const Controller = ({ page, match, location }) => {
 
 	return (
 		// Using motion div with layoutScroll to reevaluate positions when the user scrolls.
-		<motion.div
-			layoutScroll
-			className={classnames('qsmtp-page-component-wrapper', {
-				'has-sidebar': !page.template || page.template === 'default',
-			})}
-		>
+		<motion.div layoutScroll className="qsmtp-page-component-wrapper">
 			<page.component
 				params={params}
 				path={url}
 				pathMatch={page.path}
 				query={query}
 			/>
-			{/* <AdminNotices /> */}
+			<AdminNotices />
 		</motion.div>
 	);
 };
@@ -56,4 +53,14 @@ export const Controller = ({ page, match, location }) => {
 registerAdminPage('home', {
 	component: Home,
 	path: '/',
+});
+
+registerAdminPage('email-test', {
+	component: EmailTest,
+	path: 'email-test',
+});
+
+registerAdminPage('logs', {
+	component: Logs,
+	path: 'logs',
 });

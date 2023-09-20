@@ -5,3 +5,9 @@
 	display: flex;
 	height: calc(100vh - 55px);
 }
+// Hide all wordpress admin notices
+#qsmtp-admin-root {
+	.notice {
+		display: none !important;
+	}
+}

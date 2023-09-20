@@ -56,6 +56,26 @@ class Admin_Loader {
 	private function __construct() {
 		// Enqueue admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+		// Remove notices.
+		add_action( 'admin_notices', array( $this, 'remove_notices' ), 1 );
+	}
+
+	/**
+	 * Remove Notices.
+	 *
+	 * @since 1.0.0
+	 */
+	public function remove_notices() {
+		// Check if quillsmtp is the current page.
+		$current_screen = get_current_screen();
+		// Check if current screen has a quillsmtp string.
+		if ( false === strpos( $current_screen->id, 'quillsmtp' ) ) {
+			return;
+		}
+
+		// Remove notices.
+		remove_all_actions( 'admin_notices' );
 	}
 
 	/**
@@ -64,6 +84,9 @@ class Admin_Loader {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts() {
+		global $submenu;
+		$user = wp_get_current_user();
+
 		$asset_file   = QUILLSMTP_DIR . 'build/client/index.asset.php';
 		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
 		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
@@ -73,6 +96,16 @@ class Admin_Loader {
 			$dependencies,
 			QUILLSMTP_VERSION,
 			true
+		);
+
+		wp_localize_script(
+			'qsmtp-admin',
+			'qsmtpAdmin',
+			array(
+				'adminUrl'       => admin_url(),
+				'assetsBuildUrl' => QUILLSMTP_URL,
+				'submenuPages'   => $submenu['quillsmtp'] ?? [],
+			)
 		);
 
 		// Register styles.

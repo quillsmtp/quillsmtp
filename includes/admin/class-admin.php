@@ -98,7 +98,7 @@ class Admin {
 			__( 'Email Test', 'quillsmtp' ),
 			__( 'Email Test', 'quillsmtp' ),
 			'manage_options',
-			'quillsmtp-email-test',
+			'quillsmtp&path=email-test',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 
@@ -108,7 +108,7 @@ class Admin {
 			__( 'Logs', 'quillsmtp' ),
 			__( 'Logs', 'quillsmtp' ),
 			'manage_options',
-			'quillsmtp-logs',
+			'quillsmtp&path=logs',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 	}

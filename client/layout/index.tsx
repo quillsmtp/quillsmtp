@@ -24,6 +24,7 @@ import {
 	getHistory,
 } from '../navigation';
 import { Controller } from './controller';
+import NavBar from '../components/navbar';
 import './style.scss';
 
 export const Layout = (props) => {
@@ -57,6 +58,7 @@ export const Layout = (props) => {
 	return (
 		<SlotFillProvider>
 			<div className="quillsmtp-layout">
+				<NavBar />
 				<div className="quillsmtp-layout__main">
 					{isLoading ? (
 						<div
