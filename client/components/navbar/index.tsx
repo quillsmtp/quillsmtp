@@ -36,7 +36,6 @@ const matchesRegesiteredRoutes = (path) => {
 	});
 	return ret;
 };
-console.log(qsmtpAdmin.submenuPages);
 
 const NavBar = () => {
 	return (

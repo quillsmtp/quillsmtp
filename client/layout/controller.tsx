@@ -12,12 +12,11 @@ import { motion } from 'framer-motion';
 /**
  * Internal dependencies
  */
-// import AdminNotices from '../admin-notices';
 import { registerAdminPage } from '../navigation';
 import Home from '../pages/home';
 import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';
-import AdminNotices from '../admin-notices';
+import { Notices } from '../components';
 
 export const Controller = ({ page, match, location }) => {
 	useEffect(() => {
@@ -45,7 +44,7 @@ export const Controller = ({ page, match, location }) => {
 				pathMatch={page.path}
 				query={query}
 			/>
-			<AdminNotices />
+			<Notices />
 		</motion.div>
 	);
 };

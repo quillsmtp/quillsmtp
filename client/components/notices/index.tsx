@@ -15,7 +15,7 @@ import { useEffect } from 'react';
  */
 import './style.scss';
 
-const AdminNotices = () => {
+const Notices = () => {
 	// @ts-expect-error
 	const { notices } = useSelect((select) => {
 		return {
@@ -50,4 +50,4 @@ const AdminNotices = () => {
 	);
 };
 
-export default AdminNotices;
+export default Notices;

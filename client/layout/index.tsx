@@ -24,7 +24,7 @@ import {
 	getHistory,
 } from '../navigation';
 import { Controller } from './controller';
-import NavBar from '../components/navbar';
+import { NavBar } from '../components';
 import './style.scss';
 
 export const Layout = (props) => {

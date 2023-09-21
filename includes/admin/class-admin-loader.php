@@ -112,7 +112,7 @@ class Admin_Loader {
 		wp_register_style(
 			'qsmtp-admin',
 			QUILLSMTP_URL . 'build/client/style.css',
-			array(),
+			array( 'wp-components' ),
 			QUILLSMTP_VERSION
 		);
 

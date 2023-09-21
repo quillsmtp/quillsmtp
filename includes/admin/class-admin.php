@@ -82,11 +82,11 @@ class Admin {
 			100
 		);
 
-		// General.
+		// Settings.
 		add_submenu_page(
 			'quillsmtp',
-			__( 'General', 'quillsmtp' ),
-			__( 'General', 'quillsmtp' ),
+			__( 'Settings', 'quillsmtp' ),
+			__( 'Settings', 'quillsmtp' ),
 			'manage_options',
 			'quillsmtp',
 			array( Admin_Loader::class, 'page_wrapper' )
