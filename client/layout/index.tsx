@@ -12,6 +12,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { forEach, uniq } from 'lodash';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
+import CssBaseline from '@mui/material/CssBaseline';
 
 /**
  * Internal dependencies

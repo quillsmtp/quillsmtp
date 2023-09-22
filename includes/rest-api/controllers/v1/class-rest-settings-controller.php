@@ -10,6 +10,10 @@ namespace QuillSMTP\REST_API\Controllers\V1;
 
 use QuillSMTP\Abstracts\REST_Controller;
 use QuillSMTP\Settings;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * REST_Settings_Controller class.
@@ -132,7 +136,7 @@ class REST_Settings_Controller extends REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_permissions_check( $request ) {
-		$capability = 'manage_quillforms';
+		$capability = 'manage_options';
 		return current_user_can( $capability, $request );
 	}
 
@@ -159,7 +163,7 @@ class REST_Settings_Controller extends REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function update_permissions_check( $request ) {
-		$capability = 'manage_quillforms';
+		$capability = 'manage_options';
 		return current_user_can( $capability, $request );
 	}
 

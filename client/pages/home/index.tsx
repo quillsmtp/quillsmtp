@@ -2,56 +2,71 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TabPanel } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 /**
  * External Dependencies
  */
 import { css } from '@emotion/css';
+import { Tabs, Tab } from '@mui/material';
+import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
+import General from './general';
 
 const Home = () => {
-	const Tabs = {
+	const [value, setValue] = useState(0);
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
+
+	const TabsObj = {
 		general: {
 			title: __('General', 'quillsmtp'),
-			render: <div>General</div>,
+			render: <General />,
 		},
 	};
 
 	return (
 		<div className="qsmtp-settings-page">
 			<div className="qsmtp-settings-page__body">
-				<TabPanel
-					className={css`
-						.components-tab-panel__tabs-item {
-							font-weight: normal;
-						}
-						.active-tab {
-							font-weight: bold;
-						}
-					`}
-					activeClass="active-tab"
-					tabs={Object.entries(Tabs).map(([name, tab]) => {
-						return {
-							name,
-							title: tab.title,
-							className: 'tab-' + name,
-						};
+				<Tabs value={value} onChange={handleChange}>
+					{Object.keys(TabsObj).map((key, index) => {
+						return (
+							<Tab
+								key={key}
+								label={TabsObj[key].title}
+								className={classnames(
+									'qsmtp-settings-page__tab',
+									{
+										'qsmtp-settings-page__tab--active':
+											value === index,
+									}
+								)}
+							/>
+						);
 					})}
-					initialTabName={Object.keys(Tabs)[0]}
-				>
-					{(tab) => (
-						<div>
-							{Tabs[tab.name]?.render ?? (
-								<div>{__('Not Found', 'quillsmtp')}</div>
+				</Tabs>
+				{Object.keys(TabsObj).map((key, index) => {
+					return (
+						<div
+							key={key}
+							className={classnames(
+								'qsmtp-settings-page__tab-content',
+								{
+									'qsmtp-settings-page__tab-content--active':
+										value === index,
+								}
 							)}
+							hidden={value !== index}
+						>
+							{TabsObj[key].render}
 						</div>
-					)}
-				</TabPanel>
+					);
+				})}
 			</div>
 		</div>
 	);

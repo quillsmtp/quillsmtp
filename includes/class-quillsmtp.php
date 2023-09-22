@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Admin\Admin;
 use QuillSMTP\Admin\Admin_Loader;
+use QuillSMTP\REST_API\REST_API;
 
 /**
  * QuillSMTP Main Class.
@@ -65,5 +66,6 @@ final class QuillSMTP {
 	private function init_objects() {
 		Admin_Loader::instance();
 		Admin::instance();
+		REST_API::instance();
 	}
 }
