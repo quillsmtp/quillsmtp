@@ -12,6 +12,8 @@ namespace QuillSMTP\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
+use QuillSMTP\Core;
+
 /**
  * Admin Loader Class.
  *
@@ -55,6 +57,7 @@ class Admin_Loader {
 	 */
 	private function __construct() {
 		// Enqueue admin scripts.
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_inline_scripts' ), 14 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Remove notices.
@@ -79,6 +82,15 @@ class Admin_Loader {
 	}
 
 	/**
+	 * Add inline scripts.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function add_inline_scripts() {
+		Core::set_admin_config();
+	}
+
+	/**
 	 * Enqueue Scripts.
 	 *
 	 * @since 1.0.0
@@ -87,14 +99,14 @@ class Admin_Loader {
 		global $submenu;
 		$user = wp_get_current_user();
 
-		$asset_file   = QUILLSMTP_DIR . 'build/client/index.asset.php';
+		$asset_file   = QUILLSMTP_PLUGIN_DIR . 'build/client/index.asset.php';
 		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
 		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
 		wp_register_script(
 			'qsmtp-admin',
-			QUILLSMTP_URL . 'build/client/index.js',
+			QUILLSMTP_PLUGIN_URL . 'build/client/index.js',
 			$dependencies,
-			QUILLSMTP_VERSION,
+			QUILLSMTP_PLUGIN_VERSION,
 			true
 		);
 
@@ -103,7 +115,7 @@ class Admin_Loader {
 			'qsmtpAdmin',
 			array(
 				'adminUrl'       => admin_url(),
-				'assetsBuildUrl' => QUILLSMTP_URL,
+				'assetsBuildUrl' => QUILLSMTP_PLUGIN_URL,
 				'submenuPages'   => $submenu['quillsmtp'] ?? [],
 			)
 		);
@@ -111,9 +123,9 @@ class Admin_Loader {
 		// Register styles.
 		wp_register_style(
 			'qsmtp-admin',
-			QUILLSMTP_URL . 'build/client/style.css',
+			QUILLSMTP_PLUGIN_URL . 'build/client/style.css',
 			array(),
-			QUILLSMTP_VERSION
+			QUILLSMTP_PLUGIN_VERSION
 		);
 
 		// RTL styles.

@@ -8,6 +8,8 @@
 
 namespace QuillSMTP;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Settings Class
  *

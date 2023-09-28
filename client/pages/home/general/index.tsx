@@ -55,7 +55,6 @@ const General = () => {
 					type: 'snackbar',
 					isDismissible: true,
 				});
-				setSettings(data);
 				setIsSaving(false);
 			})
 			.catch(() => {
@@ -120,7 +119,7 @@ const General = () => {
 											setSettings({
 												...settings,
 												force_from_email:
-													e.target.checked,
+													!settings.force_from_email,
 											});
 										}}
 									/>
@@ -160,7 +159,7 @@ const General = () => {
 											setSettings({
 												...settings,
 												force_from_name:
-													e.target.checked,
+													!settings.force_from_name,
 											});
 										}}
 									/>

@@ -7,7 +7,6 @@ import { useState } from '@wordpress/element';
 /**
  * External Dependencies
  */
-import { css } from '@emotion/css';
 import { Tabs, Tab } from '@mui/material';
 import classnames from 'classnames';
 
@@ -16,6 +15,7 @@ import classnames from 'classnames';
  */
 import './style.scss';
 import General from './general';
+import Mailer from './mailer';
 
 const Home = () => {
 	const [value, setValue] = useState(0);
@@ -24,6 +24,10 @@ const Home = () => {
 	};
 
 	const TabsObj = {
+		mailer: {
+			title: __('Mailer', 'quillsmtp'),
+			render: <Mailer />,
+		},
 		general: {
 			title: __('General', 'quillsmtp'),
 			render: <General />,
