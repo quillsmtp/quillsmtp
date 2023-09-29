@@ -1,28 +1,23 @@
 <?php
 /**
- * Main Class: QuillSMTP
+ * Mailers Class.
  *
- * @since 1.0.0
+ *  @since 1.0.0
  *
  * @package QuillSMTP
+ * @subpackage mailers
  */
 
-namespace QuillSMTP;
+namespace QuillSMTP\Mailers;
 
-defined( 'ABSPATH' ) || exit;
-
-use QuillSMTP\Admin\Admin;
-use QuillSMTP\Admin\Admin_Loader;
-use QuillSMTP\REST_API\REST_API;
-use QuillSMTP\Mailers\Mailers;
+use QuillSMTP\Mailers\SendLayer\SendLayer;
 
 /**
- * QuillSMTP Main Class.
- * This class is responsible for initializing the plugin.
+ * Mailers Class.
  *
  * @since 1.0.0
  */
-final class QuillSMTP {
+class Mailers {
 
 	/**
 	 * Class Instance.
@@ -56,18 +51,21 @@ final class QuillSMTP {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		$this->init_objects();
+		$this->load_mailers();
 	}
 
 	/**
-	 * Initialize Objects.
+	 * Load Mailers.
 	 *
 	 * @since 1.0.0
 	 */
-	private function init_objects() {
-		Admin_Loader::instance();
-		Admin::instance();
-		REST_API::instance();
-		Mailers::instance();
+	private function load_mailers() {
+		$mailers = array(
+			'sendlayer' => SendLayer::class,
+		);
+
+		foreach ( $mailers as $slug => $class ) {
+			$class::instance();
+		}
 	}
 }

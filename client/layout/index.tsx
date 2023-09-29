@@ -1,18 +1,16 @@
 /**
  * WordPress Dependencies
  */
-import { SlotFillProvider, Modal } from '@wordpress/components';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { SlotFillProvider } from '@wordpress/components';
+import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
  * External dependencies
  */
-import { forEach, uniq } from 'lodash';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
-import CssBaseline from '@mui/material/CssBaseline';
 
 /**
  * Internal dependencies
@@ -27,6 +25,7 @@ import {
 import { Controller } from './controller';
 import { NavBar } from '../components';
 import './style.scss';
+import configApi from '../config';
 
 export const Layout = (props) => {
 	const { params } = props.match;
@@ -47,7 +46,15 @@ export const Layout = (props) => {
 
 	useEffect(() => {
 		if (props.page.requiresInitialPayload && params.id) {
-			setIsLoading(false);
+			apiFetch({
+				path: `/qsmtp/v1/inital-payload`,
+				method: 'GET',
+			}).then((res: any) => {
+				setTimeout(() => {
+					setIsLoading(false);
+				}, 100);
+				configApi.setInitialPayload(res);
+			});
 		}
 
 		// Remove all notices on any page mount

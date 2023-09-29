@@ -73,10 +73,9 @@ class REST_Settings_Controller extends REST_Controller {
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => array(
-				'general' => array(
+				'connections' => array(
 					'type'                 => 'object',
-					'additionalProperties' => false,
-					'properties'           => array(
+					'additionalProperties' => array(
 						'from_email'       => array(
 							'type'    => 'string',
 							'default' => '',
@@ -93,10 +92,19 @@ class REST_Settings_Controller extends REST_Controller {
 							'type'    => 'boolean',
 							'default' => false,
 						),
+						'mailer_slug'      => array(
+							'type'    => 'string',
+							'default' => '',
+						),
+						'account_id'       => array(
+							'type'    => 'string',
+							'default' => '',
+						),
 					),
 				),
 			),
 		);
+
 		return $schema;
 	}
 
@@ -109,22 +117,14 @@ class REST_Settings_Controller extends REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get( $request ) { // phpcs:ignore
-		$groups   = $request->get_param( 'groups' )
-			? explode( ',', $request->get_param( 'groups' ) )
-			: array();
-		$settings = Settings::get_all();
+		$settings = apply_filters(
+			'quillsmtp_rest_settings',
+			array(
+				'connections' => Settings::get( 'connections' ),
+			)
+		);
 
-		$result = array();
-		foreach ( $this->get_schema()['properties'] as $group_key => $group_schema ) {
-			if ( in_array( $group_key, $groups, true ) ) {
-				$result[ $group_key ] = array();
-				foreach ( $group_schema['properties'] as $setting_key => $setting_schema ) {
-					$result[ $group_key ][ $setting_key ] = $settings[ $setting_key ] ?? $setting_schema['default'];
-				}
-			}
-		}
-
-		return new WP_REST_Response( $result, 200 );
+		return new WP_REST_Response( $settings, 200 );
 	}
 
 	/**

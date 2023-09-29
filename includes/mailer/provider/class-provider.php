@@ -26,18 +26,9 @@ class Provider extends Mailer {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var Account
+	 * @var Accounts
 	 */
-	public $account;
-
-	/**
-	 * Classes
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var array
-	 */
-	protected $classes = array();
+	public $accounts;
 
 	/**
 	 * Provider instance.

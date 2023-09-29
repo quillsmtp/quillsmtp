@@ -31,7 +31,7 @@ const Mailer = () => {
 				>
 					<FormControlLabel
 						value="default"
-						control={<Radio />}
+						control={<div>Hell world</div>}
 						label={__('Default', 'quillsmtp')}
 					/>
 					<FormControlLabel
