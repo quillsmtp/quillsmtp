@@ -7,7 +7,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\REST;
+namespace QuillSMTP\Mailers\SendLayer\REST;
 
 use QuillSMTP\Mailer\Provider\REST\REST as Abstract_REST;
 

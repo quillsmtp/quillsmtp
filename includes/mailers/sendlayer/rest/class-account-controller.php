@@ -7,7 +7,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\REST;
+namespace QuillSMTP\Mailers\SendLayer\REST;
 
 use Exception;
 use QuillForms\Addon\Provider\REST\Account_Controller as Abstract_Account_Controller;

@@ -17,7 +17,7 @@ use QuillSMTP\Mailers\SendLayer\SendLayer;
  *
  * @since 1.0.0
  */
-class Mailers {
+final class Mailers {
 
 	/**
 	 * Class Instance.
@@ -60,12 +60,6 @@ class Mailers {
 	 * @since 1.0.0
 	 */
 	private function load_mailers() {
-		$mailers = array(
-			'sendlayer' => SendLayer::class,
-		);
-
-		foreach ( $mailers as $slug => $class ) {
-			$class::instance();
-		}
+		SendLayer::instance();
 	}
 }

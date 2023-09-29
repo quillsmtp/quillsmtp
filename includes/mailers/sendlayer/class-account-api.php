@@ -32,7 +32,7 @@ class Account_API {
 	 *
 	 * @param array $api_key API key.
 	 */
-	public function __construct( $api_key, $api_secret ) {
+	public function __construct( $api_key ) {
 		$this->api_key = $api_key;
 	}
 }

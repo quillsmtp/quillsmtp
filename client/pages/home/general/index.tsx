@@ -36,6 +36,8 @@ const General = () => {
 	useEffect(() => {
 		apiFetch({ path: 'qsmtp/v1/settings?groups=general' })
 			.then((data: any) => {
+				console.log(data);
+
 				setSettings(data.general);
 			})
 			.catch(() => {

@@ -44,7 +44,6 @@ class REST extends Abstract_REST {
 		if ( ! empty( static::$classes['account_controller'] ) ) {
 			new static::$classes['account_controller']( $this->mailer );
 		}
-
 		add_filter( 'quillsmtp_rest_settings', array( $this, 'add_rest_data' ) );
 	}
 
@@ -58,7 +57,7 @@ class REST extends Abstract_REST {
 	 * @return Settings
 	 */
 	public function add_rest_data( $settings ) { // phpcs:ignore
-		$settings['mailers'][ $this->mailer->slug ] = $this->get_rest_data();
+		$settings['mailers'][ $this->mailer->slug ] = $this->get_rest_data() ?? array();
 
 		return $settings;
 	}

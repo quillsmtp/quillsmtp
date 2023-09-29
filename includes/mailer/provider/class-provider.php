@@ -31,40 +31,20 @@ class Provider extends Mailer {
 	public $accounts;
 
 	/**
-	 * Provider instance.
+	 * Class names
 	 *
-	 * @since 1.0.0
-	 *
-	 * @var Provider
+	 * @var array
 	 */
-	private static $instance;
+	protected static $classes = array(
+		// + classes from parent.
+		// 'accounts'             => Accounts::class,
+	);
 
-	/**
-	 * Provider Instance.
-	 *
-	 * Instantiates or reuses an instance of Provider.
-	 *
-	 * @since 1.0.0
-	 * @static
-	 *
-	 * @see Provider()
-	 *
-	 * @return self - Single instance
-	 */
-	public static function instance() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
+	protected function init() {
+		parent::init();
+
+		if ( ! empty( static::$classes['accounts'] ) ) {
+			$this->accounts = new static::$classes['accounts']( $this );
 		}
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * Since this is a singleton class, it is better to have its constructor as a private.
-	 *
-	 * @since 1.0.0
-	 */
-	private function __construct() {
 	}
 }

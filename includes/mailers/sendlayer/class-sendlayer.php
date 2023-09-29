@@ -13,6 +13,7 @@ namespace QuillSMTP\Mailers\SendLayer;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Mailer\Provider\Provider;
+use QuillSMTP\Mailer\Settings;
 
 /**
  * SendLayer Mailer Class.
@@ -38,5 +39,16 @@ class SendLayer extends Provider {
 	 * @var string
 	 */
 	public $name = 'SendLayer';
+
+	/**
+	 * Class names
+	 *
+	 * @var array
+	 */
+	protected static $classes = array(
+		'rest'     => REST\REST::class,
+		'accounts' => Accounts::class,
+		'settings' => Settings::class,
+	);
 
 }

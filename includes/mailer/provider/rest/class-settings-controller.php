@@ -2,27 +2,27 @@
 /**
  * Settings_Controller class.
  *
- * @since 1.6.0
- * @package QuillForms
+ * @since 1.0.0
+ * @package QuillSMTP
  */
 
-namespace QuillForms\Addon\Provider\REST;
+namespace QuillSMTP\Mailer\Provider\REST;
 
-use QuillForms\Addon\REST\Settings_Controller as Abstract_Settings_Controller;
+use QuillSMTP\Mailer\REST\Settings_Controller as Abstract_Settings_Controller;
 use WP_Error;
 use WP_REST_Response;
 
 /**
  * Settings_Controller abstract class.
  *
- * @since 1.6.0
+ * @since 1.0.0
  */
 abstract class Settings_Controller extends Abstract_Settings_Controller {
 
 	/**
 	 * Delete settings.
 	 *
-	 * @since 1.6.0
+	 * @since 1.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
