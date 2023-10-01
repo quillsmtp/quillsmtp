@@ -4,11 +4,14 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * QuillSMTP dependencies
+ */
+import { ConnectionProvider, Connection } from '@quillsmtp/connections';
+
+/**
  * Internal dependencies
  */
 import './style.scss';
-import ConnectionProvider from '../../connections/components/connection';
-import Connection from '../../connections/components/connection/options';
 
 const Home = () => {
 	return (

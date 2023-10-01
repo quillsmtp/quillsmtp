@@ -10,15 +10,16 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 
 module.exports = {
     ...defaultConfig,
-    entry: {
-        client: './client',
-    },
     resolve: {
         ...defaultConfig.resolve,
         alias: {
             "react/jsx-runtime.js": "react/jsx-runtime",
-            "react/jsx-dev-runtime.js": "react/jsx-dev-runtime"
-        }
+            "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
+            '@quillsmtp/navigation': path.resolve(__dirname, 'src/navigation'),
+            "@quillsmtp/connections": path.resolve(__dirname, 'src/connections'),
+            "@quillsmtp/config": path.resolve(__dirname, 'src/config'),
+            "@quillsmtp/mailers": path.resolve(__dirname, 'src/mailers'),
+        },
     },
     module: {
         ...defaultConfig.module,
@@ -88,10 +89,10 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             additionalData:
-                                '@import "client/base-styles/_colors"; ' +
-                                '@import "client/base-styles/_variables"; ' +
-                                '@import "client/base-styles/_breakpoints"; ' +
-                                '@import "client/base-styles/_mixins"; ',
+                                '@import "src/base-styles/_colors"; ' +
+                                '@import "src/base-styles/_variables"; ' +
+                                '@import "src/base-styles/_breakpoints"; ' +
+                                '@import "src/base-styles/_mixins"; ',
                         },
                     }
                 ],
@@ -120,7 +121,7 @@ module.exports = {
         new RtlCssPlugin("style-rtl.css"),
     ],
     output: {
-        filename: "index.js",
-        path: path.resolve(process.cwd(), "build/client"),
+        ...defaultConfig.output,
+        filename: 'index.js',
     },
 };

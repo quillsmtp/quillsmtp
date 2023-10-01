@@ -57,8 +57,8 @@ class Admin_Loader {
 	 */
 	private function __construct() {
 		// Enqueue admin scripts.
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_inline_scripts' ), 14 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_scripts' ), 14 );
 
 		// Remove notices.
 		add_action( 'admin_notices', array( $this, 'remove_notices' ), 1 );

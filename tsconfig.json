@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"rootDir": "client",
+		"rootDir": "src",
 		"allowJs": true,
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
@@ -31,13 +31,15 @@
 		"resolveJsonModule": true,
 		"noImplicitAny": false,
 		"typeRoots": ["./node_modules/@types"],
-		"types": []
+		"baseUrl": "src",
+		"types": [],
+		"paths": {
+			"@quillsmtp/navigation": ["navigation"],
+			"@quillsmtp/mailers": ["mailers"],
+			"@quillsmtp/config": ["config"],
+			"@quillsmtp/connections": ["connections/index.tsx"]
+		}
 	},
-	"include": [
-		"client/**/*.ts",
-		"client/**/*.tsx",
-		"client/*.ts",
-		"client/*.tsx"
-	],
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/*.tsx"],
 	"exclude": ["**/test/**", "**/build/**", "**/build-*/**", "node_modules/"]
 }

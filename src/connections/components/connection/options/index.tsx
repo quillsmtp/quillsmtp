@@ -6,8 +6,6 @@ import { __ } from '@wordpress/i18n';
 /**
  * External Dependencies
  */
-import { css } from '@emotion/css';
-import { ThreeDots as Loader } from 'react-loader-spinner';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -20,6 +18,7 @@ import { FormControl, FormHelperText } from '@mui/material';
  * Internal dependencies.
  */
 import { useConnectionContext } from '../state/context';
+import MailersSelector from './mailer-selector';
 
 interface Props {
 	connectionId: string;
@@ -27,7 +26,6 @@ interface Props {
 
 const Options: React.FC<Props> = ({ connectionId }) => {
 	const { connections, updateConnection } = useConnectionContext();
-	console.log(connections, connectionId);
 	const connection = connections[connectionId];
 	const {
 		from_email,
@@ -124,6 +122,7 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 						)}
 					</FormHelperText>
 				</FormControl>
+				<MailersSelector connectionId={connectionId} />
 			</Box>
 		</div>
 	);

@@ -1,4 +1,16 @@
 /**
+ * QuillSMTP dependencies
+ */
+import {
+	getAdminPages,
+	Router,
+	Route,
+	Switch,
+	getHistory,
+} from '@quillsmtp/navigation';
+import ConfigAPI from '@quillsmtp/config';
+
+/**
  * WordPress Dependencies
  */
 import { SlotFillProvider } from '@wordpress/components';
@@ -15,17 +27,9 @@ import { css } from '@emotion/css';
 /**
  * Internal dependencies
  */
-import {
-	getAdminPages,
-	Router,
-	Route,
-	Switch,
-	getHistory,
-} from '../navigation';
 import { Controller } from './controller';
 import { NavBar } from '../components';
 import './style.scss';
-import ConfigAPI from '../config';
 
 export const Layout = (props) => {
 	// @ts-expect-error

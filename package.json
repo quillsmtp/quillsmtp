@@ -2,10 +2,14 @@
   "name": "quillsmtp",
   "version": "1.0.0",
   "description": "",
-  "main": "client/index.tsx",
+  "main": "src",
   "scripts": {
-    "dev": "wp-scripts start",
-    "build": "wp-scripts build"
+    "dev": "npm run dev-client & npm run dev-config",
+    "build": "npm run build-client & npm run build-config",
+    "dev-client": "wp-scripts start src/client/index.tsx --output-path=build/client",
+    "build-client": "wp-scripts build src/client/index.tsx --output-path=build/client",
+    "dev-config": "wp-scripts start src/config/index.tsx --output-path=build/config",
+    "build-config": "wp-scripts build src/config/index.tsx --output-path=build/config"
   },
   "types": "build-types",
   "keywords": [],

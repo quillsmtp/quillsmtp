@@ -1,4 +1,9 @@
 /**
+ * QuillSMTP dependencies
+ */
+import { registerAdminPage } from '@quillsmtp/navigation';
+
+/**
  * WordPress dependencies
  */
 import { useEffect } from '@wordpress/element';
@@ -12,7 +17,6 @@ import { motion } from 'framer-motion';
 /**
  * Internal dependencies
  */
-import { registerAdminPage } from '../navigation';
 import Home from '../pages/home';
 import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';

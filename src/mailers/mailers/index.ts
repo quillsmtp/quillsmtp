@@ -15,6 +15,8 @@ addAction(
 	register
 );
 
+console.log(ConfigAPI.getStoreMailers(), 'ConfigAPI.getStoreMailers()');
+
 function register() {
 	for (const [slug, mailer] of Object.entries(ConfigAPI.getStoreMailers())) {
 		registerMailerModule(slug, {

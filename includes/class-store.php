@@ -49,7 +49,7 @@ class Store {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		$this->mailers = $this->define_mailers();
+		$this->define_mailers();
 	}
 
 	/**

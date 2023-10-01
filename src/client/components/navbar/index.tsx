@@ -1,4 +1,14 @@
 /**
+ * QuillSMTP dependencies
+ */
+import {
+	getAdminPages,
+	NavLink,
+	withRouter,
+	matchPath,
+} from '@quillsmtp/navigation';
+
+/**
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
@@ -11,12 +21,6 @@ import { forEach, map } from 'lodash';
 /**
  * Internal dependencies.
  */
-import {
-	getAdminPages,
-	NavLink,
-	withRouter,
-	matchPath,
-} from '../../navigation';
 import './style.scss';
 
 const clean = (str) => {
