@@ -129,6 +129,6 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	return configApi;
 };
 
-const configApi = createConfig(configData);
+const ConfigAPI = createConfig(configData);
 
-export default configApi;
+export default ConfigAPI;

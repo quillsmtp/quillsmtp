@@ -102,11 +102,12 @@ class Admin_Loader {
 		$asset_file   = QUILLSMTP_PLUGIN_DIR . 'build/client/index.asset.php';
 		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
 		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
+		$version      = isset( $asset['version'] ) ? $asset['version'] : QUILLSMTP_PLUGIN_VERSION;
 		wp_register_script(
 			'qsmtp-admin',
 			QUILLSMTP_PLUGIN_URL . 'build/client/index.js',
 			$dependencies,
-			QUILLSMTP_PLUGIN_VERSION,
+			$version,
 			true
 		);
 
@@ -125,7 +126,7 @@ class Admin_Loader {
 			'qsmtp-admin',
 			QUILLSMTP_PLUGIN_URL . 'build/client/style.css',
 			array(),
-			QUILLSMTP_PLUGIN_VERSION
+			$version
 		);
 
 		// RTL styles.

@@ -1,27 +1,14 @@
-.qsmtp-settings-page {
+.qsmtp-home-page {
 	max-width: 100%;
-	.qsmtp-settings-page__heading {
-		border-bottom: 1px solid #d8d6d6;
-		padding-bottom: 10px !important;
-		margin-bottom: 10px !important;
-	}
-
-	.qsmtp-settings-page__body {
-		background: #fff;
-		padding: 30px 20px;
-		margin-top: 20px;
-		border-radius: 10px;
-		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-		input[type="text"] {
-			min-height: auto;
-			color: currentColor;
-			padding: 4px 0 5px;
-			border: 0;
-			padding: 16.5px 14px;
-			&:focus {
-				outline: none;
-				box-shadow: none;
-			}
+	input[type="text"] {
+		min-height: auto;
+		color: currentColor;
+		padding: 4px 0 5px;
+		border: 0;
+		padding: 16.5px 14px;
+		&:focus {
+			outline: none;
+			box-shadow: none;
 		}
 	}
 }

@@ -103,6 +103,18 @@ class REST_Settings_Controller extends REST_Controller {
 					),
 				),
 			),
+			'default'              => array(
+				'connections' => array(
+					'default' => array(
+						'from_email'       => '',
+						'force_from_email' => false,
+						'from_name'        => '',
+						'force_from_name'  => false,
+						'mailer_slug'      => '',
+						'account_id'       => '',
+					),
+				),
+			),
 		);
 
 		return $schema;
@@ -117,10 +129,12 @@ class REST_Settings_Controller extends REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get( $request ) { // phpcs:ignore
+		$schema   = $this->get_schema();
+		$defaults = $schema['default'];
 		$settings = apply_filters(
 			'quillsmtp_rest_settings',
 			array(
-				'connections' => Settings::get( 'connections', [] ),
+				'connections' => Settings::get( 'connections', $defaults['connections'] ),
 			)
 		);
 

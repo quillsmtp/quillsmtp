@@ -25,11 +25,9 @@ import {
 import { Controller } from './controller';
 import { NavBar } from '../components';
 import './style.scss';
-import configApi from '../config';
+import ConfigAPI from '../config';
 
 export const Layout = (props) => {
-	const { params } = props.match;
-
 	// @ts-expect-error
 	const { notices } = useSelect((select) => {
 		return {
@@ -41,19 +39,21 @@ export const Layout = (props) => {
 	const { removeNotice } = useDispatch('core/notices');
 
 	const [isLoading, setIsLoading] = useState(
-		props.page.requiresInitialPayload && params.id
+		props.page.requiresInitialPayload
 	);
 
 	useEffect(() => {
-		if (props.page.requiresInitialPayload && params.id) {
+		if (props.page.requiresInitialPayload) {
 			apiFetch({
-				path: `/qsmtp/v1/inital-payload`,
+				path: `/qsmtp/v1/settings`,
 				method: 'GET',
 			}).then((res: any) => {
+				console.log(res);
+
 				setTimeout(() => {
 					setIsLoading(false);
 				}, 100);
-				configApi.setInitialPayload(res);
+				ConfigAPI.setInitialPayload(res);
 			});
 		}
 

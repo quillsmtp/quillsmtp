@@ -11,6 +11,7 @@
 namespace QuillSMTP\Mailers;
 
 use QuillSMTP\Mailers\SendLayer\SendLayer;
+use QuillSMTP\Mailers\SendInBlue\SendInBlue;
 
 /**
  * Mailers Class.
@@ -61,5 +62,6 @@ final class Mailers {
 	 */
 	private function load_mailers() {
 		SendLayer::instance();
+		SendInBlue::instance();
 	}
 }

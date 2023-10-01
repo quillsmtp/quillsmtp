@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
-		"rootDir": "..",
-		"baseUrl": ".",
+		"rootDir": "client",
 		"allowJs": true,
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
