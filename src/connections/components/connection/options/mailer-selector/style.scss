@@ -1,0 +1,15 @@
+.qsmtp-mailers-selector {
+	.qsmtp-mailer-selector__card--active {
+		box-shadow: 0 0 0 2px $blue-wordpress-700;
+	}
+	.qsmtp-mailer-selector__card__title {
+		display: flex;
+		.qsmtp-mailer-selector__card__title__icon {
+			margin-right: 10px;
+			img {
+				width: 60px;
+				height: 60px;
+			}
+		}
+	}
+}

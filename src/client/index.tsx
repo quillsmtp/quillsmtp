@@ -2,6 +2,7 @@ import { render } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
 import '@wordpress/core-data';
 import '@wordpress/notices';
+import '@quillsmtp/mailers';
 import PageLayout from './layout';
 import './style.scss';
 const appRoot = document.getElementById('qsmtp-admin-root');

@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { Connect } from '../../../../components';
+import { Connect } from '@quillsmtp/mailers';
 
 interface Props {
 	onClose: () => void;

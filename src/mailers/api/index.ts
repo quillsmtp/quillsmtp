@@ -28,7 +28,7 @@ export const registerMailerModule = (
 	settings: MailerModuleSettings
 ) => {
 	settings = applyFilters(
-		'QuillSMTP.FormMailers.MailerModuleSettings',
+		'QuillSMTP.Mailers.MailerModuleSettings',
 		settings,
 		slug
 	) as MailerModuleSettings;

@@ -76,14 +76,14 @@ class Store {
 				'name'        => __( 'Default', 'quillsmtp' ),
 				'description' => __( 'Use the default WordPress mailer', 'quillsmtp' ),
 				'assets'      => array(
-					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/default/icon.svg',
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/php/icon.svg',
 				),
 			),
 			'sendlayer'  => array(
 				'name'        => __( 'SendLayer', 'quillsmtp' ),
 				'description' => __( 'Send emails using SendLayer SMTP', 'quillsmtp' ),
 				'assets'      => array(
-					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sendlayer/icon.svg',
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendlayer/icon.png',
 				),
 			),
 			// 'sendgrid'   => array(
@@ -106,7 +106,7 @@ class Store {
 				'name'        => __( 'Sendinblue', 'quillsmtp' ),
 				'description' => __( 'Send emails using Sendinblue SMTP', 'quillsmtp' ),
 				'assets'      => array(
-					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sendinblue/icon.png',
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendinblue/icon.png',
 				),
 			),
 			// 'pepipost'   => array(

@@ -103,10 +103,24 @@ class Admin_Loader {
 		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
 		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
 		$version      = isset( $asset['version'] ) ? $asset['version'] : QUILLSMTP_PLUGIN_VERSION;
+		$config_file  = QUILLSMTP_PLUGIN_DIR . 'build/config/index.asset.php';
+		$config       = file_exists( $config_file ) ? require $config_file : null;
+		$config_deps  = isset( $config['dependencies'] ) ? $config['dependencies'] : array();
+		$config_ver   = isset( $config['version'] ) ? $config['version'] : QUILLSMTP_PLUGIN_VERSION;
+
+		// Register scripts.
+		wp_register_script(
+			'qsmtp-config',
+			QUILLSMTP_PLUGIN_URL . 'build/config/index.js',
+			$config_deps,
+			$config_ver,
+			true
+		);
+
 		wp_register_script(
 			'qsmtp-admin',
 			QUILLSMTP_PLUGIN_URL . 'build/client/index.js',
-			$dependencies,
+			array_merge( $dependencies, array( 'qsmtp-config' ) ),
 			$version,
 			true
 		);
@@ -143,6 +157,7 @@ class Admin_Loader {
 		wp_auth_check_load();
 
 		// Enqueue scripts.
+		wp_enqueue_script( 'qsmtp-config' );
 		wp_enqueue_script( 'qsmtp-admin' );
 		wp_enqueue_style( 'qsmtp-admin' );
 

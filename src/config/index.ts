@@ -131,4 +131,13 @@ const createConfig = (data: ConfigData): ConfigApi => {
 
 const ConfigAPI = createConfig(configData);
 
-export default ConfigAPI;
+// @ts-ignore
+if (window.qsmtp === undefined) {
+	// @ts-ignore
+	window.qsmtp = {
+		config: ConfigAPI,
+	};
+}
+
+// @ts-ignore
+export default window.qsmtp.config as ConfigApi;

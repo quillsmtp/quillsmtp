@@ -9,14 +9,11 @@ import { addFilter } from '@wordpress/hooks';
 import Connect from '../components/connect';
 
 addFilter(
-	'QuillSMTP.FormMailers.MailerModuleSettings',
+	'QuillSMTP.Mailers.MailerModuleSettings',
 	'QuillSMTP/SendInBlue/ImplementIntegrationModuleSettings',
 	(settings, slug: string) => {
-		console.log('settings', settings);
-
 		if (slug === 'sendinblue') {
 			settings.render = Connect;
-			settings.settingsRender = () => null;
 		}
 		return settings;
 	}
