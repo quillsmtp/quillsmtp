@@ -6,7 +6,8 @@ use Isolated\Symfony\Component\Finder\Finder;
 
 return [
     // The prefix configuration. If a non null value will be used, a random prefix will be generated.
-    'prefix' => 'QuillSMTP\Vendor',
+    'prefix' => 'QuillSMTP',
+
     // By default when running php-scoper add-prefix, it will prefix all relevant code found in the current working
     // directory. You can however define which files should be scoped by defining a collection of Finders in the
     // following configuration key.
@@ -14,23 +15,22 @@ return [
     // For more see: https://github.com/humbug/php-scoper#finders-and-paths
     'finders' => [
         Finder::create()
-			->files()
-			->in( 'vendor/guzzlehttp' )
-			->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-        Finder::create()
-        ->files()
-        ->in(
-            [
-                'vendor/psr/http-message',
-                'vendor/psr/http-client',
-                'vendor/psr/http-factory',
-            ]
-        )
-        ->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-        Finder::create()
-        ->files()
-        ->in( 'vendor/symfony/deprecation-contracts' )
-        ->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+            ->files()
+            ->ignoreVCS(true)
+            ->notName('/.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
+            ->exclude([
+                'doc',
+                'test',
+                'test_old',
+                'tests',
+                'Tests',
+                'vendor-bin',
+            ])
+            ->in('vendor'),
+        Finder::create()->append([
+            'composer.json',
+            'composer.lock',
+        ]),
     ],
 
     // When scoping PHP files, there will be scenarios where some of the code being scoped indirectly references the

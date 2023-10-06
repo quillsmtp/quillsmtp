@@ -1,24 +1,5 @@
 {
     "require": {
         "getbrevo/brevo-php": "1.x.x"
-    },
-    "autoload": {
-        "psr-4": {
-            "QuillSMTP\\": "src"
-        },
-        "classmap": [
-            "build"
-        ],
-        "files": [
-            "build/guzzlehttp/promises/src/functions_include.php",
-            "build/symfony/deprecation-contracts/function.php",
-            "build/guzzlehttp/guzzle/src/functions_include.php"
-        ]
-    },
-    "scripts": {
-        "prefix-dependencies": [
-            "php-scoper add-prefix --config=scoper.inc.php --output-dir=./build --force",
-            "@composer dump-autoload -o -a"
-        ]
     }
 }
