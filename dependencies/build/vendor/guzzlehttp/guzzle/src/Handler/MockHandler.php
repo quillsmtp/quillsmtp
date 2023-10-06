@@ -1,16 +1,16 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\HandlerStack;
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\GuzzleHttp\TransferStats;
-use QuillSMTP\GuzzleHttp\Utils;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\HandlerStack;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\TransferStats;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Handler that returns responses or throw exceptions from a queue.
  *

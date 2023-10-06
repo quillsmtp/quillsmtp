@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * UpdateSmtpTemplate Class Doc Comment
  *
@@ -51,7 +51,7 @@ class UpdateSmtpTemplate implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Brevo\\Client\\Model\\UpdateSmtpTemplateSender', 'templateName' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'subject' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'attachmentUrl' => 'string', 'isActive' => 'bool'];
+    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateSmtpTemplateSender', 'templateName' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'subject' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'attachmentUrl' => 'string', 'isActive' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

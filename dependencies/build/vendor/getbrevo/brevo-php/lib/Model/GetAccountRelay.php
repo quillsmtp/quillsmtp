@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetAccountRelay Class Doc Comment
  *
@@ -52,7 +52,7 @@ class GetAccountRelay implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['enabled' => 'bool', 'data' => 'QuillSMTP\\Brevo\\Client\\Model\\GetAccountRelayData'];
+    protected static $swaggerTypes = ['enabled' => 'bool', 'data' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountRelayData'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

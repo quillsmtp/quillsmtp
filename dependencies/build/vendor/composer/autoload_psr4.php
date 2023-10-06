@@ -6,10 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'QuillSMTP\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
-    'QuillSMTP\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
-    'QuillSMTP\\GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
-    'QuillSMTP\\GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
-    'QuillSMTP\\GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
-    'QuillSMTP\\Brevo\\Client\\' => array($vendorDir . '/getbrevo/brevo-php/lib'),
+    'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
+    'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
+    'QuillSMTP\\Vendor\\GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'QuillSMTP\\Vendor\\GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'QuillSMTP\\Vendor\\GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
+    'QuillSMTP\\Vendor\\Brevo\\Client\\' => array($vendorDir . '/getbrevo/brevo-php/lib'),
 );

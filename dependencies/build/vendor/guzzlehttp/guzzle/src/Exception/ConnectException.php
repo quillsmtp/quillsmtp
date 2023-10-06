@@ -1,9 +1,9 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Exception;
+namespace QuillSMTP\Vendor\GuzzleHttp\Exception;
 
-use QuillSMTP\Psr\Http\Client\NetworkExceptionInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Client\NetworkExceptionInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Exception thrown when a connection cannot be established.
  *

@@ -1,9 +1,9 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Exception;
+namespace QuillSMTP\Vendor\GuzzleHttp\Exception;
 
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Exception when an HTTP error occurs (4xx or 5xx error)
  */

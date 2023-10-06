@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * UpdateEmailCampaign Class Doc Comment
  *
@@ -51,7 +51,7 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Brevo\\Client\\Model\\UpdateEmailCampaignSender', 'name' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'scheduledAt' => 'string', 'subject' => 'string', 'previewText' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'recipients' => 'QuillSMTP\\Brevo\\Client\\Model\\UpdateEmailCampaignRecipients', 'attachmentUrl' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'footer' => 'string', 'header' => 'string', 'utmCampaign' => 'string', 'params' => 'object', 'sendAtBestTime' => 'bool', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'ipWarmupEnable' => 'bool', 'initialQuota' => 'int', 'increaseRate' => 'int', 'unsubscriptionPageId' => 'string', 'updateFormId' => 'string'];
+    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateEmailCampaignSender', 'name' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'scheduledAt' => 'string', 'subject' => 'string', 'previewText' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'recipients' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateEmailCampaignRecipients', 'attachmentUrl' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'footer' => 'string', 'header' => 'string', 'utmCampaign' => 'string', 'params' => 'object', 'sendAtBestTime' => 'bool', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'ipWarmupEnable' => 'bool', 'initialQuota' => 'int', 'increaseRate' => 'int', 'unsubscriptionPageId' => 'string', 'updateFormId' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -1,10 +1,10 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Creates a composed Guzzle handler function by stacking middlewares on top of
  * an HTTP handler function.

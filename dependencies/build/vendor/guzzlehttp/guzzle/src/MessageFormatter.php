@@ -1,10 +1,10 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\Psr\Http\Message\MessageInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\MessageInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Formats log messages using variable substitutions for requests, responses,
  * and other transactional data.

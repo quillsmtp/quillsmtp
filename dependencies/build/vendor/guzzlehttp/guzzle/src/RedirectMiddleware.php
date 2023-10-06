@@ -1,13 +1,13 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Exception\BadResponseException;
-use QuillSMTP\GuzzleHttp\Exception\TooManyRedirectsException;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\BadResponseException;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\TooManyRedirectsException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * Request redirect middleware.
  *

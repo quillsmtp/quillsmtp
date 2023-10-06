@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Message;
+namespace QuillSMTP\Vendor\Psr\Http\Message;
 
 /**
  * Value object representing a file uploaded through an HTTP request.

@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Message;
+namespace QuillSMTP\Vendor\Psr\Http\Message;
 
 interface ServerRequestFactoryInterface
 {

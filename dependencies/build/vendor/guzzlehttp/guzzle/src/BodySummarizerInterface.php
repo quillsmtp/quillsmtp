@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\Psr\Http\Message\MessageInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\MessageInterface;
 interface BodySummarizerInterface
 {
     /**

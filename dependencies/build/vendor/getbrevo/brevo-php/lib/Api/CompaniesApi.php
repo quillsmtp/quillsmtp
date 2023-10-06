@@ -24,18 +24,18 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Api;
+namespace QuillSMTP\Vendor\Brevo\Client\Api;
 
-use QuillSMTP\GuzzleHttp\Client;
-use QuillSMTP\GuzzleHttp\ClientInterface;
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\Psr7\MultipartStream;
-use QuillSMTP\GuzzleHttp\Psr7\Request;
-use QuillSMTP\GuzzleHttp\RequestOptions;
-use QuillSMTP\Brevo\Client\ApiException;
-use QuillSMTP\Brevo\Client\Configuration;
-use QuillSMTP\Brevo\Client\HeaderSelector;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\GuzzleHttp\Client;
+use QuillSMTP\Vendor\GuzzleHttp\ClientInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\MultipartStream;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\Request;
+use QuillSMTP\Vendor\GuzzleHttp\RequestOptions;
+use QuillSMTP\Vendor\Brevo\Client\ApiException;
+use QuillSMTP\Vendor\Brevo\Client\Configuration;
+use QuillSMTP\Vendor\Brevo\Client\HeaderSelector;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * CompaniesApi Class Doc Comment
  *
@@ -103,7 +103,7 @@ class CompaniesApi
      */
     public function companiesAttributesGetWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\CompanyAttributes';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompanyAttributes';
         $request = $this->companiesAttributesGetRequest();
         try {
             $options = $this->createHttpClientOption();
@@ -130,7 +130,7 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\CompanyAttributes', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompanyAttributes', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -163,7 +163,7 @@ class CompaniesApi
      */
     public function companiesAttributesGetAsyncWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\CompanyAttributes';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompanyAttributes';
         $request = $this->companiesAttributesGetRequest();
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -212,11 +212,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -228,10 +228,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -249,7 +249,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -293,7 +293,7 @@ class CompaniesApi
      */
     public function companiesGetWithHttpInfo($filters = null, $linkedContactsIds = null, $linkedDealsIds = null, $page = null, $limit = '50', $sort = null, $sortBy = null)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\CompaniesList';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompaniesList';
         $request = $this->companiesGetRequest($filters, $linkedContactsIds, $linkedDealsIds, $page, $limit, $sort, $sortBy);
         try {
             $options = $this->createHttpClientOption();
@@ -320,11 +320,11 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\CompaniesList', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompaniesList', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -371,7 +371,7 @@ class CompaniesApi
      */
     public function companiesGetAsyncWithHttpInfo($filters = null, $linkedContactsIds = null, $linkedDealsIds = null, $page = null, $limit = '50', $sort = null, $sortBy = null)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\CompaniesList';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CompaniesList';
         $request = $this->companiesGetRequest($filters, $linkedContactsIds, $linkedDealsIds, $page, $limit, $sort, $sortBy);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -455,11 +455,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -471,10 +471,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -492,7 +492,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -540,11 +540,11 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -627,11 +627,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -643,10 +643,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -664,7 +664,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -696,7 +696,7 @@ class CompaniesApi
      */
     public function companiesIdGetWithHttpInfo($id)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\Company';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company';
         $request = $this->companiesIdGetRequest($id);
         try {
             $options = $this->createHttpClientOption();
@@ -723,15 +723,15 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\Company', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -766,7 +766,7 @@ class CompaniesApi
      */
     public function companiesIdGetAsyncWithHttpInfo($id)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\Company';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company';
         $request = $this->companiesIdGetRequest($id);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -824,11 +824,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -840,10 +840,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -861,7 +861,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -895,7 +895,7 @@ class CompaniesApi
      */
     public function companiesIdPatchWithHttpInfo($id, $body)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\Company';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company';
         $request = $this->companiesIdPatchRequest($id, $body);
         try {
             $options = $this->createHttpClientOption();
@@ -922,15 +922,15 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\Company', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -967,7 +967,7 @@ class CompaniesApi
      */
     public function companiesIdPatchAsyncWithHttpInfo($id, $body)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\Company';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company';
         $request = $this->companiesIdPatchRequest($id, $body);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -1033,11 +1033,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -1049,10 +1049,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -1070,7 +1070,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PATCH', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -1120,7 +1120,7 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1213,11 +1213,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -1229,10 +1229,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -1250,7 +1250,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PATCH', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -1282,7 +1282,7 @@ class CompaniesApi
      */
     public function companiesPostWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse200';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse200';
         $request = $this->companiesPostRequest($body);
         try {
             $options = $this->createHttpClientOption();
@@ -1309,7 +1309,7 @@ class CompaniesApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse200', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse200', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1344,7 +1344,7 @@ class CompaniesApi
      */
     public function companiesPostAsyncWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse200';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse200';
         $request = $this->companiesPostRequest($body);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -1401,11 +1401,11 @@ class CompaniesApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -1417,10 +1417,10 @@ class CompaniesApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -1438,7 +1438,7 @@ class CompaniesApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**

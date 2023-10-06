@@ -1,13 +1,13 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Exception;
+namespace QuillSMTP\Vendor\GuzzleHttp\Exception;
 
-use QuillSMTP\GuzzleHttp\BodySummarizer;
-use QuillSMTP\GuzzleHttp\BodySummarizerInterface;
-use QuillSMTP\Psr\Http\Client\RequestExceptionInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\BodySummarizer;
+use QuillSMTP\Vendor\GuzzleHttp\BodySummarizerInterface;
+use QuillSMTP\Vendor\Psr\Http\Client\RequestExceptionInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * HTTP Request exception
  */

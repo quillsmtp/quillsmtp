@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Provides a buffer stream that can be written to to fill a buffer, and read
  * from to remove bytes from the buffer.

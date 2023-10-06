@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetExtendedCampaignOverview Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetExtendedCampaignOverview implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'int', 'name' => 'string', 'subject' => 'string', 'type' => 'string', 'status' => 'string', 'scheduledAt' => 'string', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'sendAtBestTime' => 'bool', 'testSent' => 'bool', 'header' => 'string', 'footer' => 'string', 'sender' => 'QuillSMTP\\Brevo\\Client\\Model\\GetExtendedCampaignOverviewSender', 'replyTo' => 'string', 'toField' => 'string', 'htmlContent' => 'string', 'shareLink' => 'string', 'tag' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'sentDate' => 'string', 'returnBounce' => 'int'];
+    protected static $swaggerTypes = ['id' => 'int', 'name' => 'string', 'subject' => 'string', 'type' => 'string', 'status' => 'string', 'scheduledAt' => 'string', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'sendAtBestTime' => 'bool', 'testSent' => 'bool', 'header' => 'string', 'footer' => 'string', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedCampaignOverviewSender', 'replyTo' => 'string', 'toField' => 'string', 'htmlContent' => 'string', 'shareLink' => 'string', 'tag' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'sentDate' => 'string', 'returnBounce' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

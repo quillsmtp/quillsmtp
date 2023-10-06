@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
 /**
  * Debug function used to describe the provided value type and class.

@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * Provides methods to normalize and compare URIs.
  *

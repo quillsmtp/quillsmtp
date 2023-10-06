@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * SendSmtpEmailMessageVersions Class Doc Comment
  *
@@ -51,7 +51,7 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo1', 'subject' => 'string'];
+    protected static $swaggerTypes = ['to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo1', 'subject' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

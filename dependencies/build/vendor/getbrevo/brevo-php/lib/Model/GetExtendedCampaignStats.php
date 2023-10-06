@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetExtendedCampaignStats Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetExtendedCampaignStats implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['globalStats' => 'QuillSMTP\\Brevo\\Client\\Model\\GetExtendedCampaignStatsGlobalStats', 'campaignStats' => 'object[]', 'mirrorClick' => 'int', 'remaining' => 'int', 'linksStats' => 'object', 'statsByDomain' => 'QuillSMTP\\Brevo\\Client\\Model\\GetStatsByDomain', 'statsByDevice' => 'QuillSMTP\\Brevo\\Client\\Model\\GetStatsByDevice', 'statsByBrowser' => 'QuillSMTP\\Brevo\\Client\\Model\\GetStatsByBrowser'];
+    protected static $swaggerTypes = ['globalStats' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedCampaignStatsGlobalStats', 'campaignStats' => 'object[]', 'mirrorClick' => 'int', 'remaining' => 'int', 'linksStats' => 'object', 'statsByDomain' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByDomain', 'statsByDevice' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByDevice', 'statsByBrowser' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByBrowser'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

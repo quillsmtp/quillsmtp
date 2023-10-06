@@ -1,9 +1,9 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Prepares requests that contain a body, adding the Content-Length,
  * Content-Type, and Expect headers.

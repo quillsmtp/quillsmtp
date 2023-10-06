@@ -1,9 +1,9 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Cookie;
+namespace QuillSMTP\Vendor\GuzzleHttp\Cookie;
 
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Stores HTTP cookies.
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Cookie;
+namespace QuillSMTP\Vendor\GuzzleHttp\Cookie;
 
 /**
  * Persists cookies in the client session

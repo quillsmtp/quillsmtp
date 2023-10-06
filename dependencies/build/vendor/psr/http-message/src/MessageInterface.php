@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Message;
+namespace QuillSMTP\Vendor\Psr\Http\Message;
 
 /**
  * HTTP messages consist of requests from a client to a server and responses

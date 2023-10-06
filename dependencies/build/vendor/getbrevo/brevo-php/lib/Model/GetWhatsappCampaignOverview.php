@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetWhatsappCampaignOverview Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetWhatsappCampaignOverview implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'int', 'campaignName' => 'string', 'campaignStatus' => 'string', 'scheduledAt' => 'string', 'senderNumber' => 'string', 'stats' => 'QuillSMTP\\Brevo\\Client\\Model\\WhatsappCampStats', 'template' => 'QuillSMTP\\Brevo\\Client\\Model\\WhatsappCampTemplate', 'createdAt' => 'string', 'modifiedAt' => 'string'];
+    protected static $swaggerTypes = ['id' => 'int', 'campaignName' => 'string', 'campaignStatus' => 'string', 'scheduledAt' => 'string', 'senderNumber' => 'string', 'stats' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\WhatsappCampStats', 'template' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\WhatsappCampTemplate', 'createdAt' => 'string', 'modifiedAt' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

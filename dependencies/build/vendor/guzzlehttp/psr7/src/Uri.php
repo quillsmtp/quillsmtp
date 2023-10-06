@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\GuzzleHttp\Psr7\Exception\MalformedUriException;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\Exception\MalformedUriException;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * PSR-7 URI implementation.
  *

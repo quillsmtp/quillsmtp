@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetInvitedUsersListUsers Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetInvitedUsersListUsers implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['email' => 'string', 'isOwner' => 'string', 'status' => 'string', 'featureAccess' => 'QuillSMTP\\Brevo\\Client\\Model\\GetInvitedUsersListFeatureAccess'];
+    protected static $swaggerTypes = ['email' => 'string', 'isOwner' => 'string', 'status' => 'string', 'featureAccess' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetInvitedUsersListFeatureAccess'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

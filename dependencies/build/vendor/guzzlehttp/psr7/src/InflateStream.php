@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Uses PHP's zlib.inflate filter to inflate zlib (HTTP deflate, RFC1950) or gzipped (RFC1952) content.
  *

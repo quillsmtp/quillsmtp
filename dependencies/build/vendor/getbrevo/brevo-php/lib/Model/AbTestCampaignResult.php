@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * AbTestCampaignResult Class Doc Comment
  *
@@ -51,7 +51,7 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['winningVersion' => 'string', 'winningCriteria' => 'string', 'winningSubjectLine' => 'string', 'openRate' => 'string', 'clickRate' => 'string', 'winningVersionRate' => 'string', 'statistics' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestCampaignResultStatistics', 'clickedLinks' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestCampaignResultClickedLinks'];
+    protected static $swaggerTypes = ['winningVersion' => 'string', 'winningCriteria' => 'string', 'winningSubjectLine' => 'string', 'openRate' => 'string', 'clickRate' => 'string', 'winningVersionRate' => 'string', 'statistics' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestCampaignResultStatistics', 'clickedLinks' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestCampaignResultClickedLinks'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

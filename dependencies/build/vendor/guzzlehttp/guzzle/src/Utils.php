@@ -1,13 +1,13 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Exception\InvalidArgumentException;
-use QuillSMTP\GuzzleHttp\Handler\CurlHandler;
-use QuillSMTP\GuzzleHttp\Handler\CurlMultiHandler;
-use QuillSMTP\GuzzleHttp\Handler\Proxy;
-use QuillSMTP\GuzzleHttp\Handler\StreamHandler;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\InvalidArgumentException;
+use QuillSMTP\Vendor\GuzzleHttp\Handler\CurlHandler;
+use QuillSMTP\Vendor\GuzzleHttp\Handler\CurlMultiHandler;
+use QuillSMTP\Vendor\GuzzleHttp\Handler\Proxy;
+use QuillSMTP\Vendor\GuzzleHttp\Handler\StreamHandler;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 final class Utils
 {
     /**
@@ -64,7 +64,7 @@ final class Utils
         if (\defined('STDOUT')) {
             return \STDOUT;
         }
-        return \QuillSMTP\GuzzleHttp\Psr7\Utils::tryFopen('php://output', 'w');
+        return \QuillSMTP\Vendor\GuzzleHttp\Psr7\Utils::tryFopen('php://output', 'w');
     }
     /**
      * Chooses and creates a default handler to use based on the environment.

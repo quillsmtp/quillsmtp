@@ -24,18 +24,18 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Api;
+namespace QuillSMTP\Vendor\Brevo\Client\Api;
 
-use QuillSMTP\GuzzleHttp\Client;
-use QuillSMTP\GuzzleHttp\ClientInterface;
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\Psr7\MultipartStream;
-use QuillSMTP\GuzzleHttp\Psr7\Request;
-use QuillSMTP\GuzzleHttp\RequestOptions;
-use QuillSMTP\Brevo\Client\ApiException;
-use QuillSMTP\Brevo\Client\Configuration;
-use QuillSMTP\Brevo\Client\HeaderSelector;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\GuzzleHttp\Client;
+use QuillSMTP\Vendor\GuzzleHttp\ClientInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\MultipartStream;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\Request;
+use QuillSMTP\Vendor\GuzzleHttp\RequestOptions;
+use QuillSMTP\Vendor\Brevo\Client\ApiException;
+use QuillSMTP\Vendor\Brevo\Client\Configuration;
+use QuillSMTP\Vendor\Brevo\Client\HeaderSelector;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * TransactionalWhatsAppApi Class Doc Comment
  *
@@ -119,7 +119,7 @@ class TransactionalWhatsAppApi
      */
     public function getWhatsappEventReportWithHttpInfo($limit = '2500', $offset = '0', $startDate = null, $endDate = null, $days = null, $contactNumber = null, $event = null, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\GetWhatsappEventReport';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWhatsappEventReport';
         $request = $this->getWhatsappEventReportRequest($limit, $offset, $startDate, $endDate, $days, $contactNumber, $event, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -146,11 +146,11 @@ class TransactionalWhatsAppApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\GetWhatsappEventReport', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWhatsappEventReport', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -199,7 +199,7 @@ class TransactionalWhatsAppApi
      */
     public function getWhatsappEventReportAsyncWithHttpInfo($limit = '2500', $offset = '0', $startDate = null, $endDate = null, $days = null, $contactNumber = null, $event = null, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\GetWhatsappEventReport';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWhatsappEventReport';
         $request = $this->getWhatsappEventReportRequest($limit, $offset, $startDate, $endDate, $days, $contactNumber, $event, $sort);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -294,11 +294,11 @@ class TransactionalWhatsAppApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -310,10 +310,10 @@ class TransactionalWhatsAppApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -331,7 +331,7 @@ class TransactionalWhatsAppApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**
@@ -363,7 +363,7 @@ class TransactionalWhatsAppApi
      */
     public function sendWhatsappMessageWithHttpInfo($sendWhatsappMessage)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse2013';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013';
         $request = $this->sendWhatsappMessageRequest($sendWhatsappMessage);
         try {
             $options = $this->createHttpClientOption();
@@ -390,11 +390,11 @@ class TransactionalWhatsAppApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse2013', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -429,7 +429,7 @@ class TransactionalWhatsAppApi
      */
     public function sendWhatsappMessageAsyncWithHttpInfo($sendWhatsappMessage)
     {
-        $returnType = 'QuillSMTP\\Brevo\\Client\\Model\\InlineResponse2013';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013';
         $request = $this->sendWhatsappMessageRequest($sendWhatsappMessage);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -486,11 +486,11 @@ class TransactionalWhatsAppApi
             if ($headers['Content-Type'] === 'application/json') {
                 // \stdClass has no __toString(), so we should encode it manually
                 if ($httpBody instanceof \stdClass) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode($httpBody);
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
                 if (\is_array($httpBody)) {
-                    $httpBody = \QuillSMTP\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
+                    $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
         } elseif (\count($formParams) > 0) {
@@ -502,10 +502,10 @@ class TransactionalWhatsAppApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \QuillSMTP\GuzzleHttp\json_encode($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \QuillSMTP\GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
         // this endpoint requires API key authentication
@@ -523,7 +523,7 @@ class TransactionalWhatsAppApi
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
         $headers = \array_merge($defaultHeaders, $headerParams, $headers);
-        $query = \QuillSMTP\GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
     /**

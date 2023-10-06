@@ -25,9 +25,9 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetAccount Class Doc Comment
  *
@@ -50,7 +50,7 @@ class GetAccount extends GetExtendedClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['plan' => '\\Brevo\\Client\\Model\\GetAccountPlan[]', 'relay' => 'QuillSMTP\\Brevo\\Client\\Model\\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\\Brevo\\Client\\Model\\GetAccountMarketingAutomation'];
+    protected static $swaggerTypes = ['plan' => '\\Brevo\\Client\\Model\\GetAccountPlan[]', 'relay' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountMarketingAutomation'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

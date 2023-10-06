@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * Order Class Doc Comment
  *
@@ -51,7 +51,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'createdAt' => 'string', 'updatedAt' => 'string', 'status' => 'string', 'amount' => 'float', 'products' => '\\Brevo\\Client\\Model\\OrderProducts[]', 'email' => 'string', 'billing' => 'QuillSMTP\\Brevo\\Client\\Model\\OrderBilling', 'coupons' => 'string[]'];
+    protected static $swaggerTypes = ['id' => 'string', 'createdAt' => 'string', 'updatedAt' => 'string', 'status' => 'string', 'amount' => 'float', 'products' => '\\Brevo\\Client\\Model\\OrderProducts[]', 'email' => 'string', 'billing' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\OrderBilling', 'coupons' => 'string[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

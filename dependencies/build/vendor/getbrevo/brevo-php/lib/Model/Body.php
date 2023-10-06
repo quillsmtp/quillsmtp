@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * Body Class Doc Comment
  *
@@ -51,7 +51,7 @@ class Body implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'duration' => 'int', 'taskTypeId' => 'string', 'date' => '\\DateTime', 'notes' => 'string', 'done' => 'bool', 'assignToId' => 'string', 'contactsIds' => 'int[]', 'dealsIds' => 'string[]', 'companiesIds' => 'string[]', 'reminder' => 'QuillSMTP\\Brevo\\Client\\Model\\TaskReminder'];
+    protected static $swaggerTypes = ['name' => 'string', 'duration' => 'int', 'taskTypeId' => 'string', 'date' => '\\DateTime', 'notes' => 'string', 'done' => 'bool', 'assignToId' => 'string', 'contactsIds' => 'int[]', 'dealsIds' => 'string[]', 'companiesIds' => 'string[]', 'reminder' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskReminder'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

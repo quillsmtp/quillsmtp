@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * AbTestCampaignResultStatistics Class Doc Comment
  *
@@ -51,7 +51,7 @@ class AbTestCampaignResultStatistics implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['openers' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats', 'clicks' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats', 'unsubscribed' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats', 'hardBounces' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats', 'softBounces' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats', 'complaints' => 'QuillSMTP\\Brevo\\Client\\Model\\AbTestVersionStats'];
+    protected static $swaggerTypes = ['openers' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats', 'clicks' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats', 'unsubscribed' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats', 'hardBounces' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats', 'softBounces' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats', 'complaints' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestVersionStats'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

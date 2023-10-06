@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Client;
+namespace QuillSMTP\Vendor\Psr\Http\Client;
 
 /**
  * Every HTTP client related exception MUST implement this interface.

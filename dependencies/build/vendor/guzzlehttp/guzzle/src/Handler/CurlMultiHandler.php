@@ -1,12 +1,12 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\Promise;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\GuzzleHttp\Utils;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\Promise;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Returns an asynchronous response using curl_multi_* functions.
  *

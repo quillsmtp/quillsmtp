@@ -1,10 +1,10 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\GuzzleHttp\RequestOptions;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\RequestOptions;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Provides basic proxies for handlers.
  *

@@ -1,12 +1,12 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Exception\GuzzleException;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\GuzzleException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * Client interface for sending HTTP requests.
  */

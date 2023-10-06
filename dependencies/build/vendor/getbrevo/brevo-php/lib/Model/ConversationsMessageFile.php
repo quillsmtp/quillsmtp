@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * ConversationsMessageFile Class Doc Comment
  *
@@ -51,7 +51,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['filename' => 'string', 'size' => 'int', 'isImage' => 'bool', 'url' => 'string', 'imageInfo' => 'QuillSMTP\\Brevo\\Client\\Model\\ConversationsMessageFileImageInfo'];
+    protected static $swaggerTypes = ['filename' => 'string', 'size' => 'int', 'isImage' => 'bool', 'url' => 'string', 'imageInfo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ConversationsMessageFileImageInfo'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

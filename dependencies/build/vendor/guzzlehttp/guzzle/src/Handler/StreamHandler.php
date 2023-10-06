@@ -1,19 +1,19 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Exception\ConnectException;
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\FulfilledPromise;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\GuzzleHttp\Psr7;
-use QuillSMTP\GuzzleHttp\TransferStats;
-use QuillSMTP\GuzzleHttp\Utils;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\ConnectException;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\FulfilledPromise;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7;
+use QuillSMTP\Vendor\GuzzleHttp\TransferStats;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * HTTP handler that uses PHP's HTTP stream wrapper.
  *

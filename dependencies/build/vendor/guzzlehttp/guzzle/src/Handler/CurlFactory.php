@@ -1,16 +1,16 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Exception\ConnectException;
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\FulfilledPromise;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\GuzzleHttp\Psr7\LazyOpenStream;
-use QuillSMTP\GuzzleHttp\TransferStats;
-use QuillSMTP\GuzzleHttp\Utils;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\ConnectException;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\FulfilledPromise;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\LazyOpenStream;
+use QuillSMTP\Vendor\GuzzleHttp\TransferStats;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Creates curl resources from a request
  *
@@ -292,11 +292,11 @@ class CurlFactory implements CurlFactoryInterface
         }
         if (!isset($options['sink'])) {
             // Use a default temp stream if no sink was set.
-            $options['sink'] = \QuillSMTP\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'w+');
+            $options['sink'] = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'w+');
         }
         $sink = $options['sink'];
         if (!\is_string($sink)) {
-            $sink = \QuillSMTP\GuzzleHttp\Psr7\Utils::streamFor($sink);
+            $sink = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Utils::streamFor($sink);
         } elseif (!\is_dir(\dirname($sink))) {
             // Ensure that the directory exists before failing in curl.
             throw new \RuntimeException(\sprintf('Directory %s does not exist for sink value of %s', \dirname($sink), $sink));

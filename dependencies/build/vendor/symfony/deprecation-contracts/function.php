@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP;
+namespace QuillSMTP\Vendor;
 
 /*
  * This file is part of the Symfony package.
@@ -10,7 +10,7 @@ namespace QuillSMTP;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-if (!\function_exists('QuillSMTP\\trigger_deprecation')) {
+if (!\function_exists('QuillSMTP\\Vendor\\trigger_deprecation')) {
     /**
      * Triggers a silenced deprecation notice.
      *

@@ -1,14 +1,14 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Cookie\CookieJarInterface;
-use QuillSMTP\GuzzleHttp\Exception\RequestException;
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Log\LoggerInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Cookie\CookieJarInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\RequestException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Log\LoggerInterface;
 /**
  * Functions used to create and wrap handlers with handler middleware.
  */
@@ -29,7 +29,7 @@ final class Middleware
                 if (empty($options['cookies'])) {
                     return $handler($request, $options);
                 } elseif (!$options['cookies'] instanceof CookieJarInterface) {
-                    throw new \InvalidArgumentException('QuillSMTP\\cookies must be an instance of GuzzleHttp\\Cookie\\CookieJarInterface');
+                    throw new \InvalidArgumentException('QuillSMTP\\Vendor\\cookies must be an instance of GuzzleHttp\\Cookie\\CookieJarInterface');
                 }
                 $cookieJar = $options['cookies'];
                 $request = $cookieJar->withCookieHeader($request);

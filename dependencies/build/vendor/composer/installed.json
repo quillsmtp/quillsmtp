@@ -37,7 +37,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\Brevo\\Client\\": "lib\/"
+                    "QuillSMTP\\Vendor\\Brevo\\Client\\": "lib\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -119,7 +119,7 @@
                     "src\/functions_include.php"
                 ],
                 "psr-4": {
-                    "QuillSMTP\\GuzzleHttp\\": "src\/"
+                    "QuillSMTP\\Vendor\\GuzzleHttp\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -228,7 +228,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\GuzzleHttp\\Promise\\": "src\/"
+                    "QuillSMTP\\Vendor\\GuzzleHttp\\Promise\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -325,7 +325,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\GuzzleHttp\\Psr7\\": "src\/"
+                    "QuillSMTP\\Vendor\\GuzzleHttp\\Psr7\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -429,7 +429,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\Psr\\Http\\Client\\": "src\/"
+                    "QuillSMTP\\Vendor\\Psr\\Http\\Client\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -484,7 +484,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\Psr\\Http\\Message\\": "src\/"
+                    "QuillSMTP\\Vendor\\Psr\\Http\\Message\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -541,7 +541,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "QuillSMTP\\Psr\\Http\\Message\\": "src\/"
+                    "QuillSMTP\\Vendor\\Psr\\Http\\Message\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",

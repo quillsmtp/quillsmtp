@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Promise;
+namespace QuillSMTP\Vendor\GuzzleHttp\Promise;
 
 /**
  * Promises/A+ implementation that avoids recursion when possible.

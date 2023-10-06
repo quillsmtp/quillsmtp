@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * RequestContactImport Class Doc Comment
  *
@@ -51,7 +51,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
+    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

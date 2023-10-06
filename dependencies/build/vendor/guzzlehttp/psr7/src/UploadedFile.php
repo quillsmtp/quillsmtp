@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
-use QuillSMTP\Psr\Http\Message\UploadedFileInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 class UploadedFile implements UploadedFileInterface
 {

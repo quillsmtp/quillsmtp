@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Cookie;
+namespace QuillSMTP\Vendor\GuzzleHttp\Cookie;
 
-use QuillSMTP\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
 /**
  * Persists non-session cookies using a JSON formatted file
  */

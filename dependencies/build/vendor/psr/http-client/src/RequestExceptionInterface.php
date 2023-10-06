@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Client;
+namespace QuillSMTP\Vendor\Psr\Http\Client;
 
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Exception for when a request failed.
  *

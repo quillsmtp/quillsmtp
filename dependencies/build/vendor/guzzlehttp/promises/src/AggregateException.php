@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Promise;
+namespace QuillSMTP\Vendor\GuzzleHttp\Promise;
 
 /**
  * Exception thrown when too many errors occur in the some() or any() methods.

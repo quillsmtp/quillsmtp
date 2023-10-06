@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetExtendedListCampaignStats Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetExtendedListCampaignStats implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['campaignId' => 'int', 'stats' => 'QuillSMTP\\Brevo\\Client\\Model\\GetCampaignStats'];
+    protected static $swaggerTypes = ['campaignId' => 'int', 'stats' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetCampaignStats'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

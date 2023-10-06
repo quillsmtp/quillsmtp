@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Promise;
+namespace QuillSMTP\Vendor\GuzzleHttp\Promise;
 
 /**
  * Represents a promise that iterates over many promises and invokes

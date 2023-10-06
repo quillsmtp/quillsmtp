@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * SendSmtpEmail Class Doc Comment
  *
@@ -51,7 +51,7 @@ class SendSmtpEmail implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['sender' => 'QuillSMTP\\Brevo\\Client\\Model\\SendSmtpEmailSender', 'to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo[]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'htmlContent' => 'string', 'textContent' => 'string', 'subject' => 'string', 'replyTo' => 'QuillSMTP\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo', 'attachment' => '\\Brevo\\Client\\Model\\SendSmtpEmailAttachment[]', 'headers' => 'object', 'templateId' => 'int', 'params' => 'object', 'messageVersions' => '\\Brevo\\Client\\Model\\SendSmtpEmailMessageVersions[]', 'tags' => 'string[]', 'scheduledAt' => '\\DateTime', 'batchId' => 'string'];
+    protected static $swaggerTypes = ['sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailSender', 'to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo[]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'htmlContent' => 'string', 'textContent' => 'string', 'subject' => 'string', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo', 'attachment' => '\\Brevo\\Client\\Model\\SendSmtpEmailAttachment[]', 'headers' => 'object', 'templateId' => 'int', 'params' => 'object', 'messageVersions' => '\\Brevo\\Client\\Model\\SendSmtpEmailMessageVersions[]', 'tags' => 'string[]', 'scheduledAt' => '\\DateTime', 'batchId' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

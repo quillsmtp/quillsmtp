@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * RequestContactExport Class Doc Comment
  *
@@ -51,7 +51,7 @@ class RequestContactExport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['exportAttributes' => 'string[]', 'customContactFilter' => 'QuillSMTP\\Brevo\\Client\\Model\\RequestContactExportCustomContactFilter', 'notifyUrl' => 'string'];
+    protected static $swaggerTypes = ['exportAttributes' => 'string[]', 'customContactFilter' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactExportCustomContactFilter', 'notifyUrl' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

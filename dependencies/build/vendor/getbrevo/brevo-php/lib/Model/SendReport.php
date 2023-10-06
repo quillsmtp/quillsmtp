@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * SendReport Class Doc Comment
  *
@@ -51,7 +51,7 @@ class SendReport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['language' => 'string', 'email' => 'QuillSMTP\\Brevo\\Client\\Model\\SendReportEmail'];
+    protected static $swaggerTypes = ['language' => 'string', 'email' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendReportEmail'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

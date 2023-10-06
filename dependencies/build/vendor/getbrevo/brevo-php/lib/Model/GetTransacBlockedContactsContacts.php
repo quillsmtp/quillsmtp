@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetTransacBlockedContactsContacts Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetTransacBlockedContactsContacts implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['email' => 'string', 'senderEmail' => 'string', 'reason' => 'QuillSMTP\\Brevo\\Client\\Model\\GetTransacBlockedContactsReason', 'blockedAt' => 'string'];
+    protected static $swaggerTypes = ['email' => 'string', 'senderEmail' => 'string', 'reason' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetTransacBlockedContactsReason', 'blockedAt' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

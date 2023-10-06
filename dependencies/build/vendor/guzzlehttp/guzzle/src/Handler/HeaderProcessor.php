@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
 /**
  * @internal
  */

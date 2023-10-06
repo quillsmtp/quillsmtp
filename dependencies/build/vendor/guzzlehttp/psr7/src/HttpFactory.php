@@ -1,20 +1,20 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\Psr\Http\Message\RequestFactoryInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseFactoryInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\ServerRequestFactoryInterface;
-use QuillSMTP\Psr\Http\Message\ServerRequestInterface;
-use QuillSMTP\Psr\Http\Message\StreamFactoryInterface;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
-use QuillSMTP\Psr\Http\Message\UploadedFileFactoryInterface;
-use QuillSMTP\Psr\Http\Message\UploadedFileInterface;
-use QuillSMTP\Psr\Http\Message\UriFactoryInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ServerRequestFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ServerRequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UploadedFileFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UploadedFileInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriFactoryInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * Implements all of the PSR-17 interfaces.
  *

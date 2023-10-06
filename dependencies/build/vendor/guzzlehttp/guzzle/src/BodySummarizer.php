@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\Psr\Http\Message\MessageInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\MessageInterface;
 final class BodySummarizer implements BodySummarizerInterface
 {
     /**
@@ -18,6 +18,6 @@ final class BodySummarizer implements BodySummarizerInterface
      */
     public function summarize(MessageInterface $message) : ?string
     {
-        return $this->truncateAt === null ? \QuillSMTP\GuzzleHttp\Psr7\Message::bodySummary($message) : \QuillSMTP\GuzzleHttp\Psr7\Message::bodySummary($message, $this->truncateAt);
+        return $this->truncateAt === null ? \QuillSMTP\Vendor\GuzzleHttp\Psr7\Message::bodySummary($message) : \QuillSMTP\Vendor\GuzzleHttp\Psr7\Message::bodySummary($message, $this->truncateAt);
     }
 }

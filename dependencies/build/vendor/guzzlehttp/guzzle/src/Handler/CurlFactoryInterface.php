@@ -1,8 +1,8 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
 interface CurlFactoryInterface
 {
     /**

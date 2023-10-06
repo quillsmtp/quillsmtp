@@ -25,9 +25,9 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetChildInfo Class Doc Comment
  *
@@ -50,7 +50,7 @@ class GetChildInfo extends GetClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['credits' => 'QuillSMTP\\Brevo\\Client\\Model\\GetChildInfoCredits', 'statistics' => 'QuillSMTP\\Brevo\\Client\\Model\\GetChildInfoStatistics', 'password' => 'string', 'ips' => 'string[]', 'apiKeys' => 'QuillSMTP\\Brevo\\Client\\Model\\GetChildInfoApiKeys'];
+    protected static $swaggerTypes = ['credits' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoCredits', 'statistics' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoStatistics', 'password' => 'string', 'ips' => 'string[]', 'apiKeys' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeys'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

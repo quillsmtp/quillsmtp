@@ -1,12 +1,12 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Handler;
+namespace QuillSMTP\Vendor\GuzzleHttp\Handler;
 
-use QuillSMTP\GuzzleHttp\Psr7\Response;
-use QuillSMTP\GuzzleHttp\Utils;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Psr7\Response;
+use QuillSMTP\Vendor\GuzzleHttp\Utils;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Represents a cURL easy handle and the data it populates.
  *

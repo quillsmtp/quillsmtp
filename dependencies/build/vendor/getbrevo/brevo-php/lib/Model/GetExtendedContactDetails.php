@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetExtendedContactDetails Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetExtendedContactDetails implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['email' => 'string', 'id' => 'int', 'emailBlacklisted' => 'bool', 'smsBlacklisted' => 'bool', 'createdAt' => 'string', 'modifiedAt' => 'string', 'listIds' => 'int[]', 'listUnsubscribed' => 'int[]', 'attributes' => 'object', 'statistics' => 'QuillSMTP\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatistics'];
+    protected static $swaggerTypes = ['email' => 'string', 'id' => 'int', 'emailBlacklisted' => 'bool', 'smsBlacklisted' => 'bool', 'createdAt' => 'string', 'modifiedAt' => 'string', 'listIds' => 'int[]', 'listUnsubscribed' => 'int[]', 'attributes' => 'object', 'statistics' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatistics'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

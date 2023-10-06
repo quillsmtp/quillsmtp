@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp\Exception;
+namespace QuillSMTP\Vendor\GuzzleHttp\Exception;
 
 class TooManyRedirectsException extends RequestException
 {

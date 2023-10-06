@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP;
+namespace QuillSMTP\Vendor;
 
 if (!\function_exists('getallheaders')) {
     /**

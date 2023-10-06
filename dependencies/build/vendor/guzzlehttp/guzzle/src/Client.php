@@ -1,19 +1,19 @@
 <?php
 
-namespace QuillSMTP\GuzzleHttp;
+namespace QuillSMTP\Vendor\GuzzleHttp;
 
-use QuillSMTP\GuzzleHttp\Cookie\CookieJar;
-use QuillSMTP\GuzzleHttp\Exception\GuzzleException;
-use QuillSMTP\GuzzleHttp\Exception\InvalidArgumentException;
-use QuillSMTP\GuzzleHttp\Promise as P;
-use QuillSMTP\GuzzleHttp\Promise\PromiseInterface;
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ResponseInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\GuzzleHttp\Cookie\CookieJar;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\GuzzleException;
+use QuillSMTP\Vendor\GuzzleHttp\Exception\InvalidArgumentException;
+use QuillSMTP\Vendor\GuzzleHttp\Promise as P;
+use QuillSMTP\Vendor\GuzzleHttp\Promise\PromiseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ResponseInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 /**
  * @final
  */
-class Client implements ClientInterface, \QuillSMTP\Psr\Http\Client\ClientInterface
+class Client implements ClientInterface, \QuillSMTP\Vendor\Psr\Http\Client\ClientInterface
 {
     use ClientTrait;
     /**

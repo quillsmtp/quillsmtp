@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace QuillSMTP\GuzzleHttp\Psr7;
+namespace QuillSMTP\Vendor\GuzzleHttp\Psr7;
 
-use QuillSMTP\Psr\Http\Message\RequestInterface;
-use QuillSMTP\Psr\Http\Message\ServerRequestInterface;
-use QuillSMTP\Psr\Http\Message\StreamInterface;
-use QuillSMTP\Psr\Http\Message\UriInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\RequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\ServerRequestInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\StreamInterface;
+use QuillSMTP\Vendor\Psr\Http\Message\UriInterface;
 final class Utils
 {
     /**

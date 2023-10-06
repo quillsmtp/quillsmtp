@@ -1,6 +1,6 @@
 <?php
 
-namespace QuillSMTP\Psr\Http\Message;
+namespace QuillSMTP\Vendor\Psr\Http\Message;
 
 /**
  * Representation of an outgoing, server-side response.

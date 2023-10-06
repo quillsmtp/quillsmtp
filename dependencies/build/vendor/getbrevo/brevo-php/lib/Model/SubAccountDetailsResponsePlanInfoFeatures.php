@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * SubAccountDetailsResponsePlanInfoFeatures Class Doc Comment
  *
@@ -52,7 +52,7 @@ class SubAccountDetailsResponsePlanInfoFeatures implements ModelInterface, Array
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['inbox' => 'QuillSMTP\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesInbox', 'landingPage' => 'QuillSMTP\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesLandingPage', 'users' => 'QuillSMTP\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesUsers'];
+    protected static $swaggerTypes = ['inbox' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesInbox', 'landingPage' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesLandingPage', 'users' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SubAccountDetailsResponsePlanInfoFeaturesUsers'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

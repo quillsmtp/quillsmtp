@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetDomainConfigurationModel Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetDomainConfigurationModel implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['domain' => 'string', 'verified' => 'bool', 'authenticated' => 'bool', 'dnsRecords' => 'QuillSMTP\\Brevo\\Client\\Model\\CreateDomainModelDnsRecords'];
+    protected static $swaggerTypes = ['domain' => 'string', 'verified' => 'bool', 'authenticated' => 'bool', 'dnsRecords' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateDomainModelDnsRecords'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

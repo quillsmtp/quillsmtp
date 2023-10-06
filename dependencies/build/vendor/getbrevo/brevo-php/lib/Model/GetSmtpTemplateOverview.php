@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetSmtpTemplateOverview Class Doc Comment
  *
@@ -51,7 +51,7 @@ class GetSmtpTemplateOverview implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'int', 'name' => 'string', 'subject' => 'string', 'isActive' => 'bool', 'testSent' => 'bool', 'sender' => 'QuillSMTP\\Brevo\\Client\\Model\\GetSmtpTemplateOverviewSender', 'replyTo' => 'string', 'toField' => 'string', 'tag' => 'string', 'htmlContent' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'doiTemplate' => 'bool'];
+    protected static $swaggerTypes = ['id' => 'int', 'name' => 'string', 'subject' => 'string', 'isActive' => 'bool', 'testSent' => 'bool', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmtpTemplateOverviewSender', 'replyTo' => 'string', 'toField' => 'string', 'tag' => 'string', 'htmlContent' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'doiTemplate' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

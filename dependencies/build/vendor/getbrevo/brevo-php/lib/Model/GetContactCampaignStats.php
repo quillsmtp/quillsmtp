@@ -25,10 +25,10 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-namespace QuillSMTP\Brevo\Client\Model;
+namespace QuillSMTP\Vendor\Brevo\Client\Model;
 
 use ArrayAccess;
-use QuillSMTP\Brevo\Client\ObjectSerializer;
+use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
 /**
  * GetContactCampaignStats Class Doc Comment
  *
@@ -52,7 +52,7 @@ class GetContactCampaignStats implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['messagesSent' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'hardBounces' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'softBounces' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'complaints' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'unsubscriptions' => 'QuillSMTP\\Brevo\\Client\\Model\\GetContactCampaignStatsUnsubscriptions', 'opened' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsOpened[]', 'clicked' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsClicked[]', 'transacAttributes' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsTransacAttributes[]', 'delivered' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]'];
+    protected static $swaggerTypes = ['messagesSent' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'hardBounces' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'softBounces' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'complaints' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'unsubscriptions' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContactCampaignStatsUnsubscriptions', 'opened' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsOpened[]', 'clicked' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsClicked[]', 'transacAttributes' => '\\Brevo\\Client\\Model\\GetContactCampaignStatsTransacAttributes[]', 'delivered' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
