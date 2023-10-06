@@ -27,12 +27,12 @@ const ConnectPage: React.FC<Props> = ({ connectionId, onClose }) => {
 						auth: {
 							type: 'credentials',
 							fields: {
-								apiKey: {
+								api_key: {
 									label: __('API Key', 'quillsmtp'),
 									type: 'text',
 									required: true,
 								},
-								sendingDomain: {
+								sending_domain: {
 									label: __('Sending Domain', 'quillsmtp'),
 									type: 'text',
 									required: false,

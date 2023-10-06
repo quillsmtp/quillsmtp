@@ -28,6 +28,10 @@ define( 'QUILLSMTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'QUILLSMTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'QUILLSMTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+// Require dependencies.
+require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/load.php';
+
+
 // Require the autoloader.
 require_once QUILLSMTP_PLUGIN_DIR . 'includes/autoload.php';
 
