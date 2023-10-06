@@ -20,6 +20,7 @@ export type AccountsAuthFields = {
 	[key: string]: {
 		label: string;
 		type: 'text';
+		required?: boolean;
 	};
 };
 
@@ -40,7 +41,7 @@ export type ConnectMainAccounts = {
 };
 
 export type ConnectMain = {
-	accounts?: ConnectMainAccounts;
+	accounts: ConnectMainAccounts;
 };
 
 export type SettingsMainAccounts = {

@@ -10,7 +10,7 @@
 namespace QuillSMTP\Mailers\SendInBlue\REST;
 
 use Exception;
-use QuillForms\Addon\Provider\REST\Account_Controller as Abstract_Account_Controller;
+use QuillSMTP\Mailer\Provider\REST\Account_Controller as Abstract_Account_Controller;
 use WP_Error;
 use WP_REST_Request;
 
@@ -20,6 +20,17 @@ use WP_REST_Request;
  * @since 1.3.0
  */
 class Account_Controller extends Abstract_Account_Controller {
+
+	/**
+	 * Register controller routes
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function register_routes() {
+		parent::register_routes();
+	}
 
 	/**
 	 * Get credentials schema
@@ -36,7 +47,7 @@ class Account_Controller extends Abstract_Account_Controller {
 			],
 			'sending_domain' => [
 				'type'     => 'string',
-				'required' => true,
+				'required' => false,
 			],
 		];
 	}
@@ -48,7 +59,7 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-
+		error_log( 'get_account_info' );
 		return [
 			'id'   => '',
 			'name' => '',

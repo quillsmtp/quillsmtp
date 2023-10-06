@@ -1,7 +1,7 @@
 /**
- * QuillForms Dependencies.
+ * External Dependencies.
  */
-import { TextControl } from '@wordpress/components';
+import TextField from '@mui/material/TextField';
 
 /**
  * WordPress Dependencies
@@ -13,6 +13,7 @@ import apiFetch from '@wordpress/api-fetch';
  * Internal Dependencies
  */
 import type { Provider, SetupFields } from '../../types';
+import './style.scss';
 
 interface Props {
 	provider: Provider;
@@ -54,20 +55,23 @@ const Setup: React.FC<Props> = ({
 	};
 
 	return (
-		<div className="mailers-setup">
-			<div className="mailers-setup__body">
-				<div className="mailers-setup__instructions">
+		<div className="mailer-setup">
+			<div className="mailer-setup__body">
+				<div className="mailer-setup__instructions">
 					<Instructions />
 				</div>
 
 				{Object.entries(fields).map(([key, field]) => (
-					<TextControl
+					<TextField
 						key={key}
 						label={field.label}
 						value={inputs[key] ?? ''}
-						onChange={(value) =>
-							setInputs({ ...inputs, [key]: value })
+						onChange={(e) =>
+							setInputs({ ...inputs, [key]: e.target.value })
 						}
+						variant="outlined"
+						fullWidth
+						sx={{ mb: 2 }}
 					/>
 				))}
 			</div>

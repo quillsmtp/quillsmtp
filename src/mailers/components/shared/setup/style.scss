@@ -1,10 +1,20 @@
-.integration-setup__body {
-	.components-text-control__input {
-		margin-top: 0;
+.mailer-setup__body {
+	max-width: 100%;
+	padding: 20px;
+	input[type="text"] {
+		min-height: auto;
+		color: currentColor;
+		padding: 4px 0 5px;
+		border: 0;
+		padding: 16.5px 14px;
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
 	}
 }
 
-.integration-setup__instructions {
+.mailer-setup__instructions {
 	border: 1px solid #ccc;
 	border-radius: 0.25rem;
 	padding: 0.25rem 1rem;

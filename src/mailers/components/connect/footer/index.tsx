@@ -1,7 +1,12 @@
 /**
- * QuillForms Dependencies.
+ * External Dependencies.
  */
-import { Button } from '@wordpress/components';
+import Button from '@mui/material/Button';
+
+/**
+ * Internal Dependencies.
+ */
+import './style.scss';
 
 interface Props {
 	save: {
@@ -17,18 +22,20 @@ interface Props {
 
 const Footer: React.FC<Props> = ({ save, close }) => {
 	return (
-		<div className="integration-connect-footer">
-			<div className="integration-connect-footer__wrapper">
+		<div className="mailer-connect-footer">
+			<div className="mailer-connect-footer__wrapper">
 				<Button
-					className="integration-connect-footer__cancel"
+					className="mailer-connect-footer__cancel"
 					onClick={close.onClick}
+					variant="outlined"
 				>
 					{close.label}
 				</Button>
 				<Button
-					className="integration-connect-footer__save"
+					className="mailer-connect-footer__save"
 					onClick={save.onClick}
 					disabled={save.disabled}
+					variant="contained"
 				>
 					{save.label}
 				</Button>

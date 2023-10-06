@@ -17,13 +17,20 @@ import PrepareState from './utils/PrepareState';
 import ConfigAPI from '../../../config';
 
 interface Props {
+	connectionId: string;
 	provider: Provider;
 	setup?: SetupType;
 	main: ConnectMain;
 	close: () => void;
 }
 
-const Connect: React.FC<Props> = ({ provider, setup, main, close }) => {
+const Connect: React.FC<Props> = ({
+	connectionId,
+	provider,
+	setup,
+	main,
+	close,
+}) => {
 	const payload = ConfigAPI.getInitialPayload()?.mailers?.[provider.slug];
 	const [state, dispatch] = useReducer(reducer, PrepareState(payload));
 	const { app, accounts } = state;
@@ -61,9 +68,10 @@ const Connect: React.FC<Props> = ({ provider, setup, main, close }) => {
 	}
 
 	return (
-		<div className="integration-connect">
+		<div className="mailer-connect">
 			<ConnectContextProvider
 				value={{
+					connectionId,
 					provider,
 					accounts,
 					...$actions,
@@ -74,7 +82,11 @@ const Connect: React.FC<Props> = ({ provider, setup, main, close }) => {
 				{setup && needSetup ? (
 					<Setup setup={setup} close={close} />
 				) : (
-					<Main main={main} close={close} />
+					<Main
+						connectionId={connectionId}
+						main={main}
+						close={close}
+					/>
 				)}
 			</ConnectContextProvider>
 		</div>

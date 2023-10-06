@@ -9,28 +9,38 @@ import { __ } from '@wordpress/i18n';
 import { Connect } from '@quillsmtp/mailers';
 
 interface Props {
+	connectionId: string;
 	onClose: () => void;
 }
 
-const ConnectPage: React.FC<Props> = ({ onClose }) => {
+const ConnectPage: React.FC<Props> = ({ connectionId, onClose }) => {
 	return (
 		<div className="qsmtp-connect-page">
 			<Connect
+				connectionId={connectionId}
 				provider={{
 					slug: 'sendinblue',
 					label: __('Sendinblue', 'quillsmtp'),
 				}}
-				setup={{
-					Instructions: () => <div>Instructions</div>,
-					fields: {
-						api_key: {
-							label: __('API Key', 'quillsmtp'),
-							check: true,
-							type: 'text',
+				main={{
+					accounts: {
+						auth: {
+							type: 'credentials',
+							fields: {
+								apiKey: {
+									label: __('API Key', 'quillsmtp'),
+									type: 'text',
+									required: true,
+								},
+								sendingDomain: {
+									label: __('Sending Domain', 'quillsmtp'),
+									type: 'text',
+									required: false,
+								},
+							},
 						},
 					},
 				}}
-				main={{}}
 				close={onClose}
 			/>
 		</div>

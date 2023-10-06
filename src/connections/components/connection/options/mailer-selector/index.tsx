@@ -83,6 +83,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 					connectionId={connectionId}
 					slug={modalMailer}
 					mailer={mailerModules[modalMailer]}
+					open={modalMailer !== null}
 					onClose={() => {
 						setModalMailer(null);
 					}}

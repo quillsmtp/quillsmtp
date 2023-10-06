@@ -1,13 +1,4 @@
-.integration-modal .components-modal__content {
-	margin-bottom: 63px; // footer height
-}
-
-.integration-connect-footer {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	z-index: 22234334344242;
+.mailer-connect-footer {
 	height: 63px;
 	display: flex;
 	flex-wrap: wrap;
@@ -18,7 +9,7 @@
 	align-items: center;
 	border-top: 1px solid #ddd;
 
-	.integration-connect-footer__wrapper {
+	.mailer-connect-footer__wrapper {
 		margin-left: auto;
 		margin-right: auto;
 
@@ -32,7 +23,7 @@
 	}
 }
 
-.integration-connect-footer__save {
+.mailer-connect-footer__save {
 	&:disabled {
 		color: #000;
 		background: #ccc !important;

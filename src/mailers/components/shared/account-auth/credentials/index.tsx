@@ -1,7 +1,8 @@
 /**
- * QuillForms Dependencies
+ * External Dependencies
  */
-import { TextControl, Button } from '@wordpress/components';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 /**
  * WordPress Dependencies
@@ -15,6 +16,7 @@ import { __ } from '@wordpress/i18n';
  * Internal Dependencies
  */
 import { AccountsAuthFields, AccountsLabels, Provider } from '../../../types';
+import './style.scss';
 
 interface Props {
 	provider: Provider;
@@ -49,6 +51,8 @@ const Credentials: React.FC<Props> = ({
 	const submit = () => {
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
+		console.log(`/qsmtp/v1/mailers/${provider.slug}/accounts`);
+
 		apiFetch({
 			path: `/qsmtp/v1/mailers/${provider.slug}/accounts`,
 			method: 'POST',
@@ -93,7 +97,7 @@ const Credentials: React.FC<Props> = ({
 
 	let inputsFilled = true;
 	for (const key of Object.keys(fields)) {
-		if (!inputs[key]) {
+		if (!inputs[key] && fields[key].required) {
 			inputsFilled = false;
 			break;
 		}
@@ -102,15 +106,24 @@ const Credentials: React.FC<Props> = ({
 	return (
 		<div className="mailer-auth-credentials">
 			{Object.entries(fields).map(([key, field]) => (
-				<TextControl
+				<TextField
 					key={key}
 					label={field.label}
 					value={inputs[key] ?? ''}
-					onChange={(value) => setInputs({ ...inputs, [key]: value })}
+					onChange={(e) =>
+						setInputs({ ...inputs, [key]: e.target.value })
+					}
 					disabled={submitting}
+					variant="outlined"
+					fullWidth
+					sx={{ mb: 2 }}
 				/>
 			))}
-			<Button onClick={submit} disabled={!inputsFilled || submitting}>
+			<Button
+				onClick={submit}
+				variant="contained"
+				disabled={!inputsFilled || submitting}
+			>
 				{__('Add', 'quillsmtp')}
 			</Button>
 			{Instructions && (

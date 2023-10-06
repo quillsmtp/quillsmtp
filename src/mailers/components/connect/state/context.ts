@@ -10,6 +10,7 @@ import { Provider } from '../../types';
 import { Account, Accounts } from './types';
 
 const ConnectContext = createContext<{
+	connectionId: string;
 	provider: Provider;
 	accounts: Accounts;
 	setupApp: (app: any) => void;
@@ -18,6 +19,7 @@ const ConnectContext = createContext<{
 	updatePayload: (key: string, value: any) => void;
 	savePayload: (key: string) => void;
 }>({
+	connectionId: '',
 	provider: {
 		label: 'Provider',
 		slug: 'provider',
