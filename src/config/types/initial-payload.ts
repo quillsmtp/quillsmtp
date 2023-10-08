@@ -1,5 +1,5 @@
 export type InitialPayload = {
-	mailers?: {
+	mailers: {
 		[x: string]: any;
 	};
 	// Any other rest field

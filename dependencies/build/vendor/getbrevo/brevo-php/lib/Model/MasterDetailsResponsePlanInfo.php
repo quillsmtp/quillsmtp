@@ -52,7 +52,7 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['currencyCode' => 'string', 'nextBillingAt' => 'int', 'price' => 'float', 'planPeriod' => 'string', 'subAccounts' => 'int', 'features' => '\\Brevo\\Client\\Model\\MasterDetailsResponsePlanInfoFeatures[]'];
+    protected static $swaggerTypes = ['currencyCode' => 'string', 'nextBillingAt' => 'int', 'price' => 'float', 'planPeriod' => 'string', 'subAccounts' => 'int', 'features' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\MasterDetailsResponsePlanInfoFeatures[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

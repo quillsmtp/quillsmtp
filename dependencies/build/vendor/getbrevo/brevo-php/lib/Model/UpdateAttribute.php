@@ -51,7 +51,7 @@ class UpdateAttribute implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['value' => 'string', 'enumeration' => '\\Brevo\\Client\\Model\\UpdateAttributeEnumeration[]'];
+    protected static $swaggerTypes = ['value' => 'string', 'enumeration' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateAttributeEnumeration[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

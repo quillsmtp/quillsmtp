@@ -51,7 +51,7 @@ class GetInvitedUsersList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['users' => '\\Brevo\\Client\\Model\\GetInvitedUsersListUsers[]'];
+    protected static $swaggerTypes = ['users' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetInvitedUsersListUsers[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

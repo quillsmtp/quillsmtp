@@ -51,7 +51,7 @@ class GetTransacEmailsList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'transactionalEmails' => '\\Brevo\\Client\\Model\\GetTransacEmailsListTransactionalEmails[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'transactionalEmails' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetTransacEmailsListTransactionalEmails[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

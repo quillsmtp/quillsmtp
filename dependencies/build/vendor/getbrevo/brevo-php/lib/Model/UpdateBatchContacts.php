@@ -51,7 +51,7 @@ class UpdateBatchContacts implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['contacts' => '\\Brevo\\Client\\Model\\UpdateBatchContactsContacts[]'];
+    protected static $swaggerTypes = ['contacts' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateBatchContactsContacts[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

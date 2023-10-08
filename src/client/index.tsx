@@ -1,5 +1,6 @@
 import { render } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
+import '@quillsmtp/store';
 import '@wordpress/core-data';
 import '@wordpress/notices';
 import '@quillsmtp/mailers';

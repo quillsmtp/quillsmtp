@@ -50,7 +50,7 @@ class GetExtendedList extends GetList
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['folderId' => 'int', 'createdAt' => 'string', 'campaignStats' => '\\Brevo\\Client\\Model\\GetExtendedListCampaignStats[]', 'dynamicList' => 'bool'];
+    protected static $swaggerTypes = ['folderId' => 'int', 'createdAt' => 'string', 'campaignStats' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedListCampaignStats[]', 'dynamicList' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

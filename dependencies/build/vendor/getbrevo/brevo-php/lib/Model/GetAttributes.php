@@ -51,7 +51,7 @@ class GetAttributes implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['attributes' => '\\Brevo\\Client\\Model\\GetAttributesAttributes[]'];
+    protected static $swaggerTypes = ['attributes' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAttributesAttributes[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

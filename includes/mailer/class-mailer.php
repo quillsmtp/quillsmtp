@@ -66,9 +66,9 @@ class Mailer {
 	private static $instances = array();
 
 	/**
-	 * Addon Instances.
+	 * Mailer Instances.
 	 *
-	 * Instantiates or reuses an instances of Addon.
+	 * Instantiates or reuses an instances of Mailer.
 	 *
 	 * @since 1.0.0
 	 * @static

@@ -52,7 +52,7 @@ class Pipeline implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['pipeline' => 'string', 'pipelineName' => 'string', 'stages' => '\\Brevo\\Client\\Model\\PipelineStage[]'];
+    protected static $swaggerTypes = ['pipeline' => 'string', 'pipelineName' => 'string', 'stages' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PipelineStage[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

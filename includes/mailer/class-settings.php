@@ -38,7 +38,7 @@ class Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Addon $mailer Addon.
+	 * @param Mailer $mailer Mailer.
 	 */
 	public function __construct( $mailer ) {
 		$this->mailer     = $mailer;

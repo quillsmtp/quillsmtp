@@ -51,7 +51,7 @@ class GetWATemplates implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['templates' => '\\Brevo\\Client\\Model\\GetWATemplatesTemplates[]', 'count' => 'int'];
+    protected static $swaggerTypes = ['templates' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWATemplatesTemplates[]', 'count' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -51,7 +51,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
+    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

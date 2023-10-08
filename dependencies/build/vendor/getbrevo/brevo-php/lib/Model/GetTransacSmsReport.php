@@ -51,7 +51,7 @@ class GetTransacSmsReport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['reports' => '\\Brevo\\Client\\Model\\GetTransacSmsReportReports[]'];
+    protected static $swaggerTypes = ['reports' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetTransacSmsReportReports[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

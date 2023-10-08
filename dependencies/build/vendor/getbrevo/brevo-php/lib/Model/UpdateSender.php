@@ -51,7 +51,7 @@ class UpdateSender implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'email' => 'string', 'ips' => '\\Brevo\\Client\\Model\\CreateSenderIps[]'];
+    protected static $swaggerTypes = ['name' => 'string', 'email' => 'string', 'ips' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateSenderIps[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

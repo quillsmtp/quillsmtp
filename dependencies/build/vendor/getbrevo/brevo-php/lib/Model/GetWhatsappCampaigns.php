@@ -51,7 +51,7 @@ class GetWhatsappCampaigns implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['campaigns' => '\\Brevo\\Client\\Model\\GetWhatsappCampaignsCampaigns[]', 'count' => 'int'];
+    protected static $swaggerTypes = ['campaigns' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWhatsappCampaignsCampaigns[]', 'count' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

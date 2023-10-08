@@ -51,7 +51,7 @@ class GetProcesses implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['processes' => '\\Brevo\\Client\\Model\\GetProcess[]', 'count' => 'int'];
+    protected static $swaggerTypes = ['processes' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetProcess[]', 'count' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -51,7 +51,7 @@ class GetInboundEmailEvents implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['events' => '\\Brevo\\Client\\Model\\GetInboundEmailEventsEvents[]'];
+    protected static $swaggerTypes = ['events' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetInboundEmailEventsEvents[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

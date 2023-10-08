@@ -8,15 +8,15 @@ import TextField from '@mui/material/TextField';
  */
 import { useState } from 'react';
 import apiFetch from '@wordpress/api-fetch';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
-import type { Provider, SetupFields } from '../../types';
+import type { SetupFields } from '../../types';
 import './style.scss';
 
 interface Props {
-	provider: Provider;
 	Instructions: React.FC;
 	fields: SetupFields;
 	Controls: React.FC<{ submit: () => void }>;
@@ -24,12 +24,16 @@ interface Props {
 }
 
 const Setup: React.FC<Props> = ({
-	provider,
 	Instructions,
 	fields,
 	Controls,
 	onFinish,
 }) => {
+	const { provider } = useSelect((select) => {
+		return {
+			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+		};
+	});
 	const [inputs, setInputs] = useState({});
 
 	const submit = () => {

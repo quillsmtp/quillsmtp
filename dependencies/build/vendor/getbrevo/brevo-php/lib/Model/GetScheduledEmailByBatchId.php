@@ -51,7 +51,7 @@ class GetScheduledEmailByBatchId implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'batches' => '\\Brevo\\Client\\Model\\GetScheduledEmailByBatchIdBatches[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'batches' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetScheduledEmailByBatchIdBatches[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

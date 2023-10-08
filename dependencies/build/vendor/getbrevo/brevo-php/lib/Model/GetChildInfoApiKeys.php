@@ -52,7 +52,7 @@ class GetChildInfoApiKeys implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['v2' => '\\Brevo\\Client\\Model\\GetChildInfoApiKeysV2[]', 'v3' => '\\Brevo\\Client\\Model\\GetChildInfoApiKeysV3[]'];
+    protected static $swaggerTypes = ['v2' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeysV2[]', 'v3' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeysV3[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

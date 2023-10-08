@@ -51,7 +51,7 @@ class GetSmtpTemplates implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'templates' => '\\Brevo\\Client\\Model\\GetSmtpTemplateOverview[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'templates' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmtpTemplateOverview[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

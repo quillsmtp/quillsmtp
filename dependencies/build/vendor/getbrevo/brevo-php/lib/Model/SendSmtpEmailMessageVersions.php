@@ -51,7 +51,7 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo1', 'subject' => 'string'];
+    protected static $swaggerTypes = ['to' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo1', 'subject' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

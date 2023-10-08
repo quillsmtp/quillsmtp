@@ -51,7 +51,7 @@ class GetExtendedContactDetailsStatisticsClicked implements ModelInterface, Arra
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['campaignId' => 'int', 'links' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsLinks[]'];
+    protected static $swaggerTypes = ['campaignId' => 'int', 'links' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsLinks[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

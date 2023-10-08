@@ -51,7 +51,7 @@ class GetEmailEventReport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['events' => '\\Brevo\\Client\\Model\\GetEmailEventReportEvents[]'];
+    protected static $swaggerTypes = ['events' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetEmailEventReportEvents[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

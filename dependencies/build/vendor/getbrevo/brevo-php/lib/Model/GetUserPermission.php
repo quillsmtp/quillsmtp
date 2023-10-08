@@ -52,7 +52,7 @@ class GetUserPermission implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['email' => 'string', 'status' => 'string', 'privileges' => '\\Brevo\\Client\\Model\\GetUserPermissionPrivileges[]'];
+    protected static $swaggerTypes = ['email' => 'string', 'status' => 'string', 'privileges' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetUserPermissionPrivileges[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

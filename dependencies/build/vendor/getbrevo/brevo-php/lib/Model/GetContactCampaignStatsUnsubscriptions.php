@@ -51,7 +51,7 @@ class GetContactCampaignStatsUnsubscriptions implements ModelInterface, ArrayAcc
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['userUnsubscription' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsUserUnsubscription[]', 'adminUnsubscription' => '\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsAdminUnsubscription[]'];
+    protected static $swaggerTypes = ['userUnsubscription' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsUserUnsubscription[]', 'adminUnsubscription' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsAdminUnsubscription[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

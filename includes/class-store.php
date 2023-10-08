@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 class Store {
 
 	/**
-	 * Addons
+	 * Mailers
 	 *
 	 * @var array
 	 */

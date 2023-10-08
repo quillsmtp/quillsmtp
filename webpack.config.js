@@ -19,6 +19,7 @@ module.exports = {
             "@quillsmtp/connections": path.resolve(__dirname, 'src/connections'),
             "@quillsmtp/config": path.resolve(__dirname, 'src/config'),
             "@quillsmtp/mailers": path.resolve(__dirname, 'src/mailers'),
+            '@quillsmtp/store': path.resolve(__dirname, 'src/store'),
         },
     },
     module: {

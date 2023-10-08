@@ -51,7 +51,7 @@ class CreateAttribute implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['value' => 'string', 'isRecurring' => 'bool', 'enumeration' => '\\Brevo\\Client\\Model\\CreateAttributeEnumeration[]', 'type' => 'string'];
+    protected static $swaggerTypes = ['value' => 'string', 'isRecurring' => 'bool', 'enumeration' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateAttributeEnumeration[]', 'type' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

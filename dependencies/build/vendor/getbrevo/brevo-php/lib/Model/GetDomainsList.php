@@ -51,7 +51,7 @@ class GetDomainsList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['domains' => '\\Brevo\\Client\\Model\\GetDomainsListDomains[]'];
+    protected static $swaggerTypes = ['domains' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetDomainsListDomains[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

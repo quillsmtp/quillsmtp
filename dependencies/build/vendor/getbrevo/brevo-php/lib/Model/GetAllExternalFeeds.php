@@ -51,7 +51,7 @@ class GetAllExternalFeeds implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'feeds' => '\\Brevo\\Client\\Model\\GetAllExternalFeedsFeeds[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'feeds' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAllExternalFeedsFeeds[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -51,7 +51,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'createdAt' => 'string', 'updatedAt' => 'string', 'status' => 'string', 'amount' => 'float', 'products' => '\\Brevo\\Client\\Model\\OrderProducts[]', 'email' => 'string', 'billing' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\OrderBilling', 'coupons' => 'string[]'];
+    protected static $swaggerTypes = ['id' => 'string', 'createdAt' => 'string', 'updatedAt' => 'string', 'status' => 'string', 'amount' => 'float', 'products' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\OrderProducts[]', 'email' => 'string', 'billing' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\OrderBilling', 'coupons' => 'string[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

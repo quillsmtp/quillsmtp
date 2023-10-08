@@ -3,31 +3,41 @@
  */
 import { useState } from 'react';
 import { __ } from '@wordpress/i18n';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
 import type { ConnectMain } from '../../../types';
-import { useConnectContext } from '../../state/context';
-import { Account } from '../../state/types';
+import type { Account } from '@quillsmtp/store';
 import AccountAuth from '../../../shared/account-auth';
-import { useConnectionContext } from '@quillsmtp/connections';
 
 interface Props {
-	connectionId: string;
 	main: ConnectMain;
 }
 
-const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
+const AccountSelector: React.FC<Props> = ({ main }) => {
 	// context.
-	const { provider, accounts, addAccount, updateAccount, savePayload } =
-		useConnectContext();
-	const { connections, updateConnection } = useConnectionContext();
-	const connection = connections[connectionId];
-	console.log(connection);
+	const { currentConnectionId, currentMailer, connections } = useSelect(
+		(select) => {
+			return {
+				currentMailer: select('quillSMTP/core').getCurrentMailer(),
+				currentConnectionId:
+					select('quillSMTP/core').getCurrentConnectionId(),
+				connections: select('quillSMTP/core').getConnections(),
+			};
+		}
+	);
+
+	const { accounts } = currentMailer;
+	console.log(accounts, 'accounts', connections);
+
+	const { addAccount, updateAccount, updateConnection } =
+		useDispatch('quillSMTP/core');
 
 	// state.
 	const [showingAddNewAccount, setShowingAddNewAccount] = useState(false);
+	// @ts-ignore
 	const [addingNewAccount, setAddingNewAccount] = useState(false);
 
 	// if there is no accounts, show add account.
@@ -44,13 +54,9 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		if (value === 'select' || value === 'add') {
 			value = undefined;
 		}
-		updateConnection(
-			connectionId,
-			{
-				account_id: value,
-			},
-			false
-		);
+		updateConnection(currentConnectionId, {
+			account_id: value,
+		});
 	};
 
 	const onAdded = (id: string, account: Account) => {
@@ -60,17 +66,17 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		} else {
 			addAccount(id, account);
 		}
-		// save payload.
-		setTimeout(() => savePayload('accounts'));
 		// select it.
 		onChange(id);
 	};
 
 	return (
 		<div className="mailer-connect-main__account-selector">
+			<button onClick={() => addAccount('1234', { name: 'abdo' })}>
+				Test
+			</button>
 			{showingAddNewAccount && (
 				<AccountAuth
-					provider={provider}
 					data={main.accounts}
 					onAdding={setAddingNewAccount}
 					onAdded={onAdded}

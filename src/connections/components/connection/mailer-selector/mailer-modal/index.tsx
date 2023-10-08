@@ -1,9 +1,4 @@
 /**
- * WordPress Dependencies
- */
-import { Icon as IconComponent } from '@wordpress/components';
-
-/**
  * External dependencies
  */
 import Modal from '@mui/material/Modal';
@@ -17,8 +12,6 @@ import classnames from 'classnames';
 import { MailerModuleSettings } from '@quillsmtp/mailers';
 
 interface Props {
-	connectionId: string;
-	slug: string;
 	mailer: MailerModuleSettings;
 	open: boolean;
 	onClose: () => void;
@@ -37,19 +30,13 @@ const style = {
 	boxSizing: 'border-box' as 'border-box',
 };
 
-const MailerModal: React.FC<Props> = ({
-	connectionId,
-	slug,
-	mailer,
-	open,
-	onClose,
-}) => {
+const MailerModal: React.FC<Props> = ({ mailer, open, onClose }) => {
 	const { icon } = mailer;
 	const Render = () => {
 		const Component = mailer.render;
 
 		/* @ts-ignore */
-		return <Component connectionId={connectionId} slug={slug} />;
+		return <Component onClose={onClose} />;
 	};
 
 	const header = (

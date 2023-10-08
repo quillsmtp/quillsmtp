@@ -51,7 +51,7 @@ class GetSendersList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['senders' => '\\Brevo\\Client\\Model\\GetSendersListSenders[]'];
+    protected static $swaggerTypes = ['senders' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSendersListSenders[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

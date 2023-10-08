@@ -51,7 +51,7 @@ class GetAccountActivity implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['logs' => '\\Brevo\\Client\\Model\\GetAccountActivityLogs[]'];
+    protected static $swaggerTypes = ['logs' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountActivityLogs[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

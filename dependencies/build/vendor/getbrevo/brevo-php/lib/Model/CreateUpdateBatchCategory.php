@@ -51,7 +51,7 @@ class CreateUpdateBatchCategory implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['categories' => '\\Brevo\\Client\\Model\\CreateUpdateCategories[]', 'updateEnabled' => 'bool'];
+    protected static $swaggerTypes = ['categories' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateCategories[]', 'updateEnabled' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

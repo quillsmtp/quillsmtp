@@ -1,18 +1,15 @@
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
 import { ConnectMain } from '../../types';
 import AccountSelector from './account-selector';
-import { useConnectContext } from '../state/context';
 import Footer from '../footer';
-import { useConnectionContext } from '@quillsmtp/connections';
 import './style.scss';
 
 interface Props {
@@ -22,10 +19,13 @@ interface Props {
 }
 
 const Main: React.FC<Props> = ({ connectionId, main, close }) => {
-	// context.
-	const { provider, savePayload } = useConnectContext();
-	const { connections } = useConnectionContext();
-	const connection = connections[connectionId];
+	const { getConnection, provider } = useSelect((select) => {
+		return {
+			getConnection: select('quillSMTP/core').getConnection,
+			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+		};
+	});
+	const connection = getConnection(connectionId);
 
 	// dispatch notices.
 	const { createSuccessNotice, createErrorNotice } =
@@ -36,7 +36,6 @@ const Main: React.FC<Props> = ({ connectionId, main, close }) => {
 		if (!validate()) {
 			return;
 		}
-		savePayload('connections');
 		createSuccessNotice('✅ ' + __('updated successfully!', 'quillsmtp'), {
 			type: 'snackbar',
 			isDismissible: true,
@@ -55,7 +54,7 @@ const Main: React.FC<Props> = ({ connectionId, main, close }) => {
 			error(
 				sprintf(
 					__('Please select an account for %s.', 'quillsmtp'),
-					provider.label
+					provider.title
 				)
 			);
 			return false;
@@ -66,7 +65,7 @@ const Main: React.FC<Props> = ({ connectionId, main, close }) => {
 	return (
 		<div className="mailer-connect-main">
 			<div className="mailer-connect-main__wrapper">
-				<AccountSelector connectionId={connectionId} main={main} />
+				<AccountSelector main={main} />
 				<Footer
 					save={{
 						label: __('Save', 'quillforms'),

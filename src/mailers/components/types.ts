@@ -1,8 +1,3 @@
-export type Provider = {
-	slug: string;
-	label: string;
-};
-
 export type SetupFields = {
 	[key: string]: {
 		label: string;

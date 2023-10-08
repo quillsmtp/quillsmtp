@@ -52,8 +52,6 @@ export const Layout = (props) => {
 				path: `/qsmtp/v1/settings`,
 				method: 'GET',
 			}).then((res: any) => {
-				console.log(res);
-
 				setTimeout(() => {
 					setIsLoading(false);
 				}, 100);

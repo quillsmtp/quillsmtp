@@ -51,7 +51,7 @@ class GetReports implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['reports' => '\\Brevo\\Client\\Model\\GetReportsReports[]'];
+    protected static $swaggerTypes = ['reports' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetReportsReports[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

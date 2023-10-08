@@ -51,7 +51,7 @@ class SendSmtpEmail implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailSender', 'to' => '\\Brevo\\Client\\Model\\SendSmtpEmailTo[]', 'bcc' => '\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'htmlContent' => 'string', 'textContent' => 'string', 'subject' => 'string', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo', 'attachment' => '\\Brevo\\Client\\Model\\SendSmtpEmailAttachment[]', 'headers' => 'object', 'templateId' => 'int', 'params' => 'object', 'messageVersions' => '\\Brevo\\Client\\Model\\SendSmtpEmailMessageVersions[]', 'tags' => 'string[]', 'scheduledAt' => '\\DateTime', 'batchId' => 'string'];
+    protected static $swaggerTypes = ['sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailSender', 'to' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailTo[]', 'bcc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'htmlContent' => 'string', 'textContent' => 'string', 'subject' => 'string', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo', 'attachment' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailAttachment[]', 'headers' => 'object', 'templateId' => 'int', 'params' => 'object', 'messageVersions' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailMessageVersions[]', 'tags' => 'string[]', 'scheduledAt' => '\\DateTime', 'batchId' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -50,7 +50,8 @@
     "react-router-dom": "^5.2.0",
     "react-router-navigation-prompt": "^1.8.13",
     "rtlcss-webpack-plugin": "^4.0.7",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "utility-types": "^3.10.0"
   },
   "peerDependencies": {
     "react": "^16.8.5 || ^17.0.0 || ^18.0.0",

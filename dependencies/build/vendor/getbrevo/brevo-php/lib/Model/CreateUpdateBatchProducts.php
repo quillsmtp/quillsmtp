@@ -51,7 +51,7 @@ class CreateUpdateBatchProducts implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['products' => '\\Brevo\\Client\\Model\\CreateUpdateProducts[]', 'updateEnabled' => 'bool'];
+    protected static $swaggerTypes = ['products' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateProducts[]', 'updateEnabled' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

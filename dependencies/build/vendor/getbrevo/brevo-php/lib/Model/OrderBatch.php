@@ -51,7 +51,7 @@ class OrderBatch implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['orders' => '\\Brevo\\Client\\Model\\Order[]', 'notifyUrl' => 'string'];
+    protected static $swaggerTypes = ['orders' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Order[]', 'notifyUrl' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

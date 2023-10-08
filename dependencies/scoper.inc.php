@@ -41,7 +41,12 @@ return [
     // For more see: https://github.com/humbug/php-scoper#patchers
     'patchers' => [
         function (string $filePath, string $prefix, string $contents): string {
-            $relativeFilePath = str_replace( __DIR__, '', $filePath );
+            // replace '\\Brevo\\Client\\Model\\' with \\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\'
+            $contents = str_replace(
+                '\'\\\\Brevo\\\\Client\\\\Model\\\\',
+                '\'\\\\QuillSMTP\\\\Vendor\\\\Brevo\\\\Client\\\\Model\\\\',
+                $contents
+            );
 
             return $contents;
         },

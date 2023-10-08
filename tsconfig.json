@@ -32,12 +32,15 @@
 		"noImplicitAny": false,
 		"typeRoots": ["./node_modules/@types"],
 		"baseUrl": "src",
+		"skipLibCheck": true,
+		"strictNullChecks": true,
 		"types": [],
 		"paths": {
 			"@quillsmtp/navigation": ["navigation"],
 			"@quillsmtp/mailers": ["mailers"],
 			"@quillsmtp/config": ["config"],
-			"@quillsmtp/connections": ["connections/index.tsx"]
+			"@quillsmtp/connections": ["connections/index.tsx"],
+			"@quillsmtp/store": ["store/index.ts"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/*.tsx"],

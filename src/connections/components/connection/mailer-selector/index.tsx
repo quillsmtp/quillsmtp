@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 
 /**
  * External dependencies
@@ -30,6 +31,7 @@ interface Props {
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const [modalMailer, setModalMailer] = useState(null);
 	const mailerModules = getMailerModules();
+	const { setCurrentMailerProvider } = useDispatch('quillSMTP/core');
 
 	return (
 		<>
@@ -49,6 +51,10 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 									<CardActionArea
 										onClick={() => {
 											setModalMailer(key);
+											setCurrentMailerProvider({
+												slug: key,
+												title: mailer.title,
+											});
 										}}
 									>
 										<CardContent>
@@ -66,6 +72,10 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 											<Button
 												onClick={() => {
 													setModalMailer(key);
+													setCurrentMailerProvider({
+														slug: key,
+														title: mailer.title,
+													});
 												}}
 												variant="contained"
 											>
@@ -80,8 +90,6 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 			</Grid>
 			{modalMailer && (
 				<MailerModal
-					connectionId={connectionId}
-					slug={modalMailer}
 					mailer={mailerModules[modalMailer]}
 					open={modalMailer !== null}
 					onClose={() => {

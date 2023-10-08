@@ -51,7 +51,7 @@ class SubAccountsResponse implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'subAccounts' => '\\Brevo\\Client\\Model\\SubAccountsResponseSubAccounts[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'subAccounts' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SubAccountsResponseSubAccounts[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

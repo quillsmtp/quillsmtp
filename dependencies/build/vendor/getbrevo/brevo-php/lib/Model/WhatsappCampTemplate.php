@@ -51,7 +51,7 @@ class WhatsappCampTemplate implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'category' => 'string', 'language' => 'string', 'containsButton' => 'bool', 'displayHeader' => 'bool', 'headerType' => 'string', 'components' => '\\Brevo\\Client\\Model\\ComponentItems[]', 'headerVariables' => '\\Brevo\\Client\\Model\\VariablesItems[]', 'bodyVariables' => '\\Brevo\\Client\\Model\\VariablesItems[]', 'buttonType' => 'string', 'hideFooter' => 'bool'];
+    protected static $swaggerTypes = ['name' => 'string', 'category' => 'string', 'language' => 'string', 'containsButton' => 'bool', 'displayHeader' => 'bool', 'headerType' => 'string', 'components' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ComponentItems[]', 'headerVariables' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\VariablesItems[]', 'bodyVariables' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\VariablesItems[]', 'buttonType' => 'string', 'hideFooter' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

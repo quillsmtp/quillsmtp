@@ -50,7 +50,7 @@ class GetAccount extends GetExtendedClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['plan' => '\\Brevo\\Client\\Model\\GetAccountPlan[]', 'relay' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountMarketingAutomation'];
+    protected static $swaggerTypes = ['plan' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountPlan[]', 'relay' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountMarketingAutomation'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

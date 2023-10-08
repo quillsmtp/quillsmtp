@@ -7,26 +7,27 @@ import { Button } from '@wordpress/components';
  * WordPress Dependencies
  */
 import { useDispatch } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
-import { AccountsLabels, Provider } from '../../../types';
+import { AccountsLabels } from '../../../types';
 
 interface Props {
-	provider: Provider;
 	labels?: AccountsLabels;
 	onAdded: (id: string, account: { name: string }) => void;
 	Instructions?: React.FC;
 }
 
-const Oauth: React.FC<Props> = ({
-	provider,
-	labels,
-	onAdded,
-	Instructions,
-}) => {
+const Oauth: React.FC<Props> = ({ labels, onAdded, Instructions }) => {
+	const { provider } = useSelect((select) => {
+		return {
+			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+		};
+	});
+
 	// dispatch notices.
 	const { createSuccessNotice } = useDispatch('core/notices');
 
@@ -59,7 +60,10 @@ const Oauth: React.FC<Props> = ({
 	return (
 		<div className="mailer-auth-oauth">
 			<Button onClick={authorize}>
-				Authorize Your {labels?.singular ?? 'Account'}
+				{sprintf(
+					__('Authorize Your %s', 'quillsmtp'),
+					labels?.singular ?? __('Account', 'quillsmtp')
+				)}
 			</Button>
 			{Instructions && (
 				<div className="mailer-auth-instructions">

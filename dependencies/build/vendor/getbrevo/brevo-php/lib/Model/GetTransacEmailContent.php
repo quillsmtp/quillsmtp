@@ -51,7 +51,7 @@ class GetTransacEmailContent implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['email' => 'string', 'subject' => 'string', 'templateId' => 'int', 'date' => 'string', 'events' => '\\Brevo\\Client\\Model\\GetTransacEmailContentEvents[]', 'body' => 'string', 'attachmentCount' => 'int'];
+    protected static $swaggerTypes = ['email' => 'string', 'subject' => 'string', 'templateId' => 'int', 'date' => 'string', 'events' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetTransacEmailContentEvents[]', 'body' => 'string', 'attachmentCount' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

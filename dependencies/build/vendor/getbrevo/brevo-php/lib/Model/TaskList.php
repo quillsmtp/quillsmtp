@@ -52,7 +52,7 @@ class TaskList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['items' => '\\Brevo\\Client\\Model\\Task[]'];
+    protected static $swaggerTypes = ['items' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Task[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

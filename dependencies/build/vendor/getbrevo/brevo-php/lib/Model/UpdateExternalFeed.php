@@ -51,7 +51,7 @@ class UpdateExternalFeed implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\\Brevo\\Client\\Model\\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool'];
+    protected static $swaggerTypes = ['name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

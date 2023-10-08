@@ -2,11 +2,11 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
-import { useConnectContext } from '../state/context';
 import { default as GenericSetup } from '../../shared/setup';
 import Footer from '../footer';
 import type { Setup as SetupType } from '../../types';
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Setup: React.FC<Props> = ({ setup, close }) => {
-	const { provider, setupApp, savePayload } = useConnectContext();
+	const { setupApp } = useDispatch('quillSMTP/core');
 
 	const SetupControls: React.FC<{ submit: () => void }> = ({ submit }) => {
 		return (
@@ -34,13 +34,11 @@ const Setup: React.FC<Props> = ({ setup, close }) => {
 	};
 	return (
 		<GenericSetup
-			provider={provider}
 			Instructions={setup.Instructions}
 			fields={setup.fields}
 			Controls={SetupControls}
 			onFinish={(app) => {
 				setupApp(app);
-				setTimeout(() => savePayload('app'));
 			}}
 		/>
 	);

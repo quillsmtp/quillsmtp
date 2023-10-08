@@ -51,7 +51,7 @@ class GetExternalFeedByUUID implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\\Brevo\\Client\\Model\\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool', 'createdAt' => '\\DateTime', 'modifiedAt' => '\\DateTime'];
+    protected static $swaggerTypes = ['id' => 'string', 'name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool', 'createdAt' => '\\DateTime', 'modifiedAt' => '\\DateTime'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

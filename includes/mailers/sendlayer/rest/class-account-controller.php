@@ -10,7 +10,7 @@
 namespace QuillSMTP\Mailers\SendLayer\REST;
 
 use Exception;
-use QuillForms\Addon\Provider\REST\Account_Controller as Abstract_Account_Controller;
+use QuillSMTP\Mailer\Provider\REST\Account_Controller as Abstract_Account_Controller;
 use WP_Error;
 use WP_REST_Request;
 

@@ -51,7 +51,7 @@ class GetTransacBlockedContacts implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['count' => 'int', 'contacts' => '\\Brevo\\Client\\Model\\GetTransacBlockedContactsContacts[]'];
+    protected static $swaggerTypes = ['count' => 'int', 'contacts' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetTransacBlockedContactsContacts[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

@@ -51,7 +51,7 @@ class GetIpsFromSender implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['ips' => '\\Brevo\\Client\\Model\\GetIpFromSender[]'];
+    protected static $swaggerTypes = ['ips' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetIpFromSender[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

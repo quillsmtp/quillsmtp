@@ -141,3 +141,4 @@ if (window.qsmtp === undefined) {
 
 // @ts-ignore
 export default window.qsmtp.config as ConfigApi;
+export * from './types/initial-payload';

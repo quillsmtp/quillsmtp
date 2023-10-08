@@ -51,7 +51,7 @@ class GetInboundEmailEventsByUuid implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['receivedAt' => '\\DateTime', 'deliveredAt' => '\\DateTime', 'recipient' => 'string', 'sender' => 'string', 'messageId' => 'string', 'subject' => 'string', 'attachments' => '\\Brevo\\Client\\Model\\GetInboundEmailEventsByUuidAttachments[]', 'logs' => '\\Brevo\\Client\\Model\\GetInboundEmailEventsByUuidLogs[]'];
+    protected static $swaggerTypes = ['receivedAt' => '\\DateTime', 'deliveredAt' => '\\DateTime', 'recipient' => 'string', 'sender' => 'string', 'messageId' => 'string', 'subject' => 'string', 'attachments' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetInboundEmailEventsByUuidAttachments[]', 'logs' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetInboundEmailEventsByUuidLogs[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

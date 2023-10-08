@@ -52,7 +52,7 @@ class CompaniesList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['items' => '\\Brevo\\Client\\Model\\Company[]'];
+    protected static $swaggerTypes = ['items' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Company[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

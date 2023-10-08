@@ -52,7 +52,7 @@ class DealsList implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['items' => '\\Brevo\\Client\\Model\\Deal[]'];
+    protected static $swaggerTypes = ['items' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Deal[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *

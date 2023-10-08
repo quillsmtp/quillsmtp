@@ -67,21 +67,22 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-		$api_key = $request->get_param( 'api_key' );
-
+		$credentials = $request->get_param( 'credentials' );
+		$api_key     = $credentials['api_key'] ?? '';
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'quillsmtp_sendinblue_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
 		}
 
 		$config       = Configuration::getDefaultConfiguration()->setApiKey( 'api-key', $api_key );
-		$api_instance = new AccountApi( GuzzleClient(), $config );
+		$api_instance = new AccountApi( new GuzzleClient(), $config );
 
 		try {
 			$result = $api_instance->getAccount();
-			error_log( wp_json_encode( $result ) );
+
+			// For test return error
 			return [
-				// 'id'   => $result->getId(),
-				// 'name' => $result->getName(),
+				'id'   => $result->getEmail(),
+				'name' => $result->getFirstName() . ' ' . $result->getLastName(),
 			];
 		} catch ( \Exception $e ) {
 			return new WP_Error( 'quillsmtp_sendinblue_api_key_invalid', __( 'API key is invalid.', 'quillsmtp' ) );
