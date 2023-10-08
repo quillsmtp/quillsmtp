@@ -13,7 +13,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import type { SetupFields } from '../../types';
+import type { SetupFields } from '../types';
 import './style.scss';
 
 interface Props {

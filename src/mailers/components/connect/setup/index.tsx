@@ -7,7 +7,7 @@ import { useDispatch } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import { default as GenericSetup } from '../../shared/setup';
+import { default as GenericSetup } from '../account-setup';
 import Footer from '../footer';
 import type { Setup as SetupType } from '../../types';
 import './style.scss';

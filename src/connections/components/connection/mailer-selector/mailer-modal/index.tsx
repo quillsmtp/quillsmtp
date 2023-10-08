@@ -12,6 +12,7 @@ import classnames from 'classnames';
 import { MailerModuleSettings } from '@quillsmtp/mailers';
 
 interface Props {
+	connectionId: string;
 	mailer: MailerModuleSettings;
 	open: boolean;
 	onClose: () => void;
@@ -30,13 +31,18 @@ const style = {
 	boxSizing: 'border-box' as 'border-box',
 };
 
-const MailerModal: React.FC<Props> = ({ mailer, open, onClose }) => {
+const MailerModal: React.FC<Props> = ({
+	connectionId,
+	mailer,
+	open,
+	onClose,
+}) => {
 	const { icon } = mailer;
 	const Render = () => {
 		const Component = mailer.render;
 
 		/* @ts-ignore */
-		return <Component onClose={onClose} />;
+		return <Component connectionId={connectionId} onClose={onClose} />;
 	};
 
 	const header = (

@@ -17,7 +17,6 @@ import {
 	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
-	SET_CURRENT_CONNECTION_ID,
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
@@ -26,7 +25,6 @@ import {
 export type CorePureState = {
 	currentMailerProvider: MailerProvider;
 	currentMailer: Mailer;
-	currentConnectionId: string;
 	connections: Connections;
 	mailers: Mailers;
 };
@@ -48,11 +46,6 @@ export type Mailer = {
 interface setCurrentMailerProviderAction {
 	type: typeof SET_CURRENT_MAILER_PROVIDER;
 	mailer: MailerProvider;
-}
-
-interface setCurrentConnectionAction {
-	type: typeof SET_CURRENT_CONNECTION_ID;
-	connectionId: string;
 }
 
 interface setupStoreAction {
@@ -130,7 +123,6 @@ type updateAccount = {
 export type CoreActionTypes =
 	| setupStoreAction
 	| setCurrentMailerProviderAction
-	| setCurrentConnectionAction
 	| addConnection
 	| updateConnection
 	| deleteConnection

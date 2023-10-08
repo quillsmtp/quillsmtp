@@ -12,7 +12,6 @@ import {
 	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
-	SET_CURRENT_CONNECTION_ID,
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
@@ -57,18 +56,6 @@ export const setCurrentMailerProvider = (
 ): CoreActionTypes => ({
 	type: SET_CURRENT_MAILER_PROVIDER,
 	mailer,
-});
-
-/**
- * Set Current Connection Action.
- * @param {string} connectionId Connection ID.
- * @returns {CoreActionTypes} Set Current Connection Action.
- */
-export const setCurrentConnectionId = (
-	connectionId: string
-): CoreActionTypes => ({
-	type: SET_CURRENT_CONNECTION_ID,
-	connectionId,
 });
 
 /**

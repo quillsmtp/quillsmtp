@@ -38,14 +38,3 @@ export type ConnectMainAccounts = {
 export type ConnectMain = {
 	accounts: ConnectMainAccounts;
 };
-
-export type SettingsMainAccounts = {
-	auth: AccountsAuth;
-	labels?: AccountsLabels;
-	actions?: React.FC<{ accountId: string }>[];
-};
-
-export type SettingsMain = {
-	accounts: SettingsMainAccounts;
-	helpers?: React.FC[];
-};

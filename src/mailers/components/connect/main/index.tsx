@@ -19,12 +19,15 @@ interface Props {
 }
 
 const Main: React.FC<Props> = ({ connectionId, main, close }) => {
-	const { getConnection, provider } = useSelect((select) => {
-		return {
-			getConnection: select('quillSMTP/core').getConnection,
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
-		};
-	});
+	const { getConnection, provider } = useSelect(
+		(select) => {
+			return {
+				getConnection: select('quillSMTP/core').getConnection,
+				provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			};
+		},
+		[connectionId]
+	);
 	const connection = getConnection(connectionId);
 
 	// dispatch notices.
@@ -65,7 +68,7 @@ const Main: React.FC<Props> = ({ connectionId, main, close }) => {
 	return (
 		<div className="mailer-connect-main">
 			<div className="mailer-connect-main__wrapper">
-				<AccountSelector main={main} />
+				<AccountSelector connectionId={connectionId} main={main} />
 				<Footer
 					save={{
 						label: __('Save', 'quillforms'),

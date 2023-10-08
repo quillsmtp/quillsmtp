@@ -10,27 +10,23 @@ import { useSelect, useDispatch } from '@wordpress/data';
  */
 import type { ConnectMain } from '../../../types';
 import type { Account } from '@quillsmtp/store';
-import AccountAuth from '../../../shared/account-auth';
+import AccountAuth from '../../account-setup/account-auth';
 
 interface Props {
+	connectionId: string;
 	main: ConnectMain;
 }
 
-const AccountSelector: React.FC<Props> = ({ main }) => {
+const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { currentConnectionId, currentMailer, connections } = useSelect(
-		(select) => {
-			return {
-				currentMailer: select('quillSMTP/core').getCurrentMailer(),
-				currentConnectionId:
-					select('quillSMTP/core').getCurrentConnectionId(),
-				connections: select('quillSMTP/core').getConnections(),
-			};
-		}
-	);
+	const { currentMailer } = useSelect((select) => {
+		return {
+			currentMailer: select('quillSMTP/core').getCurrentMailer(),
+		};
+	});
 
 	const { accounts } = currentMailer;
-	console.log(accounts, 'accounts', connections);
+	console.log(accounts, 'accounts');
 
 	const { addAccount, updateAccount, updateConnection } =
 		useDispatch('quillSMTP/core');
@@ -54,7 +50,7 @@ const AccountSelector: React.FC<Props> = ({ main }) => {
 		if (value === 'select' || value === 'add') {
 			value = undefined;
 		}
-		updateConnection(currentConnectionId, {
+		updateConnection(connectionId, {
 			account_id: value,
 		});
 	};

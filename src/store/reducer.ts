@@ -14,7 +14,6 @@ import {
 	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
-	SET_CURRENT_CONNECTION_ID,
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
@@ -31,7 +30,6 @@ const initialState: CorePureState = {
 		accounts: {},
 		app: {},
 	},
-	currentConnectionId: 'default',
 	connections: {},
 	mailers: {},
 };
@@ -119,13 +117,6 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 						},
 					},
 				},
-			};
-		}
-		case SET_CURRENT_CONNECTION_ID: {
-			const { connectionId } = action;
-			return {
-				...state,
-				currentConnection: connectionId,
 			};
 		}
 		case ADD_CONNECTION: {

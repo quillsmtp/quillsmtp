@@ -18,10 +18,6 @@ const ConnectPage: React.FC<Props> = ({ connectionId, onClose }) => {
 		<div className="qsmtp-connect-page">
 			<Connect
 				connectionId={connectionId}
-				provider={{
-					slug: 'sendinblue',
-					label: __('Sendinblue', 'quillsmtp'),
-				}}
 				main={{
 					accounts: {
 						auth: {
