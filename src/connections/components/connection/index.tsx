@@ -3,6 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
+import { useState } from '@wordpress/element';
 
 /**
  * External Dependencies
@@ -25,6 +27,7 @@ interface Props {
 }
 
 const Options: React.FC<Props> = ({ connectionId }) => {
+	const [isSaving, setIsSaving] = useState(false);
 	const { connections } = useSelect((select) => {
 		return {
 			connections: select('quillSMTP/core').getConnections(),
@@ -33,14 +36,46 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 	const { updateConnection } = useDispatch('quillSMTP/core');
 	const connection = connections[connectionId];
 	if (!connection) return null;
-	const {
-		from_email,
-		force_from_email,
-		from_name,
-		force_from_name,
-		mailer,
-		account_id,
-	} = connection;
+	const { from_email, force_from_email, from_name, force_from_name } =
+		connection;
+	// dispatch notices.
+	const { createSuccessNotice, createErrorNotice } =
+		useDispatch('core/notices');
+
+	const save = () => {
+		setIsSaving(true);
+		apiFetch({
+			path: `/qsmtp/v1/settings`,
+			method: 'POST',
+			data: {
+				connections,
+			},
+		}).then((res: any) => {
+			if (res.success) {
+				createSuccessNotice(
+					('✅ ' +
+						__(
+							'Settings saved successfully.',
+							'quillsmtp'
+						)) as string,
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+			} else {
+				createErrorNotice(
+					('❌ ' +
+						__('Error saving settings.', 'quillsmtp')) as string,
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+			}
+			setIsSaving(false);
+		});
+	};
 
 	return (
 		<div className="qsmtp-connection-options">
@@ -130,6 +165,15 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 				</FormControl>
 				<MailersSelector connectionId={connectionId} />
 			</Box>
+			<LoadingButton
+				variant="contained"
+				onClick={save}
+				loading={isSaving}
+				loadingPosition="start"
+				startIcon={<SaveIcon />}
+			>
+				{__('Save', 'quillsmtp')}
+			</LoadingButton>
 		</div>
 	);
 };

@@ -38,6 +38,7 @@ class Provider extends Mailer {
 	protected static $classes = array(
 		// + classes from parent.
 		// 'accounts'             => Accounts::class,
+		// 'process'              => Process::class,
 	);
 
 	protected function init() {

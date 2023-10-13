@@ -8,6 +8,11 @@ import { useSelect, useDispatch } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
+import { size, map } from 'lodash';
+
+/**
+ * Internal Dependencies
+ */
 import type { ConnectMain } from '../../../types';
 import type { Account } from '@quillsmtp/store';
 import AccountAuth from '../../account-setup/account-auth';
@@ -19,21 +24,22 @@ interface Props {
 
 const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { currentMailer } = useSelect((select) => {
+	const { currentMailer, getConnection } = useSelect((select) => {
 		return {
 			currentMailer: select('quillSMTP/core').getCurrentMailer(),
+			getConnection: select('quillSMTP/core').getConnection,
 		};
 	});
 
+	// dispatch.
+	const connection = getConnection(connectionId);
 	const { accounts } = currentMailer;
-	console.log(accounts, 'accounts');
-
 	const { addAccount, updateAccount, updateConnection } =
 		useDispatch('quillSMTP/core');
 
 	// state.
 	const [showingAddNewAccount, setShowingAddNewAccount] = useState(false);
-	// @ts-ignore
+
 	const [addingNewAccount, setAddingNewAccount] = useState(false);
 
 	// if there is no accounts, show add account.
@@ -65,12 +71,31 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		// select it.
 		onChange(id);
 	};
+	console.log(connection);
 
 	return (
 		<div className="mailer-connect-main__account-selector">
-			<button onClick={() => addAccount('1234', { name: 'abdo' })}>
-				Test
-			</button>
+			{addingNewAccount && 'Adding new account. Please wait a moment...'}
+			{size(accounts) > 0 && (
+				<select
+					value={connection.account_id}
+					onChange={(e) => onChange(e.target.value)}
+				>
+					<option value="select">
+						{__('Select an account', 'quillsmtp')}
+					</option>
+					{map(accounts, (account, id) => (
+						<option
+							key={id}
+							value={id}
+							selected={id === connection.account_id}
+						>
+							{account.name}
+						</option>
+					))}
+					<option value="add">{__('Add new', 'quillsmtp')}</option>
+				</select>
+			)}
 			{showingAddNewAccount && (
 				<AccountAuth
 					data={main.accounts}

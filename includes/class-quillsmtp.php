@@ -15,6 +15,7 @@ use QuillSMTP\Admin\Admin;
 use QuillSMTP\Admin\Admin_Loader;
 use QuillSMTP\REST_API\REST_API;
 use QuillSMTP\Mailers\Mailers;
+use QuillSMTP\PHPMailer\PHPMailer;
 
 /**
  * QuillSMTP Main Class.
@@ -57,6 +58,32 @@ final class QuillSMTP {
 	 */
 	private function __construct() {
 		$this->init_objects();
+
+		// Replace the default PHPMailer class with our own.
+		add_action( 'plugins_loaded', array( $this, 'replace_phpmailer' ) );
+	}
+
+	/**
+	 * Replace the default PHPMailer class with our own.
+	 *
+	 * @since 1.0.0
+	 */
+	public function replace_phpmailer() {
+		global $phpmailer;
+
+		if ( ! class_exists( '\PHPMailer\PHPMailer\PHPMailer', false ) ) {
+				require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
+		}
+
+		if ( ! class_exists( '\PHPMailer\PHPMailer\Exception', false ) ) {
+			require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
+		}
+
+		if ( ! class_exists( '\PHPMailer\PHPMailer\SMTP', false ) ) {
+			require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
+		}
+
+		$phpmailer = new PHPMailer();
 	}
 
 	/**

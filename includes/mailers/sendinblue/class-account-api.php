@@ -11,6 +11,8 @@ namespace QuillSMTP\Mailers\SendInBlue;
 
 defined( 'ABSPATH' ) || exit;
 
+use QuillSMTP\Vendor\Brevo\Client\Configuration;
+
 /**
  * Account_API class.
  *
@@ -43,5 +45,16 @@ class Account_API {
 	public function __construct( $api_key, $sending_domain ) {
 		$this->api_key        = $api_key;
 		$this->sending_domain = $sending_domain;
+	}
+
+	/**
+	 * Get Brevo client
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return \QuillSMTP\Vendor\Brevo\Client\Api\AccountApi
+	 */
+	protected function get_client() {
+		return Configuration::getDefaultConfiguration()->setApiKey( 'api-key', $this->api_key );
 	}
 }

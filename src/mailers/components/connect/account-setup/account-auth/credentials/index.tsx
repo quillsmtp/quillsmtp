@@ -15,7 +15,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import { AccountsAuthFields, AccountsLabels } from '../../../types';
+import { AccountsAuthFields, AccountsLabels } from '../../../../types';
 import './style.scss';
 
 interface Props {
@@ -55,47 +55,46 @@ const Credentials: React.FC<Props> = ({
 	const submit = () => {
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
-		onAdded('123', { name: 'Abdo' });
-		// apiFetch({
-		// 	path: `/qsmtp/v1/mailers/${provider.slug}/accounts`,
-		// 	method: 'POST',
-		// 	data: {
-		// 		credentials: inputs,
-		// 	},
-		// })
-		// 	.then((res: any) => {
-		// 		createSuccessNotice(
-		// 			'✅ ' +
-		// 				(labels?.singular ?? __('Account', 'quillsmtp')) +
-		// 				' ' +
-		// 				__('added successfully!', 'quillsmtp'),
-		// 			{
-		// 				type: 'snackbar',
-		// 				isDismissible: true,
-		// 			}
-		// 		);
-		// 		onAdded(res.id, { name: res.name });
-		// 		setInputs({});
-		// 	})
-		// 	.catch((err) => {
-		// 		createErrorNotice(
-		// 			'⛔ ' +
-		// 				(err.message ??
-		// 					__('Error in adding the ', 'quillsmtp') +
-		// 						(
-		// 							labels?.singular ??
-		// 							__('Account', 'quillsmtp')
-		// 						).toLowerCase()),
-		// 			{
-		// 				type: 'snackbar',
-		// 				isDismissible: true,
-		// 			}
-		// 		);
-		// 	})
-		// 	.finally(() => {
-		// 		setSubmitting(false);
-		// 		if (onAdding) onAdding(false);
-		// 	});
+		apiFetch({
+			path: `/qsmtp/v1/mailers/${provider.slug}/accounts`,
+			method: 'POST',
+			data: {
+				credentials: inputs,
+			},
+		})
+			.then((res: any) => {
+				createSuccessNotice(
+					'✅ ' +
+						(labels?.singular ?? __('Account', 'quillsmtp')) +
+						' ' +
+						__('added successfully!', 'quillsmtp'),
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+				onAdded(res.id, { name: res.name });
+				setInputs({});
+			})
+			.catch((err) => {
+				createErrorNotice(
+					'⛔ ' +
+						(err.message ??
+							__('Error in adding the ', 'quillsmtp') +
+								(
+									labels?.singular ??
+									__('Account', 'quillsmtp')
+								).toLowerCase()),
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+			})
+			.finally(() => {
+				setSubmitting(false);
+				if (onAdding) onAdding(false);
+			});
 	};
 
 	let inputsFilled = true;
