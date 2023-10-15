@@ -12,6 +12,9 @@ namespace QuillSMTP\PHPMailer;
 
 defined( 'ABSPATH' ) || exit;
 
+use QuillSMTP\Settings;
+use QuillSMTP\Mailers\Mailers;
+
 /**
  * PHPMailer class.
  * Override the default PHPMailer class to catch emails.
@@ -28,13 +31,11 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 * @return bool
 	 */
 	public function send() {
-		$result = parent::send();
-		error_log( 'PHPMailer send() called' );
-		if ( $result ) {
-			do_action( 'quillsmtp_email_sent', $this );
-		} else {
-			do_action( 'quillsmtp_email_failed', $this );
-		}
+		$connections = Settings::get( 'connections' );
+		$connection  = $connections['default'];
+		$mailer      = Mailers::get_mailer( $connection['mailer'] );
+		$mailer->process( $this, $connection )->send();
+		$result = null;
 
 		return $result;
 	}

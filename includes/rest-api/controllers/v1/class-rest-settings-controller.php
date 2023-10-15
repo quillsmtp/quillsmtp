@@ -110,7 +110,7 @@ class REST_Settings_Controller extends REST_Controller {
 						'force_from_email' => false,
 						'from_name'        => '',
 						'force_from_name'  => false,
-						'mailer_slug'      => '',
+						'mailer'           => '',
 						'account_id'       => '',
 					),
 				),

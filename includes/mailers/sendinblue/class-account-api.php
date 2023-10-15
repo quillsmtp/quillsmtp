@@ -12,6 +12,8 @@ namespace QuillSMTP\Mailers\SendInBlue;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Vendor\Brevo\Client\Configuration;
+use QuillSMTP\Vendor\GuzzleHttp\Client as GuzzleClient;
+use QuillSMTP\Vendor\Brevo\Client\Api\TransactionalEmailsApi;
 
 /**
  * Account_API class.
@@ -48,13 +50,16 @@ class Account_API {
 	}
 
 	/**
-	 * Get Brevo client
+	 * Get Brevo api_instance
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return \QuillSMTP\Vendor\Brevo\Client\Api\AccountApi
+	 * @return TransactionalEmailsApi
 	 */
-	protected function get_client() {
-		return Configuration::getDefaultConfiguration()->setApiKey( 'api-key', $this->api_key );
+	public function get_api_instance() {
+		$config       = Configuration::getDefaultConfiguration()->setApiKey( 'api-key', $this->api_key );
+		$api_instance = new TransactionalEmailsApi( new GuzzleClient(), $config );
+
+		return $api_instance;
 	}
 }

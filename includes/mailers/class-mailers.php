@@ -61,7 +61,46 @@ final class Mailers {
 	 * @since 1.0.0
 	 */
 	private function load_mailers() {
-		SendLayer::instance();
-		SendInBlue::instance();
+		$mailers = self::get_mailers();
+
+		foreach ( $mailers as $key => $mailer ) {
+			$mailer::instance();
+		}
+	}
+
+	/**
+	 * Get mailer provider.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return \QuillSMTP\Mailer\Mailer[]
+	 */
+	public static function get_mailers() {
+		$mailers = [
+			'sendinblue' => SendInBlue::class,
+			'sendlayer'  => SendLayer::class,
+		];
+
+		return apply_filters( 'quillsmtp_mailers', $mailers );
+	}
+
+	/**
+	 * Get mailer provider.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 *
+	 * @return \QuillSMTP\Mailer\Provider\Provider
+	 */
+	public static function get_mailer( $key ) {
+		$mailers = self::get_mailers();
+
+		if ( isset( $mailers[ $key ] ) ) {
+			$mailer = $mailers[ $key ];
+			return $mailer::instance();
+		}
+
+		return false;
 	}
 }

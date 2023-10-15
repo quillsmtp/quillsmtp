@@ -48,4 +48,20 @@ class Provider extends Mailer {
 			$this->accounts = new static::$classes['accounts']( $this );
 		}
 	}
+
+	/**
+	 * Process.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \PHPMailer\PHPMailer\PHPMailer $phpmailer PHPMailer.
+	 * @param array                          $connection Connection.
+	 *
+	 * @return Process
+	 */
+	public function process( $phpmailer, $connection ) {
+		$class = static::$classes['process'];
+
+		return new $class( $this, $phpmailer, $connection );
+	}
 }

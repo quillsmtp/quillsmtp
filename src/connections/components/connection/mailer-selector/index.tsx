@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { useDispatch } from '@wordpress/data';
+import { select, useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * External dependencies
@@ -31,7 +31,12 @@ interface Props {
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const [modalMailer, setModalMailer] = useState(null);
 	const mailerModules = getMailerModules();
-	const { setCurrentMailerProvider } = useDispatch('quillSMTP/core');
+	const { getConnection } = useSelect((select) => ({
+		getConnection: select('quillSMTP/core').getConnection,
+	}));
+	const connection = getConnection(connectionId);
+	const { setCurrentMailerProvider, updateConnection } =
+		useDispatch('quillSMTP/core');
 
 	return (
 		<>
@@ -45,11 +50,14 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 									className={classnames({
 										'qsmtp-mailer-selector__card': true,
 										'qsmtp-mailer-selector__card--active':
-											modalMailer === key,
+											connection.mailer === key,
 									})}
 								>
 									<CardActionArea
 										onClick={() => {
+											updateConnection(connectionId, {
+												mailer: key,
+											});
 											setModalMailer(key);
 											setCurrentMailerProvider({
 												slug: key,
