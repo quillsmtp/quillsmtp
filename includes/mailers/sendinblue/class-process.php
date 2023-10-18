@@ -148,15 +148,6 @@ class Process extends Abstract_Process {
 	}
 
 	/**
-	 * Doesn't support this.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $email
-	 */
-	public function set_return_path( $email ) {}
-
-	/**
 	 * Set the Reply To headers if not set already.
 	 *
 	 * @since 1.0.0
@@ -260,7 +251,6 @@ class Process extends Abstract_Process {
 				return new \WP_Error( 'quillsmtp_sendinblue_error', $result->getMessage() );
 			}
 		} catch ( Exception $e ) {
-			error_log( $e->getMessage() );
 			return new \WP_Error( 'quillsmtp_sendinblue_error', $e->getMessage() );
 		}
 	}

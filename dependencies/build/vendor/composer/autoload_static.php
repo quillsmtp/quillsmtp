@@ -17,6 +17,7 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         array (
             'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => 34,
             'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => 33,
+            'QuillSMTP\\Vendor\\Postmark\\' => 26,
             'QuillSMTP\\Vendor\\GuzzleHttp\\Psr7\\' => 33,
             'QuillSMTP\\Vendor\\GuzzleHttp\\Promise\\' => 36,
             'QuillSMTP\\Vendor\\GuzzleHttp\\' => 28,
@@ -33,6 +34,10 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'QuillSMTP\\Vendor\\Postmark\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark',
         ),
         'QuillSMTP\\Vendor\\GuzzleHttp\\Psr7\\' => 
         array (
@@ -506,6 +511,22 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         'QuillSMTP\\Vendor\\GuzzleHttp\\RetryMiddleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RetryMiddleware.php',
         'QuillSMTP\\Vendor\\GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
         'QuillSMTP\\Vendor\\GuzzleHttp\\Utils' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Utils.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\CaseInsensitiveArray' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/CaseInsensitiveArray.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\DynamicResponseModel' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/DynamicResponseModel.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\PostmarkAttachment' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/PostmarkAttachment.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\PostmarkException' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/PostmarkException.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Suppressions\\SuppressionChangeRequest' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Suppressions/SuppressionChangeRequest.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\HttpAuth' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/HttpAuth.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationBounceTrigger' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationBounceTrigger.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationClickTrigger' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationClickTrigger.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationDeliveryTrigger' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationDeliveryTrigger.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationOpenTrigger' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationOpenTrigger.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationSpamComplaintTrigger' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationSpamComplaintTrigger.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationSubscriptionChange' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationSubscriptionChange.php',
+        'QuillSMTP\\Vendor\\Postmark\\Models\\Webhooks\\WebhookConfigurationTriggers' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/Models/Webhooks/WebhookConfigurationTriggers.php',
+        'QuillSMTP\\Vendor\\Postmark\\PostmarkAdminClient' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/PostmarkAdminClient.php',
+        'QuillSMTP\\Vendor\\Postmark\\PostmarkClient' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/PostmarkClient.php',
+        'QuillSMTP\\Vendor\\Postmark\\PostmarkClientBase' => __DIR__ . '/..' . '/wildbit/postmark-php/src/Postmark/PostmarkClientBase.php',
         'QuillSMTP\\Vendor\\Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
         'QuillSMTP\\Vendor\\Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
         'QuillSMTP\\Vendor\\Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',

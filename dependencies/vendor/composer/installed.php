@@ -118,5 +118,14 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'wildbit/postmark-php' => array(
+            'pretty_version' => 'v4.0.5',
+            'version' => '4.0.5.0',
+            'reference' => 'b71efba061de7cf7e1f853d211b1c5edce4e3c5b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../wildbit/postmark-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
 );

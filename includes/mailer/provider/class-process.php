@@ -115,7 +115,7 @@ abstract class Process {
 	 */
 	public function set_phpmailer() {
 		$this->set_headers( $this->phpmailer->getCustomHeaders() );
-		$this->set_from( $this->phpmailer->From, $this->phpmailer->FromName );
+		$this->set_from( $this->get_from_email(), $this->get_from_name() );
 		$this->set_recipients(
 			array(
 				'to'  => $this->phpmailer->getToAddresses(),
@@ -267,5 +267,31 @@ abstract class Process {
 	public function get_headers() {
 
 		return apply_filters( 'quillsmtp_mailer_get_headers', $this->headers, $this->provider );
+	}
+
+	/**
+	 * Get From email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_from_email() {
+		$from_email = isset( $this->connection['from_email'] ) ? $this->connection['from_email'] : $this->phpmailer->From;
+
+		return apply_filters( 'quillsmtp_mailer_get_from_email', $from_email, $this->provider );
+	}
+
+	/**
+	 * Get From name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_from_name() {
+		$from_name = isset( $this->connection['from_name'] ) ? $this->connection['from_name'] : $this->phpmailer->FromName;
+
+		return apply_filters( 'quillsmtp_mailer_get_from_name', $from_name, $this->provider );
 	}
 }

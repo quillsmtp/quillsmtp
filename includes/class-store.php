@@ -109,6 +109,13 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendinblue/icon.png',
 				),
 			),
+			'postmark'   => array(
+				'name'        => __( 'Postmark', 'quillsmtp' ),
+				'description' => __( 'Send emails using Postmark SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/postmark/icon.png',
+				),
+			),
 			// 'pepipost'   => array(
 			// 'name'        => __( 'Pepipost', 'quillsmtp' ),
 			// 'description' => __( 'Send emails using Pepipost SMTP', 'quillsmtp' ),

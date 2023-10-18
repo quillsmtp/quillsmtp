@@ -58,6 +58,16 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Postmark\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/wildbit/postmark-php/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -67,6 +77,7 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21::$classMap;
 
         }, null, ClassLoader::class);

@@ -12,6 +12,7 @@ namespace QuillSMTP\Mailers;
 
 use QuillSMTP\Mailers\SendLayer\SendLayer;
 use QuillSMTP\Mailers\SendInBlue\SendInBlue;
+use QuillSMTP\Mailers\PostMark\PostMark;
 
 /**
  * Mailers Class.
@@ -79,6 +80,7 @@ final class Mailers {
 		$mailers = [
 			'sendinblue' => SendInBlue::class,
 			'sendlayer'  => SendLayer::class,
+			'postmark'   => PostMark::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );

@@ -85,20 +85,6 @@ export const getMailerAccount = (
 };
 
 /**
- * Returns the current connection.
- *
- * @param {State} state State.
- *
- * @return {Connection} Current connection.
- */
-export const getCurrentConnection = (state: State): Connection => {
-	const connections = state.connections;
-	const currentConnection = state.currentConnectionId;
-
-	return connections[currentConnection];
-};
-
-/**
  * Returns the current mailer slug.
  *
  * @param {State} state State.
@@ -121,15 +107,4 @@ export const getCurrentMailer = (state: State): Mailer => {
 	const currentMailer = state.currentMailerProvider.slug;
 
 	return mailers[currentMailer];
-};
-
-/**
- * Returns the current connection ID.
- *
- * @param {State} state State.
- *
- * @return {string} Current connection ID.
- */
-export const getCurrentConnectionId = (state: State): string => {
-	return state.currentConnectionId;
 };
