@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import type { ConnectMainAccounts } from '../../types';
+import type { ConnectMainAccounts } from '../../../types';
 import Credentials from './credentials';
 import Oauth from './oauth';
 

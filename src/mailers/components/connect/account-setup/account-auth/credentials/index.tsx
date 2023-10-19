@@ -2,7 +2,8 @@
  * External Dependencies
  */
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { LoadingButton } from '@mui/lab';
+import AddIcon from '@mui/icons-material/Add';
 
 /**
  * WordPress Dependencies
@@ -121,13 +122,16 @@ const Credentials: React.FC<Props> = ({
 					sx={{ mb: 2 }}
 				/>
 			))}
-			<Button
-				onClick={submit}
+			<LoadingButton
 				variant="contained"
+				color="primary"
+				startIcon={<AddIcon />}
+				loading={submitting}
 				disabled={!inputsFilled || submitting}
+				onClick={submit}
 			>
 				{__('Add', 'quillsmtp')}
-			</Button>
+			</LoadingButton>
 			{Instructions && (
 				<div className="mailer-auth-instructions">
 					<Instructions />

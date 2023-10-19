@@ -17,6 +17,7 @@ import {
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
+	DELETE_MAILER_ACCOUNT,
 } from './constants';
 import { CorePureState, CoreActionTypes } from './types';
 
@@ -115,6 +116,28 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 							...accounts,
 							[id]: updatedAccount,
 						},
+					},
+				},
+			};
+		}
+		case DELETE_MAILER_ACCOUNT: {
+			const { id } = action;
+			const { mailers, currentMailerProvider } = state;
+			const { accounts } = mailers[currentMailerProvider.slug];
+			const updatedAccounts = cloneDeep(accounts);
+			// @ts-ignore.
+			forEach(updatedAccounts, (account, accountId) => {
+				if (accountId === id) {
+					delete updatedAccounts[accountId];
+				}
+			});
+			return {
+				...state,
+				mailers: {
+					...mailers,
+					[currentMailerProvider.slug]: {
+						...mailers[currentMailerProvider.slug],
+						accounts: updatedAccounts,
 					},
 				},
 			};

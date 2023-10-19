@@ -20,6 +20,7 @@ import {
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
+	DELETE_MAILER_ACCOUNT,
 } from './constants';
 
 export type CorePureState = {
@@ -120,6 +121,11 @@ type updateAccount = {
 	account: Partial<Account>;
 };
 
+type deleteAccount = {
+	type: typeof DELETE_MAILER_ACCOUNT;
+	id: string;
+};
+
 export type CoreActionTypes =
 	| setupStoreAction
 	| setCurrentMailerProviderAction
@@ -128,6 +134,7 @@ export type CoreActionTypes =
 	| deleteConnection
 	| addAccount
 	| updateAccount
+	| deleteAccount
 	| AppActionTypes
 	| ReturnType<() => { type: 'NOOP' }>;
 

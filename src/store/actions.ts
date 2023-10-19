@@ -12,6 +12,7 @@ import {
 	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
+	DELETE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
@@ -83,6 +84,16 @@ export const updateAccount = (
 	type: UPDATE_MAILER_ACCOUNT,
 	id,
 	account,
+});
+
+/**
+ * Delete Account Action.
+ * @param {string} id Account ID.
+ * @returns {CoreActionTypes} Delete Account Action.
+ */
+export const deleteAccount = (id: string): CoreActionTypes => ({
+	type: DELETE_MAILER_ACCOUNT,
+	id,
 });
 
 /**

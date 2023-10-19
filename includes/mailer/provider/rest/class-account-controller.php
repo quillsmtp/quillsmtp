@@ -111,7 +111,7 @@ class Account_Controller extends REST_Controller {
 	 */
 	public function delete_item( $request ) {
 		$this->provider->accounts->remove_account( $request['id'] );
-		return new WP_REST_Response();
+		return new WP_REST_Response( true, 200 );
 	}
 
 	/**
