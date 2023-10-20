@@ -49,6 +49,7 @@ class SendLayer extends Provider {
 		'rest'     => REST\REST::class,
 		'accounts' => Accounts::class,
 		'settings' => Settings::class,
+		'process'  => Process::class,
 	);
 
 }

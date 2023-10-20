@@ -115,6 +115,7 @@ abstract class Process {
 	 */
 	public function set_phpmailer() {
 		$this->set_headers( $this->phpmailer->getCustomHeaders() );
+		$this->set_header( 'X-Mailer', "QuillSMTP {$this->provider->name}" );
 		$this->set_from( $this->get_from_email(), $this->get_from_name() );
 		$this->set_recipients(
 			array(

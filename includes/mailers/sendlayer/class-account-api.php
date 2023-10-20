@@ -11,6 +11,8 @@ namespace QuillSMTP\Mailers\SendLayer;
 
 defined( 'ABSPATH' ) || exit;
 
+use WP_Error;
+
 /**
  * Account_API class.
  *
@@ -34,5 +36,49 @@ class Account_API {
 	 */
 	public function __construct( $api_key ) {
 		$this->api_key = $api_key;
+	}
+
+	/**
+	 * Send email
+	 *
+	 * @param array $args Email arguments.
+	 *
+	 * @return array
+	 */
+	public function send( $args ) {
+		$response = wp_remote_request(
+			'https://console.sendlayer.com/api/v1/email',
+			[
+				'method'  => 'POST',
+				'headers' => [
+					'Accept'        => 'application/json',
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bearer ' . $this->api_key,
+				],
+				'body'    => wp_json_encode( $args ),
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+
+		if ( empty( $body ) ) {
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
+		}
+
+		$body = json_decode( $body, true );
+
+		if ( ! is_array( $body ) ) {
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
+		}
+
+		if ( ! empty( $body['error'] ) ) {
+			return new WP_Error( 'send_error', $body['error'] );
+		}
+
+		return $body;
 	}
 }
