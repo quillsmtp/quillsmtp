@@ -162,7 +162,7 @@ class Admin_Loader {
 		wp_enqueue_style( 'qsmtp-admin' );
 
 		?>
-		<div class="wrap">
+		<div class="quillsmtp-wrap">
 			<div id="qsmtp-admin-root">
 				<div id="qsmtp-admin-root__loader-container" style="
 					display: flex;

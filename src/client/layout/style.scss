@@ -1,11 +1,13 @@
 #screen-meta-links {
 	display: none !important;
 }
+.quillsmtp-layout {
+	margin-left: -20px;
+}
 .quillsmtp-layout__main {
 	display: flex;
 	height: calc(100vh - 55px);
 	box-sizing: border-box;
-	width: 100%;
 	.qsmtp-page-component-wrapper {
 		width: 100%;
 		position: relative;

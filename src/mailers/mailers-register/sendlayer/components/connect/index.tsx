@@ -10,10 +10,9 @@ import { Connect } from '@quillsmtp/mailers';
 
 interface Props {
 	connectionId: string;
-	onClose: () => void;
 }
 
-const ConnectPage: React.FC<Props> = ({ connectionId, onClose }) => {
+const ConnectPage: React.FC<Props> = ({ connectionId }) => {
 	return (
 		<div className="qsmtp-connect-page">
 			<Connect
@@ -32,7 +31,6 @@ const ConnectPage: React.FC<Props> = ({ connectionId, onClose }) => {
 						},
 					},
 				}}
-				close={onClose}
 			/>
 		</div>
 	);

@@ -1,6 +1,17 @@
-#qsmtp-admin-root #qsmtp-admin-root__loader-container > svg {
-	animation: iconPulse 1s 2s infinite;
+#qsmtp-admin-root {
+	#qsmtp-admin-root__loader-container {
+		> svg {
+			animation: iconPulse 1s 2s infinite;
+		}
+	}
 }
+
+.toplevel_page_quillsmtp {
+	#wpfooter {
+		display: none;
+	}
+}
+
 @keyframes iconPulse {
 	0% {
 		transform: scaleX(1);

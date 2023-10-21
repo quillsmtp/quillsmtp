@@ -106,14 +106,14 @@ class Store {
 				'name'        => __( 'Sendinblue', 'quillsmtp' ),
 				'description' => __( 'Send emails using Sendinblue SMTP', 'quillsmtp' ),
 				'assets'      => array(
-					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendinblue/icon.png',
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendinblue/icon.svg',
 				),
 			),
 			'postmark'   => array(
 				'name'        => __( 'Postmark', 'quillsmtp' ),
 				'description' => __( 'Send emails using Postmark SMTP', 'quillsmtp' ),
 				'assets'      => array(
-					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/postmark/icon.png',
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/postmark/icon.svg',
 				),
 			),
 			// 'pepipost'   => array(

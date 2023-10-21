@@ -2,7 +2,7 @@
 /**
  * External dependencies
  */
-import { cloneDeep, forEach } from 'lodash';
+import { cloneDeep, forEach, size } from 'lodash';
 import type { Reducer } from 'redux';
 
 /**
@@ -53,9 +53,11 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 		case SETUP_STORE: {
 			const { initialPayload } = action;
 			const { connections, mailers } = initialPayload;
+
 			return {
 				...state,
-				connections,
+				connections:
+					size(connections) > 0 ? connections : state.connections,
 				mailers,
 			};
 		}

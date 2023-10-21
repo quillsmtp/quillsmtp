@@ -1,4 +1,9 @@
 /**
+ * QuillSMTP Dependencies
+ */
+import ConfigAPI from '@quillsmtp/config';
+
+/**
  * WordPress Dependencies
  */
 import { useState } from 'react';
@@ -40,16 +45,15 @@ interface Props {
 
 const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { currentMailer, getConnection, provider } = useSelect((select) => {
+	const { currentMailer, connection, provider } = useSelect((select) => {
 		return {
 			currentMailer: select('quillSMTP/core').getCurrentMailer(),
-			getConnection: select('quillSMTP/core').getConnection,
+			connection: select('quillSMTP/core').getConnection(connectionId),
 			provider: select('quillSMTP/core').getCurrentMailerProvider(),
 		};
 	});
 
 	// dispatch.
-	const connection = getConnection(connectionId);
 	const { accounts } = currentMailer;
 	const { addAccount, updateAccount, deleteAccount, updateConnection } =
 		useDispatch('quillSMTP/core');
@@ -100,6 +104,21 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 			updateAccount(id, account);
 		} else {
 			addAccount(id, account);
+			ConfigAPI.setInitialPayload({
+				...ConfigAPI.getInitialPayload(),
+				mailers: {
+					...ConfigAPI.getInitialPayload().mailers,
+					[provider.slug]: {
+						...ConfigAPI.getInitialPayload().mailers[provider.slug],
+						accounts: {
+							...ConfigAPI.getInitialPayload().mailers[
+								provider.slug
+							].accounts,
+							[id]: account,
+						},
+					},
+				},
+			});
 		}
 		// select it.
 		onChange(id);
@@ -187,16 +206,15 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					</DialogActions>
 				</Dialog>
 			)}
-			{!showingAddNewAccount && (
-				<Button
-					component="label"
-					variant="outlined"
-					startIcon={<AddIcon />}
-					onClick={() => setShowingAddNewAccount(true)}
-				>
-					{__('Add new account', 'quillforms')}
-				</Button>
-			)}
+			<Button
+				component="label"
+				variant="outlined"
+				startIcon={<AddIcon />}
+				onClick={() => setShowingAddNewAccount(true)}
+				disabled={addingNewAccount}
+			>
+				{__('Add new account', 'quillforms')}
+			</Button>
 			{showingAddNewAccount && (
 				<AccountAuth
 					data={main.accounts}

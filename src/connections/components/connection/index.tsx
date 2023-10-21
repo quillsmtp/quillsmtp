@@ -1,4 +1,9 @@
 /**
+ * QuillSMTP Dependencies
+ */
+import ConfigAPI from '@quillsmtp/config';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -9,10 +14,17 @@ import { useState } from '@wordpress/element';
 /**
  * External Dependencies
  */
+import { styled } from '@mui/material/styles';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, {
+	AccordionSummaryProps,
+} from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { FormControl, FormHelperText } from '@mui/material';
@@ -26,6 +38,32 @@ interface Props {
 	connectionId: string;
 }
 
+const Accordion = styled((props: AccordionProps) => (
+	<MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+	border: `1px solid ${theme.palette.divider}`,
+	'&:not(:last-child)': {
+		borderBottom: 0,
+	},
+	'&:before': {
+		display: 'none',
+	},
+}));
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+	<MuiAccordionSummary {...props} />
+))(({ theme }) => ({
+	backgroundColor:
+		theme.palette.mode === 'dark'
+			? 'rgba(255, 255, 255, .05)'
+			: 'rgba(0, 0, 0, .03)',
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+	padding: theme.spacing(2),
+	borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
+
 const Options: React.FC<Props> = ({ connectionId }) => {
 	const [isSaving, setIsSaving] = useState(false);
 	const { connections } = useSelect((select) => {
@@ -35,14 +73,19 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 	});
 	const { updateConnection } = useDispatch('quillSMTP/core');
 	const connection = connections[connectionId];
-	if (!connection) return null;
 	const { from_email, force_from_email, from_name, force_from_name } =
 		connection;
+	const isFirstConnection = Object.keys(connections).length === 1;
+
 	// dispatch notices.
 	const { createSuccessNotice, createErrorNotice } =
 		useDispatch('core/notices');
 
 	const save = () => {
+		// check validity.
+		if (!validate()) {
+			return;
+		}
 		setIsSaving(true);
 		apiFetch({
 			path: `/qsmtp/v1/settings`,
@@ -52,6 +95,10 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 			},
 		}).then((res: any) => {
 			if (res.success) {
+				ConfigAPI.setInitialPayload({
+					...ConfigAPI.getInitialPayload(),
+					connections: connections,
+				});
 				createSuccessNotice(
 					('✅ ' +
 						__(
@@ -77,104 +124,149 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 		});
 	};
 
+	const validate = () => {
+		if (!connection.name) {
+			createErrorNotice(
+				__('Please enter a name for this connection.', 'quillsmtp'),
+				{
+					type: 'snackbar',
+					isDismissible: true,
+				}
+			);
+			return false;
+		}
+		return true;
+	};
+
 	return (
-		<div className="qsmtp-connection-options">
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					mt: 2,
-					mb: 2,
-				}}
-				component="div"
+		<Accordion
+			className="qsmtp-connection-options"
+			expanded={isFirstConnection}
+		>
+			<AccordionSummary
+				expandIcon={<ExpandMoreIcon />}
+				aria-controls="panel1a-content"
+				id="panel1a-header"
 			>
-				<TextField
-					id="from_email"
-					label={__('From Email', 'quillsmtp')}
-					value={from_email}
-					onChange={(e) =>
-						updateConnection(connectionId, {
-							from_email: e.target.value,
-						})
-					}
-					variant="outlined"
-					fullWidth
-					sx={{ mb: 2, width: '700px', maxWidth: '100%' }}
-					helperText={__(
-						'If left blank, the default WordPress from email will be used.',
-						'quillsmtp'
-					)}
-				/>
-				<FormControl sx={{ mb: 3 }}>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={force_from_email}
+				{connection.name}
+			</AccordionSummary>
+			<AccordionDetails>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						mt: 2,
+						mb: 2,
+					}}
+					component="div"
+				>
+					<TextField
+						id="name"
+						label={__('Name', 'quillsmtp')}
+						value={connection.name}
+						onChange={(e) =>
+							updateConnection(connectionId, {
+								name: e.target.value,
+							})
+						}
+						variant="outlined"
+						fullWidth
+						sx={{ mb: 2 }}
+					/>
+					<MailersSelector connectionId={connectionId} />
+					{connection.mailer && (
+						<>
+							<TextField
+								id="from_email"
+								label={__('From Email', 'quillsmtp')}
+								value={from_email}
 								onChange={(e) =>
 									updateConnection(connectionId, {
-										force_from_email: !force_from_email,
+										from_email: e.target.value,
 									})
 								}
+								variant="outlined"
+								fullWidth
+								sx={{ mb: 2 }}
+								helperText={__(
+									'If left blank, the default WordPress from email will be used.',
+									'quillsmtp'
+								)}
 							/>
-						}
-						label={__('Force From Email', 'quillsmtp')}
-					/>
-					<FormHelperText>
-						{__(
-							'If enabled, the from email will be forced to the above email.',
-							'quillsmtp'
-						)}
-					</FormHelperText>
-				</FormControl>
-				<TextField
-					sx={{ mb: 2, width: '700px', maxWidth: '100%' }}
-					label={__('From Name', 'quillsmtp')}
-					value={from_name}
-					onChange={(e) =>
-						updateConnection(connectionId, {
-							from_name: e.target.value,
-						})
-					}
-					variant="outlined"
-					fullWidth
-					helperText={__(
-						'If left blank, the default WordPress from name will be used.',
-						'quillsmtp'
-					)}
-				/>
-				<FormControl sx={{ mb: 3 }}>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={force_from_name}
+							<FormControl sx={{ mb: 3 }}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={force_from_email}
+											onChange={() =>
+												updateConnection(connectionId, {
+													force_from_email:
+														!force_from_email,
+												})
+											}
+										/>
+									}
+									label={__('Force From Email', 'quillsmtp')}
+								/>
+								<FormHelperText>
+									{__(
+										'If enabled, the from email will be forced to the above email.',
+										'quillsmtp'
+									)}
+								</FormHelperText>
+							</FormControl>
+							<TextField
+								sx={{ mb: 2 }}
+								label={__('From Name', 'quillsmtp')}
+								value={from_name}
 								onChange={(e) =>
 									updateConnection(connectionId, {
-										force_from_name: !force_from_name,
+										from_name: e.target.value,
 									})
 								}
+								variant="outlined"
+								fullWidth
+								helperText={__(
+									'If left blank, the default WordPress from name will be used.',
+									'quillsmtp'
+								)}
 							/>
-						}
-						label={__('Force From Name', 'quillsmtp')}
-					/>
-					<FormHelperText>
-						{__(
-							'If enabled, the from name will be forced to the above name.',
-							'quillsmtp'
-						)}
-					</FormHelperText>
-				</FormControl>
-				<MailersSelector connectionId={connectionId} />
-			</Box>
-			<LoadingButton
-				variant="contained"
-				onClick={save}
-				loading={isSaving}
-				loadingPosition="start"
-				startIcon={<SaveIcon />}
-			>
-				{__('Save', 'quillsmtp')}
-			</LoadingButton>
-		</div>
+							<FormControl sx={{ mb: 3 }}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={force_from_name}
+											onChange={() =>
+												updateConnection(connectionId, {
+													force_from_name:
+														!force_from_name,
+												})
+											}
+										/>
+									}
+									label={__('Force From Name', 'quillsmtp')}
+								/>
+								<FormHelperText>
+									{__(
+										'If enabled, the from name will be forced to the above name.',
+										'quillsmtp'
+									)}
+								</FormHelperText>
+							</FormControl>
+						</>
+					)}
+				</Box>
+				<LoadingButton
+					variant="contained"
+					onClick={save}
+					loading={isSaving}
+					loadingPosition="start"
+					startIcon={<SaveIcon />}
+				>
+					{__('Save', 'quillsmtp')}
+				</LoadingButton>
+			</AccordionDetails>
+		</Accordion>
 	);
 };
 

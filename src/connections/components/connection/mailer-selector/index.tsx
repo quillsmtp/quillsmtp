@@ -2,26 +2,21 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { select, useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * External dependencies
  */
 import { map, keys, size } from 'lodash';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import { CardActionArea } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import classnames from 'classnames';
+import Tooltip from '@mui/material/Tooltip';
 
 /**
  * Internal dependencies
  */
+import MailerAccounts from './mailer-accounts';
 import { getMailerModules } from '@quillsmtp/mailers';
-import MailerModal from './mailer-modal';
 import './style.scss';
 
 interface Props {
@@ -29,84 +24,61 @@ interface Props {
 }
 // @ts-ignore
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
-	const [modalMailer, setModalMailer] = useState(null);
 	const mailerModules = getMailerModules();
-	const { getConnection } = useSelect((select) => ({
+	const { provider, getConnection } = useSelect((select) => ({
 		getConnection: select('quillSMTP/core').getConnection,
+		provider: select('quillSMTP/core').getCurrentMailerProvider(),
 	}));
 	const connection = getConnection(connectionId);
 	const { setCurrentMailerProvider, updateConnection } =
 		useDispatch('quillSMTP/core');
 
+	const onChange = (key: string) => {
+		setCurrentMailerProvider({
+			slug: key,
+			title: mailerModules[key].title,
+		});
+		updateConnection(connectionId, { mailer: key });
+	};
+
 	return (
-		<>
-			<Grid className="qsmtp-mailers-selector" container spacing={2}>
+		<div className="qsmtp-mailers-selector">
+			<div className="qsmtp-mailers-selector__title">
+				{__('Select Mailer', 'quillsmtp')}
+			</div>
+			<Stack direction="row" spacing={2}>
 				{size(mailerModules) > 0 &&
 					map(keys(mailerModules), (key) => {
 						const mailer = mailerModules[key];
 						return (
-							<Grid item xs={12} sm={6} md={4} lg={3} key={key}>
-								<Card
-									className={classnames({
-										'qsmtp-mailer-selector__card': true,
-										'qsmtp-mailer-selector__card--active':
-											connection.mailer === key,
-									})}
+							<Tooltip
+								title={mailer.title}
+								key={key}
+								placement="top"
+							>
+								<div
+									className={classnames(
+										'qsmtp-mailers-selector__mailer',
+										{
+											'qsmtp-mailers-selector__mailer--active':
+												connection.mailer === key,
+										}
+									)}
+									onClick={() => onChange(key)}
 								>
-									<CardActionArea
-										onClick={() => {
-											updateConnection(connectionId, {
-												mailer: key,
-											});
-											setModalMailer(key);
-											setCurrentMailerProvider({
-												slug: key,
-												title: mailer.title,
-											});
-										}}
-									>
-										<CardContent>
-											<div className="qsmtp-mailer-selector__card__title">
-												<div className="qsmtp-mailer-selector__card__title__icon">
-													<img src={mailer.icon} />
-												</div>
-												<div className="qsmtp-mailer-selector__card__title__text">
-													<h3>{mailer.title}</h3>
-												</div>
-											</div>
-											<p>{mailer.description}</p>
-										</CardContent>
-										<CardActions>
-											<Button
-												onClick={() => {
-													setModalMailer(key);
-													setCurrentMailerProvider({
-														slug: key,
-														title: mailer.title,
-													});
-												}}
-												variant="contained"
-											>
-												{__('Configure', 'quillsmtp')}
-											</Button>
-										</CardActions>
-									</CardActionArea>
-								</Card>
-							</Grid>
+									<img src={mailer.icon} alt={mailer.title} />
+								</div>
+							</Tooltip>
 						);
 					})}
-			</Grid>
-			{modalMailer && (
-				<MailerModal
+			</Stack>
+			{provider?.slug && (
+				<MailerAccounts
 					connectionId={connectionId}
-					mailer={mailerModules[modalMailer]}
-					open={modalMailer !== null}
-					onClose={() => {
-						setModalMailer(null);
-					}}
+					mailer={mailerModules[provider.slug]}
 				/>
 			)}
-		</>
+		</div>
 	);
 };
 

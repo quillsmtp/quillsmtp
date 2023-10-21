@@ -104,16 +104,7 @@ class REST_Settings_Controller extends REST_Controller {
 				),
 			),
 			'default'              => array(
-				'connections' => array(
-					'default' => array(
-						'from_email'       => '',
-						'force_from_email' => false,
-						'from_name'        => '',
-						'force_from_name'  => false,
-						'mailer'           => '',
-						'account_id'       => '',
-					),
-				),
+				'connections' => array(),
 			),
 		);
 

@@ -14,10 +14,9 @@ import './style.scss';
 
 interface Props {
 	setup: SetupType;
-	close: () => void;
 }
 
-const Setup: React.FC<Props> = ({ setup, close }) => {
+const Setup: React.FC<Props> = ({ setup }) => {
 	const { setupApp } = useDispatch('quillSMTP/core');
 
 	const SetupControls: React.FC<{ submit: () => void }> = ({ submit }) => {
@@ -28,7 +27,6 @@ const Setup: React.FC<Props> = ({ setup, close }) => {
 					onClick: submit,
 					disabled: false,
 				}}
-				close={{ label: 'Close', onClick: close }}
 			/>
 		);
 	};

@@ -65,7 +65,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$api_key     = $credentials['api_key'] ?? '';
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quill-smtp' ) );
+			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quillsmtp' ) );
 		}
 
 		$api_key = sanitize_text_field( $api_key );

@@ -1,1 +1,1 @@
-export { default as Connection } from './components/connection';
+export * from './components';

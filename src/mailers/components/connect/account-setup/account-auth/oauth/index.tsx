@@ -13,7 +13,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import { AccountsLabels } from '../../../types';
+import { AccountsLabels } from '../../../../types';
 
 interface Props {
 	labels?: AccountsLabels;

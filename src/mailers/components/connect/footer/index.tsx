@@ -14,23 +14,12 @@ interface Props {
 		onClick: () => void;
 		disabled: boolean;
 	};
-	close: {
-		label: string;
-		onClick: () => void;
-	};
 }
 
-const Footer: React.FC<Props> = ({ save, close }) => {
+const Footer: React.FC<Props> = ({ save }) => {
 	return (
 		<div className="mailer-connect-footer">
 			<div className="mailer-connect-footer__wrapper">
-				<Button
-					className="mailer-connect-footer__cancel"
-					onClick={close.onClick}
-					variant="outlined"
-				>
-					{close.label}
-				</Button>
 				<Button
 					className="mailer-connect-footer__save"
 					onClick={save.onClick}
