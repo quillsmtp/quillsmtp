@@ -11,7 +11,6 @@ import type { Reducer } from 'redux';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
-	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
@@ -23,14 +22,6 @@ import { CorePureState, CoreActionTypes } from './types';
 
 // Initial State
 const initialState: CorePureState = {
-	currentMailerProvider: {
-		slug: '',
-		title: '',
-	},
-	currentMailer: {
-		accounts: {},
-		app: {},
-	},
 	connections: {},
 	mailers: {},
 };
@@ -62,36 +53,31 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			};
 		}
 		case SETUP_MAILER_APP: {
-			const { app } = action;
-			const { mailers, currentMailerProvider } = state;
+			const { mailer, app } = action;
+			const { mailers } = state;
+
 			return {
 				...state,
 				mailers: {
 					...mailers,
-					[currentMailerProvider.slug]: {
-						...mailers[currentMailerProvider.slug],
+					[mailer]: {
+						...mailers[mailer],
 						app,
 					},
 				},
 			};
 		}
-		case SET_CURRENT_MAILER_PROVIDER: {
-			const { mailer } = action;
-			return {
-				...state,
-				currentMailerProvider: mailer,
-			};
-		}
 		case ADD_MAILER_ACCOUNT: {
-			const { id, account } = action;
-			const { mailers, currentMailerProvider } = state;
-			const { accounts } = mailers[currentMailerProvider.slug];
+			const { mailer, id, account } = action;
+			const { mailers } = state;
+			const { accounts } = mailers[mailer];
+
 			return {
 				...state,
 				mailers: {
 					...mailers,
-					[currentMailerProvider.slug]: {
-						...mailers[currentMailerProvider.slug],
+					[mailer]: {
+						...mailers[mailer],
 						accounts: {
 							...accounts,
 							[id]: account,
@@ -101,19 +87,20 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			};
 		}
 		case UPDATE_MAILER_ACCOUNT: {
-			const { id, account } = action;
-			const { mailers, currentMailerProvider } = state;
-			const { accounts } = mailers[currentMailerProvider.slug];
+			const { mailer, id, account } = action;
+			const { mailers } = state;
+			const { accounts } = mailers[mailer];
 			const updatedAccount = {
 				...accounts[id],
 				...account,
 			};
+
 			return {
 				...state,
 				mailers: {
 					...mailers,
-					[currentMailerProvider.slug]: {
-						...mailers[currentMailerProvider.slug],
+					[mailer]: {
+						...mailers[mailer],
 						accounts: {
 							...accounts,
 							[id]: updatedAccount,
@@ -123,9 +110,9 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			};
 		}
 		case DELETE_MAILER_ACCOUNT: {
-			const { id } = action;
-			const { mailers, currentMailerProvider } = state;
-			const { accounts } = mailers[currentMailerProvider.slug];
+			const { mailer, id } = action;
+			const { mailers } = state;
+			const { accounts } = mailers[mailer];
 			const updatedAccounts = cloneDeep(accounts);
 			// @ts-ignore.
 			forEach(updatedAccounts, (account, accountId) => {
@@ -133,12 +120,13 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 					delete updatedAccounts[accountId];
 				}
 			});
+
 			return {
 				...state,
 				mailers: {
 					...mailers,
-					[currentMailerProvider.slug]: {
-						...mailers[currentMailerProvider.slug],
+					[mailer]: {
+						...mailers[mailer],
 						accounts: updatedAccounts,
 					},
 				},

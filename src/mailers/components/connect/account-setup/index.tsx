@@ -17,6 +17,7 @@ import type { SetupFields } from '../../types';
 import './style.scss';
 
 interface Props {
+	connectionId: string;
 	Instructions: React.FC;
 	fields: SetupFields;
 	Controls: React.FC<{ submit: () => void }>;
@@ -24,21 +25,22 @@ interface Props {
 }
 
 const Setup: React.FC<Props> = ({
+	connectionId,
 	Instructions,
 	fields,
 	Controls,
 	onFinish,
 }) => {
-	const { provider } = useSelect((select) => {
+	const { connection } = useSelect((select) => {
 		return {
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			connection: select('quillSMTP/core').getConnection(connectionId),
 		};
 	});
 	const [inputs, setInputs] = useState({});
 
 	const submit = () => {
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${provider.slug}/settings`,
+			path: `/qsmtp/v1/mailers/${connection.mailer}/settings`,
 			method: 'POST',
 			data: {
 				app: inputs,

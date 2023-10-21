@@ -34,10 +34,6 @@ import { FormControl, FormHelperText } from '@mui/material';
  */
 import MailersSelector from './mailer-selector';
 
-interface Props {
-	connectionId: string;
-}
-
 const Accordion = styled((props: AccordionProps) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -64,7 +60,12 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 	borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-const Options: React.FC<Props> = ({ connectionId }) => {
+interface Props {
+	connectionId: string;
+	index: number;
+}
+
+const Options: React.FC<Props> = ({ connectionId, index }) => {
 	const [isSaving, setIsSaving] = useState(false);
 	const { connections } = useSelect((select) => {
 		return {
@@ -75,7 +76,6 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 	const connection = connections[connectionId];
 	const { from_email, force_from_email, from_name, force_from_name } =
 		connection;
-	const isFirstConnection = Object.keys(connections).length === 1;
 
 	// dispatch notices.
 	const { createSuccessNotice, createErrorNotice } =
@@ -141,7 +141,7 @@ const Options: React.FC<Props> = ({ connectionId }) => {
 	return (
 		<Accordion
 			className="qsmtp-connection-options"
-			expanded={isFirstConnection}
+			defaultExpanded={index === 0}
 		>
 			<AccordionSummary
 				expandIcon={<ExpandMoreIcon />}

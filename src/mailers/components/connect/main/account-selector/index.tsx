@@ -45,16 +45,16 @@ interface Props {
 
 const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { currentMailer, connection, provider } = useSelect((select) => {
+	const { mailer, connection } = useSelect((select) => {
+		const connection = select('quillSMTP/core').getConnection(connectionId);
 		return {
-			currentMailer: select('quillSMTP/core').getCurrentMailer(),
-			connection: select('quillSMTP/core').getConnection(connectionId),
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			connection,
+			mailer: select('quillSMTP/core').getMailer(connection.mailer),
 		};
 	});
 
 	// dispatch.
-	const { accounts } = currentMailer;
+	const { accounts } = mailer;
 	const { addAccount, updateAccount, deleteAccount, updateConnection } =
 		useDispatch('quillSMTP/core');
 
@@ -69,11 +69,11 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		if (isDeleting || !deleteAccountID) return;
 		setIsDeleting(true);
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${provider.slug}/accounts/${deleteAccountID}`,
+			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts/${deleteAccountID}`,
 			method: 'DELETE',
 		})
 			.then(() => {
-				deleteAccount(deleteAccountID);
+				deleteAccount(connection.mailer, deleteAccountID);
 				setDeleteAccountID(null);
 				setIsDeleting(false);
 			})
@@ -101,18 +101,20 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const onAdded = (id: string, account: Account) => {
 		// add or update the account.
 		if (accounts[id]) {
-			updateAccount(id, account);
+			updateAccount(connection.mailer, id, account);
 		} else {
-			addAccount(id, account);
+			addAccount(connection.mailer, id, account);
 			ConfigAPI.setInitialPayload({
 				...ConfigAPI.getInitialPayload(),
 				mailers: {
 					...ConfigAPI.getInitialPayload().mailers,
-					[provider.slug]: {
-						...ConfigAPI.getInitialPayload().mailers[provider.slug],
+					[connection.mailer]: {
+						...ConfigAPI.getInitialPayload().mailers[
+							connection.mailer
+						],
 						accounts: {
 							...ConfigAPI.getInitialPayload().mailers[
-								provider.slug
+								connection.mailer
 							].accounts,
 							[id]: account,
 						},
@@ -217,6 +219,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 			</Button>
 			{showingAddNewAccount && (
 				<AccountAuth
+					connectionId={connectionId}
 					data={main.accounts}
 					onAdding={setAddingNewAccount}
 					onAdded={onAdded}

@@ -1,4 +1,9 @@
 /**
+ * QuillSMTP Dependencies
+ */
+import { getMailerModules } from '@quillsmtp/mailers';
+
+/**
  * External Dependencies
  */
 import TextField from '@mui/material/TextField';
@@ -20,6 +25,7 @@ import { AccountsAuthFields, AccountsLabels } from '../../../../types';
 import './style.scss';
 
 interface Props {
+	connectionId: string;
 	onAdding?: (status: boolean) => void;
 	onAdded: (id: string, account: { name: string }) => void;
 	labels?: AccountsLabels;
@@ -28,17 +34,21 @@ interface Props {
 }
 
 const Credentials: React.FC<Props> = ({
+	connectionId,
 	onAdding,
 	onAdded,
 	labels,
 	fields,
 	Instructions,
 }) => {
-	const { provider } = useSelect((select) => {
+	const { connection } = useSelect((select) => {
 		return {
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			connection: select('quillSMTP/core').getConnection(connectionId),
 		};
 	});
+
+	// provider.
+	const provider = getMailerModules()[connection.mailer];
 
 	fields = fields ?? {
 		api_key: { label: provider.title + ' API Key', type: 'text' },
@@ -57,7 +67,7 @@ const Credentials: React.FC<Props> = ({
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${provider.slug}/accounts`,
+			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts`,
 			method: 'POST',
 			data: {
 				credentials: inputs,

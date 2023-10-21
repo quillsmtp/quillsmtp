@@ -16,15 +16,21 @@ import { useSelect } from '@wordpress/data';
 import { AccountsLabels } from '../../../../types';
 
 interface Props {
+	connectionId: string;
 	labels?: AccountsLabels;
 	onAdded: (id: string, account: { name: string }) => void;
 	Instructions?: React.FC;
 }
 
-const Oauth: React.FC<Props> = ({ labels, onAdded, Instructions }) => {
-	const { provider } = useSelect((select) => {
+const Oauth: React.FC<Props> = ({
+	connectionId,
+	labels,
+	onAdded,
+	Instructions,
+}) => {
+	const { connection } = useSelect((select) => {
 		return {
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			connection: select('quillSMTP/core').getConnection(connectionId),
 		};
 	});
 
@@ -32,7 +38,7 @@ const Oauth: React.FC<Props> = ({ labels, onAdded, Instructions }) => {
 	const { createSuccessNotice } = useDispatch('core/notices');
 
 	const authorize = () => {
-		window[`add_new_${provider.slug}_account`] = (
+		window[`add_new_${connection.mailer}_account`] = (
 			id: string,
 			name: string
 		) => {
@@ -51,7 +57,7 @@ const Oauth: React.FC<Props> = ({ labels, onAdded, Instructions }) => {
 			onAdded(id, { name });
 		};
 		window.open(
-			`${window['qsmtpAdmin'].adminUrl}admin.php?quillsmtp-${provider.slug}=authorize`,
+			`${window['qsmtpAdmin'].adminUrl}admin.php?quillsmtp-${connection.mailer}=authorize`,
 			'authorize',
 			'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=500,left=100,top=100'
 		);

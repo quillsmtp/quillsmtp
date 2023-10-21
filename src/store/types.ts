@@ -14,7 +14,6 @@ import type { FunctionKeys } from 'utility-types';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
-	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
@@ -24,15 +23,8 @@ import {
 } from './constants';
 
 export type CorePureState = {
-	currentMailerProvider: MailerProvider;
-	currentMailer: Mailer;
 	connections: Connections;
 	mailers: Mailers;
-};
-
-export type MailerProvider = {
-	slug: string;
-	title: string;
 };
 
 export type Mailers = {
@@ -43,11 +35,6 @@ export type Mailer = {
 	accounts: Accounts;
 	app: App;
 };
-
-interface setCurrentMailerProviderAction {
-	type: typeof SET_CURRENT_MAILER_PROVIDER;
-	mailer: MailerProvider;
-}
 
 interface setupStoreAction {
 	type: typeof SETUP_STORE;
@@ -96,6 +83,7 @@ export type App = {
 
 type setupApp = {
 	type: typeof SETUP_MAILER_APP;
+	mailer: string;
 	app: App;
 };
 
@@ -111,24 +99,26 @@ export type Account = {
 
 type addAccount = {
 	type: typeof ADD_MAILER_ACCOUNT;
+	mailer: string;
 	id: string;
 	account: Account;
 };
 
 type updateAccount = {
 	type: typeof UPDATE_MAILER_ACCOUNT;
+	mailer: string;
 	id: string;
 	account: Partial<Account>;
 };
 
 type deleteAccount = {
 	type: typeof DELETE_MAILER_ACCOUNT;
+	mailer: string;
 	id: string;
 };
 
 export type CoreActionTypes =
 	| setupStoreAction
-	| setCurrentMailerProviderAction
 	| addConnection
 	| updateConnection
 	| deleteConnection

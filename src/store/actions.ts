@@ -9,7 +9,6 @@ import type { InitialPayload } from '@quillsmtp/config';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
-	SET_CURRENT_MAILER_PROVIDER,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	DELETE_MAILER_ACCOUNT,
@@ -17,13 +16,7 @@ import {
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
 } from './constants';
-import {
-	CoreActionTypes,
-	App,
-	Account,
-	Connection,
-	MailerProvider,
-} from './types';
+import { CoreActionTypes, App, Account, Connection } from './types';
 
 /**
  * Setup Store Action.
@@ -40,59 +33,60 @@ export const setupStore = (
 /**
  * Setup App Action.
  * @param {App} app App object.
+ * @param {string} mailer Mailer slug.
  * @returns {CoreActionTypes} Setup App Action.
  */
-export const setupApp = (app: App): CoreActionTypes => ({
+export const setupApp = (mailer: string, app: App): CoreActionTypes => ({
 	type: SETUP_MAILER_APP,
+	mailer,
 	app,
 });
 
 /**
- * Set Current Mailer Action.
- * @param {MailerProvider} mailer Mailer slug.
- * @returns {CoreActionTypes} Set Current Mailer Action.
- */
-export const setCurrentMailerProvider = (
-	mailer: MailerProvider
-): CoreActionTypes => ({
-	type: SET_CURRENT_MAILER_PROVIDER,
-	mailer,
-});
-
-/**
  * Add Account Action.
+ * @param {string} mailer Mailer slug.
  * @param {string} id Account ID.
  * @param {Account} account Account object.
  * @returns {CoreActionTypes} Add Account Action.
  */
-export const addAccount = (id: string, account: Account): CoreActionTypes => ({
+export const addAccount = (
+	mailer: string,
+	id: string,
+	account: Account
+): CoreActionTypes => ({
 	type: ADD_MAILER_ACCOUNT,
+	mailer,
 	id,
 	account,
 });
 
 /**
  * Update Account Action.
+ * @param {string} mailer Mailer slug.
  * @param {string} id Account ID.
  * @param {Partial<Account>} account Account object.
  * @returns {CoreActionTypes} Update Account Action.
  */
 export const updateAccount = (
+	mailer: string,
 	id: string,
 	account: Partial<Account>
 ): CoreActionTypes => ({
 	type: UPDATE_MAILER_ACCOUNT,
+	mailer,
 	id,
 	account,
 });
 
 /**
  * Delete Account Action.
+ * @param {string} mailer Mailer slug.
  * @param {string} id Account ID.
  * @returns {CoreActionTypes} Delete Account Action.
  */
-export const deleteAccount = (id: string): CoreActionTypes => ({
+export const deleteAccount = (mailer: string, id: string): CoreActionTypes => ({
 	type: DELETE_MAILER_ACCOUNT,
+	mailer,
 	id,
 });
 

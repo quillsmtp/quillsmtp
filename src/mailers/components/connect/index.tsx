@@ -18,16 +18,16 @@ interface Props {
 }
 
 const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
-	const { provider, mailers } = useSelect((select) => {
+	const { connection, mailers } = useSelect((select) => {
 		return {
-			provider: select('quillSMTP/core').getCurrentMailerProvider(),
+			connection: select('quillSMTP/core').getConnection(connectionId),
 			mailers: select('quillSMTP/core').getMailers(),
 		};
 	});
 
-	if (!provider?.slug) return null;
+	if (!connection?.mailer) return null;
 
-	const mailer = mailers[provider.slug];
+	const mailer = mailers[connection.mailer];
 	const app = mailer?.app || {};
 
 	// check if need setup.
@@ -44,7 +44,7 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 	return (
 		<div className="mailer-connect">
 			{setup && needSetup ? (
-				<Setup setup={setup} />
+				<Setup connectionId={connectionId} setup={setup} />
 			) : (
 				<Main connectionId={connectionId} main={main} />
 			)}

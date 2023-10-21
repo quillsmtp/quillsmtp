@@ -1,9 +1,4 @@
 /**
- * QuillSMTP Dependencies
- */
-import type { Connections } from '@quillsmtp/store';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -43,8 +38,14 @@ const ConnectionsList: React.FC = () => {
 			<CardContent>
 				{size(connections) > 0 && (
 					<div className="qsmtp-connections-list">
-						{map(keys(connections), (key) => {
-							return <Connection key={key} connectionId={key} />;
+						{map(keys(connections), (key, index) => {
+							return (
+								<Connection
+									key={key}
+									connectionId={key}
+									index={index}
+								/>
+							);
 						})}
 					</div>
 				)}
