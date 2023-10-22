@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
@@ -56,7 +56,10 @@ const ConnectionsList: React.FC = () => {
 						onClick={() => {
 							const connectionId = randomId();
 							addConnection(connectionId, {
-								name: __('New Connection', 'quillsmtp'),
+								name: sprintf(
+									__('Connection #%s', 'quillsmtp'),
+									size(connections) + 1
+								),
 								mailer: '',
 								account_id: '',
 								from_email: '',

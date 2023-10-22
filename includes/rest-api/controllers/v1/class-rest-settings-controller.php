@@ -73,7 +73,15 @@ class REST_Settings_Controller extends REST_Controller {
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => array(
-				'connections' => array(
+				'default_connection'  => array(
+					'type'    => 'string',
+					'default' => '',
+				),
+				'fallback_connection' => array(
+					'type'    => 'string',
+					'default' => '',
+				),
+				'connections'         => array(
 					'type'                 => 'object',
 					'additionalProperties' => array(
 						'from_email'       => array(
@@ -104,7 +112,9 @@ class REST_Settings_Controller extends REST_Controller {
 				),
 			),
 			'default'              => array(
-				'connections' => array(),
+				'default_connection'  => '',
+				'fallback_connection' => '',
+				'connections'         => array(),
 			),
 		);
 
@@ -125,7 +135,9 @@ class REST_Settings_Controller extends REST_Controller {
 		$settings = apply_filters(
 			'quillsmtp_rest_settings',
 			array(
-				'connections' => Settings::get( 'connections', $defaults['connections'] ),
+				'default_connection'  => Settings::get( 'default_connection', $defaults['default_connection'] ),
+				'fallback_connection' => Settings::get( 'fallback_connection', $defaults['fallback_connection'] ),
+				'connections'         => Settings::get( 'connections', $defaults['connections'] ),
 			)
 		);
 

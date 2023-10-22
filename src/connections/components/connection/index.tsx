@@ -24,6 +24,8 @@ import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Stack from '@mui/material/Stack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -65,14 +67,16 @@ interface Props {
 	index: number;
 }
 
-const Options: React.FC<Props> = ({ connectionId, index }) => {
+const Connection: React.FC<Props> = ({ connectionId, index }) => {
 	const [isSaving, setIsSaving] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 	const { connections } = useSelect((select) => {
 		return {
 			connections: select('quillSMTP/core').getConnections(),
 		};
 	});
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const { updateConnection, deleteConnection } =
+		useDispatch('quillSMTP/core');
 	const connection = connections[connectionId];
 	const { from_email, force_from_email, from_name, force_from_name } =
 		connection;
@@ -91,13 +95,19 @@ const Options: React.FC<Props> = ({ connectionId, index }) => {
 			path: `/qsmtp/v1/settings`,
 			method: 'POST',
 			data: {
-				connections,
+				connections: {
+					...ConfigAPI.getInitialPayload().connections,
+					[connectionId]: connection,
+				},
 			},
 		}).then((res: any) => {
 			if (res.success) {
 				ConfigAPI.setInitialPayload({
 					...ConfigAPI.getInitialPayload(),
-					connections: connections,
+					connections: {
+						...ConfigAPI.getInitialPayload().connections,
+						[connectionId]: connection,
+					},
 				});
 				createSuccessNotice(
 					('✅ ' +
@@ -121,6 +131,57 @@ const Options: React.FC<Props> = ({ connectionId, index }) => {
 				);
 			}
 			setIsSaving(false);
+		});
+	};
+
+	const remove = () => {
+		// First check if this is connection in stored in the initial payload.
+		// If so, we need to remove it from the initial payload.
+		const initialPayload = ConfigAPI.getInitialPayload();
+		if (!initialPayload.connections[connectionId]) {
+			deleteConnection(connectionId);
+			return;
+		}
+
+		const newConnections = { ...initialPayload.connections };
+		delete newConnections[connectionId];
+		setIsDeleting(true);
+		apiFetch({
+			path: `/qsmtp/v1/settings`,
+			method: 'POST',
+			data: {
+				connections: newConnections,
+			},
+		}).then((res: any) => {
+			if (res.success) {
+				ConfigAPI.setInitialPayload({
+					...ConfigAPI.getInitialPayload(),
+					connections: newConnections,
+				});
+				deleteConnection(connectionId);
+				createSuccessNotice(
+					('✅ ' +
+						__(
+							'Settings saved successfully.',
+							'quillsmtp'
+						)) as string,
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+			} else {
+				createErrorNotice(
+					('❌ ' +
+						__('Error saving settings.', 'quillsmtp')) as string,
+					{
+						type: 'snackbar',
+						isDismissible: true,
+					}
+				);
+			}
+
+			setIsDeleting(false);
 		});
 	};
 
@@ -256,18 +317,30 @@ const Options: React.FC<Props> = ({ connectionId, index }) => {
 						</>
 					)}
 				</Box>
-				<LoadingButton
-					variant="contained"
-					onClick={save}
-					loading={isSaving}
-					loadingPosition="start"
-					startIcon={<SaveIcon />}
-				>
-					{__('Save', 'quillsmtp')}
-				</LoadingButton>
+				<Stack direction="row" justifyContent={'space-between'}>
+					<LoadingButton
+						variant="contained"
+						onClick={save}
+						loading={isSaving}
+						loadingPosition="start"
+						startIcon={<SaveIcon />}
+					>
+						{__('Save', 'quillsmtp')}
+					</LoadingButton>
+					<LoadingButton
+						variant="contained"
+						onClick={remove}
+						loading={isDeleting}
+						loadingPosition="start"
+						startIcon={<DeleteIcon />}
+						color="error"
+					>
+						{__('Delete', 'quillsmtp')}
+					</LoadingButton>
+				</Stack>
 			</AccordionDetails>
 		</Accordion>
 	);
 };
 
-export default Options;
+export default Connection;
