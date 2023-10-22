@@ -382,12 +382,12 @@ abstract class Process {
 			case self::SUCCEEDED:
 				$level   = Log_Levels::INFO;
 				$message = esc_html__( 'Email sent successfully', 'quillsmtp' );
-				$code    = 'connection_processed_successfully';
+				$code    = 'email_sent';
 				break;
 			case self::FAILED:
 				$level   = Log_Levels::ERROR;
 				$message = esc_html__( 'Failed to send email', 'quillsmtp' );
-				$code    = 'cannot_process_connection';
+				$code    = 'cannot_send_email';
 				break;
 		}
 

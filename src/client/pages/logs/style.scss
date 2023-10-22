@@ -1,0 +1,32 @@
+.qsmtp-logs {
+	max-width: 800px;
+	margin: 0 auto;
+
+	.qsmtp-logs__loading-row-bar {
+		background: #f3f3f3;
+		background-image: linear-gradient(
+			to right,
+			#f3f3f3 0%,
+			#ecebeb 20%,
+			#f3f3f3 40%,
+			#f3f3f3 100%
+		);
+		background-repeat: no-repeat;
+		background-size: 100% 20px;
+		display: inline-block;
+		position: relative;
+		animation: loading-bar 1.5s linear infinite;
+		height: 20px;
+		width: 100%;
+	}
+}
+
+// Loading bar animation
+@keyframes loading-bar {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 50px 0;
+	}
+}

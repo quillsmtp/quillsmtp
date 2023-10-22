@@ -12,6 +12,7 @@ namespace QuillSMTP\REST_API;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\REST_API\Controllers\V1\REST_Settings_Controller;
+use QuillSMTP\REST_API\Controllers\V1\REST_Log_Controller;
 
 /**
  * REST_API class is mainly responsible for registering routes.
@@ -68,6 +69,7 @@ class REST_API {
 	public function register_rest_routes() {
 		$controllers = array(
 			REST_Settings_Controller::class,
+			REST_Log_Controller::class,
 		);
 
 		foreach ( $controllers as $controller ) {
