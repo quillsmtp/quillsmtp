@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'QuillSMTP\\Vendor\\Automattic\\Jetpack\\Constants' => $vendorDir . '/automattic/jetpack-constants/src/class-constants.php',
     'QuillSMTP\\Vendor\\Brevo\\Client\\ApiException' => $vendorDir . '/getbrevo/brevo-php/lib/ApiException.php',
     'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AccountApi' => $vendorDir . '/getbrevo/brevo-php/lib/Api/AccountApi.php',
     'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AttributesApi' => $vendorDir . '/getbrevo/brevo-php/lib/Api/AttributesApi.php',

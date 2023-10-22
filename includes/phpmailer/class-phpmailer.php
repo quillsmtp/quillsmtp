@@ -31,11 +31,23 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 * @return bool
 	 */
 	public function send() {
-		$connections = Settings::get( 'connections' );
-		$connection  = $connections['default'];
-		$mailer      = Mailers::get_mailer( $connection['mailer'] );
-		$mailer->process( $this, $connection )->send();
-		$result = null;
+		$connections            = Settings::get( 'connections' );
+		$default_connection_id  = Settings::get( 'default_connection' );
+		$fallback_connection_id = Settings::get( 'fallback_connection' );
+		$default_connection     = $connections[ $default_connection_id ] ?? null;
+		$fallback_connection    = $connections[ $fallback_connection_id ] ?? null;
+
+		if ( ! $default_connection ) {
+			return parent::send();
+		}
+
+		$mailer = Mailers::get_mailer( $default_connection['mailer'] );
+		$result = $mailer->process( $this, $default_connection )->send();
+
+		if ( ! $result && $fallback_connection ) {
+			$mailer = Mailers::get_mailer( $fallback_connection['mailer'] );
+			$result = $mailer->process( $this, $fallback_connection )->send();
+		}
 
 		return $result;
 	}

@@ -16,6 +16,7 @@ use QuillSMTP\Admin\Admin_Loader;
 use QuillSMTP\REST_API\REST_API;
 use QuillSMTP\Mailers\Mailers;
 use QuillSMTP\PHPMailer\PHPMailer;
+use QuillSMTP\Log_Handlers\Log_Handler_DB;
 
 /**
  * QuillSMTP Main Class.
@@ -57,10 +58,9 @@ final class QuillSMTP {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
+		$this->load_dependencies();
 		$this->init_objects();
-
-		// Replace the default PHPMailer class with our own.
-		add_action( 'plugins_loaded', array( $this, 'replace_phpmailer' ) );
+		$this->init_hooks();
 	}
 
 	/**
@@ -96,5 +96,39 @@ final class QuillSMTP {
 		Admin::instance();
 		REST_API::instance();
 		Mailers::instance();
+	}
+
+	/**
+	 * Dependencies Loader.
+	 *
+	 * @since 1.0.0
+	 */
+	private function load_dependencies() {
+		// functions.
+		include_once QUILLSMTP_PLUGIN_DIR . 'includes/functions.php';
+	}
+
+	/**
+	 * Initialize hooks
+	 *
+	 * @since 1.0.0
+	 */
+	private function init_hooks() {
+		// Replace the default PHPMailer class with our own.
+		add_action( 'plugins_loaded', array( $this, 'replace_phpmailer' ) );
+
+		// Register log handlers.
+		add_filter( 'quillsmtp_register_log_handlers', array( $this, 'register_log_handlers' ) );
+	}
+
+	/**
+	 * Register log handlers
+	 *
+	 * @param  array $handlers Handlers array to filter.
+	 * @return array
+	 */
+	public function register_log_handlers( $handlers ) {
+		$handlers[] = new Log_Handler_DB();
+		return $handlers;
 	}
 }

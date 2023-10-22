@@ -59,6 +59,7 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'QuillSMTP\\Vendor\\Automattic\\Jetpack\\Constants' => __DIR__ . '/..' . '/automattic/jetpack-constants/src/class-constants.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\ApiException' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/ApiException.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AccountApi' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/Api/AccountApi.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AttributesApi' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/Api/AttributesApi.php',

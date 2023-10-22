@@ -69,6 +69,7 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
     );
 
     public static $classMap = array (
+        'Automattic\\Jetpack\\Constants' => __DIR__ . '/..' . '/automattic/jetpack-constants/src/class-constants.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

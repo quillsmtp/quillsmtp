@@ -19,6 +19,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'automattic/jetpack-constants' => array(
+            'pretty_version' => 'v1.6.23',
+            'version' => '1.6.23.0',
+            'reference' => '0825fb1fa94956f26adebc01be0d716a0fd3ade0',
+            'type' => 'jetpack-library',
+            'install_path' => __DIR__ . '/../automattic/jetpack-constants',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'getbrevo/brevo-php' => array(
             'pretty_version' => 'v1.0.2',
             'version' => '1.0.2.0',

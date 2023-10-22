@@ -6,9 +6,9 @@
  *
  * Version: 1.0.0
  *
- * Author: QuillForms
+ * Author: QuillSMTP
  *
- * Author URI: https://quillforms.com
+ * Author URI: https://quillsmtp.com
  *
  * Text Domain: quillsmtp
  *
@@ -36,4 +36,22 @@ require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/build/vendor/scoper-autoload.p
 require_once QUILLSMTP_PLUGIN_DIR . 'includes/autoload.php';
 
 // Initialize the plugin.
-QuillSMTP\QuillSMTP::instance();
+quillsmtp_pre_init();
+
+/**
+ * Verify that we can initialize QuillSMTP , then load it.
+ *
+ * @since 1.0.0
+ */
+function quillsmtp_pre_init() {
+	 QuillSMTP\QuillSMTP::instance();
+	register_activation_hook( QUILLFORMS_PLUGIN_DIR, array( QuillSMTP\Install::class, 'install' ) );
+
+	// do quillsmtp_loaded action.
+	add_action(
+		'plugins_loaded',
+		function () {
+			do_action( 'quillsmtp_loaded' );
+		}
+	);
+}

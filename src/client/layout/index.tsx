@@ -32,10 +32,8 @@ import { NavBar } from '../components';
 import './style.scss';
 
 export const Layout = (props) => {
-	// @ts-expect-error
 	const { notices } = useSelect((select) => {
 		return {
-			// @ts-expect-error
 			notices: select('core/notices').getNotices(),
 		};
 	});
