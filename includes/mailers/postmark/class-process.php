@@ -13,6 +13,7 @@ namespace QuillSMTP\Mailers\PostMark;
 use Exception;
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
 use QuillSMTP\Vendor\Postmark\Models\PostmarkAttachment;
+use WP_Error;
 
 /**
  * Process class.
@@ -69,37 +70,19 @@ class Process extends Abstract_Process {
 				continue;
 			}
 
-			foreach ( $emails as $user ) {
-				$email_address = isset( $user[0] ) ? $user[0] : false;
-				$name          = isset( $user[1] ) ? $user[1] : false;
-
-				if ( ! filter_var( $email_address, FILTER_VALIDATE_EMAIL ) ) {
-					continue;
-				}
-
-				switch ( $type ) {
-					case 'to':
-						$this->body['To'][] = ! empty( $name ) ? sanitize_text_field( $name ) . ' <' . $email_address . '>' : $email_address;
-						break;
-					case 'cc':
-						$this->body['Cc'][] = ! empty( $name ) ? sanitize_text_field( $name ) . ' <' . $email_address . '>' : $email_address;
-						break;
-					case 'bcc':
-						$this->body['Bcc'][] = ! empty( $name ) ? sanitize_text_field( $name ) . ' <' . $email_address . '>' : $email_address;
-						break;
-				}
+			switch ( $type ) {
+				case 'to':
+					$this->body['To'] = $this->addrs_format( $emails );
+					break;
+				case 'cc':
+					$this->body['Cc'] = $this->addrs_format( $emails );
+					break;
+				case 'bcc':
+					$this->body['Bcc'] = $this->addrs_format( $emails );
+					break;
 			}
 		}
 
-		$this->body['To'] = implode( ',', $this->body['To'] );
-
-		if ( ! empty( $this->body['Cc'] ) ) {
-			$this->body['Cc'] = implode( ',', $this->body['Cc'] );
-		}
-
-		if ( ! empty( $this->body['Bcc'] ) ) {
-			$this->body['Bcc'] = implode( ',', $this->body['Bcc'] );
-		}
 	}
 
 	/**
@@ -157,18 +140,7 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		foreach ( $emails as $user ) {
-			$email_address = isset( $user[0] ) ? $user[0] : false;
-			$name          = isset( $user[1] ) ? $user[1] : false;
-
-			if ( ! filter_var( $email_address, FILTER_VALIDATE_EMAIL ) ) {
-				continue;
-			}
-
-			$this->body['ReplyTo'][] = ! empty( $name ) ? sanitize_text_field( $name ) . ' <' . $email_address . '>' : $email_address;
-		}
-
-		$this->body['ReplyTo'] = implode( ',', $this->body['ReplyTo'] );
+		$this->body['ReplyTo'] = $this->addrs_format( $emails );
 	}
 
 	/**
@@ -203,6 +175,26 @@ class Process extends Abstract_Process {
 	}
 
 	/**
+	 * Get the email headers.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function get_headers() {
+		/**
+		 * Filters Postmark email headers.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $headers Email headers.
+		 */
+		$headers = apply_filters( 'quillsmtp_postmark_mailer_get_headers', $this->body['Headers'] );
+
+		return $headers;
+	}
+
+	/**
 	 * Get the email body.
 	 *
 	 * @since 1.0.0
@@ -210,7 +202,16 @@ class Process extends Abstract_Process {
 	 * @return array
 	 */
 	public function get_body() {
-		return apply_filters( 'quillsmtp_postmark_mailer_get_body', $this->body );
+		/**
+		 * Filters Postmark email body.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $body Email body.
+		 */
+		$body = apply_filters( 'quillsmtp_postmark_mailer_get_body', $this->body );
+
+		return $body;
 	}
 
 	/**
@@ -227,6 +228,7 @@ class Process extends Abstract_Process {
 		$client            = $account_api->get_client();
 		$message_stream_id = $account_api->get_message_stream_id();
 		$body              = $this->get_body();
+
 		if ( ! empty( $message_stream_id ) ) {
 			$body['MessageStream'] = $message_stream_id;
 		}
@@ -234,12 +236,36 @@ class Process extends Abstract_Process {
 		try {
 			$results = $client->sendEmailBatch( [ $body ] );
 			if ( 'OK' === $results[0]->__get( 'Message' ) ) {
+				$this->log_result(
+					[
+						'status'   => self::SUCCEEDED,
+						'response' => [
+							'message_id' => $results[0]->__get( 'MessageId' ),
+						],
+					]
+				);
 				return true;
 			} else {
-				return new \WP_Error( 'quillsmtp_postmark_mailer_send_error', $results[0]->__get( 'Message' ) );
+				$this->log_result(
+					[
+						'status'   => self::FAILED,
+						'response' => [
+							'message' => $results[0]->__get( 'Message' ),
+						],
+					]
+				);
+				return new WP_Error( 'quillsmtp_postmark_mailer_send_error', $results[0]->__get( 'Message' ) );
 			}
 		} catch ( Exception $e ) {
-			return new \WP_Error( 'quillsmtp_postmark_mailer_send_error', $e->getMessage() );
+			$this->log_result(
+				[
+					'status'   => self::FAILED,
+					'response' => [
+						'message' => $e->getMessage(),
+					],
+				]
+			);
+			return new WP_Error( 'quillsmtp_postmark_mailer_send_error', $e->getMessage() );
 		}
 	}
 }

@@ -55,13 +55,14 @@ class Provider extends Mailer {
 	 * @since 1.0.0
 	 *
 	 * @param \PHPMailer\PHPMailer\PHPMailer $phpmailer PHPMailer.
+	 * @param string                         $connection_id Connection id.
 	 * @param array                          $connection Connection.
 	 *
 	 * @return Process
 	 */
-	public function process( $phpmailer, $connection ) {
+	public function process( $phpmailer, $connection_id, $connection ) {
 		$class = static::$classes['process'];
 
-		return new $class( $this, $phpmailer, $connection );
+		return new $class( $this, $phpmailer, $connection_id, $connection );
 	}
 }

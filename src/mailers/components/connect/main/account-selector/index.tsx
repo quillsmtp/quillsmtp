@@ -132,7 +132,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 				{size(accounts) > 0 && (
 					<FormControl component="fieldset">
 						<FormLabel component="legend">
-							{__('Select an account', 'quillforms')}
+							{__('Select an account', 'quillsmtp')}
 						</FormLabel>
 						<RadioGroup
 							aria-label="account"
@@ -150,7 +150,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 									<IconButton
 										aria-label={__(
 											'Delete account',
-											'quillforms'
+											'quillsmtp'
 										)}
 										onClick={() => setDeleteAccountID(id)}
 										color="error"
@@ -173,14 +173,14 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					aria-describedby="alert-dialog-description"
 				>
 					<DialogTitle id="alert-dialog-title">
-						{__('Delete account', 'quillforms')}
+						{__('Delete account', 'quillsmtp')}
 					</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-description">
 							{sprintf(
 								__(
 									'Are you sure you want to delete the account %s ?',
-									'quillforms'
+									'quillsmtp'
 								),
 								accounts[deleteAccountID]?.name
 							)}
@@ -194,7 +194,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 							autoFocus
 							disabled={isDeleting}
 						>
-							{__('Cancel', 'quillforms')}
+							{__('Cancel', 'quillsmtp')}
 						</Button>
 						<LoadingButton
 							onClick={deleteHandler}
@@ -203,7 +203,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 							startIcon={<DeleteIcon />}
 							loading={isDeleting}
 						>
-							{__('Delete', 'quillforms')}
+							{__('Delete', 'quillsmtp')}
 						</LoadingButton>
 					</DialogActions>
 				</Dialog>
@@ -215,7 +215,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 				onClick={() => setShowingAddNewAccount(true)}
 				disabled={addingNewAccount}
 			>
-				{__('Add new account', 'quillforms')}
+				{__('Add new account', 'quillsmtp')}
 			</Button>
 			{showingAddNewAccount && (
 				<AccountAuth

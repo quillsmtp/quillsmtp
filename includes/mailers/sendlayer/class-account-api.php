@@ -43,7 +43,7 @@ class Account_API {
 	 *
 	 * @param array $args Email arguments.
 	 *
-	 * @return array
+	 * @return WP_Error|array
 	 */
 	public function send( $args ) {
 		$response = wp_remote_request(

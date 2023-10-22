@@ -58,7 +58,6 @@ abstract class Settings_Controller {
 	public function __construct( $mailer ) {
 		$this->mailer    = $mailer;
 		$this->rest_base = "mailers/{$this->mailer->slug}{$this->rest_endpoint}";
-		error_log( "mailers/{$this->mailer->slug}{$this->rest_endpoint}" );
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 

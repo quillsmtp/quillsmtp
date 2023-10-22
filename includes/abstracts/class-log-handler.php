@@ -45,7 +45,7 @@ abstract class Log_Handler implements Log_Handler_Interface {
 		$entry        = "{$time_string} {$level_string} {$message}";
 
 		return apply_filters(
-			'quillforms_format_log_entry',
+			'quillsmtp_format_log_entry',
 			$entry,
 			array(
 				'timestamp' => $timestamp,

@@ -10,12 +10,19 @@
 
 namespace QuillSMTP\Mailer\Provider;
 
+defined( 'ABSPATH' ) || exit;
+
+use QuillSMTP\Abstracts\Log_Levels;
+
 /**
  * Process class.
  *
  * @since 1.0.0
  */
 abstract class Process {
+
+	const SUCCEEDED = 'succeeded';
+	const FAILED    = 'failed';
 
 	/**
 	 * Provider
@@ -34,6 +41,15 @@ abstract class Process {
 	 * @var \PHPMailer\PHPMailer\PHPMailer
 	 */
 	protected $phpmailer;
+
+	/**
+	 * Connection id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var int
+	 */
+	protected $connection_id;
 
 	/**
 	 * connection.
@@ -83,12 +99,16 @@ abstract class Process {
 	 *
 	 * @param Provider                       $provider Provider.
 	 * @param \PHPMailer\PHPMailer\PHPMailer $phpmailer PHPMailer.
+	 * @param string                         $connection_id Connection id.
+	 * @param array                          $connection Connection.
+	 *
 	 * @param array                          $connection Connection.
 	 */
-	public function __construct( $provider, $phpmailer, $connection ) {
-		$this->provider   = $provider;
-		$this->phpmailer  = $phpmailer;
-		$this->connection = $connection;
+	public function __construct( $provider, $phpmailer, $connection_id, $connection ) {
+		$this->provider      = $provider;
+		$this->phpmailer     = $phpmailer;
+		$this->connection    = $connection;
+		$this->connection_id = $connection_id;
 
 		// Set the filesystem.
 		require_once ABSPATH . 'wp-admin/includes/file.php'; // We will probably need to load this file.
@@ -96,7 +116,7 @@ abstract class Process {
 		WP_Filesystem(); // Initial WP file system.
 		$this->filesystem = $wp_filesystem;
 
-		$this->set_phpmailer( $phpmailer );
+		$this->set_phpmailer();
 	}
 
 	/**
@@ -115,7 +135,6 @@ abstract class Process {
 	 */
 	public function set_phpmailer() {
 		$this->set_headers( $this->phpmailer->getCustomHeaders() );
-		$this->set_header( 'X-Mailer', "QuillSMTP {$this->provider->name}" );
 		$this->set_from( $this->get_from_email(), $this->get_from_name() );
 		$this->set_recipients(
 			array(
@@ -148,7 +167,9 @@ abstract class Process {
 	 * @param array $headers Custom headers.
 	 */
 	public function set_headers( $headers ) {
-
+		$this->set_header( 'X-Mailer', "QuillSMTP {$this->provider->name}" );
+		$this->set_header( 'X-QuillSMTP-Provider', $this->provider->name );
+		$this->set_header( 'X-QuillSMTP-Connection', $this->connection['name'] );
 		foreach ( $headers as $header ) {
 			$name  = isset( $header[0] ) ? $header[0] : false;
 			$value = isset( $header[1] ) ? $header[1] : false;
@@ -278,7 +299,7 @@ abstract class Process {
 	 * @return string
 	 */
 	public function get_from_email() {
-		$from_email = isset( $this->connection['from_email'] ) ? $this->connection['from_email'] : $this->phpmailer->From;
+		$from_email = $this->connection['from_email'] ?? '' ? $this->connection['from_email'] : $this->phpmailer->From;
 
 		return apply_filters( 'quillsmtp_mailer_get_from_email', $from_email, $this->provider );
 	}
@@ -291,8 +312,106 @@ abstract class Process {
 	 * @return string
 	 */
 	public function get_from_name() {
-		$from_name = isset( $this->connection['from_name'] ) ? $this->connection['from_name'] : $this->phpmailer->FromName;
+		$from_name = $this->connection['from_name'] ?? '' ? $this->connection['from_name'] : $this->phpmailer->FromName;
 
 		return apply_filters( 'quillsmtp_mailer_get_from_name', $from_name, $this->provider );
+	}
+
+	/**
+	 * Get email details.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_email_details() {
+		$email_details = [
+			'from'        => $this->phpmailer->addrFormat( [ $this->get_from_email(), $this->get_from_name() ] ),
+			'to'          => $this->addrs_format( $this->phpmailer->getToAddresses() ),
+			'cc'          => $this->addrs_format( $this->phpmailer->getCcAddresses() ),
+			'bcc'         => $this->addrs_format( $this->phpmailer->getBccAddresses() ),
+			'reply_to'    => $this->addrs_format( $this->phpmailer->getReplyToAddresses() ),
+			'subject'     => $this->phpmailer->Subject,
+			'headers'     => $this->get_headers(),
+			'plain'       => $this->phpmailer->AltBody,
+			'html'        => $this->phpmailer->Body,
+			'attachments' => array_map(
+				function( $attachment ) {
+					return $attachment[0];
+				},
+				$this->phpmailer->getAttachments()
+			),
+		];
+
+		return apply_filters( 'quillsmtp_mailer_get_email_details', $email_details, $this->provider );
+	}
+
+	/**
+	 * Address format.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $addresses
+	 *
+	 * @return string
+	 */
+	public function addrs_format( $addresses ) {
+		$addrs = [];
+
+		foreach ( $addresses as $user ) {
+			$email = isset( $user[0] ) ? $user[0] : false;
+
+			if ( empty( $email ) ) {
+				continue;
+			}
+
+			$addrs[] = $this->phpmailer->addrFormat( $user );
+		}
+
+		return implode( ',', $addrs );
+	}
+
+	/**
+	 * Log connection process result
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $result includes 'status' and 'details'.
+	 * @return void
+	 */
+	public function log_result( $result ) {
+		switch ( $result['status'] ) {
+			case self::SUCCEEDED:
+				$level   = Log_Levels::INFO;
+				$message = esc_html__( 'Email sent successfully', 'quillsmtp' );
+				$code    = 'connection_processed_successfully';
+				break;
+			case self::FAILED:
+				$level   = Log_Levels::ERROR;
+				$message = esc_html__( 'Failed to send email', 'quillsmtp' );
+				$code    = 'cannot_process_connection';
+				break;
+		}
+
+		// add basic log context info.
+		$context = array(
+			'source'          => static::class . '->send',
+			'code'            => $code,
+			'connection_id'   => $this->connection_id,
+			'connection_name' => $this->connection['name'],
+			'provider'        => $this->provider->name,
+			'email_details'   => $this->get_email_details(),
+			'response'        => $result['response'],
+		);
+
+		// add additional info for failed and skipped connections.
+		if ( in_array( $result['status'], array( self::FAILED ), true ) ) {
+			$context = array_merge(
+				$context,
+				array(
+					'connection' => $this->connection,
+				)
+			);
+		}
+
+		quillsmtp_get_logger()->log( $level, $message, $context );
 	}
 }

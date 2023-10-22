@@ -216,6 +216,48 @@ class Process extends Abstract_Process {
 	}
 
 	/**
+	 * Get the email headers.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function get_headers() {
+
+		/**
+		 * Filters SendLayer email headers.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $headers Email headers.
+		 */
+		$headers = apply_filters( 'quillsmtp_sendlayer_mailer_get_headers', $this->body['Headers'] );
+
+		return $headers;
+	}
+
+	/**
+	 * Get the email body.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function get_body() {
+
+		/**
+		 * Filters SendLayer email body.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $body Email body.
+		 */
+		$body = apply_filters( 'quillsmtp_sendlayer_mailer_get_body', $this->body );
+
+		return $body;
+	}
+
+	/**
 	 * Send email.
 	 *
 	 * @since 1.0.0
@@ -229,9 +271,21 @@ class Process extends Abstract_Process {
 
 		$send_email = $account_api->send( $this->get_body() );
 		if ( is_wp_error( $send_email ) ) {
-			$this->error = $send_email;
+			$this->log_result(
+				array(
+					'status'   => self::FAILED,
+					'response' => $send_email->get_error_message(),
+				)
+			);
 			return false;
 		}
+
+		$this->log_result(
+			[
+				'status'   => self::SUCCEEDED,
+				'response' => $send_email,
+			]
+		);
 
 		return true;
 	}

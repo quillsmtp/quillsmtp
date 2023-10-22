@@ -44,8 +44,9 @@ quillsmtp_pre_init();
  * @since 1.0.0
  */
 function quillsmtp_pre_init() {
-	 QuillSMTP\QuillSMTP::instance();
-	register_activation_hook( QUILLFORMS_PLUGIN_DIR, array( QuillSMTP\Install::class, 'install' ) );
+
+	QuillSMTP\QuillSMTP::instance();
+	register_activation_hook( __FILE__, array( QuillSMTP\Install::class, 'install' ) );
 
 	// do quillsmtp_loaded action.
 	add_action(

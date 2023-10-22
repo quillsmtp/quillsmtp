@@ -1,14 +1,10 @@
 /**
- * QuillForms Dependencies
- */
-import { Button } from '@wordpress/components';
-
-/**
  * WordPress Dependencies
  */
 import { useDispatch } from '@wordpress/data';
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import { Button } from '@wordpress/components';
 
 /**
  * Internal Dependencies

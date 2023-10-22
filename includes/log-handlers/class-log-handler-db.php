@@ -54,7 +54,7 @@ class Log_Handler_DB extends Log_Handler {
 		// versions.
 		$context['versions'] = array();
 		// add main plugin version.
-		$context['versions']['QuillSMTP'] = QUILLSMTP_VERSION;
+		$context['versions']['QuillSMTP'] = QUILLSMTP_PLUGIN_VERSION;
 
 		return $this->add( $timestamp, $level, $message, $source, $context );
 	}

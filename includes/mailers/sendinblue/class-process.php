@@ -13,6 +13,7 @@ namespace QuillSMTP\Mailers\SendInBlue;
 use Exception;
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
 use QuillSMTP\Vendor\Brevo\Client\Model\SendSmtpEmail;
+use WP_Error;
 
 /**
  * Process class.
@@ -211,6 +212,27 @@ class Process extends Abstract_Process {
 	}
 
 	/**
+	 * Set the email headers.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function get_headers() {
+
+		/**
+		 * Filters Sendinblue email headers.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $headers Email headers.
+		 */
+		$headers = apply_filters( 'quillsmtp_sendinblue_mailer_get_headers', $this->body['headers'] );
+
+		return $headers;
+	}
+
+	/**
 	 * Get the email body.
 	 *
 	 * @since 1.0.0
@@ -246,12 +268,36 @@ class Process extends Abstract_Process {
 		try {
 			$result = $api_instance->sendTransacEmail( $this->get_body() );
 			if ( $result->getMessageId() ) {
+				$this->log_result(
+					[
+						'status'   => self::SUCCEEDED,
+						'response' => [
+							'message_id' => $result->getMessageId(),
+						],
+					]
+				);
 				return true;
 			} else {
-				return new \WP_Error( 'quillsmtp_sendinblue_error', $result->getMessage() );
+				$this->log_result(
+					[
+						'status'   => self::FAILED,
+						'response' => [
+							'message' => $result->getMessage(),
+						],
+					]
+				);
+				return new WP_Error( 'quillsmtp_sendinblue_error', $result->getMessage() );
 			}
 		} catch ( Exception $e ) {
-			return new \WP_Error( 'quillsmtp_sendinblue_error', $e->getMessage() );
+			$this->log_result(
+				[
+					'status'   => self::FAILED,
+					'response' => [
+						'message' => $e->getMessage(),
+					],
+				]
+			);
+			return new WP_Error( 'quillsmtp_sendinblue_error', $e->getMessage() );
 		}
 	}
 }
