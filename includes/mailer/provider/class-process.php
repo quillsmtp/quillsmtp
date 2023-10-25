@@ -335,7 +335,7 @@ abstract class Process {
 			'html'        => $this->phpmailer->Body,
 			'attachments' => array_map(
 				function( $attachment ) {
-					return $attachment[0];
+					return $attachment[1];
 				},
 				$this->phpmailer->getAttachments()
 			),

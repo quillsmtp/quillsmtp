@@ -229,7 +229,7 @@ class REST_Log_Controller extends REST_Controller {
 			return new WP_Error( 'quillsmtp_logs_db_error_on_deleting_log', __( 'Error on deleting log in db!', 'quillsmtp' ), array( 'status' => 422 ) );
 		}
 
-		return new WP_REST_Response();
+		return new WP_REST_Response( array( 'success' => true ), 200 );
 	}
 
 	/**

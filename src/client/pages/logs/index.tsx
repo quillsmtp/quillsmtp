@@ -8,6 +8,7 @@ import { useEffect, useState } from '@wordpress/element';
 /**
  * External Dependencies
  */
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -27,42 +28,20 @@ import Box from '@mui/material/Box';
 import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/Visibility';
-import Chip from '@mui/material/Chip';
+import MuiChip from '@mui/material/Chip';
 import { Stack } from '@mui/material';
 import { css } from '@emotion/css';
 import { ThreeDots as Loader } from 'react-loader-spinner';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 /**
  * Internal Dependencies
  */
+import { Log } from './types';
+import LogModal from './log-modal';
 import './style.scss';
-
-interface Log {
-	log_id: number;
-	level: string;
-	message: string;
-	source: string;
-	datetime: string;
-	local_datetime: string;
-	context: {
-		code: string;
-		connection_id: string;
-		connection_name: string;
-		provider: string;
-		email_details: {
-			from: string;
-			to: string;
-			cc: string;
-			bcc: string;
-			reply_to: string;
-			subject: string;
-			headers: string;
-			plain: string;
-			html: string;
-			attachments: string;
-		};
-	};
-}
+import AlertDialog from './alert-dialog';
 
 interface TablePaginationActionsProps {
 	count: number;
@@ -81,6 +60,16 @@ interface Column {
 	align?: 'right';
 	format?: (value: number) => string;
 }
+
+const Chip = styled(MuiChip)(() => ({
+	height: 22,
+}));
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+	function Alert(props, ref) {
+		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+	}
+);
 
 const TablePaginationActions = (props: TablePaginationActionsProps) => {
 	const theme = useTheme();
@@ -163,7 +152,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 const columns: readonly Column[] = [
 	{ id: 'subject', label: __('Subject', 'quillsmtp'), minWidth: 100 },
 	{ id: 'to', label: __('To', 'quillsmtp'), minWidth: 100 },
-	{ id: 'level', label: __('Level', 'quillsmtp'), minWidth: 100 },
+	{ id: 'level', label: __('Status', 'quillsmtp'), minWidth: 100 },
 	{ id: 'datetime', label: __('Date', 'quillsmtp'), minWidth: 100 },
 	{ id: 'actions', label: __('Actions', 'quillsmtp'), minWidth: 100 },
 ];
@@ -197,7 +186,9 @@ const Logs: React.FC = () => {
 	const [perPage, setPerPage] = useState<number>(10);
 	const [count, setCount] = useState<number>(0); // total count of logs
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-
+	const [deleteLogId, setDeleteLogId] = useState<number | null>(null); // null for no log to clear
+	const [isDeleting, setIsDeleting] = useState<boolean>(false); // null for no log to clear
+	const [response, setResponse] = useState<string | null>(null); // null for no log to clear
 	const [logs, setLogs] = useState<Log[] | null>(null); // null for loading, false for error empty array for empty list
 	const [modalLogId, setModalLogId] = useState<number | null>(null); // null for no log to show
 
@@ -229,19 +220,49 @@ const Logs: React.FC = () => {
 		});
 	};
 
+	const logsDelete = (id) => {
+		if (isDeleting || !logs) return;
+		setIsDeleting(true);
+		apiFetch({
+			path: `/qsmtp/v1/logs/${id}`,
+			method: 'DELETE',
+		})
+			.then((res: any) => {
+				if (res.success) {
+					const newLogs = logs.filter((log) => log.log_id !== id);
+					setLogs(newLogs);
+					setIsDeleting(false);
+					setDeleteLogId(null);
+					setResponse(__('Log deleted successfully!', 'quillsmtp'));
+				} else {
+					setIsDeleting(false);
+					setDeleteLogId(null);
+				}
+			})
+			.catch(() => {
+				setIsDeleting(false);
+				setDeleteLogId(null);
+			});
+	};
+
 	const getLogLevel = (level) => {
 		switch (level) {
 			case 'error':
-				return <Chip label={__('Error', 'quillforms')} color="error" />;
+				return <Chip label={__('Error', 'quillsmtp')} color="error" />;
 			case 'info':
-				return (
-					<Chip label={__('Sent', 'quillforms')} color="success" />
-				);
+				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
 			default:
 				return (
-					<Chip label={__('Debug', 'quillforms')} color="default" />
+					<Chip label={__('Debug', 'quillsmtp')} color="default" />
 				);
 		}
+	};
+
+	const getLogById = (id) => {
+		if (logs === null) return null;
+		const log = logs.find((log) => log.log_id === id);
+		if (!log) return null;
+		return log;
 	};
 
 	return (
@@ -330,7 +351,11 @@ const Logs: React.FC = () => {
 															'Delete log',
 															'quillsmtp'
 														)}
-														onClick={() => {}}
+														onClick={() =>
+															setDeleteLogId(
+																log.log_id
+															)
+														}
 														color="error"
 													>
 														<DeleteIcon />
@@ -376,6 +401,44 @@ const Logs: React.FC = () => {
 						</Table>
 					</TableContainer>
 				</>
+			)}
+			{deleteLogId !== null && (
+				<AlertDialog
+					open={deleteLogId !== null}
+					title={__('Delete Log', 'quillsmtp')}
+					text={__(
+						'Are you sure you want to delete this log?',
+						'quillsmtp'
+					)}
+					color="error"
+					confirmText={__('Delete', 'quillsmtp')}
+					loading={isDeleting}
+					onClose={() => setDeleteLogId(null)}
+					onConfirm={() => logsDelete(deleteLogId)}
+				/>
+			)}
+			{response !== null && (
+				<Snackbar
+					open={response !== null}
+					autoHideDuration={6000}
+					onClose={() => setResponse(null)}
+					anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+				>
+					<Alert
+						onClose={() => setResponse(null)}
+						severity="success"
+						sx={{ width: '100%' }}
+					>
+						{response}
+					</Alert>
+				</Snackbar>
+			)}
+			{modalLogId !== null && (
+				<LogModal
+					log={getLogById(modalLogId)}
+					open={modalLogId !== null}
+					onClose={() => setModalLogId(null)}
+				/>
 			)}
 		</div>
 	);
