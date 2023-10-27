@@ -14,8 +14,12 @@ export type Setup = {
 export type AccountsAuthFields = {
 	[key: string]: {
 		label: string;
-		type: 'text';
+		type: 'text' | 'select';
 		required?: boolean;
+		options?: {
+			label: string;
+			value: string;
+		}[];
 	};
 };
 

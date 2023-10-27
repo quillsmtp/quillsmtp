@@ -9,6 +9,10 @@ import { getMailerModules } from '@quillsmtp/mailers';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import AddIcon from '@mui/icons-material/Add';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 /**
  * WordPress Dependencies
@@ -118,20 +122,57 @@ const Credentials: React.FC<Props> = ({
 
 	return (
 		<div className="mailer-auth-credentials">
-			{Object.entries(fields).map(([key, field]) => (
-				<TextField
-					key={key}
-					label={field.label}
-					value={inputs[key] ?? ''}
-					onChange={(e) =>
-						setInputs({ ...inputs, [key]: e.target.value })
-					}
-					disabled={submitting}
-					variant="outlined"
-					fullWidth
-					sx={{ mb: 2 }}
-				/>
-			))}
+			{Object.entries(fields).map(([key, field]) => {
+				switch (field.type) {
+					case 'text':
+						return (
+							<TextField
+								key={key}
+								label={field.label}
+								value={inputs[key] ?? ''}
+								onChange={(e) =>
+									setInputs({
+										...inputs,
+										[key]: e.target.value,
+									})
+								}
+								required={field.required}
+								disabled={submitting}
+								variant="outlined"
+								fullWidth
+								sx={{ mb: 2 }}
+							/>
+						);
+					case 'select':
+						return (
+							<FormControl key={key} fullWidth sx={{ mb: 2 }}>
+								<InputLabel>{field.label}</InputLabel>
+								<Select
+									value={inputs[key] ?? ''}
+									label={field.label}
+									onChange={(e: SelectChangeEvent) =>
+										setInputs({
+											...inputs,
+											[key]: e.target.value,
+										})
+									}
+									required={field.required}
+									disabled={submitting}
+								>
+									{field.options &&
+										field.options.map((option) => (
+											<MenuItem
+												key={option.value}
+												value={option.value}
+											>
+												{option.label}
+											</MenuItem>
+										))}
+								</Select>
+							</FormControl>
+						);
+				}
+			})}
 			<LoadingButton
 				variant="contained"
 				color="primary"
