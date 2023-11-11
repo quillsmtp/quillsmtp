@@ -45,6 +45,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
     "qs": "^6.11.2",
+    "react-date-range": "^1.4.0",
     "react-dnd": "^15.1.2",
     "react-loader-spinner": "^5.4.5",
     "react-router-dom": "^5.2.0",

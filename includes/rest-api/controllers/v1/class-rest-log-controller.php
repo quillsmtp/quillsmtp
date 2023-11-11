@@ -89,12 +89,24 @@ class REST_Log_Controller extends REST_Controller {
 			return $this->export_items( $export, $levels );
 		}
 
-		$per_page = $request->get_param( 'per_page' );
-		$page     = $request->get_param( 'page' );
-		$offset   = $per_page * ( $page - 1 );
-		$logs     = Log_Handler_DB::get_all( $levels, $offset, $per_page );
+		$per_page    = $request->get_param( 'per_page' );
+		$page        = $request->get_param( 'page' );
+		$offset      = $per_page * ( $page - 1 );
+		$logs        = [];
+		$total_items = [];
+		$start_date  = $request->get_param( 'start_date' );
+		$end_date    = $request->get_param( 'end_date' );
 
-		$total_items = Log_Handler_DB::get_count( $levels );
+		if ( $start_date && $end_date ) {
+			$start_date  = $this->get_date( $start_date );
+			$end_date    = $this->get_date( $end_date, '23:59:59' );
+			$logs        = Log_Handler_DB::get_all( $levels, $offset, $per_page, $start_date, $end_date );
+			$total_items = Log_Handler_DB::get_count( $levels, $start_date, $end_date );
+		} else {
+			$logs        = Log_Handler_DB::get_all( $levels, $offset, $per_page );
+			$total_items = Log_Handler_DB::get_count( $levels );
+		}
+
 		$total_pages = ceil( $total_items / $per_page );
 
 		$data = array(
@@ -244,6 +256,24 @@ class REST_Log_Controller extends REST_Controller {
 	public function delete_item_permissions_check( $request ) {
 		$capability = 'manage_options';
 		return current_user_can( $capability, $request );
+	}
+
+	/**
+	 * Get valid date
+	 *
+	 * @param string $date date.
+	 * @param string $time time.
+	 *
+	 * @return string
+	 */
+	public function get_date( $date, $time = '00:00:00' ) {
+		list($month, $day, $year) = explode( '/', $date );
+		$value                    = "$year-$month-$day";
+		if ( $time ) {
+			$value .= " $time";
+		}
+
+		return $value;
 	}
 
 }

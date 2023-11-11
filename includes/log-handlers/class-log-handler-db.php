@@ -105,9 +105,12 @@ class Log_Handler_DB extends Log_Handler {
 	 * @param array|false $levels Array of levels, false for all.
 	 * @param integer     $offset Offset.
 	 * @param integer     $count Count.
+	 * @param string|bool $start_date Start date.
+	 * @param string|bool $end_date End date.
+	 *
 	 * @return array
 	 */
-	public static function get_all( $levels = false, $offset = 0, $count = 10000000 ) {
+	public static function get_all( $levels = false, $offset = 0, $count = 10000000, $start_date = false, $end_date = false ) {
 		global $wpdb;
 
 		$where = '';
@@ -121,6 +124,15 @@ class Log_Handler_DB extends Log_Handler {
 				)
 			);
 			$where  = 'WHERE level IN (' . implode( ',', $levels ) . ')';
+		}
+
+		if ( $start_date && $end_date ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
+			}
+			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
 		}
 
 		$results = $wpdb->get_results(
@@ -168,9 +180,12 @@ class Log_Handler_DB extends Log_Handler {
 	 * Get logs count
 	 *
 	 * @param array|false $levels Levels.
+	 * @param string|bool $start_date Start date.
+	 * @param string|bool $end_date End date.
+	 *
 	 * @return int
 	 */
-	public static function get_count( $levels = false ) {
+	public static function get_count( $levels = false, $start_date = false, $end_date = false ) {
 		global $wpdb;
 
 		$where = '';
@@ -184,6 +199,15 @@ class Log_Handler_DB extends Log_Handler {
 				)
 			);
 			$where  = 'WHERE level IN (' . implode( ',', $levels ) . ')';
+		}
+
+		if ( $start_date && $end_date ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
+			}
+			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
 		}
 
 		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_log $where" ); // phpcs:ignore

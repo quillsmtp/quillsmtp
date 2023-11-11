@@ -10,7 +10,7 @@ import { useEffect, useState } from '@wordpress/element';
  */
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -29,11 +29,18 @@ import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/Visibility';
 import MuiChip from '@mui/material/Chip';
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { css } from '@emotion/css';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import SearchIcon from '@mui/icons-material/Search';
+import DateIcon from '@mui/icons-material/DateRange';
+import InputBase from '@mui/material/InputBase';
+import { DateRangePicker } from 'react-date-range';
+import classnames from 'classnames';
+import Modal from '@mui/material/Modal';
+import Popover from '@mui/material/Popover';
 
 /**
  * Internal Dependencies
@@ -60,6 +67,46 @@ interface Column {
 	align?: 'right';
 	format?: (value: number) => string;
 }
+
+const Search = styled('div')(({ theme }) => ({
+	position: 'relative',
+	borderRadius: theme.shape.borderRadius,
+	backgroundColor: alpha(theme.palette.common.white, 0.15),
+	'&:hover': {
+		backgroundColor: alpha(theme.palette.common.white, 0.25),
+	},
+	marginRight: theme.spacing(2),
+	marginLeft: 0,
+	width: '100%',
+	[theme.breakpoints.up('sm')]: {
+		marginLeft: theme.spacing(3),
+		width: 'auto',
+	},
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+	padding: theme.spacing(0, 2),
+	height: '100%',
+	position: 'absolute',
+	pointerEvents: 'none',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+	color: 'inherit',
+	'& .MuiInputBase-input': {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('md')]: {
+			width: '20ch',
+		},
+	},
+}));
 
 const Chip = styled(MuiChip)(() => ({
 	height: 22,
@@ -191,11 +238,19 @@ const Logs: React.FC = () => {
 	const [response, setResponse] = useState<string | null>(null); // null for no log to clear
 	const [logs, setLogs] = useState<Log[] | null>(null); // null for loading, false for error empty array for empty list
 	const [modalLogId, setModalLogId] = useState<number | null>(null); // null for no log to show
+	const [currentFilter, setCurrentFilter] = useState<string>('all');
+	const [openDateRangePicker, setOpenDateRangePicker] =
+		useState<boolean>(false);
+	const [dateRange, setDateRange] = useState<any>({});
 
 	useEffect(() => {
 		setIsLoading(true);
+		let path = `/qsmtp/v1/logs?page=${page}&per_page=${perPage}`;
+		if (currentFilter !== 'all') {
+			path += `&levels=${currentFilter}`;
+		}
 		apiFetch({
-			path: `/qsmtp/v1/logs?page=${page}&per_page=${perPage}`,
+			path: path,
 			method: 'GET',
 		})
 			.then((res: any) => {
@@ -208,7 +263,29 @@ const Logs: React.FC = () => {
 				setCount(0);
 				setIsLoading(false);
 			});
-	}, [page, perPage]);
+	}, [page, perPage, currentFilter]);
+
+	const filterLogsByDate = () => {
+		if (!dateRange?.startDate || !dateRange?.endDate || isLoading) return;
+		setIsLoading(true);
+		const startDate = dateRange.startDate.toLocaleDateString();
+		const endDate = dateRange.endDate.toLocaleDateString();
+
+		apiFetch({
+			path: `/qsmtp/v1/logs?start_date=${startDate}&end_date=${endDate}&page=${page}&per_page=${perPage}`,
+			method: 'GET',
+		})
+			.then((res: any) => {
+				setLogs(res.items);
+				setCount(res.total_items);
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setLogs(null);
+				setCount(0);
+				setIsLoading(false);
+			});
+	};
 
 	const logsClear = () => {
 		apiFetch({
@@ -265,6 +342,21 @@ const Logs: React.FC = () => {
 		return log;
 	};
 
+	const statusFilters: { label: string; value: string }[] = [
+		{
+			label: __('All', 'quillsmtp'),
+			value: 'all',
+		},
+		{
+			label: __('Successfull', 'quillsmtp'),
+			value: 'info',
+		},
+		{
+			label: __('Failed', 'quillsmtp'),
+			value: 'error',
+		},
+	];
+
 	return (
 		<div className="qsmtp-logs">
 			{logs === null && (
@@ -282,7 +374,95 @@ const Logs: React.FC = () => {
 				</div>
 			)}
 			{logs !== null && (
-				<>
+				<div className="qsmtp-logs__wrap">
+					<div className="qsmtp-logs__header">
+						<div className="qsmtp-logs__header-section">
+							<h2>{__('Logs', 'quillsmtp')}</h2>
+							<div className="qsmtp-logs__header-filters">
+								{statusFilters.map((filter) => (
+									<div
+										className={classnames(
+											'qsmtp-logs__header-filter',
+											{
+												'qsmtp-logs__header-filter--active':
+													filter.value ===
+													currentFilter,
+											}
+										)}
+										key={filter.value}
+										onClick={() =>
+											setCurrentFilter(filter.value)
+										}
+									>
+										{filter.label}
+									</div>
+								))}
+							</div>
+						</div>
+						<div className="qsmtp-logs__header-section">
+							<div
+								className="qsmtp-logs__header-date-range"
+								onClick={() => setOpenDateRangePicker(true)}
+							>
+								<div>
+									<DateIcon />
+									<span className="qsmtp-logs__header-date-range-label">
+										{dateRange?.startDate?.toLocaleDateString() ||
+											__('Start Date', 'quillsmtp')}
+									</span>
+								</div>
+								<span>{__('To', 'quillsmtp')}</span>
+								<div>
+									<DateIcon />
+									<span className="qsmtp-logs__header-date-range-label">
+										{dateRange?.endDate?.toLocaleDateString() ||
+											__('End Date', 'quillsmtp')}
+									</span>
+								</div>
+							</div>
+							<Button
+								sx={{
+									marginLeft: '10px',
+								}}
+								variant="outlined"
+								onClick={() => filterLogsByDate()}
+							>
+								{__('Filter', 'quillsmtp')}
+							</Button>
+							<Popover
+								open={openDateRangePicker}
+								onClose={() => setOpenDateRangePicker(false)}
+								anchorReference="anchorPosition"
+								anchorPosition={{
+									top: 200,
+									left: 400,
+								}}
+							>
+								<DateRangePicker
+									onChange={(item) => {
+										setDateRange({
+											startDate: item.selection.startDate,
+											endDate: item.selection.endDate,
+										});
+									}}
+									showSelectionPreview={true}
+									moveRangeOnFirstSelection={false}
+									months={2}
+									ranges={[
+										{
+											startDate:
+												dateRange?.startDate ||
+												new Date(),
+											endDate:
+												dateRange?.endDate ||
+												new Date(),
+											key: 'selection',
+										},
+									]}
+								/>
+							</Popover>
+						</div>
+					</div>
 					<TableContainer component={Paper}>
 						<Table
 							sx={{ minWidth: 500 }}
@@ -368,7 +548,7 @@ const Logs: React.FC = () => {
 							<TableFooter>
 								<TableRow>
 									<TablePagination
-										rowsPerPageOptions={[10, 25, 100]}
+										rowsPerPageOptions={[5, 10, 25, 100]}
 										colSpan={6}
 										count={count}
 										rowsPerPage={perPage}
@@ -400,7 +580,7 @@ const Logs: React.FC = () => {
 							</TableFooter>
 						</Table>
 					</TableContainer>
-				</>
+				</div>
 			)}
 			{deleteLogId !== null && (
 				<AlertDialog
