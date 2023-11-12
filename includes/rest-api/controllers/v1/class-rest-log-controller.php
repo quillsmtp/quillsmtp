@@ -96,12 +96,17 @@ class REST_Log_Controller extends REST_Controller {
 		$total_items = [];
 		$start_date  = $request->get_param( 'start_date' );
 		$end_date    = $request->get_param( 'end_date' );
+		$search      = $request->get_param( 'search' );
 
 		if ( $start_date && $end_date ) {
 			$start_date  = $this->get_date( $start_date );
 			$end_date    = $this->get_date( $end_date, '23:59:59' );
 			$logs        = Log_Handler_DB::get_all( $levels, $offset, $per_page, $start_date, $end_date );
 			$total_items = Log_Handler_DB::get_count( $levels, $start_date, $end_date );
+		} elseif ( $search ) {
+			$search      = sanitize_text_field( $search );
+			$logs        = Log_Handler_DB::get_all( $levels, $offset, $per_page, false, false, $search );
+			$total_items = Log_Handler_DB::get_count( $levels, false, false, $search );
 		} else {
 			$logs        = Log_Handler_DB::get_all( $levels, $offset, $per_page );
 			$total_items = Log_Handler_DB::get_count( $levels );

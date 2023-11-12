@@ -107,10 +107,11 @@ class Log_Handler_DB extends Log_Handler {
 	 * @param integer     $count Count.
 	 * @param string|bool $start_date Start date.
 	 * @param string|bool $end_date End date.
+	 * @param string|bool $search Context column search.
 	 *
 	 * @return array
 	 */
-	public static function get_all( $levels = false, $offset = 0, $count = 10000000, $start_date = false, $end_date = false ) {
+	public static function get_all( $levels = false, $offset = 0, $count = 10000000, $start_date = false, $end_date = false, $search = false ) {
 		global $wpdb;
 
 		$where = '';
@@ -133,6 +134,15 @@ class Log_Handler_DB extends Log_Handler {
 				$where .= ' WHERE ';
 			}
 			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
+		}
+
+		if ( $search ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
+			}
+			$where .= 'context LIKE "%' . $search . '%"';
 		}
 
 		$results = $wpdb->get_results(
@@ -182,10 +192,11 @@ class Log_Handler_DB extends Log_Handler {
 	 * @param array|false $levels Levels.
 	 * @param string|bool $start_date Start date.
 	 * @param string|bool $end_date End date.
+	 * @param string|bool $search Context column search.
 	 *
 	 * @return int
 	 */
-	public static function get_count( $levels = false, $start_date = false, $end_date = false ) {
+	public static function get_count( $levels = false, $start_date = false, $end_date = false, $search = false ) {
 		global $wpdb;
 
 		$where = '';
@@ -208,6 +219,16 @@ class Log_Handler_DB extends Log_Handler {
 				$where .= ' WHERE ';
 			}
 			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
+		}
+
+		if ( $search ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
+			}
+			// Context column is an object so we need to serialize it.
+			$where .= 'context LIKE "%' . $search . '%"';
 		}
 
 		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_log $where" ); // phpcs:ignore

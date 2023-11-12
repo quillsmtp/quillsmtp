@@ -1,7 +1,6 @@
 .qsmtp-logs {
-	max-width: 800px;
 	margin: 0 auto;
-
+	width: 90%;
 	.qsmtp-logs__loading-row-bar {
 		background: #f3f3f3;
 		background-image: linear-gradient(
@@ -28,8 +27,10 @@
 		border-radius: 10px;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		h2 {
 			color: #697386;
+			margin-right: 20px;
 		}
 		.qsmtp-logs__header-section {
 			display: flex;
@@ -41,7 +42,6 @@
 		.qsmtp-logs__header-filters {
 			display: flex;
 			align-items: center;
-			margin-left: 20px;
 			.qsmtp-logs__header-filter {
 				padding: 10px 20px;
 				border: 1px solid #dcdfe6;

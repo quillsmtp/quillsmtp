@@ -97,6 +97,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	color: 'inherit',
 	'& .MuiInputBase-input': {
+		backgroundColor: 'transparent',
+		minHeight: 'auto',
 		padding: theme.spacing(1, 1, 1, 0),
 		// vertical padding + font size from searchIcon
 		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -242,6 +244,7 @@ const Logs: React.FC = () => {
 	const [openDateRangePicker, setOpenDateRangePicker] =
 		useState<boolean>(false);
 	const [dateRange, setDateRange] = useState<any>({});
+	const [search, setSearch] = useState<string>('');
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -273,6 +276,26 @@ const Logs: React.FC = () => {
 
 		apiFetch({
 			path: `/qsmtp/v1/logs?start_date=${startDate}&end_date=${endDate}&page=${page}&per_page=${perPage}`,
+			method: 'GET',
+		})
+			.then((res: any) => {
+				setLogs(res.items);
+				setCount(res.total_items);
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setLogs(null);
+				setCount(0);
+				setIsLoading(false);
+			});
+	};
+
+	const searchLogs = () => {
+		if (!search || isLoading) return;
+		setIsLoading(true);
+
+		apiFetch({
+			path: `/qsmtp/v1/logs?search=${search}&page=${page}&per_page=${perPage}`,
 			method: 'GET',
 		})
 			.then((res: any) => {
@@ -462,6 +485,30 @@ const Logs: React.FC = () => {
 								/>
 							</Popover>
 						</div>
+						<div className="qsmtp-logs__header-section">
+							<Search>
+								<SearchIconWrapper>
+									<SearchIcon />
+								</SearchIconWrapper>
+								<StyledInputBase
+									placeholder={__('Search…', 'quillsmtp')}
+									inputProps={{
+										'aria-label': 'search',
+									}}
+									value={search}
+									onChange={(e) => setSearch(e.target.value)}
+								/>
+							</Search>
+							<Button
+								sx={{
+									marginLeft: '10px',
+								}}
+								variant="outlined"
+								onClick={() => searchLogs()}
+							>
+								{__('Search', 'quillsmtp')}
+							</Button>
+						</div>
 					</div>
 					<TableContainer component={Paper}>
 						<Table
@@ -544,6 +591,13 @@ const Logs: React.FC = () => {
 											</TableCell>
 										</TableRow>
 									))}
+								{!isLoading && logs.length === 0 && (
+									<TableRow>
+										<TableCell colSpan={6} align="center">
+											{__('No logs found', 'quillsmtp')}
+										</TableCell>
+									</TableRow>
+								)}
 							</TableBody>
 							<TableFooter>
 								<TableRow>
