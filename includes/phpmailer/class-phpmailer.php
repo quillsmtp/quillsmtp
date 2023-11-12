@@ -32,7 +32,7 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 */
 	public function send() {
 		$connections            = Settings::get( 'connections' );
-		$default_connection_id  = Settings::get( 'default_connection' );
+		$default_connection_id  = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
 		$fallback_connection_id = Settings::get( 'fallback_connection' );
 		$default_connection     = $connections[ $default_connection_id ] ?? null;
 		$fallback_connection    = $connections[ $fallback_connection_id ] ?? null;

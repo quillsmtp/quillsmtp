@@ -261,10 +261,14 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id   = $this->connection['account_id'];
-		$account_api  = $this->provider->accounts->connect( $account_id );
+		$account_id = $this->connection['account_id'];
+		/** @var Account_API|WP_Error */ // phpcs:ignore
+		$account_api = $this->provider->accounts->connect( $account_id );
+		if ( is_wp_error( $account_api ) ) {
+			return $account_api;
+		}
 		$api_instance = $account_api->get_api_instance();
-
+		error_log( wp_json_encode( $this->get_body() ) );
 		try {
 			$result = $api_instance->sendTransacEmail( $this->get_body() );
 			if ( $result->getMessageId() ) {

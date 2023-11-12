@@ -94,11 +94,11 @@ const GeneralSettings: React.FC = () => {
 
 	return (
 		<Card
-			className="qmstp-general-settings"
+			className="qsmtp-general-settings"
 			sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
 		>
-			<div className="qmstp-general-settings-header">
-				<div className="qmstp-general-settings-header__title">
+			<div className="qsmtp-general-settings-header">
+				<div className="qsmtp-general-settings-header__title">
 					{__('General', 'quillsmtp')}
 				</div>
 			</div>

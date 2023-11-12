@@ -5,11 +5,16 @@ import { InitialPayload } from './types/initial-payload';
 
 const configData: ConfigData = {
 	initialPayload: {
+		default_connection: '',
+		fallback_connection: '',
 		mailers: {},
 	},
 	storeMailers: {},
 	adminUrl: '',
 	pluginDirUrl: '',
+	adminEmail: '',
+	ajaxUrl: '',
+	nonce: '',
 };
 
 /**
@@ -86,6 +91,60 @@ const setAdminUrl = (data: ConfigData) => (value: string) => {
 };
 
 /**
+ * Get admin email
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const getAdminEmail = (data: ConfigData) => (): string => {
+	return data.adminEmail;
+};
+
+/**
+ * Set admin email
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const setAdminEmail = (data: ConfigData) => (value: string) => {
+	data.adminEmail = value;
+};
+
+/**
+ * Get ajax url
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const getAjaxUrl = (data: ConfigData) => (): string => {
+	return data.ajaxUrl;
+};
+
+/**
+ * Set ajax url
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const setAjaxUrl = (data: ConfigData) => (value: string) => {
+	data.ajaxUrl = value;
+};
+
+/**
+ * Get nonce
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const getNonce = (data: ConfigData) => (): string => {
+	return data.nonce;
+};
+
+/**
+ * Set nonce
+ *
+ * @param data the json environment configuration to use for getting config values
+ */
+const setNonce = (data: ConfigData) => (value: string) => {
+	data.nonce = value;
+};
+
+/**
  * Get plugin dir url
  *
  * @param data the json environment configuration to use for getting config values
@@ -111,6 +170,12 @@ export interface ConfigApi {
 	getStoreMailers: () => StoreMailers;
 	setAdminUrl: (value: string) => void;
 	getAdminUrl: () => string;
+	setAdminEmail: (value: string) => void;
+	getAdminEmail: () => string;
+	setAjaxUrl: (value: string) => void;
+	getAjaxUrl: () => string;
+	setNonce: (value: string) => void;
+	getNonce: () => string;
 	setPluginDirUrl: (value: string) => void;
 	getPluginDirUrl: () => string;
 }
@@ -123,6 +188,12 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.getStoreMailers = getStoreMailers(data);
 	configApi.getAdminUrl = getAdminUrl(data);
 	configApi.setAdminUrl = setAdminUrl(data);
+	configApi.getAdminEmail = getAdminEmail(data);
+	configApi.setAdminEmail = setAdminEmail(data);
+	configApi.getAjaxUrl = getAjaxUrl(data);
+	configApi.setAjaxUrl = setAjaxUrl(data);
+	configApi.getNonce = getNonce(data);
+	configApi.setNonce = setNonce(data);
 	configApi.getPluginDirUrl = getPluginDirUrl(data);
 	configApi.setPluginDirUrl = setPluginDirUrl(data);
 

@@ -1,0 +1,29 @@
+.qsmtp-email-test-page {
+	max-width: 100%;
+	input[type="email"] {
+		min-height: auto;
+		color: currentColor;
+		padding: 4px 0 5px;
+		border: 0;
+		padding: 16.5px 14px;
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+	.qsmtp-email-test-card {
+		width: 800px;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	.qsmtp-email-test-header {
+		width: 100%;
+		background-color: #f6f6f6;
+		.qsmtp-email-test-header__title {
+			color: #697386;
+			font-size: 16px;
+			font-weight: bold;
+			padding: 20px;
+		}
+	}
+}

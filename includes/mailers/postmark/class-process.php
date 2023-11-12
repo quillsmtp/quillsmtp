@@ -224,7 +224,10 @@ class Process extends Abstract_Process {
 	public function send() {
 		$account_id = $this->connection['account_id'];
         /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api       = $this->provider->accounts->connect( $account_id );
+		$account_api = $this->provider->accounts->connect( $account_id );
+		if ( is_wp_error( $account_api ) ) {
+			return $account_api;
+		}
 		$client            = $account_api->get_client();
 		$message_stream_id = $account_api->get_message_stream_id();
 		$body              = $this->get_body();

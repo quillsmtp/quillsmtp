@@ -39,7 +39,6 @@ import DateIcon from '@mui/icons-material/DateRange';
 import InputBase from '@mui/material/InputBase';
 import { DateRangePicker } from 'react-date-range';
 import classnames from 'classnames';
-import Modal from '@mui/material/Modal';
 import Popover from '@mui/material/Popover';
 
 /**

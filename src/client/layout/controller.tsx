@@ -62,6 +62,7 @@ registerAdminPage('home', {
 registerAdminPage('email-test', {
 	component: EmailTest,
 	path: 'email-test',
+	requiresInitialPayload: true,
 });
 
 registerAdminPage('logs', {

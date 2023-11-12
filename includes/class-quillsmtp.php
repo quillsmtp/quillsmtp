@@ -17,6 +17,7 @@ use QuillSMTP\REST_API\REST_API;
 use QuillSMTP\Mailers\Mailers;
 use QuillSMTP\PHPMailer\PHPMailer;
 use QuillSMTP\Log_Handlers\Log_Handler_DB;
+use QuillSMTP\Email_Test\Email_Test;
 
 /**
  * QuillSMTP Main Class.
@@ -96,6 +97,7 @@ final class QuillSMTP {
 		Admin::instance();
 		REST_API::instance();
 		Mailers::instance();
+		Email_Test::instance();
 	}
 
 	/**

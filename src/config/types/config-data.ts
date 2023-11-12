@@ -6,4 +6,7 @@ export type ConfigData = Record<string, unknown> & {
 	storeMailers: StoreMailers;
 	adminUrl: string;
 	pluginDirUrl: string;
+	adminEmail: string;
+	ajaxUrl: string;
+	nonce: string;
 };
