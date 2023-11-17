@@ -86,14 +86,13 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendlayer/icon.png',
 				),
 			),
-			// 'sendgrid'   => array(
-			// 'name'        => __( 'SendGrid', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using SendGrid SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sendgrid/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sendgrid/banner.png',
-			// ),
-			// ),
+			'sendgrid'   => array(
+				'name'        => __( 'SendGrid', 'quillsmtp' ),
+				'description' => __( 'Send emails using SendGrid SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendgrid/icon.svg',
+				),
+			),
 			'mailgun'    => array(
 				'name'        => __( 'Mailgun', 'quillsmtp' ),
 				'description' => __( 'Send emails using Mailgun SMTP', 'quillsmtp' ),

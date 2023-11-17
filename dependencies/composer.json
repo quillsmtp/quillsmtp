@@ -2,6 +2,7 @@
     "require": {
         "getbrevo/brevo-php": "1.x.x",
         "wildbit/postmark-php": "^4.0",
-        "automattic/jetpack-constants": "^1.1"
+        "automattic/jetpack-constants": "^1.1",
+        "sendgrid/sendgrid": "~7"
     }
 }

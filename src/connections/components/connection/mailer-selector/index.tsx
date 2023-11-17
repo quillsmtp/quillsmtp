@@ -40,7 +40,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 			<div className="qsmtp-mailers-selector__title">
 				{__('Select Mailer', 'quillsmtp')}
 			</div>
-			<Stack direction="row" spacing={2}>
+			<Stack direction="row" spacing={2} useFlexGap flexWrap={'wrap'}>
 				{size(mailerModules) > 0 &&
 					map(keys(mailerModules), (key) => {
 						const mailer = mailerModules[key];

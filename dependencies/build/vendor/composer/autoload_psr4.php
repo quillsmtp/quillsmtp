@@ -6,6 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'QuillSMTP\\Vendor\\SendGrid\\Stats\\' => array($vendorDir . '/sendgrid/sendgrid/lib/stats'),
+    'QuillSMTP\\Vendor\\SendGrid\\Mail\\' => array($vendorDir . '/sendgrid/sendgrid/lib/mail'),
+    'QuillSMTP\\Vendor\\SendGrid\\Helper\\' => array($vendorDir . '/sendgrid/sendgrid/lib/helper'),
+    'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\' => array($vendorDir . '/sendgrid/sendgrid/lib/eventwebhook'),
+    'QuillSMTP\\Vendor\\SendGrid\\Contacts\\' => array($vendorDir . '/sendgrid/sendgrid/lib/contacts'),
+    'QuillSMTP\\Vendor\\SendGrid\\' => array($vendorDir . '/sendgrid/php-http-client/lib'),
     'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'QuillSMTP\\Vendor\\Postmark\\' => array($vendorDir . '/wildbit/postmark-php/src/Postmark'),

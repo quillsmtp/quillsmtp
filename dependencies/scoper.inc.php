@@ -48,6 +48,13 @@ return [
                 $contents
             );
 
+            // replace '\\SendGrid\\Mail\\' with \\QuillSMTP\\Vendor\\SendGrid\\Mail\\'
+            $contents = str_replace(
+                '\'\\\\SendGrid\\\\Mail\\\\',
+                '\'\\\\QuillSMTP\\\\Vendor\\\\SendGrid\\\\Mail\\\\',
+                $contents
+            );
+
             return $contents;
         },
     ],

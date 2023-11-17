@@ -268,7 +268,7 @@ class Process extends Abstract_Process {
 			return $account_api;
 		}
 		$api_instance = $account_api->get_api_instance();
-		error_log( wp_json_encode( $this->get_body() ) );
+
 		try {
 			$result = $api_instance->sendTransacEmail( $this->get_body() );
 			if ( $result->getMessageId() ) {

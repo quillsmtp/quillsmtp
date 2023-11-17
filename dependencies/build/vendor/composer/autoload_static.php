@@ -10,11 +10,18 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '79f66bc0a1900f77abe4a9a299057a0a' => __DIR__ . '/..' . '/starkbank/ecdsa/src/ellipticcurve.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'Q' => 
         array (
+            'QuillSMTP\\Vendor\\SendGrid\\Stats\\' => 32,
+            'QuillSMTP\\Vendor\\SendGrid\\Mail\\' => 31,
+            'QuillSMTP\\Vendor\\SendGrid\\Helper\\' => 33,
+            'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\' => 39,
+            'QuillSMTP\\Vendor\\SendGrid\\Contacts\\' => 35,
+            'QuillSMTP\\Vendor\\SendGrid\\' => 26,
             'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => 34,
             'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => 33,
             'QuillSMTP\\Vendor\\Postmark\\' => 26,
@@ -26,6 +33,30 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
     );
 
     public static $prefixDirsPsr4 = array (
+        'QuillSMTP\\Vendor\\SendGrid\\Stats\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/stats',
+        ),
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail',
+        ),
+        'QuillSMTP\\Vendor\\SendGrid\\Helper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/helper',
+        ),
+        'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/eventwebhook',
+        ),
+        'QuillSMTP\\Vendor\\SendGrid\\Contacts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/contacts',
+        ),
+        'QuillSMTP\\Vendor\\SendGrid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendgrid/php-http-client/lib',
+        ),
         'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
@@ -60,6 +91,7 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'QuillSMTP\\Vendor\\Automattic\\Jetpack\\Constants' => __DIR__ . '/..' . '/automattic/jetpack-constants/src/class-constants.php',
+        'QuillSMTP\\Vendor\\BaseSendGridClientInterface' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/BaseSendGridClientInterface.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\ApiException' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/ApiException.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AccountApi' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/Api/AccountApi.php',
         'QuillSMTP\\Vendor\\Brevo\\Client\\Api\\AttributesApi' => __DIR__ . '/..' . '/getbrevo/brevo-php/lib/Api/AttributesApi.php',
@@ -545,6 +577,58 @@ class ComposerStaticInitbec62f7fd951e2f22d5f551c8af9df21
         'QuillSMTP\\Vendor\\Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
         'QuillSMTP\\Vendor\\Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
         'QuillSMTP\\Vendor\\Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
+        'QuillSMTP\\Vendor\\SendGrid' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/SendGrid.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Client' => __DIR__ . '/..' . '/sendgrid/php-http-client/lib/Client.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Contacts\\Recipient' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/contacts/Recipient.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Contacts\\RecipientForm' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/contacts/RecipientForm.php',
+        'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\EventWebhook' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/eventwebhook/EventWebhook.php',
+        'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\EventWebhookHeader' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/eventwebhook/EventWebhookHeader.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Exception\\InvalidRequest' => __DIR__ . '/..' . '/sendgrid/php-http-client/lib/Exception/InvalidRequest.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Helper\\Assert' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/helper/Assert.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Asm' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Asm.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Attachment' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Attachment.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BatchId' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BatchId.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Bcc' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Bcc.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BccSettings' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BccSettings.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BypassBounceManagement' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BypassBounceManagement.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BypassListManagement' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BypassListManagement.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BypassSpamManagement' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BypassSpamManagement.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\BypassUnsubscribeManagement' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/BypassUnsubscribeManagement.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Category' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Category.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Cc' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Cc.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\ClickTracking' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/ClickTracking.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Content' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Content.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\CustomArg' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/CustomArg.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\EmailAddress' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/EmailAddress.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Footer' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Footer.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\From' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/From.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Ganalytics' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Ganalytics.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\GroupId' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/GroupId.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\GroupsToDisplay' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/GroupsToDisplay.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Header' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Header.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\HtmlContent' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/HtmlContent.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\IpPoolName' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/IpPoolName.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Mail' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Mail.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\MailSettings' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/MailSettings.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\MimeType' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/MimeType.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\OpenTracking' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/OpenTracking.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Personalization' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Personalization.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\PlainTextContent' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/PlainTextContent.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\ReplyTo' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/ReplyTo.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\SandBoxMode' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/SandBoxMode.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Section' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Section.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\SendAt' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/SendAt.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\SpamCheck' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/SpamCheck.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Subject' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Subject.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\SubscriptionTracking' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/SubscriptionTracking.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\Substitution' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/Substitution.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\TemplateId' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/TemplateId.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\To' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/To.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\TrackingSettings' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/TrackingSettings.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Mail\\TypeException' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/mail/TypeException.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Response' => __DIR__ . '/..' . '/sendgrid/php-http-client/lib/Response.php',
+        'QuillSMTP\\Vendor\\SendGrid\\Stats\\Stats' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/stats/Stats.php',
+        'QuillSMTP\\Vendor\\TwilioEmail' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/TwilioEmail.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
