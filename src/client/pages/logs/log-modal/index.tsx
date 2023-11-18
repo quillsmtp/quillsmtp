@@ -296,6 +296,22 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							</pre>
 						</div>
 					</Box>
+					<Box
+						mt={2}
+						sx={{
+							borderTop: '1px solid rgba(0, 0, 0, .125)',
+							padding: '10px 0',
+						}}
+					>
+						<div className="log-modal__label">
+							{__('Server Response', 'quillsmtp')}
+						</div>
+						<div className="log-modal__value">
+							<pre>
+								{JSON.stringify(log.context.response, null, 2)}
+							</pre>
+						</div>
+					</Box>
 					<Accordion>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 							{sprintf(

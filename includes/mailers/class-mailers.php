@@ -15,6 +15,7 @@ use QuillSMTP\Mailers\SendInBlue\SendInBlue;
 use QuillSMTP\Mailers\PostMark\PostMark;
 use QuillSMTP\Mailers\Mailgun\Mailgun;
 use QuillSMTP\Mailers\SendGrid\SendGrid;
+use QuillSMTP\Mailers\SMTPcom\SMTPcom;
 
 /**
  * Mailers Class.
@@ -85,6 +86,7 @@ final class Mailers {
 			'postmark'   => PostMark::class,
 			'mailgun'    => Mailgun::class,
 			'sendgrid'   => SendGrid::class,
+			'smtpcom'    => SMTPcom::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );

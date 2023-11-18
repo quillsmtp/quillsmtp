@@ -114,6 +114,13 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/postmark/icon.svg',
 				),
 			),
+			'smtpcom'    => array(
+				'name'        => __( 'SMTP.com', 'quillsmtp' ),
+				'description' => __( 'Send emails using SMTP.com SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtpcom/icon.svg',
+				),
+			),
 			// 'pepipost'   => array(
 			// 'name'        => __( 'Pepipost', 'quillsmtp' ),
 			// 'description' => __( 'Send emails using Pepipost SMTP', 'quillsmtp' ),

@@ -23,6 +23,13 @@ use WP_Error;
 class Process extends Abstract_Process {
 
 	/**
+	 * Content type
+	 *
+	 * @var string
+	 */
+	protected $content_type = 'application/x-www-form-urlencoded';
+
+	/**
 	 * Set email header.
 	 *
 	 * @since 1.0.0
@@ -31,7 +38,8 @@ class Process extends Abstract_Process {
 
 		$name = sanitize_text_field( $name );
 
-		$this->body['Headers'][ $name ] = $value;
+		$this->body[ 'h:' . $name ] = $value;
+		$this->headers[ $name ]     = $value;
 	}
 
 	/**
@@ -48,7 +56,7 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['From'] = $this->phpmailer->addrFormat( [ $email, $name ] );
+		$this->body['from'] = $this->phpmailer->addrFormat( [ $email, $name ] );
 	}
 
 	/**
@@ -70,17 +78,7 @@ class Process extends Abstract_Process {
 				continue;
 			}
 
-			switch ( $type ) {
-				case 'to':
-					$this->body['To'] = $this->addrs_format( $emails );
-					break;
-				case 'cc':
-					$this->body['Cc'] = $this->addrs_format( $emails );
-					break;
-				case 'bcc':
-					$this->body['Bcc'] = $this->addrs_format( $emails );
-					break;
-			}
+			$this->body[ $type ] = $this->addrs_format( $emails );
 		}
 
 	}
@@ -93,7 +91,7 @@ class Process extends Abstract_Process {
 	 * @param string $subject
 	 */
 	public function set_subject( $subject ) {
-		$this->body['Subject'] = sanitize_text_field( $subject );
+		$this->body['subject'] = sanitize_text_field( $subject );
 	}
 
 	/**
@@ -112,17 +110,17 @@ class Process extends Abstract_Process {
 		if ( is_array( $content ) ) {
 
 			if ( ! empty( $content['text'] ) ) {
-				$this->body['TextBody'] = $content['text'];
+				$this->body['text'] = $content['text'];
 			}
 
 			if ( ! empty( $content['html'] ) ) {
-				$this->body['HtmlBody'] = $content['html'];
+				$this->body['html'] = $content['html'];
 			}
 		} else {
 			if ( $this->phpmailer->ContentType === 'text/plain' ) {
-				$this->body['TextBody'] = $content;
+				$this->body['text'] = $content;
 			} else {
-				$this->body['HtmlBody'] = $content;
+				$this->body['html'] = $content;
 			}
 		}
 	}
@@ -140,7 +138,7 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['ReplyTo'] = $this->addrs_format( $emails );
+		$this->body['h:Reply-To'] = $this->addrs_format( $emails );
 	}
 
 	/**
@@ -156,21 +154,59 @@ class Process extends Abstract_Process {
 			return;
 		}
 
+		$payload = '';
+		$data    = [];
+
 		foreach ( $attachments as $attachment ) {
 			$filepath = isset( $attachment[0] ) ? $attachment[0] : false;
 			$filename = isset( $attachment[2] ) ? $attachment[2] : false;
+			$file     = $this->filesystem->get_contents( $filepath );
 
-			if ( empty( $filename ) || empty( $filepath ) ) {
+			if ( $file === false ) {
 				continue;
 			}
 
-			$attachment = PostmarkAttachment::fromRawData(
-				$this->filesystem->get_contents( $filepath ),
-				$filename,
-				mime_content_type( $filepath )
-			);
+			$data[] = [
+				'content' => $file,
+				'name'    => $filename,
+			];
+		}
 
-			$this->body['Attachments'][] = $attachment;
+		if ( ! empty( $data ) ) {
+
+			$boundary = md5( time() );
+
+			foreach ( $this->body as $key => $value ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $child_value ) {
+						$payload .= '--' . $boundary;
+						$payload .= "\r\n";
+						$payload .= 'Content-Disposition: form-data; name="' . $key . "\"\r\n\r\n";
+						$payload .= $child_value;
+						$payload .= "\r\n";
+					}
+				} else {
+					$payload .= '--' . $boundary;
+					$payload .= "\r\n";
+					$payload .= 'Content-Disposition: form-data; name="' . $key . '"' . "\r\n\r\n";
+					$payload .= $value;
+					$payload .= "\r\n";
+				}
+			}
+
+			foreach ( $data as $key => $attachment ) {
+				$payload .= '--' . $boundary;
+				$payload .= "\r\n";
+				$payload .= 'Content-Disposition: form-data; name="attachment[' . $key . ']"; filename="' . $attachment['name'] . '"' . "\r\n\r\n";
+				$payload .= $attachment['content'];
+				$payload .= "\r\n";
+			}
+
+			$payload .= '--' . $boundary . '--';
+
+			$this->body = $payload;
+
+			$this->content_type = 'multipart/form-data; boundary=' . $boundary;
 		}
 	}
 
@@ -189,7 +225,7 @@ class Process extends Abstract_Process {
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_mailgun_mailer_get_headers', $this->body['Headers'] );
+		$headers = apply_filters( 'quillsmtp_mailgun_mailer_get_headers', $this->headers );
 
 		return $headers;
 	}
@@ -228,47 +264,37 @@ class Process extends Abstract_Process {
 		if ( is_wp_error( $account_api ) ) {
 			return $account_api;
 		}
-		$client            = $account_api->get_client();
-		$message_stream_id = $account_api->get_message_stream_id();
-		$body              = $this->get_body();
+		$body   = $this->get_body();
+		$result = $account_api->send( $body, $this->content_type );
 
-		if ( ! empty( $message_stream_id ) ) {
-			$body['MessageStream'] = $message_stream_id;
-		}
-
-		try {
-			$results = $client->sendEmailBatch( [ $body ] );
-			if ( 'OK' === $results[0]->__get( 'Message' ) ) {
-				$this->log_result(
-					[
-						'status'   => self::SUCCEEDED,
-						'response' => [
-							'message_id' => $results[0]->__get( 'MessageId' ),
-						],
-					]
-				);
-				return true;
-			} else {
-				$this->log_result(
-					[
-						'status'   => self::FAILED,
-						'response' => [
-							'message' => $results[0]->__get( 'Message' ),
-						],
-					]
-				);
-				return new WP_Error( 'quillsmtp_mailgun_mailer_send_error', $results[0]->__get( 'Message' ) );
-			}
-		} catch ( Exception $e ) {
+		if ( is_wp_error( $result ) ) {
 			$this->log_result(
-				[
+				array(
 					'status'   => self::FAILED,
-					'response' => [
-						'message' => $e->getMessage(),
-					],
-				]
+					'response' => $result->get_error_message(),
+				)
 			);
-			return new WP_Error( 'quillsmtp_mailgun_mailer_send_error', $e->getMessage() );
+			return $result;
 		}
+
+		if ( ! empty( $result['id'] ) ) {
+			$this->log_result(
+				array(
+					'status'   => self::SUCCEEDED,
+					'response' => $result,
+				)
+			);
+		} else {
+			$this->log_result(
+				array(
+					'status'   => self::FAILED,
+					'response' => $result,
+				)
+			);
+
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -3,3 +3,4 @@ import './postmark';
 import './sendlayer';
 import './mailgun';
 import './sendgrid';
+import './smtpcom';

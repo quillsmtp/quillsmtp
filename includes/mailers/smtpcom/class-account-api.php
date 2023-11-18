@@ -7,7 +7,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\Mailgun;
+namespace QuillSMTP\Mailers\SMTPcom;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,52 +28,43 @@ class Account_API {
 	protected $api_key;
 
 	/**
-	 * Domain Name
+	 * Sender name
 	 *
 	 * @var string
 	 */
-	protected $domain_name;
-
-	/**
-	 * Region
-	 *
-	 * @var string
-	 */
-	protected $region;
+	protected $sender_name;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $api_key API key.
-	 * @param string $domain_name Domain name.
-	 * @param string $region Region.
+	 * @param array $api_key API key.
+	 * @param array $sender_name Sender name.
 	 */
-	public function __construct( $api_key, $domain_name, $region ) {
+	public function __construct( $api_key, $sender_name ) {
 		$this->api_key     = $api_key;
-		$this->domain_name = $domain_name;
-		$this->region      = $region;
+		$this->sender_name = $sender_name;
 	}
 
 	/**
 	 * Send email
 	 *
-	 * @param array  $args Email arguments.
-	 * @param string $content_type Content type.
+	 * @param array $args Email arguments.
 	 *
 	 * @return WP_Error|array
 	 */
-	public function send( $args, $content_type = '' ) {
+	public function send( $args ) {
 		$response = wp_remote_request(
-			'https://api.mailgun.net/v3/qsmtp.publicvm.com/messages',
+			'https://api.smtp.com/v4',
 			[
 				'method'  => 'POST',
 				'headers' => [
-					'Authorization' => 'Basic ' . base64_encode( 'api:' . $this->api_key ),
-					'Content-Type'  => $content_type,
+					'Accept'        => 'application/json',
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bearer ' . $this->api_key,
 				],
-				'body'    => $args,
+				'body'    => wp_json_encode( $args ),
 			]
 		);
 
@@ -98,5 +89,14 @@ class Account_API {
 		}
 
 		return $body;
+	}
+
+	/**
+	 * Get sender name
+	 *
+	 * @return string
+	 */
+	public function get_sender_name() {
+		return $this->sender_name;
 	}
 }

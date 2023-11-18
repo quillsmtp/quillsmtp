@@ -10,6 +10,7 @@ export type Log = {
 		connection_id: string;
 		connection_name: string;
 		provider: string;
+		response: string;
 		email_details: {
 			from: string;
 			to: string;

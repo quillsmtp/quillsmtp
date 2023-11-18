@@ -7,7 +7,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\Mailgun;
+namespace QuillSMTP\Mailers\SMTPcom;
 
 use QuillSMTP\Mailer\Provider\Accounts as Abstract_Accounts;
 
@@ -26,7 +26,7 @@ class Accounts extends Abstract_Accounts {
 	 * @return Account_API
 	 */
 	protected function init_account_api( $account_id, $account_data ) {
-		return new Account_API( $account_data['credentials']['api_key'], $account_data['credentials']['domain_name'] ?? '', $account_data['credentials']['region'] ?? '' );
+		return new Account_API( $account_data['credentials']['api_key'], $account_data['credentials']['sender_name'] );
 	}
 
 }
