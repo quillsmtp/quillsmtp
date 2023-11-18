@@ -232,16 +232,13 @@ class Process extends Abstract_Process {
 
 			$ext = pathinfo( $filename, PATHINFO_EXTENSION );
 
-			if ( ! in_array( $ext, $this->allowed_attach_ext, true ) ) {
-				continue;
-			}
-
 			$this->body['body']['attachments'][] = array(
 				'content'     => base64_encode( $this->filesystem->get_contents( $filepath ) ),
 				'filename'    => $filename,
 				'type'        => mime_content_type( $filepath ),
 				'disposition' => in_array( $attachment[6], [ 'inline', 'attachment' ], true ) ? $attachment[6] : 'attachment',
 				'cid'         => empty( $attachment[7] ) ? '' : trim( (string) $attachment[7] ),
+				'encoding'    => $ext === 'pdf' ? 'base64' : 'quoted-printable',
 			);
 		}
 	}
@@ -262,7 +259,7 @@ class Process extends Abstract_Process {
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_smtpcom_mailer_get_headers', $this->body['custom_header'] );
+		$headers = apply_filters( 'quillsmtp_smtpcom_mailer_get_headers', $this->body['custom_headers'] );
 
 		return $headers;
 	}
@@ -317,12 +314,23 @@ class Process extends Abstract_Process {
 			return false;
 		}
 
-		$this->log_result(
-			[
-				'status'   => self::SUCCEEDED,
-				'response' => $send_email,
-			]
-		);
+		if ( 'success' === $send_email['status'] ) {
+			$this->log_result(
+				[
+					'status'   => self::SUCCEEDED,
+					'response' => $send_email,
+				]
+			);
+		} else {
+			$this->log_result(
+				[
+					'status'   => self::FAILED,
+					'response' => $send_email,
+				]
+			);
+
+			return false;
+		}
 
 		return true;
 	}

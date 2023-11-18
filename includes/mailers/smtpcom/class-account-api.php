@@ -56,7 +56,7 @@ class Account_API {
 	 */
 	public function send( $args ) {
 		$response = wp_remote_request(
-			'https://api.smtp.com/v4',
+			'https://api.smtp.com/v4/messages',
 			[
 				'method'  => 'POST',
 				'headers' => [
