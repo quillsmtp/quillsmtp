@@ -134,6 +134,7 @@ abstract class Process {
 	 * @since 1.0.0
 	 */
 	public function set_phpmailer() {
+		$this->phpmailer->XMailer = "QuillSMTP {$this->provider->name}";
 		$this->set_headers( $this->phpmailer->getCustomHeaders() );
 		$this->set_from( $this->get_from_email(), $this->get_from_name() );
 		$this->set_recipients(
@@ -167,9 +168,6 @@ abstract class Process {
 	 * @param array $headers Custom headers.
 	 */
 	public function set_headers( $headers ) {
-		$this->set_header( 'X-Mailer', "QuillSMTP {$this->provider->name}" );
-		$this->set_header( 'X-QuillSMTP-Provider', $this->provider->name );
-		$this->set_header( 'X-QuillSMTP-Connection', $this->connection['name'] );
 		foreach ( $headers as $header ) {
 			$name  = isset( $header[0] ) ? $header[0] : false;
 			$value = isset( $header[1] ) ? $header[1] : false;

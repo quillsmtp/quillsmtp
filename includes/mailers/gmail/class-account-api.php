@@ -92,7 +92,7 @@ class Account_API {
 	/**
 	 * Get user profile
 	 *
-	 * @return array|WP_Error
+	 * @return object|WP_Error
 	 */
 	public function get_profile() {
 		$client = $this->get_client();
@@ -104,49 +104,5 @@ class Account_API {
 		$profile = $service->users->getProfile( 'me' );
 
 		return $profile;
-	}
-
-	/**
-	 * Send email
-	 *
-	 * @param array  $args Email arguments.
-	 * @param string $content_type Content type.
-	 *
-	 * @return WP_Error|array
-	 */
-	public function send( $args, $content_type = '' ) {
-		$response = wp_remote_request(
-			'https://api.gmail.net/v3/qsmtp.publicvm.com/messages',
-			[
-				'method'  => 'POST',
-				'headers' => [
-					'Authorization' => 'Basic ' . base64_encode( 'api:' . $this->api_key ),
-					'Content-Type'  => $content_type,
-				],
-				'body'    => $args,
-			]
-		);
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
-
-		$body = wp_remote_retrieve_body( $response );
-
-		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
-		}
-
-		$body = json_decode( $body, true );
-
-		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
-		}
-
-		if ( ! empty( $body['error'] ) ) {
-			return new WP_Error( 'send_error', $body['error'] );
-		}
-
-		return $body;
 	}
 }
