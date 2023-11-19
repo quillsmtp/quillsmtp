@@ -121,22 +121,13 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtpcom/icon.svg',
 				),
 			),
-			// 'pepipost'   => array(
-			// 'name'        => __( 'Pepipost', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using Pepipost SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/pepipost/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/pepipost/banner.png',
-			// ),
-			// ),
-			// 'sparkpost'  => array(
-			// 'name'        => __( 'SparkPost', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using SparkPost SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sparkpost/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sparkpost/banner.png',
-			// ),
-			// ),
+			'sparkpost'  => array(
+				'name'        => __( 'SparkPost', 'quillsmtp' ),
+				'description' => __( 'Send emails using SparkPost SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sparkpost/icon.svg',
+				),
+			),
 			'gmail'      => array(
 				'name'        => __( 'Gmail', 'quillsmtp' ),
 				'description' => __( 'Send emails using Gmail SMTP', 'quillsmtp' ),
@@ -144,30 +135,6 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/gmail/icon.svg',
 				),
 			),
-			// 'outlook'    => array(
-			// 'name'        => __( 'Outlook', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using Outlook SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/outlook/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/outlook/banner.png',
-			// ),
-			// ),
-			// 'zoho'       => array(
-			// 'name'        => __( 'Zoho', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using Zoho SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/zoho/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/zoho/banner.png',
-			// ),
-			// ),
-			// 'amazon'     => array(
-			// 'name'        => __( 'Amazon SES', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using Amazon SES SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/amazon/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/amazon/banner.png',
-			// ),
-			// ),
 		);
 	}
 }

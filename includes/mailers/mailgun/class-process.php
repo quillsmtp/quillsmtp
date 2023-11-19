@@ -262,7 +262,7 @@ class Process extends Abstract_Process {
         /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
-			return $account_api;
+			return false;
 		}
 		$body   = $this->get_body();
 		$result = $account_api->send( $body, $this->content_type );
@@ -274,7 +274,7 @@ class Process extends Abstract_Process {
 					'response' => $result->get_error_message(),
 				)
 			);
-			return $result;
+			return false;
 		}
 
 		if ( ! empty( $result['id'] ) ) {

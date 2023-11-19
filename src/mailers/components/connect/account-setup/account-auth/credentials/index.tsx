@@ -145,7 +145,12 @@ const Credentials: React.FC<Props> = ({
 						);
 					case 'select':
 						return (
-							<FormControl key={key} fullWidth sx={{ mb: 2 }}>
+							<FormControl
+								key={key}
+								fullWidth
+								sx={{ mb: 2 }}
+								required={field.required}
+							>
 								<InputLabel>{field.label}</InputLabel>
 								<Select
 									value={inputs[key] ?? ''}

@@ -82,8 +82,8 @@ class REST_Settings_Controller extends REST_Controller {
 					'default' => '',
 				),
 				'connections'         => array(
-					'type'                 => 'object',
-					'additionalProperties' => array(
+					'type'       => 'object',
+					'properties' => array(
 						'from_email'       => array(
 							'type'    => 'string',
 							'default' => '',

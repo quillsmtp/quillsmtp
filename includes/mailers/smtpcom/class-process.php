@@ -297,7 +297,7 @@ class Process extends Abstract_Process {
 		 /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
-			return $account_api;
+			return false;
 		}
 		$channel         = $account_api->get_sender_name();
 		$body            = $this->get_body();

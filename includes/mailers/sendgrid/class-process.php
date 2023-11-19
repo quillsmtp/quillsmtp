@@ -241,7 +241,7 @@ class Process extends Abstract_Process {
         /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
-			return $account_api;
+			return false;
 		}
 		$client         = $account_api->get_client();
 		$sending_domain = $account_api->get_sending_domain();
@@ -273,7 +273,7 @@ class Process extends Abstract_Process {
 						],
 					]
 				);
-				return new WP_Error( 'quillsmtp_sendgrid_mailer_send_error', $results->body() );
+				return false;
 			}
 		} catch ( Exception $e ) {
 			$this->log_result(
@@ -284,7 +284,7 @@ class Process extends Abstract_Process {
 					],
 				]
 			);
-			return new WP_Error( 'quillsmtp_sendgrid_mailer_send_error', $e->getMessage() );
+			return false;
 		}
 	}
 }

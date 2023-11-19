@@ -8,12 +8,10 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\SendInBlue;
+namespace QuillSMTP\Mailers\SparkPost;
 
 use Exception;
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
-use QuillSMTP\Vendor\Brevo\Client\Model\SendSmtpEmail;
-use WP_Error;
 
 /**
  * Process class.
@@ -23,28 +21,14 @@ use WP_Error;
 class Process extends Abstract_Process {
 
 	/**
-	 * The list of allowed attachment files extensions.
-	 *
-	 * @see   https://developers.sendinblue.com/reference#sendTransacEmail_attachment__title
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var array
-	 */
-	// @formatter:off
-	protected $allowed_attach_ext = array( 'xlsx', 'xls', 'ods', 'docx', 'docm', 'doc', 'csv', 'pdf', 'txt', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'rtf', 'bmp', 'cgm', 'css', 'shtml', 'html', 'htm', 'zip', 'xml', 'ppt', 'pptx', 'tar', 'ez', 'ics', 'mobi', 'msg', 'pub', 'eps', 'odt', 'mp3', 'm4a', 'm4v', 'wma', 'ogg', 'flac', 'wav', 'aif', 'aifc', 'aiff', 'mp4', 'mov', 'avi', 'mkv', 'mpeg', 'mpg', 'wmv' );
-	// @formatter:on
-
-	/**
 	 * Set email header.
 	 *
 	 * @since 1.0.0
 	 */
 	public function set_header( $name, $value ) {
-
 		$name = sanitize_text_field( $name );
 
-		$this->body['headers'][ $name ] = $value;
+		$this->body['content']['headers'][ $name ] = $value;
 	}
 
 	/**
@@ -61,10 +45,11 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['sender'] = array(
-			'email' => $email,
-			'name'  => ! empty( $name ) ? sanitize_text_field( $name ) : '',
-		);
+		$this->body['content']['from']['email'] = $email;
+
+		if ( ! empty( $name ) ) {
+			$this->body['content']['from']['name'] = sanitize_text_field( $name );
+		}
 	}
 
 	/**
@@ -94,15 +79,19 @@ class Process extends Abstract_Process {
 					continue;
 				}
 
-				$user_data = array(
-					'email' => $email_address,
-				);
+				$user_data = [
+					'address' => $email_address,
+				];
 
 				if ( ! empty( $name ) ) {
 					$user_data['name'] = sanitize_text_field( $name );
 				}
 
-				$this->body[ $type ][] = $user_data;
+				$this->body['recipients'][] = $user_data;
+			}
+
+			if ( 'cc' === $type ) {
+				$this->body['content']['headers']['CC'] = $this->addrs_format( $emails );
 			}
 		}
 	}
@@ -114,7 +103,7 @@ class Process extends Abstract_Process {
 	 */
 	public function set_subject( $subject ) {
 
-		$this->body['subject'] = $subject;
+		$this->body['content']['subject'] = $subject;
 	}
 
 	/**
@@ -133,17 +122,17 @@ class Process extends Abstract_Process {
 		if ( is_array( $content ) ) {
 
 			if ( ! empty( $content['text'] ) ) {
-				$this->body['textContent'] = $content['text'];
+				$this->body['content']['text'] = $content['text'];
 			}
 
 			if ( ! empty( $content['html'] ) ) {
-				$this->body['htmlContent'] = $content['html'];
+				$this->body['content']['html'] = $content['html'];
 			}
 		} else {
 			if ( $this->phpmailer->ContentType === 'text/plain' ) {
-				$this->body['textContent'] = $content;
+				$this->body['content']['text'] = $content;
 			} else {
-				$this->body['htmlContent'] = $content;
+				$this->body['content']['html'] = $content;
 			}
 		}
 	}
@@ -161,19 +150,7 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		// Get the first email address in the array.
-		$user  = reset( $emails );
-		$email = isset( $user[0] ) ? $user[0] : false;
-		$name  = isset( $user[1] ) ? $user[1] : false;
-
-		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-			return;
-		}
-
-		$this->body['replyTo'] = array(
-			'email' => $email,
-			'name'  => ! empty( $name ) ? sanitize_text_field( $name ) : '',
-		);
+		$this->body['content']['reply_to'] = $this->addrs_format( $emails );
 	}
 
 	/**
@@ -200,19 +177,16 @@ class Process extends Abstract_Process {
 
 			$ext = pathinfo( $filename, PATHINFO_EXTENSION );
 
-			if ( ! in_array( $ext, $this->allowed_attach_ext, true ) ) {
-				continue;
-			}
-
-			$this->body['attachment'][] = array(
-				'name'    => $filename,
-				'content' => base64_encode( $this->filesystem->get_contents( $filepath ) ),
+			$this->body['content']['attachments'][] = array(
+				'data' => base64_encode( $this->filesystem->get_contents( $filepath ) ),
+				'name' => $filename,
+				'type' => mime_content_type( $filepath ),
 			);
 		}
 	}
 
 	/**
-	 * Set the email headers.
+	 * Get the email headers.
 	 *
 	 * @since 1.0.0
 	 *
@@ -221,13 +195,13 @@ class Process extends Abstract_Process {
 	public function get_headers() {
 
 		/**
-		 * Filters Sendinblue email headers.
+		 * Filters SparkPost email headers.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_sendinblue_mailer_get_headers', $this->body['headers'] );
+		$headers = apply_filters( 'quillsmtp_sparkpost_mailer_get_headers', $this->body['content']['headers'] ?? [] );
 
 		return $headers;
 	}
@@ -237,20 +211,20 @@ class Process extends Abstract_Process {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return SendSmtpEmail
+	 * @return array
 	 */
 	public function get_body() {
 
 		/**
-		 * Filters Sendinblue email body.
+		 * Filters SparkPost email body.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $body Email body.
 		 */
-		$body = apply_filters( 'quillsmtp_sendinblue_mailer_get_body', $this->body );
+		$body = apply_filters( 'quillsmtp_sparkpost_mailer_get_body', $this->body );
 
-		return new SendSmtpEmail( $body );
+		return $body;
 	}
 
 	/**
@@ -262,46 +236,42 @@ class Process extends Abstract_Process {
 	 */
 	public function send() {
 		$account_id = $this->connection['account_id'];
-		/** @var Account_API|WP_Error */ // phpcs:ignore
+		 /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
-			return false;
+			return $account_api;
 		}
-		$api_instance = $account_api->get_api_instance();
+		$body       = $this->get_body();
+		$send_email = $account_api->send( $body );
 
-		try {
-			$result = $api_instance->sendTransacEmail( $this->get_body() );
-			if ( $result->getMessageId() ) {
-				$this->log_result(
-					[
-						'status'   => self::SUCCEEDED,
-						'response' => [
-							'message_id' => $result->getMessageId(),
-						],
-					]
-				);
-				return true;
-			} else {
-				$this->log_result(
-					[
-						'status'   => self::FAILED,
-						'response' => [
-							'message' => $result->getMessage(),
-						],
-					]
-				);
-				return false;
-			}
-		} catch ( Exception $e ) {
+		if ( is_wp_error( $send_email ) ) {
 			$this->log_result(
-				[
+				array(
 					'status'   => self::FAILED,
-					'response' => [
-						'message' => $e->getMessage(),
-					],
-				]
+					'response' => $send_email->get_error_message(),
+				)
 			);
 			return false;
 		}
+
+		if ( isset( $send_email['results'] ) && 1 === $send_email['results']['total_accepted_recipients'] ) {
+			$this->log_result(
+				[
+					'status'   => self::SUCCEEDED,
+					'response' => $send_email,
+				]
+			);
+		} else {
+			$this->log_result(
+				[
+					'status'   => self::FAILED,
+					'response' => $send_email,
+				]
+			);
+
+			return false;
+		}
+
+		return true;
 	}
 }

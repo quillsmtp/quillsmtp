@@ -5,3 +5,4 @@ import './mailgun';
 import './sendgrid';
 import './smtpcom';
 import './gmail';
+import './sparkpost';
