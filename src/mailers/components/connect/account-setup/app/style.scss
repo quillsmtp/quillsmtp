@@ -1,0 +1,14 @@
+.mailer-settings-main-app {
+	margin-top: 20px;
+	.mailer-settings-main-app__content {
+		display: flex;
+		align-items: center;
+		> div {
+			margin-right: 20px;
+			font-weight: bold;
+			span {
+				font-weight: normal;
+			}
+		}
+	}
+}

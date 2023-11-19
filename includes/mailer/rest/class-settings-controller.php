@@ -128,7 +128,7 @@ abstract class Settings_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_permissions_check( $request ) {
-		$capability = 'manage_quillsmtp';
+		$capability = 'manage_options';
 		return current_user_can( $capability, $request );
 	}
 

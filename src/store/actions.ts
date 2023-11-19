@@ -9,6 +9,7 @@ import type { InitialPayload } from '@quillsmtp/config';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
+	SETUP_MAILER_ACCOUNTS,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	DELETE_MAILER_ACCOUNT,
@@ -16,7 +17,7 @@ import {
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
 } from './constants';
-import { CoreActionTypes, App, Account, Connection } from './types';
+import { CoreActionTypes, App, Account, Connection, Accounts } from './types';
 
 /**
  * Setup Store Action.
@@ -40,6 +41,21 @@ export const setupApp = (mailer: string, app: App): CoreActionTypes => ({
 	type: SETUP_MAILER_APP,
 	mailer,
 	app,
+});
+
+/**
+ * Setup Accounts Action.
+ * @param {string} mailer Mailer slug.
+ * @param {Accounts} accounts Accounts array.
+ * @returns {CoreActionTypes} Setup Accounts Action.
+ */
+export const setupAccounts = (
+	mailer: string,
+	accounts: Accounts
+): CoreActionTypes => ({
+	type: SETUP_MAILER_ACCOUNTS,
+	mailer,
+	accounts,
 });
 
 /**

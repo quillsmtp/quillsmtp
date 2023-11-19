@@ -11,6 +11,7 @@ import type { Reducer } from 'redux';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
+	SETUP_MAILER_ACCOUNTS,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
@@ -63,6 +64,21 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 					[mailer]: {
 						...mailers[mailer],
 						app,
+					},
+				},
+			};
+		}
+		case SETUP_MAILER_ACCOUNTS: {
+			const { mailer, accounts } = action;
+			const { mailers } = state;
+
+			return {
+				...state,
+				mailers: {
+					...mailers,
+					[mailer]: {
+						...mailers[mailer],
+						accounts,
 					},
 				},
 			};

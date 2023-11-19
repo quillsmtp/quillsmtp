@@ -2,7 +2,14 @@
  * Internal Dependencies
  */
 import { State } from './reducer';
-import { Connections, Connection, Mailers, Account, Mailer } from './types';
+import {
+	Connections,
+	Connection,
+	Mailers,
+	Account,
+	Mailer,
+	App,
+} from './types';
 
 /**
  * Returns the connections object.
@@ -74,4 +81,18 @@ export const getMailerAccount = (
 	const mailers = state.mailers;
 
 	return mailers[mailer].accounts[accountId];
+};
+
+/**
+ * Get mailer app.
+ *
+ * @param {State} state State.
+ * @param {string} mailer Mailer slug.
+ *
+ * @return {App} Mailer app.
+ */
+export const getMailerApp = (state: State, mailer: string): App => {
+	const mailers = state.mailers;
+
+	return mailers[mailer].app;
 };

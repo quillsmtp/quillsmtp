@@ -208,15 +208,17 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					</DialogActions>
 				</Dialog>
 			)}
-			<Button
-				component="label"
-				variant="outlined"
-				startIcon={<AddIcon />}
-				onClick={() => setShowingAddNewAccount(true)}
-				disabled={addingNewAccount}
-			>
-				{__('Add new account', 'quillsmtp')}
-			</Button>
+			{main.accounts.auth.type === 'credentials' && (
+				<Button
+					component="label"
+					variant="outlined"
+					startIcon={<AddIcon />}
+					onClick={() => setShowingAddNewAccount(true)}
+					disabled={addingNewAccount}
+				>
+					{__('Add new account', 'quillsmtp')}
+				</Button>
+			)}
 			{showingAddNewAccount && (
 				<AccountAuth
 					connectionId={connectionId}

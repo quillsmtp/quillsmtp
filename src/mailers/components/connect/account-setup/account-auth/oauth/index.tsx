@@ -4,7 +4,12 @@
 import { useDispatch } from '@wordpress/data';
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
-import { Button } from '@wordpress/components';
+
+/**
+ * External Dependencies.
+ */
+import Button from '@mui/material/Button';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 /**
  * Internal Dependencies
@@ -61,7 +66,11 @@ const Oauth: React.FC<Props> = ({
 
 	return (
 		<div className="mailer-auth-oauth">
-			<Button onClick={authorize}>
+			<Button
+				onClick={authorize}
+				variant="contained"
+				startIcon={<AdminPanelSettingsIcon />}
+			>
 				{sprintf(
 					__('Authorize Your %s', 'quillsmtp'),
 					labels?.singular ?? __('Account', 'quillsmtp')

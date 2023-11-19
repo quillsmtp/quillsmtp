@@ -138,7 +138,7 @@ class REST_Settings_Controller extends REST_Controller {
 				'default_connection'  => Settings::get( 'default_connection', $defaults['default_connection'] ),
 				'fallback_connection' => Settings::get( 'fallback_connection', $defaults['fallback_connection'] ),
 				'connections'         => Settings::get( 'connections', $defaults['connections'] ),
-			)
+			),
 		);
 
 		return new WP_REST_Response( $settings, 200 );

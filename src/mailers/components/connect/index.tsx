@@ -10,6 +10,7 @@ import { useSelect } from '@wordpress/data';
 import type { Setup as SetupType, ConnectMain } from '../types';
 import Setup from './setup';
 import Main from './main';
+import App from './account-setup/app';
 
 interface Props {
 	connectionId: string;
@@ -46,7 +47,12 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 			{setup && needSetup ? (
 				<Setup connectionId={connectionId} setup={setup} />
 			) : (
-				<Main connectionId={connectionId} main={main} />
+				<>
+					{setup && !needSetup && (
+						<App connectionId={connectionId} setup={setup} />
+					)}
+					<Main connectionId={connectionId} main={main} />
+				</>
 			)}
 		</div>
 	);

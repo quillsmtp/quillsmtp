@@ -137,14 +137,13 @@ class Store {
 			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/sparkpost/banner.png',
 			// ),
 			// ),
-			// 'gmail'      => array(
-			// 'name'        => __( 'Gmail', 'quillsmtp' ),
-			// 'description' => __( 'Send emails using Gmail SMTP', 'quillsmtp' ),
-			// 'assets'      => array(
-			// 'icon'   => QUILLSMTP_PLUGIN_URL . 'assets/mailer/gmail/icon.png',
-			// 'banner' => QUILLSMTP_PLUGIN_URL . 'assets/mailer/gmail/banner.png',
-			// ),
-			// ),
+			'gmail'      => array(
+				'name'        => __( 'Gmail', 'quillsmtp' ),
+				'description' => __( 'Send emails using Gmail SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/gmail/icon.svg',
+				),
+			),
 			// 'outlook'    => array(
 			// 'name'        => __( 'Outlook', 'quillsmtp' ),
 			// 'description' => __( 'Send emails using Outlook SMTP', 'quillsmtp' ),

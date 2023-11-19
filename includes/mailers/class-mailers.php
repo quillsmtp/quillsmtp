@@ -16,6 +16,7 @@ use QuillSMTP\Mailers\PostMark\PostMark;
 use QuillSMTP\Mailers\Mailgun\Mailgun;
 use QuillSMTP\Mailers\SendGrid\SendGrid;
 use QuillSMTP\Mailers\SMTPcom\SMTPcom;
+use QuillSMTP\Mailers\Gmail\Gmail;
 
 /**
  * Mailers Class.
@@ -87,6 +88,7 @@ final class Mailers {
 			'mailgun'    => Mailgun::class,
 			'sendgrid'   => SendGrid::class,
 			'smtpcom'    => SMTPcom::class,
+			'gmail'      => Gmail::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );

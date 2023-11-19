@@ -57,7 +57,7 @@ class REST extends Abstract_REST {
 	 * @return Settings
 	 */
 	public function add_rest_data( $settings ) { // phpcs:ignore
-		$settings['mailers'][ $this->mailer->slug ] = $this->get_rest_data() ?? array();
+		$settings['mailers'][ $this->mailer->slug ] = $this->get_rest_data( $settings ) ?? array();
 
 		return $settings;
 	}
@@ -65,17 +65,17 @@ class REST extends Abstract_REST {
 	/**
 	 * Get rest data
 	 *
-	 * @since 1.0.0
+	 * @since 1.6.0
+	 *
+	 * @param Settings $settings Settings.
 	 *
 	 * @return mixed
 	 */
-	protected function get_rest_data() {
-		$data = [];
-
+	protected function get_rest_data( $settings ) {
 		if ( $this->mailer->accounts ) {
-			$data['accounts'] = $this->mailer->accounts->get_accounts();
+			$settings['accounts'] = $this->mailer->accounts->get_accounts();
 		}
 
-		return $data;
+		return $settings;
 	}
 }

@@ -147,7 +147,7 @@ class Email_Test {
 			$content_type = 'text/plain';
 		}
 
-		return apply_filters( 'quillforms_email_content_type', $content_type, $this );
+		return apply_filters( 'quillsmtp_email_content_type', $content_type, $this );
 	}
 
 	/**

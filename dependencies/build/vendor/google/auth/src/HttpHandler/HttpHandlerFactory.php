@@ -45,9 +45,9 @@ class HttpHandlerFactory
             $client = new Client(['handler' => $stack]);
         }
         $version = null;
-        if (\defined('GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
+        if (\defined('QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
             $version = ClientInterface::MAJOR_VERSION;
-        } elseif (\defined('GuzzleHttp\\ClientInterface::VERSION')) {
+        } elseif (\defined('QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::VERSION')) {
             $version = (int) \substr(ClientInterface::VERSION, 0, 1);
         }
         switch ($version) {

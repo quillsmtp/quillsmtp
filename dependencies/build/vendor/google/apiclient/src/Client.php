@@ -961,9 +961,9 @@ class Client
     protected function createDefaultHttpClient()
     {
         $guzzleVersion = null;
-        if (\defined('\\GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
+        if (\defined('\\QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
             $guzzleVersion = ClientInterface::MAJOR_VERSION;
-        } elseif (\defined('\\GuzzleHttp\\ClientInterface::VERSION')) {
+        } elseif (\defined('\\QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::VERSION')) {
             $guzzleVersion = (int) \substr(ClientInterface::VERSION, 0, 1);
         }
         if (5 === $guzzleVersion) {

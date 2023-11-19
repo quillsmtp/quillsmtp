@@ -1,6 +1,5 @@
 .mailer-setup__body {
-	max-width: 100%;
-	padding: 20px;
+	margin-top: 20px;
 	input[type="text"] {
 		min-height: auto;
 		color: currentColor;
@@ -15,8 +14,4 @@
 }
 
 .mailer-setup__instructions {
-	border: 1px solid #ccc;
-	border-radius: 0.25rem;
-	padding: 0.25rem 1rem;
-	margin-bottom: 1rem;
 }

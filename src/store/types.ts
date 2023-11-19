@@ -14,6 +14,7 @@ import type { FunctionKeys } from 'utility-types';
 import {
 	SETUP_STORE,
 	SETUP_MAILER_APP,
+	SETUP_MAILER_ACCOUNTS,
 	ADD_MAILER_ACCOUNT,
 	UPDATE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
@@ -89,6 +90,12 @@ type setupApp = {
 
 export type AppActionTypes = setupApp | ReturnType<() => { type: 'NOOP' }>;
 
+type setupAccounts = {
+	type: typeof SETUP_MAILER_ACCOUNTS;
+	mailer: string;
+	accounts: Accounts;
+};
+
 export type Accounts = {
 	[accountId: string]: Account;
 };
@@ -122,6 +129,7 @@ export type CoreActionTypes =
 	| addConnection
 	| updateConnection
 	| deleteConnection
+	| setupAccounts
 	| addAccount
 	| updateAccount
 	| deleteAccount

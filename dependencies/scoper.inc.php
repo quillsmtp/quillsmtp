@@ -57,5 +57,48 @@ return [
 
             return $contents;
         },
+
+        /**
+		 * Prefix the dynamic alias class generation in Google's apiclient lib.
+		 *
+		 * @param string $filePath The path of the current file.
+		 * @param string $prefix   The prefix to be used.
+		 * @param string $content  The content of the specific file.
+		 *
+		 * @return string The modified content.
+		 */
+		function ( $file_path, $prefix, $content ) {
+			if ( strpos( $file_path, 'google/apiclient/src/aliases.php' ) !== false ) {
+				return str_replace(
+					'class_alias($class, $alias);',
+					sprintf( 'class_alias($class, \'%s\\\\\' . $alias);', addslashes( $prefix ) ),
+					$content
+				);
+			}
+			return $content;
+		},
+
+		/**
+		 * Prefix the Guzzle client interface version checks in Google HTTP Handler Factory and
+		 * Google Credentials Loader.
+		 *
+		 * @param string $filePath The path of the current file.
+		 * @param string $prefix   The prefix to be used.
+		 * @param string $content  The content of the specific file.
+		 *
+		 * @return string The modified content.
+		 */
+		function ( $file_path, $prefix, $content ) {
+			if (
+				strpos( $file_path, 'google' ) !== false
+			) {
+				return str_replace(
+					'GuzzleHttp\\\\ClientInterface',
+					sprintf( '%s\\\\GuzzleHttp\\\\ClientInterface', addslashes( $prefix ) ),
+					$content
+				);
+			}
+			return $content;
+		},
     ],
 ];
