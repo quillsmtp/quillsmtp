@@ -13,6 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 /**
  * WordPress Dependencies
@@ -25,7 +28,11 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import { AccountsAuthFields, AccountsLabels } from '../../../../types';
+import {
+	AccountsAuthFields,
+	AccountsLabels,
+	AccountsAuthField,
+} from '../../../../types';
 import './style.scss';
 
 interface Props {
@@ -66,15 +73,30 @@ const Credentials: React.FC<Props> = ({
 	const { createSuccessNotice, createErrorNotice } =
 		useDispatch('core/notices');
 
+	// Get credentials.
+	const getCredentials = () => {
+		const credentials: any = {};
+		for (const [id, field] of Object.entries(fields ?? {})) {
+			if (field.type === 'toggle') {
+				credentials[id] = inputs[id] ?? field?.default ?? false;
+			} else {
+				credentials[id] = inputs[id] ?? field?.default ?? '';
+			}
+		}
+
+		return credentials;
+	};
+
 	// submit.
 	const submit = () => {
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
+
 		apiFetch({
 			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts`,
 			method: 'POST',
 			data: {
-				credentials: inputs,
+				credentials: getCredentials(),
 			},
 		})
 			.then((res: any) => {
@@ -114,22 +136,70 @@ const Credentials: React.FC<Props> = ({
 
 	let inputsFilled = true;
 	for (const key of Object.keys(fields)) {
-		if (!inputs[key] && fields[key].required) {
+		if (!inputs[key] && fields[key].required && !fields[key].default) {
 			inputsFilled = false;
 			break;
 		}
 	}
 
+	// Get field visibility depending on the field dependencies of other fields.
+	const getFieldVisibility = (field: AccountsAuthField) => {
+		if (!field?.dependencies) return true;
+		const type = field.dependencies.type ?? 'or';
+		const conditions = field.dependencies.conditions;
+		let result = false;
+		for (const condition of conditions) {
+			const { field: fieldName, value, operator } = condition;
+			const fieldValue =
+				inputs[fieldName] ?? fields?.[fieldName]?.default ?? '';
+			let visible = false;
+			switch (operator) {
+				case '==':
+					visible = fieldValue == value;
+					break;
+				case '!=':
+					visible = fieldValue != value;
+					break;
+				case '>':
+					visible = fieldValue > value;
+					break;
+				case '<':
+					visible = fieldValue < value;
+					break;
+				case '>=':
+					visible = fieldValue >= value;
+					break;
+				case '<=':
+					visible = fieldValue <= value;
+					break;
+				default:
+					visible = false;
+			}
+
+			if (type === 'and') {
+				result = result && visible;
+			} else {
+				result = result || visible;
+			}
+		}
+
+		return result;
+	};
+
 	return (
 		<div className="mailer-auth-credentials">
 			{Object.entries(fields).map(([key, field]) => {
+				if (!getFieldVisibility(field)) return null;
+				const inputValue = inputs[key] ?? field?.default ?? '';
 				switch (field.type) {
 					case 'text':
+					case 'number':
+					case 'password':
 						return (
 							<TextField
 								key={key}
 								label={field.label}
-								value={inputs[key] ?? ''}
+								value={inputValue}
 								onChange={(e) =>
 									setInputs({
 										...inputs,
@@ -141,6 +211,8 @@ const Credentials: React.FC<Props> = ({
 								variant="outlined"
 								fullWidth
 								sx={{ mb: 2 }}
+								helperText={field?.help}
+								type={field.type}
 							/>
 						);
 					case 'select':
@@ -153,7 +225,7 @@ const Credentials: React.FC<Props> = ({
 							>
 								<InputLabel>{field.label}</InputLabel>
 								<Select
-									value={inputs[key] ?? ''}
+									value={inputValue}
 									label={field.label}
 									onChange={(e: SelectChangeEvent) =>
 										setInputs({
@@ -174,8 +246,46 @@ const Credentials: React.FC<Props> = ({
 											</MenuItem>
 										))}
 								</Select>
+								{field?.help && (
+									<FormHelperText>
+										{field?.help}
+									</FormHelperText>
+								)}
 							</FormControl>
 						);
+					case 'toggle':
+						return (
+							<FormControl
+								component="fieldset"
+								variant="standard"
+								key={key}
+								sx={{
+									display: 'block',
+								}}
+							>
+								<FormControlLabel
+									control={
+										<Switch
+											checked={inputValue || false}
+											onChange={(e) =>
+												setInputs({
+													...inputs,
+													[key]: e.target.checked,
+												})
+											}
+										/>
+									}
+									label={field.label}
+								/>
+								{field?.help && (
+									<FormHelperText>
+										{field?.help}
+									</FormHelperText>
+								)}
+							</FormControl>
+						);
+					default:
+						return null;
 				}
 			})}
 			<LoadingButton

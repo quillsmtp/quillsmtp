@@ -21,7 +21,7 @@ function register() {
 			title: mailer.name,
 			description: mailer.description,
 			icon: mailer.assets.icon,
-			render: () => <div>Mailer</div>,
+			render: () => null,
 		});
 	}
 }

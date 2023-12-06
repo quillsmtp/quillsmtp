@@ -135,6 +135,13 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/gmail/icon.svg',
 				),
 			),
+			'smtp'       => array(
+				'name'        => __( 'Other SMTP', 'quillsmtp' ),
+				'description' => __( 'Send emails using Other SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtp/icon.svg',
+				),
+			),
 		);
 	}
 }

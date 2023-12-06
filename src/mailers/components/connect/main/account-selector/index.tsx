@@ -63,6 +63,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const [addingNewAccount, setAddingNewAccount] = useState(false);
 	const [deleteAccountID, setDeleteAccountID] = useState(null);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [isAdding, setIsAdding] = useState(false);
 
 	// Delete account.
 	const deleteHandler = () => {
@@ -86,7 +87,10 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// if there is no accounts, show add account.
 	if (!showingAddNewAccount) {
 		if (Object.entries(accounts).length === 0) {
-			setTimeout(() => setShowingAddNewAccount(true));
+			setTimeout(() => {
+				setShowingAddNewAccount(true);
+				setIsAdding(true);
+			});
 			return null;
 		}
 	}
@@ -124,6 +128,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		}
 		// select it.
 		onChange(id);
+		setIsAdding(false);
 	};
 
 	return (
@@ -208,12 +213,15 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					</DialogActions>
 				</Dialog>
 			)}
-			{main.accounts.auth.type === 'credentials' && (
+			{main.accounts.auth.type === 'credentials' && !isAdding && (
 				<Button
 					component="label"
 					variant="outlined"
 					startIcon={<AddIcon />}
-					onClick={() => setShowingAddNewAccount(true)}
+					onClick={() => {
+						setShowingAddNewAccount(true);
+						setIsAdding(true);
+					}}
 					disabled={addingNewAccount}
 				>
 					{__('Add new account', 'quillsmtp')}

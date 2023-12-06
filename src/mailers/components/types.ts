@@ -12,15 +12,27 @@ export type Setup = {
 };
 
 export type AccountsAuthFields = {
-	[key: string]: {
+	[key: string]: AccountsAuthField;
+};
+
+export type AccountsAuthField = {
+	label: string;
+	type: 'text' | 'select' | 'toggle' | 'number' | 'password';
+	required?: boolean;
+	help?: string;
+	options?: {
 		label: string;
-		type: 'text' | 'select';
-		required?: boolean;
-		options?: {
-			label: string;
-			value: string;
+		value: string;
+	}[];
+	dependencies?: {
+		type?: 'or' | 'and';
+		conditions: {
+			field: string;
+			value: string | number | boolean;
+			operator: '==' | '!=' | '>' | '<' | '>=' | '<=';
 		}[];
 	};
+	default?: string | number | boolean;
 };
 
 export type AccountsLabels = {

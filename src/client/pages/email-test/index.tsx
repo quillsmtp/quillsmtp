@@ -127,8 +127,6 @@ const EmailTest: React.FC = () => {
 								}
 								label={__('Default Connection', 'quillsmtp')}
 								onChange={(event: SelectChangeEvent) => {
-									console.log(event.target.value);
-
 									setConnection(event.target.value);
 								}}
 							>

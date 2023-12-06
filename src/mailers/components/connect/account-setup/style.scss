@@ -1,6 +1,9 @@
 .mailer-setup__body {
 	margin-top: 20px;
-	input[type="text"] {
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="number"] {
 		min-height: auto;
 		color: currentColor;
 		padding: 4px 0 5px;
