@@ -59,7 +59,8 @@ const EmailTest: React.FC = () => {
 
 	// Ajax request to send the email.
 	const sendEmail = () => {
-		if (!connection || !email) return;
+		const connectionId = connection ? connection : keys(connections)[0];
+		if (!connectionId || !email) return;
 		setIsSending(true);
 		const ajaxURL = ConfigAPI.getAjaxUrl();
 		const nonce = ConfigAPI.getNonce();
@@ -68,7 +69,7 @@ const EmailTest: React.FC = () => {
 		body.append('action', 'quillsmtp_send_test_email');
 		body.append('nonce', nonce);
 		body.append('email', email);
-		body.append('connection', connection);
+		body.append('connection', connectionId);
 		body.append('content_type', isHTML ? 'html' : 'plain');
 
 		// Send the email.

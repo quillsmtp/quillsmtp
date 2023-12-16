@@ -60,6 +60,16 @@ class Install {
 				context longtext NULL,
 				PRIMARY KEY (log_id),
 				KEY level (level)
+			) $charset_collate;
+			CREATE TABLE {$wpdb->prefix}quillsmtp_task_meta (
+				ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				action_id BIGINT UNSIGNED,
+				hook varchar(255) NOT NULL,
+				group_slug varchar(255) NOT NULL,
+				value longtext NOT NULL,
+				date_created datetime NOT NULL,
+				PRIMARY KEY  (ID),
+				KEY action_id (action_id)
 			) $charset_collate;";
 
 		dbDelta( $sql );
