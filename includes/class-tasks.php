@@ -163,7 +163,6 @@ class Tasks {
 		add_action(
 			"{$this->group}_$hook",
 			function( $meta_id ) use ( $hook, $callback ) {
-				error_log( "Start processing 'as' task '{$this->group}_$hook'" );
 				$meta = $this->get_meta( $meta_id );
 				if ( ! isset( $meta['value'] ) ) {
 					return;

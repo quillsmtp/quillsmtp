@@ -18,6 +18,7 @@ import { motion } from 'framer-motion';
  * Internal dependencies
  */
 import Home from '../pages/home';
+import Settings from '../pages/settings';
 import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';
 import { Notices } from '../components';
@@ -57,6 +58,11 @@ registerAdminPage('home', {
 	component: Home,
 	path: '/',
 	requiresInitialPayload: true,
+});
+
+registerAdminPage('settings', {
+	component: Settings,
+	path: 'settings',
 });
 
 registerAdminPage('email-test', {

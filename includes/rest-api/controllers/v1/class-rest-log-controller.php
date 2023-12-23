@@ -55,6 +55,20 @@ class REST_Log_Controller extends REST_Controller {
 				),
 			)
 		);
+
+		// Get logs count for specific date for chart.
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/count',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_count' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			)
+		);
+
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<log_id>[\d]+)',
@@ -66,6 +80,37 @@ class REST_Log_Controller extends REST_Controller {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Get count of logs for specific date
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function get_count( $request ) {
+		$from_date         = $request->get_param( 'start' );
+		$to_date           = $request->get_param( 'end' );
+		$logs_for_each_day = array();
+
+		if ( $from_date && $to_date ) {
+			// Days between two dates.
+			$from_date = $this->get_date( $from_date );
+			$to_date   = $this->get_date( $to_date, '23:59:59' );
+			$from_date = new \DateTime( $from_date );
+			$to_date   = new \DateTime( $to_date );
+			$interval  = new \DateInterval( 'P1D' );
+			$period    = new \DatePeriod( $from_date, $interval, $to_date );
+
+			foreach ( $period as $date ) {
+				$logs_for_each_day[ $date->format( 'Y-m-d' ) ] = Log_Handler_DB::get_count( false, $date->format( 'Y-m-d 00:00:00' ), $date->format( 'Y-m-d 23:59:59' ) );
+			}
+		}
+
+		return new WP_REST_Response( $logs_for_each_day, 200 );
 	}
 
 	/**

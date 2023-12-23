@@ -82,13 +82,23 @@ class Admin {
 			100
 		);
 
+		// Home.
+		add_submenu_page(
+			'quillsmtp',
+			__( 'Home', 'quillsmtp' ),
+			__( 'Home', 'quillsmtp' ),
+			'manage_options',
+			'quillsmtp',
+			array( Admin_Loader::class, 'page_wrapper' )
+		);
+
 		// Settings.
 		add_submenu_page(
 			'quillsmtp',
 			__( 'Settings', 'quillsmtp' ),
 			__( 'Settings', 'quillsmtp' ),
 			'manage_options',
-			'quillsmtp',
+			'quillsmtp&path=settings',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 

@@ -1,14 +1,76 @@
+.qsmtp-home-page__chart__header {
+	margin-bottom: 20px;
+	background-color: #f7fafc;
+	color: #697386;
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	h2 {
+		color: #697386;
+		margin-right: 20px;
+	}
+}
 .qsmtp-home-page {
-	max-width: 100%;
-	input[type="text"] {
-		min-height: auto;
-		color: currentColor;
-		padding: 4px 0 5px;
-		border: 0;
-		padding: 16.5px 14px;
-		&:focus {
-			outline: none;
-			box-shadow: none;
+	width: 900px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	background-color: #fff;
+}
+.qsmtp-home-page__chart-section {
+	display: flex;
+	align-items: center;
+	.qsmtp-home-page__chart-buttons__group {
+		margin-left: 20px;
+	}
+}
+.qsmtp-home-page__chart-filters {
+	display: flex;
+	align-items: center;
+	.qsmtp-home-page__chart-filter {
+		padding: 10px 20px;
+		border: 1px solid #dcdfe6;
+		color: #606266;
+		font-weight: bold;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		&:not(:last-child) {
+			border-right: none;
+		}
+		&:hover {
+			background-color: #409eff;
+			border-color: #409eff;
+			color: #fff;
+		}
+		&--active {
+			background-color: #409eff;
+			border-color: #409eff;
+			color: #fff;
+		}
+	}
+}
+.qsmtp-home-page__chart-date-range {
+	display: flex;
+	align-items: center;
+	border: 1px solid #dcdfe6;
+	background-color: #f0f0f1;
+	color: #606266;
+	font-weight: bold;
+	margin-left: 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	> div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px 20px;
+		color: #c0c4cc;
+		.qsmtp-home-page__chart-date-range-label {
+			background-color: transparent;
+			text-align: center;
+		}
+		svg {
+			fill: currentColor;
 		}
 	}
 }

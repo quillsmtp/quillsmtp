@@ -1,0 +1,14 @@
+.qsmtp-home-page {
+	max-width: 100%;
+	input[type="text"] {
+		min-height: auto;
+		color: currentColor;
+		padding: 4px 0 5px;
+		border: 0;
+		padding: 16.5px 14px;
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+}
