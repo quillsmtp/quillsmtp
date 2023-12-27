@@ -9,6 +9,7 @@ import {
 	Account,
 	Mailer,
 	App,
+	Notices,
 } from './types';
 
 /**
@@ -95,4 +96,15 @@ export const getMailerApp = (state: State, mailer: string): App => {
 	const mailers = state.mailers;
 
 	return mailers[mailer].app;
+};
+
+/**
+ * Get notices.
+ *
+ * @param {State} state State.
+ *
+ * @return {Notices} Notices.
+ */
+export const getNotices = (state: State): Notices => {
+	return state.notices;
 };

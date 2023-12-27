@@ -48,8 +48,7 @@ const GeneralSettings: React.FC = () => {
 	const mailersModules = getMailerModules();
 
 	// dispatch notices.
-	const { createSuccessNotice, createErrorNotice } =
-		useDispatch('core/notices');
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	const saveSettings = () => {
 		setIsSaving(true);
@@ -67,26 +66,15 @@ const GeneralSettings: React.FC = () => {
 					default_connection: defaultConnection,
 					fallback_connection: fallbackConnection,
 				});
-				createSuccessNotice(
-					('✅ ' +
-						__(
-							'Settings saved successfully.',
-							'quillsmtp'
-						)) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'success',
+					message: __('Settings saved successfully.', 'quillsmtp'),
+				});
 			} else {
-				createErrorNotice(
-					('❌ ' +
-						__('Error saving settings.', 'quillsmtp')) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'error',
+					message: __('Failed to save settings.', 'quillsmtp'),
+				});
 			}
 			setIsSaving(false);
 		});
@@ -111,7 +99,11 @@ const GeneralSettings: React.FC = () => {
 						<Select
 							labelId="qsmtp-general-settings-default-connection-label"
 							id="qsmtp-general-settings-default-connection"
-							value={defaultConnection}
+							value={
+								connections[defaultConnection]
+									? defaultConnection
+									: keys(connections)[0]
+							}
 							label={__('Default Connection', 'quillsmtp')}
 							onChange={(event: SelectChangeEvent) => {
 								setDefaultConnection(event.target.value);
@@ -153,7 +145,11 @@ const GeneralSettings: React.FC = () => {
 						<Select
 							labelId="qsmtp-general-settings-connections-label"
 							id="qsmtp-general-settings-connections"
-							value={fallbackConnection}
+							value={
+								connections[fallbackConnection]
+									? fallbackConnection
+									: ''
+							}
 							label={__('Fallback Connection', 'quillsmtp')}
 							onChange={(event: SelectChangeEvent) => {
 								setFallbackConnection(event.target.value);

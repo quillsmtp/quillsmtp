@@ -7,6 +7,8 @@ import type { InitialPayload } from '@quillsmtp/config';
  * External dependencies
  */
 import type { FunctionKeys } from 'utility-types';
+import type { AlertColor } from '@mui/material';
+import type { SnackbarOrigin } from '@mui/material/Snackbar';
 
 /**
  * Internal Dependencies.
@@ -21,11 +23,25 @@ import {
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
 	DELETE_MAILER_ACCOUNT,
+	ADD_NOTICE,
+	DELETE_NOTICE,
 } from './constants';
 
 export type CorePureState = {
 	connections: Connections;
 	mailers: Mailers;
+	notices: Notices;
+};
+
+export type Notices = {
+	[noteId: string]: Notice;
+};
+
+export type Notice = {
+	type: AlertColor;
+	duration?: number;
+	message: string;
+	anchorOrigin?: SnackbarOrigin;
 };
 
 export type Mailers = {
@@ -124,6 +140,16 @@ type deleteAccount = {
 	id: string;
 };
 
+type addNote = {
+	type: typeof ADD_NOTICE;
+	notice: Notice;
+};
+
+type deleteNote = {
+	type: typeof DELETE_NOTICE;
+	id: string;
+};
+
 export type CoreActionTypes =
 	| setupStoreAction
 	| addConnection
@@ -133,6 +159,8 @@ export type CoreActionTypes =
 	| addAccount
 	| updateAccount
 	| deleteAccount
+	| addNote
+	| deleteNote
 	| AppActionTypes
 	| ReturnType<() => { type: 'NOOP' }>;
 

@@ -12,10 +12,17 @@
 	}
 }
 .qsmtp-home-page {
-	width: 900px;
 	margin: 0 auto;
 	margin-bottom: 20px;
-	background-color: #fff;
+	.qsmtp-home-page__content {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		grid-gap: 20px;
+		margin: 0 50px;
+	}
+	.qsmtp-home-page__chart-wrap {
+		background-color: #fff;
+	}
 }
 .qsmtp-home-page__chart-section {
 	display: flex;

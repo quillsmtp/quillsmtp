@@ -32,7 +32,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const { updateConnection } = useDispatch('quillSMTP/core');
 
 	const onChange = (key: string) => {
-		updateConnection(connectionId, { mailer: key });
+		updateConnection(connectionId, { mailer: key, account_id: '' });
 	};
 
 	return (

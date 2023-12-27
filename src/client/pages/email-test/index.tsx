@@ -10,6 +10,7 @@ import { getMailerModules } from '@quillsmtp/mailers';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 
 /**
  * External dependencies
@@ -28,19 +29,11 @@ import { TextField } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FormHelperText from '@mui/material/FormHelperText';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-	function Alert(props, ref) {
-		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-	}
-);
 
 const EmailTest: React.FC = () => {
 	const adminEmail = ConfigAPI.getAdminEmail();
@@ -48,14 +41,13 @@ const EmailTest: React.FC = () => {
 	const [connection, setConnection] = useState<string>('');
 	const [isHTML, setIsHTML] = useState<boolean>(true);
 	const [isSending, setIsSending] = useState<boolean>(false);
-	const [isSent, setIsSent] = useState<boolean>(false);
-	const [isError, setIsError] = useState<boolean>(false);
 	const { connections } = useSelect((select) => {
 		return {
 			connections: select('quillSMTP/core').getConnections(),
 		};
 	});
 	const mailersModules = getMailerModules();
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	// Ajax request to send the email.
 	const sendEmail = () => {
@@ -85,9 +77,15 @@ const EmailTest: React.FC = () => {
 			})
 			.then((response: any) => {
 				if (response.success) {
-					setIsSent(true);
+					createNotice({
+						type: 'success',
+						message: __('Email sent successfully.', 'quillsmtp'),
+					});
 				} else {
-					setIsError(true);
+					createNotice({
+						type: 'error',
+						message: __('Error sending email.', 'quillsmtp'),
+					});
 				}
 				setIsSending(false);
 			})
@@ -198,52 +196,6 @@ const EmailTest: React.FC = () => {
 					</form>
 				</CardContent>
 			</Card>
-			{isSent && (
-				<Snackbar
-					open={isSent}
-					autoHideDuration={6000}
-					onClose={() => {
-						setIsSent(false);
-					}}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'center',
-					}}
-				>
-					<Alert
-						onClose={() => {
-							setIsSent(false);
-						}}
-						sx={{ width: '100%' }}
-						severity="success"
-					>
-						{__('Email sent successfully.', 'quillsmtp')}
-					</Alert>
-				</Snackbar>
-			)}
-			{isError && (
-				<Snackbar
-					open={isError}
-					autoHideDuration={6000}
-					onClose={() => {
-						setIsError(false);
-					}}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'center',
-					}}
-				>
-					<Alert
-						onClose={() => {
-							setIsError(false);
-						}}
-						sx={{ width: '100%' }}
-						severity="error"
-					>
-						{__('Error sending email.', 'quillsmtp')}
-					</Alert>
-				</Snackbar>
-			)}
 		</div>
 	);
 };

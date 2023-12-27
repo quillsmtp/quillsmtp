@@ -18,6 +18,8 @@ import {
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
 	DELETE_MAILER_ACCOUNT,
+	ADD_NOTICE,
+	DELETE_NOTICE,
 } from './constants';
 import { CorePureState, CoreActionTypes } from './types';
 
@@ -25,6 +27,7 @@ import { CorePureState, CoreActionTypes } from './types';
 const initialState: CorePureState = {
 	connections: {},
 	mailers: {},
+	notices: {},
 };
 
 // Reducer.
@@ -187,6 +190,35 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			return {
 				...state,
 				connections: updatedConnections,
+			};
+		}
+		case ADD_NOTICE: {
+			const { notice } = action;
+			const { notices } = state;
+			const randomId = () => Math.random().toString(36).substr(2, 9);
+			const id = randomId();
+
+			return {
+				...state,
+				notices: {
+					...notices,
+					[id]: notice,
+				},
+			};
+		}
+		case DELETE_NOTICE: {
+			const { id } = action;
+			const { notices } = state;
+			const updatedNotices = cloneDeep(notices);
+			// @ts-ignore.
+			forEach(updatedNotices, (notice, noticeId) => {
+				if (noticeId === id) {
+					delete updatedNotices[noticeId];
+				}
+			});
+			return {
+				...state,
+				notices: updatedNotices,
 			};
 		}
 		default:

@@ -70,8 +70,7 @@ const Credentials: React.FC<Props> = ({
 	const [submitting, setSubmitting] = useState(false);
 
 	// dispatch notices.
-	const { createSuccessNotice, createErrorNotice } =
-		useDispatch('core/notices');
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	// Get credentials.
 	const getCredentials = () => {
@@ -100,33 +99,26 @@ const Credentials: React.FC<Props> = ({
 			},
 		})
 			.then((res: any) => {
-				createSuccessNotice(
-					'✅ ' +
+				createNotice({
+					type: 'success',
+					message:
 						(labels?.singular ?? __('Account', 'quillsmtp')) +
 						' ' +
 						__('added successfully!', 'quillsmtp'),
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				});
 				onAdded(res.id, { name: res.name });
 				setInputs({});
 			})
 			.catch((err) => {
-				createErrorNotice(
-					'⛔ ' +
-						(err.message ??
-							__('Error in adding the ', 'quillsmtp') +
-								(
-									labels?.singular ??
-									__('Account', 'quillsmtp')
-								).toLowerCase()),
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'error',
+					message:
+						err.message ??
+						__('Error in adding the ', 'quillsmtp') +
+							(
+								labels?.singular ?? __('Account', 'quillsmtp')
+							).toLowerCase(),
+				});
 			})
 			.finally(() => {
 				setSubmitting(false);

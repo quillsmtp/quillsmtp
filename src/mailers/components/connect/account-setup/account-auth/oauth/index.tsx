@@ -36,25 +36,20 @@ const Oauth: React.FC<Props> = ({
 	});
 
 	// dispatch notices.
-	const { createSuccessNotice } = useDispatch('core/notices');
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	const authorize = () => {
 		window[`add_new_${connection.mailer}_account`] = (
 			id: string,
 			name: string
 		) => {
-			createSuccessNotice(
-				'✅ ' +
-					(
-						labels?.singular ?? __('Account', 'quillsmtp')
-					).toLowerCase() +
-					' ' +
-					__('added successfully!', 'quillsmtp'),
-				{
-					type: 'snackbar',
-					isDismissible: true,
-				}
-			);
+			createNotice({
+				type: 'success',
+				message: sprintf(
+					__('%s added successfully!', 'quillsmtp'),
+					labels?.singular ?? __('Account', 'quillsmtp')
+				),
+			});
 			onAdded(id, { name });
 		};
 		window.open(

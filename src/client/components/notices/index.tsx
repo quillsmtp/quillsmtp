@@ -1,12 +1,14 @@
 /**
  * External dependencies
  */
-import { filter } from 'lodash';
+import React from 'react';
+import { keys, isEmpty } from 'lodash';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 /**
  * WordPress dependencies
  */
-import { SnackbarList, NoticeList } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect } from 'react';
 
@@ -15,37 +17,55 @@ import { useEffect } from 'react';
  */
 import './style.scss';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+	function Alert(props, ref) {
+		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+	}
+);
+
 const Notices = () => {
-	// @ts-expect-error
 	const { notices } = useSelect((select) => {
 		return {
-			// @ts-expect-error
-			notices: select('core/notices').getNotices(),
+			notices: select('quillSMTP/core').getNotices(),
 		};
 	});
 
-	const { removeNotice } = useDispatch('core/notices');
-
-	const snackbarNotices = filter(notices, {
-		type: 'snackbar',
-		// @ts-expect-error
-	}) as Readonly<NoticeList.Notice[]>;
+	const { deleteNotice } = useDispatch('quillSMTP/core');
 
 	useEffect(() => {
-		if (snackbarNotices.length > 2) {
-			snackbarNotices
-				.slice(0, snackbarNotices.length - 2)
-				.forEach((notice) => removeNotice(notice.id));
+		// Remove first notice if notice more than 2
+		if (!isEmpty(notices) && keys(notices).length > 2) {
+			deleteNotice(keys(notices)[0]);
 		}
-	}, [snackbarNotices]);
+	}, [notices]);
 
 	return (
 		<>
-			<SnackbarList
-				notices={snackbarNotices}
-				className="admin-components-admin-notices__snackbar"
-				onRemove={removeNotice}
-			/>
+			{keys(notices).map((noticeId) => {
+				const notice = notices[noticeId];
+
+				return (
+					<Snackbar
+						key={noticeId}
+						open={true}
+						autoHideDuration={notice?.duration || 6000}
+						anchorOrigin={
+							notice?.anchorOrigin || {
+								vertical: 'bottom',
+								horizontal: 'center',
+							}
+						}
+						onClose={() => deleteNotice(noticeId)}
+					>
+						<Alert
+							severity={notice.type}
+							onClose={() => deleteNotice(noticeId)}
+						>
+							{notice.message}
+						</Alert>
+					</Snackbar>
+				);
+			})}
 		</>
 	);
 };

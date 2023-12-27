@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 
 /**
  * External Dependencies
@@ -236,7 +237,6 @@ const Logs: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [deleteLogId, setDeleteLogId] = useState<number | null>(null); // null for no log to clear
 	const [isDeleting, setIsDeleting] = useState<boolean>(false); // null for no log to clear
-	const [response, setResponse] = useState<string | null>(null); // null for no log to clear
 	const [logs, setLogs] = useState<Log[] | null>(null); // null for loading, false for error empty array for empty list
 	const [modalLogId, setModalLogId] = useState<number | null>(null); // null for no log to show
 	const [currentFilter, setCurrentFilter] = useState<string>('all');
@@ -244,6 +244,7 @@ const Logs: React.FC = () => {
 		useState<boolean>(false);
 	const [dateRange, setDateRange] = useState<any>({});
 	const [search, setSearch] = useState<string>('');
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -332,7 +333,10 @@ const Logs: React.FC = () => {
 					setLogs(newLogs);
 					setIsDeleting(false);
 					setDeleteLogId(null);
-					setResponse(__('Log deleted successfully!', 'quillsmtp'));
+					createNotice({
+						type: 'success',
+						message: __('Log deleted successfully.', 'quillsmtp'),
+					});
 				} else {
 					setIsDeleting(false);
 					setDeleteLogId(null);
@@ -650,22 +654,7 @@ const Logs: React.FC = () => {
 					onConfirm={() => logsDelete(deleteLogId)}
 				/>
 			)}
-			{response !== null && (
-				<Snackbar
-					open={response !== null}
-					autoHideDuration={6000}
-					onClose={() => setResponse(null)}
-					anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-				>
-					<Alert
-						onClose={() => setResponse(null)}
-						severity="success"
-						sx={{ width: '100%' }}
-					>
-						{response}
-					</Alert>
-				</Snackbar>
-			)}
+
 			{modalLogId !== null && (
 				<LogModal
 					log={getLogById(modalLogId)}

@@ -297,7 +297,13 @@ abstract class Process {
 	 * @return string
 	 */
 	public function get_from_email() {
-		$from_email = $this->connection['from_email'] ?? '' ? $this->connection['from_email'] : $this->phpmailer->From;
+		$connection_from_email = $this->connection['from_email'] ?? '';
+		$force_from_email      = $this->connection['force_from_email'] ?? false;
+		$from_email            = $this->phpmailer->From ?? $connection_from_email;
+
+		if ( $force_from_email && ! empty( $connection_from_email ) ) {
+			$from_email = $connection_from_email;
+		}
 
 		return apply_filters( 'quillsmtp_mailer_get_from_email', $from_email, $this->provider );
 	}
@@ -310,7 +316,13 @@ abstract class Process {
 	 * @return string
 	 */
 	public function get_from_name() {
-		$from_name = $this->connection['from_name'] ?? '' ? $this->connection['from_name'] : $this->phpmailer->FromName;
+		$connection_from_name = $this->connection['from_name'] ?? '';
+		$force_from_name      = $this->connection['force_from_name'] ?? false;
+		$from_name            = $this->phpmailer->FromName ?? $connection_from_name;
+
+		if ( $force_from_name && ! empty( $connection_from_name ) ) {
+			$from_name = $connection_from_name;
+		}
 
 		return apply_filters( 'quillsmtp_mailer_get_from_name', $from_name, $this->provider );
 	}

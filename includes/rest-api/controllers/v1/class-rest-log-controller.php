@@ -110,7 +110,17 @@ class REST_Log_Controller extends REST_Controller {
 			}
 		}
 
-		return new WP_REST_Response( $logs_for_each_day, 200 );
+		$success_logs = Log_Handler_DB::get_count( array( 'info' ) );
+		$error_logs   = Log_Handler_DB::get_count( array( 'error' ) );
+		$total_logs   = Log_Handler_DB::get_count();
+		$result       = array(
+			'total'   => $total_logs,
+			'success' => $success_logs,
+			'failed'  => $error_logs,
+			'days'    => $logs_for_each_day,
+		);
+
+		return new WP_REST_Response( $result, 200 );
 	}
 
 	/**

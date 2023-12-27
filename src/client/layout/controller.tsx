@@ -57,12 +57,12 @@ export const Controller = ({ page, match, location }) => {
 registerAdminPage('home', {
 	component: Home,
 	path: '/',
-	requiresInitialPayload: true,
 });
 
 registerAdminPage('settings', {
 	component: Settings,
 	path: 'settings',
+	requiresInitialPayload: true,
 });
 
 registerAdminPage('email-test', {

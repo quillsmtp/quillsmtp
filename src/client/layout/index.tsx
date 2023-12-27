@@ -21,6 +21,7 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * External dependencies
  */
+import { keys, isEmpty } from 'lodash';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
 
@@ -34,11 +35,11 @@ import './style.scss';
 export const Layout = (props) => {
 	const { notices } = useSelect((select) => {
 		return {
-			notices: select('core/notices').getNotices(),
+			notices: select('quillSMTP/core').getNotices(),
 		};
 	});
 
-	const { removeNotice } = useDispatch('core/notices');
+	const { deleteNotice } = useDispatch('quillSMTP/core');
 
 	const [isLoading, setIsLoading] = useState(
 		props.page.requiresInitialPayload
@@ -58,9 +59,11 @@ export const Layout = (props) => {
 		}
 
 		// Remove all notices on any page mount
-		notices.forEach((notice) => {
-			removeNotice(notice.id);
-		});
+		if (!isEmpty(notices)) {
+			keys(notices).forEach((noticeId) => {
+				deleteNotice(noticeId);
+			});
+		}
 	}, []);
 
 	return (

@@ -82,8 +82,7 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 		connection;
 
 	// dispatch notices.
-	const { createSuccessNotice, createErrorNotice } =
-		useDispatch('core/notices');
+	const { createNotice } = useDispatch('quillSMTP/core');
 
 	const save = () => {
 		// check validity.
@@ -109,26 +108,15 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 						[connectionId]: connection,
 					},
 				});
-				createSuccessNotice(
-					('✅ ' +
-						__(
-							'Settings saved successfully.',
-							'quillsmtp'
-						)) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'success',
+					message: __('Settings saved successfully.', 'quillsmtp'),
+				});
 			} else {
-				createErrorNotice(
-					('❌ ' +
-						__('Error saving settings.', 'quillsmtp')) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'error',
+					message: __('Error saving settings.', 'quillsmtp'),
+				});
 			}
 			setIsSaving(false);
 		});
@@ -159,26 +147,15 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 					connections: newConnections,
 				});
 				deleteConnection(connectionId);
-				createSuccessNotice(
-					('✅ ' +
-						__(
-							'Settings saved successfully.',
-							'quillsmtp'
-						)) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'success',
+					message: __('Settings saved successfully.', 'quillsmtp'),
+				});
 			} else {
-				createErrorNotice(
-					('❌ ' +
-						__('Error saving settings.', 'quillsmtp')) as string,
-					{
-						type: 'snackbar',
-						isDismissible: true,
-					}
-				);
+				createNotice({
+					type: 'error',
+					message: __('Error saving settings.', 'quillsmtp'),
+				});
 			}
 
 			setIsDeleting(false);
@@ -187,13 +164,23 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 
 	const validate = () => {
 		if (!connection.name) {
-			createErrorNotice(
-				__('Please enter a name for this connection.', 'quillsmtp'),
-				{
-					type: 'snackbar',
-					isDismissible: true,
-				}
-			);
+			createNotice({
+				type: 'error',
+				message: __(
+					'Please enter a name for this connection.',
+					'quillsmtp'
+				),
+			});
+			return false;
+		}
+		if (!connection.account_id) {
+			createNotice({
+				type: 'error',
+				message: __(
+					'Please select an account for this connection.',
+					'quillsmtp'
+				),
+			});
 			return false;
 		}
 		return true;

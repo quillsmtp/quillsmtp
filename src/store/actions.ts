@@ -16,8 +16,17 @@ import {
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
 	DELETE_CONNECTION,
+	ADD_NOTICE,
+	DELETE_NOTICE,
 } from './constants';
-import { CoreActionTypes, App, Account, Connection, Accounts } from './types';
+import {
+	CoreActionTypes,
+	App,
+	Account,
+	Connection,
+	Accounts,
+	Notice,
+} from './types';
 
 /**
  * Setup Store Action.
@@ -144,5 +153,25 @@ export const updateConnection = (
  */
 export const deleteConnection = (id: string): CoreActionTypes => ({
 	type: DELETE_CONNECTION,
+	id,
+});
+
+/**
+ * Add Notice Action.
+ * @param {Notice} notice Notice.
+ * @returns {CoreActionTypes} Add Notice Action.
+ */
+export const createNotice = (notice: Notice): CoreActionTypes => ({
+	type: ADD_NOTICE,
+	notice,
+});
+
+/**
+ * Delete Notice Action.
+ * @param {string} id Notice ID.
+ * @returns {CoreActionTypes} Delete Notice Action.
+ */
+export const deleteNotice = (id: string): CoreActionTypes => ({
+	type: DELETE_NOTICE,
 	id,
 });
