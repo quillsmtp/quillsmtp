@@ -19,6 +19,7 @@ use QuillSMTP\Mailers\SMTPcom\SMTPcom;
 use QuillSMTP\Mailers\Gmail\Gmail;
 use QuillSMTP\Mailers\SparkPost\SparkPost;
 use QuillSMTP\Mailers\SMTP\SMTP;
+use QuillSMTP\Mailers\PHPMailer\PHPMailer;
 
 /**
  * Mailers Class.
@@ -93,6 +94,7 @@ final class Mailers {
 			'gmail'      => Gmail::class,
 			'sparkpost'  => SparkPost::class,
 			'smtp'       => SMTP::class,
+			'phpmailer'  => PHPMailer::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );

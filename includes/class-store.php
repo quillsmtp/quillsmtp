@@ -72,7 +72,7 @@ class Store {
 	 */
 	private function define_mailers() {
 		$this->mailers = array(
-			'default'    => array(
+			'phpmailer'  => array(
 				'name'        => __( 'Default', 'quillsmtp' ),
 				'description' => __( 'Use the default WordPress mailer', 'quillsmtp' ),
 				'assets'      => array(

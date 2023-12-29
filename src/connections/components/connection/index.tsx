@@ -173,7 +173,9 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 			});
 			return false;
 		}
-		if (!connection.account_id) {
+		console.log(connection.mailer);
+
+		if (!connection.account_id && connection.mailer !== 'phpmailer') {
 			createNotice({
 				type: 'error',
 				message: __(

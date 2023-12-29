@@ -7,3 +7,4 @@ import './smtpcom';
 import './gmail';
 import './sparkpost';
 import './smtp';
+import './phpmailer';
