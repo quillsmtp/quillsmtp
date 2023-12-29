@@ -25,5 +25,6 @@ export type Log = {
 			html: string;
 			attachments: string[];
 		};
+		resend_count?: number;
 	};
 };

@@ -11,6 +11,7 @@ namespace QuillSMTP\REST_API\Controllers\V1;
 
 use QuillSMTP\Abstracts\REST_Controller;
 use QuillSMTP\Log_Handlers\Log_Handler_DB;
+use QuillSMTP\Abstracts\Log_Levels;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -80,6 +81,139 @@ class REST_Log_Controller extends REST_Controller {
 				),
 			)
 		);
+
+		// Resent emails.
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/resend',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'resend_emails' ),
+					'permission_callback' => array( $this, 'resend_emails_permissions_check' ),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Resend emails
+	 *
+	 * @since 1.7.1
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function resend_emails( $request ) {
+		$ids = $request->get_param( 'ids' );
+		$ids = explode( ',', $ids );
+
+		if ( empty( $ids ) ) {
+			return new WP_Error( 'quillsmtp_logs_no_ids', esc_html__( 'No ids provided', 'quillsmtp' ), array( 'status' => 422 ) );
+		}
+
+		$logs = Log_Handler_DB::get( $ids );
+		if ( empty( $logs ) ) {
+			return new WP_Error( 'quillsmtp_logs_no_logs', esc_html__( 'No logs found', 'quillsmtp' ), array( 'status' => 422 ) );
+		}
+
+		foreach ( $logs as $log ) {
+			$log_context   = $log['context'] ?? [];
+			$email_details = $log_context['email_details'] ?? [];
+			if ( empty( $email_details ) ) {
+				continue;
+			}
+			$email = [
+				'to'          => $email_details['to'],
+				'from'        => $email_details['from'],
+				'cc'          => $email_details['cc'],
+				'bcc'         => $email_details['bcc'],
+				'reply_to'    => $email_details['reply_to'],
+				'subject'     => $email_details['subject'],
+				'html'        => $email_details['html'],
+				'plain'       => $email_details['plain'],
+				'headers'     => $email_details['headers'],
+				'attachments' => $email_details['attachments'],
+			];
+
+			$to      = $email['to'];
+			$subject = $email['subject'];
+
+			// Message.
+			if ( ! empty( $email['html'] ) ) {
+				$message = $email['html'];
+			} else {
+				$message = $email['plain'];
+			}
+
+			// Headers.
+			$headers = array();
+
+			if ( ! empty( $email['html'] ) ) {
+				$headers[] = 'Content-Type: text/html; charset=UTF-8';
+			} else {
+				$headers[] = 'Content-Type: text/plain; charset=UTF-8';
+			}
+
+			if ( ! empty( $email['from'] ) ) {
+				$headers[] = 'From: ' . $email['from'];
+			}
+
+			if ( ! empty( $email['cc'] ) ) {
+				$headers[] = 'Cc: ' . $email['cc'];
+			}
+
+			if ( ! empty( $email['bcc'] ) ) {
+				$headers[] = 'Bcc: ' . $email['bcc'];
+			}
+
+			if ( ! empty( $email['reply_to'] ) ) {
+				$headers[] = 'Reply-To: ' . $email['reply_to'];
+			}
+
+			if ( ! empty( $email['headers'] ) ) {
+				$headers[] = $email['headers'];
+			}
+
+			// Attachments.
+			$attachments = array();
+			if ( ! empty( $email['attachments'] ) ) {
+				$attachments = $email['attachments'];
+			}
+
+			add_filter(
+				'quillsmtp_mailer_log_result',
+				function( $result, $level, $message, $context ) use ( $log ) {
+					$resend_count = $log['context']['resend_count'] ?? 0;
+					if ( 'info' === $level ) {
+						// Update resent count.
+						$context['resend_count'] = $resend_count + 1;
+					}
+					Log_Handler_DB::update( $log['log_id'], $level, $message, $context );
+					return false;
+				},
+				10,
+				4
+			);
+
+			// Send email.
+			wp_mail( $to, $subject, $message, $headers, $attachments );
+		}
+
+		return new WP_REST_Response( array( 'success' => true ), 200 );
+	}
+
+	/**
+	 * Resend emails permission check
+	 *
+	 * @since 1.7.1
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|bool
+	 */
+	public function resend_emails_permissions_check( $request ) {
+		$capability = 'manage_options';
+		return current_user_can( $capability, $request );
 	}
 
 	/**
@@ -262,7 +396,7 @@ class REST_Log_Controller extends REST_Controller {
 	 */
 	public function delete_items( $request ) {
 		if ( isset( $request['ids'] ) ) {
-			$ids     = empty( $request['ids'] ) ? array() : explode( ',', $request['ids'] );
+			$ids     = empty( $request['ids'] ) ? array() : $request['ids'];
 			$deleted = (bool) Log_Handler_DB::delete( $ids );
 		} else {
 			$deleted = (bool) Log_Handler_DB::flush();

@@ -33,14 +33,20 @@ import MuiChip from '@mui/material/Chip';
 import { Button, Stack } from '@mui/material';
 import { css } from '@emotion/css';
 import { ThreeDots as Loader } from 'react-loader-spinner';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import SearchIcon from '@mui/icons-material/Search';
 import DateIcon from '@mui/icons-material/DateRange';
 import InputBase from '@mui/material/InputBase';
 import { DateRangePicker } from 'react-date-range';
 import classnames from 'classnames';
 import Popover from '@mui/material/Popover';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Tooltip from '@mui/material/Tooltip';
+import ResendIcon from '@mui/icons-material/Refresh';
 
 /**
  * Internal Dependencies
@@ -113,12 +119,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Chip = styled(MuiChip)(() => ({
 	height: 22,
 }));
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-	function Alert(props, ref) {
-		return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-	}
-);
 
 const TablePaginationActions = (props: TablePaginationActionsProps) => {
 	const theme = useTheme();
@@ -198,6 +198,59 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 	);
 };
 
+interface EnhancedTableProps {
+	numSelected: number;
+	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	rowCount: number;
+}
+
+const EnhancedTableHead = (props: EnhancedTableProps) => {
+	const { onSelectAllClick, numSelected, rowCount } = props;
+
+	return (
+		<TableHead>
+			<TableRow>
+				<StyledTableCell padding="checkbox">
+					<FormControlLabel
+						sx={{
+							margin: '0',
+						}}
+						control={
+							<Checkbox
+								color="primary"
+								indeterminate={
+									numSelected > 0 && numSelected < rowCount
+								}
+								checked={
+									rowCount > 0 && numSelected === rowCount
+								}
+								onChange={onSelectAllClick}
+								inputProps={{
+									'aria-label': __(
+										'select all logs',
+										'quillsmtp'
+									),
+								}}
+							/>
+						}
+						label={''}
+					/>
+				</StyledTableCell>
+				{columns.map((column) => (
+					<StyledTableCell
+						key={column.id}
+						component="th"
+						scope="row"
+						align="left"
+					>
+						{column.label}
+					</StyledTableCell>
+				))}
+			</TableRow>
+		</TableHead>
+	);
+};
+
 const columns: readonly Column[] = [
 	{ id: 'subject', label: __('Subject', 'quillsmtp'), minWidth: 100 },
 	{ id: 'to', label: __('To', 'quillsmtp'), minWidth: 100 },
@@ -244,7 +297,15 @@ const Logs: React.FC = () => {
 		useState<boolean>(false);
 	const [dateRange, setDateRange] = useState<any>({});
 	const [search, setSearch] = useState<string>('');
+	const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
 	const { createNotice } = useDispatch('quillSMTP/core');
+	const [deleteAll, setDeleteAll] = useState<boolean>(false);
+	const [selectedAction, setSelectedAction] = useState<string>('');
+	const [deleteSelected, setDeleteSelected] = useState<boolean>(false);
+	const [isDeletingSelected, setIsDeletingSelected] =
+		useState<boolean>(false);
+	const [isResending, setIsResending] = useState<boolean>(false);
+	const [refreshLogs, setRefreshLogs] = useState<boolean>(false);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -266,7 +327,7 @@ const Logs: React.FC = () => {
 				setCount(0);
 				setIsLoading(false);
 			});
-	}, [page, perPage, currentFilter]);
+	}, [page, perPage, currentFilter, refreshLogs]);
 
 	const filterLogsByDate = () => {
 		if (!dateRange?.startDate || !dateRange?.endDate || isLoading) return;
@@ -311,12 +372,19 @@ const Logs: React.FC = () => {
 	};
 
 	const logsClear = () => {
+		if (isDeleting) return;
+		setIsDeleting(true);
 		apiFetch({
 			path: `/qsmtp/v1/logs`,
 			method: 'DELETE',
 		}).then(() => {
 			setPage(1);
-			setLogs(null);
+			setLogs([]);
+			setDeleteAll(false);
+			createNotice({
+				type: 'success',
+				message: __('Logs cleared successfully.', 'quillsmtp'),
+			});
 		});
 	};
 
@@ -348,10 +416,54 @@ const Logs: React.FC = () => {
 			});
 	};
 
+	const handleDeleteSelected = () => {
+		if (isDeletingSelected || !logs) return;
+		setIsDeletingSelected(true);
+		apiFetch({
+			path: `/qsmtp/v1/logs`,
+			method: 'DELETE',
+			body: JSON.stringify({
+				ids: selectedLogs,
+			}),
+		})
+			.then((res: any) => {
+				if (res.success) {
+					const newLogs = logs.filter(
+						(log) => !selectedLogs.includes(log.log_id)
+					);
+					setLogs(newLogs);
+					setIsDeletingSelected(false);
+					setSelectedLogs([]);
+					setDeleteSelected(false);
+					createNotice({
+						type: 'success',
+						message: __('Logs deleted successfully.', 'quillsmtp'),
+					});
+				} else {
+					setIsDeletingSelected(false);
+					setSelectedLogs([]);
+					setDeleteSelected(false);
+				}
+			})
+			.catch(() => {
+				setIsDeletingSelected(false);
+				setSelectedLogs([]);
+				setDeleteSelected(false);
+			});
+	};
+
+	const applyAction = () => {
+		if (selectedAction === 'delete') {
+			setDeleteSelected(true);
+		} else if (selectedAction === 'resend') {
+			resendLogs(selectedLogs);
+		}
+	};
+
 	const getLogLevel = (level) => {
 		switch (level) {
 			case 'error':
-				return <Chip label={__('Error', 'quillsmtp')} color="error" />;
+				return <Chip label={__('Failed', 'quillsmtp')} color="error" />;
 			case 'info':
 				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
 			default:
@@ -383,6 +495,49 @@ const Logs: React.FC = () => {
 		},
 	];
 
+	const handleSelectAll = (e) => {
+		if (!logs) return;
+
+		if (e.target.checked) {
+			const ids = logs.map((log) => log.log_id);
+			setSelectedLogs(ids);
+		} else {
+			setSelectedLogs([]);
+		}
+	};
+
+	const resendLogs = (ids) => {
+		if (ids.length === 0 || isResending) return;
+		setIsResending(true);
+		const formData = new FormData();
+		formData.append('ids', ids);
+
+		apiFetch({
+			path: `/qsmtp/v1/logs/resend`,
+			method: 'POST',
+			body: formData,
+		})
+			.then((res: any) => {
+				if (res.success) {
+					setRefreshLogs(!refreshLogs);
+					setSelectedLogs([]);
+				} else {
+					createNotice({
+						type: 'error',
+						message: res.message,
+					});
+				}
+				setIsResending(false);
+			})
+			.catch((e) => {
+				createNotice({
+					type: 'error',
+					message: e.message,
+				});
+				setIsResending(false);
+			});
+	};
+
 	return (
 		<div className="qsmtp-logs">
 			{logs === null && (
@@ -400,8 +555,54 @@ const Logs: React.FC = () => {
 				</div>
 			)}
 			{logs !== null && (
-				<div className="qsmtp-logs__wrap">
+				<div
+					className="qsmtp-logs__wrap"
+					style={{
+						position: 'relative',
+					}}
+				>
 					<div className="qsmtp-logs__header">
+						{selectedLogs.length > 0 && (
+							<div className="qsmtp-logs__header-section">
+								<FormControl
+									sx={{ minWidth: 120 }}
+									size="small"
+								>
+									<InputLabel id="demo-simple-select-label">
+										{__('Action', 'quillsmtp')}
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={selectedAction}
+										label={__('Action', 'quillsmtp')}
+										onChange={(event: SelectChangeEvent) =>
+											setSelectedAction(
+												event.target.value
+											)
+										}
+									>
+										<MenuItem value={'delete'}>
+											{__('Delete Selected', 'quillsmtp')}
+										</MenuItem>
+										<MenuItem value={'resend'}>
+											{__('Resend Selected', 'quillsmtp')}
+										</MenuItem>
+									</Select>
+								</FormControl>
+								<Button
+									sx={{
+										marginLeft: '10px',
+									}}
+									variant="outlined"
+									onClick={() => applyAction()}
+									disabled={isDeleting}
+									color="primary"
+								>
+									{__('Apply', 'quillsmtp')}
+								</Button>
+							</div>
+						)}
 						<div className="qsmtp-logs__header-section">
 							<h2>{__('Logs', 'quillsmtp')}</h2>
 							<div className="qsmtp-logs__header-filters">
@@ -518,27 +719,73 @@ const Logs: React.FC = () => {
 							sx={{ minWidth: 500 }}
 							aria-label="custom pagination table"
 						>
-							<TableHead>
-								<TableRow>
-									{columns.map((column) => (
-										<StyledTableCell
-											key={column.id}
-											component="th"
-											scope="row"
-											align="left"
-										>
-											{column.label}
-										</StyledTableCell>
-									))}
-								</TableRow>
-							</TableHead>
+							<EnhancedTableHead
+								numSelected={selectedLogs.length}
+								onSelectAllClick={handleSelectAll}
+								rowCount={
+									logs?.length < perPage
+										? logs?.length
+										: perPage
+								}
+							/>
 							<TableBody>
-								{isLoading && (
+								{(isLoading || isResending) && (
 									<LoadingRows colSpan={6} count={perPage} />
 								)}
 								{!isLoading &&
+									!isResending &&
 									logs.map((log) => (
 										<TableRow key={log.context.code}>
+											<TableCell
+												component="th"
+												scope="row"
+												padding="checkbox"
+											>
+												<FormControlLabel
+													sx={{
+														margin: '0',
+													}}
+													control={
+														<Checkbox
+															color="primary"
+															checked={selectedLogs.includes(
+																log.log_id
+															)}
+															onChange={(e) => {
+																if (
+																	e.target
+																		.checked
+																) {
+																	setSelectedLogs(
+																		[
+																			...selectedLogs,
+																			log.log_id,
+																		]
+																	);
+																} else {
+																	setSelectedLogs(
+																		selectedLogs.filter(
+																			(
+																				id
+																			) =>
+																				id !==
+																				log.log_id
+																		)
+																	);
+																}
+															}}
+															inputProps={{
+																'aria-label':
+																	__(
+																		'select log',
+																		'quillsmtp'
+																	),
+															}}
+														/>
+													}
+													label={''}
+												/>
+											</TableCell>
 											<TableCell
 												component="th"
 												scope="row"
@@ -562,34 +809,102 @@ const Logs: React.FC = () => {
 													direction="row"
 													spacing={1}
 												>
-													<IconButton
-														aria-label={__(
-															'View log',
+													<Tooltip
+														title={
+															log.level ===
+															'error'
+																? __(
+																		'Retry',
+																		'quillsmtp'
+																  )
+																: __(
+																		'Resend',
+																		'quillsmtp'
+																  )
+														}
+														placement="top"
+													>
+														<Button
+															variant="contained"
+															onClick={() =>
+																resendLogs([
+																	log.log_id,
+																])
+															}
+															disabled={
+																isResending
+															}
+															color={
+																log.level ===
+																'error'
+																	? 'error'
+																	: 'info'
+															}
+															startIcon={
+																<ResendIcon />
+															}
+															size="small"
+														>
+															{log.context
+																?.resend_count
+																? `(${log.context?.resend_count})`
+																: ''}{' '}
+															{log.level ===
+															'error'
+																? __(
+																		'Retry',
+																		'quillsmtp'
+																  )
+																: __(
+																		'Resend',
+																		'quillsmtp'
+																  )}
+														</Button>
+													</Tooltip>
+													<Tooltip
+														title={__(
+															'View',
 															'quillsmtp'
 														)}
-														onClick={() =>
-															setModalLogId(
-																log.log_id
-															)
-														}
-														color="primary"
+														placement="top"
 													>
-														<ViewIcon />
-													</IconButton>
-													<IconButton
-														aria-label={__(
-															'Delete log',
+														<IconButton
+															aria-label={__(
+																'View log',
+																'quillsmtp'
+															)}
+															onClick={() =>
+																setModalLogId(
+																	log.log_id
+																)
+															}
+															color="primary"
+														>
+															<ViewIcon />
+														</IconButton>
+													</Tooltip>
+													<Tooltip
+														title={__(
+															'Delete',
 															'quillsmtp'
 														)}
-														onClick={() =>
-															setDeleteLogId(
-																log.log_id
-															)
-														}
-														color="error"
+														placement="top"
 													>
-														<DeleteIcon />
-													</IconButton>
+														<IconButton
+															aria-label={__(
+																'Delete log',
+																'quillsmtp'
+															)}
+															onClick={() =>
+																setDeleteLogId(
+																	log.log_id
+																)
+															}
+															color="error"
+														>
+															<DeleteIcon />
+														</IconButton>
+													</Tooltip>
 												</Stack>
 											</TableCell>
 										</TableRow>
@@ -637,6 +952,21 @@ const Logs: React.FC = () => {
 							</TableFooter>
 						</Table>
 					</TableContainer>
+					{logs && logs.length > 0 && (
+						<Button
+							variant="outlined"
+							onClick={() => setDeleteAll(true)}
+							disabled={isLoading}
+							color="error"
+							sx={{
+								position: 'absolute',
+								bottom: '5px',
+								left: '5px',
+							}}
+						>
+							{__('Clear Logs', 'quillsmtp')}
+						</Button>
+					)}
 				</div>
 			)}
 			{deleteLogId !== null && (
@@ -654,7 +984,36 @@ const Logs: React.FC = () => {
 					onConfirm={() => logsDelete(deleteLogId)}
 				/>
 			)}
-
+			{deleteAll && (
+				<AlertDialog
+					open={deleteAll}
+					title={__('Clear Logs', 'quillsmtp')}
+					text={__(
+						'Are you sure you want to clear all logs?',
+						'quillsmtp'
+					)}
+					color="error"
+					confirmText={__('Clear', 'quillsmtp')}
+					loading={isDeleting}
+					onClose={() => setDeleteAll(false)}
+					onConfirm={() => logsClear()}
+				/>
+			)}
+			{deleteSelected && (
+				<AlertDialog
+					open={deleteSelected}
+					title={__('Delete Selected Logs', 'quillsmtp')}
+					text={__(
+						'Are you sure you want to delete selected logs?',
+						'quillsmtp'
+					)}
+					color="error"
+					confirmText={__('Delete', 'quillsmtp')}
+					loading={isDeletingSelected}
+					onClose={() => setDeleteSelected(false)}
+					onConfirm={() => handleDeleteSelected()}
+				/>
+			)}
 			{modalLogId !== null && (
 				<LogModal
 					log={getLogById(modalLogId)}

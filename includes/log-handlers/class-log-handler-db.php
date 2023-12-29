@@ -288,6 +288,84 @@ class Log_Handler_DB extends Log_Handler {
 	}
 
 	/**
+	 * Get selected logs from DB.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int|string|array $log_ids Log ID or array of Log IDs to be deleted.
+	 *
+	 * @return array
+	 */
+	public static function get( $log_ids ) {
+		global $wpdb;
+
+		if ( ! is_array( $log_ids ) ) {
+			$log_ids = array( $log_ids );
+		}
+
+		$format   = array_fill( 0, count( $log_ids ), '%d' );
+		$query_in = '(' . implode( ',', $format ) . ')';
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}quillsmtp_log WHERE log_id IN {$query_in}", $log_ids ), ARRAY_A ); // @codingStandardsIgnoreLine.
+
+		$prepared_results = array();
+		foreach ( $results as $result ) {
+			// level label.
+			$level = Log_Levels::get_severity_level( (int) $result['level'] );
+
+			// prepare context.
+			$context = maybe_unserialize( $result['context'] );
+
+			// local datetime.
+			$local_datetime = get_date_from_gmt( $result['timestamp'] );
+
+			$prepared_results[] = array(
+				'log_id'         => $result['log_id'],
+				'level'          => $level,
+				'message'        => $result['message'],
+				'source'         => $result['source'],
+				'context'        => $context,
+				'datetime'       => $result['timestamp'],
+				'local_datetime' => $local_datetime,
+			);
+		}
+
+		return $prepared_results;
+	}
+
+	/**
+	 * Update log.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int    $log_id Log ID.
+	 * @param string $level Log level.
+	 * @param string $message Log message.
+	 * @param array  $context Log context.
+	 *
+	 * @return bool
+	 */
+	public static function update( $log_id, $level, $message, $context ) {
+		global $wpdb;
+
+		$update = array(
+			'level'   => Log_Levels::get_level_severity( $level ),
+			'message' => $message,
+		);
+
+		$format = array(
+			'%d',
+			'%s',
+		);
+
+		if ( ! empty( $context ) ) {
+			$update['context'] = serialize( $context ); // @codingStandardsIgnoreLine.
+			$format[]          = '%s';
+		}
+
+		return false !== $wpdb->update( "{$wpdb->prefix}quillsmtp_log", $update, array( 'log_id' => $log_id ), $format, array( '%d' ) );
+	}
+
+	/**
 	 * Delete all logs older than a defined timestamp.
 	 *
 	 * @since 1.0.0

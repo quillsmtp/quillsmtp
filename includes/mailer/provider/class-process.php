@@ -422,6 +422,10 @@ abstract class Process {
 			);
 		}
 
+		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $level, $message, $context ) === false ) {
+			return;
+		}
+
 		quillsmtp_get_logger()->log( $level, $message, $context );
 	}
 }
