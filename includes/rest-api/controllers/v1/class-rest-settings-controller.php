@@ -100,9 +100,9 @@ class REST_Settings_Controller extends REST_Controller {
 							'type'    => 'boolean',
 							'default' => false,
 						),
-						'mailer_slug'      => array(
+						'mailer'           => array(
 							'type'    => 'string',
-							'default' => '',
+							'default' => 'phpmailer',
 						),
 						'account_id'       => array(
 							'type'    => 'string',

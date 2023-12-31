@@ -142,6 +142,14 @@ class Store {
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtp/icon.svg',
 				),
 			),
+			'pepipost'   => array(
+				'name'        => __( 'Pepipost', 'quillsmtp' ),
+				'description' => __( 'Send emails using Pepipost SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sparkpost/icon.svg',
+				),
+				'is_pro'      => true,
+			),
 		);
 	}
 }

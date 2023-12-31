@@ -22,6 +22,7 @@ function register() {
 			description: mailer.description,
 			icon: mailer.assets.icon,
 			render: () => null,
+			is_pro: mailer?.is_pro,
 		});
 	}
 }
