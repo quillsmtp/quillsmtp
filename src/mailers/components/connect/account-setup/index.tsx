@@ -49,9 +49,7 @@ const Setup: React.FC<Props> = ({
 			.then(() => {
 				const app = {};
 				for (const [key, field] of Object.entries(fields)) {
-					if (field.check) {
-						app[key] = inputs[key];
-					}
+					app[key] = inputs[key];
 				}
 				onFinish(app);
 			})

@@ -24,7 +24,7 @@ const ConnectPage: React.FC<Props> = ({ connectionId }) => {
 							fields: {
 								api_key: {
 									label: __('Private API Key', 'quillsmtp'),
-									type: 'text',
+									type: 'password',
 									required: true,
 								},
 								domain_name: {

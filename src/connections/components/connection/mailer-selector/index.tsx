@@ -34,8 +34,9 @@ interface Props {
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const [proMailer, setProMailer] = useState<string>('');
 	const mailerModules = getMailerModules();
-	const { getConnection } = useSelect((select) => ({
+	const { getConnection, getMailer } = useSelect((select) => ({
 		getConnection: select('quillSMTP/core').getConnection,
+		getMailer: select('quillSMTP/core').getMailer,
 	}));
 	const connection = getConnection(connectionId);
 	const { updateConnection } = useDispatch('quillSMTP/core');
@@ -49,7 +50,14 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 			return;
 		}
 		setProMailer('');
-		updateConnection(connectionId, { mailer: key, account_id: '' });
+		const mailerData = getMailer(key);
+		const { accounts } = mailerData;
+		let account_id = '';
+		if (size(accounts) > 0) {
+			// get first account.
+			account_id = keys(accounts)[0];
+		}
+		updateConnection(connectionId, { mailer: key, account_id: account_id });
 	};
 
 	return (
