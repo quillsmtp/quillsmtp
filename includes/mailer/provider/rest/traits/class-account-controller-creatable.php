@@ -120,8 +120,9 @@ trait Account_Controller_Creatable {
 
 		return new WP_REST_Response(
 			array(
-				'id'   => $account_id,
-				'name' => $account_data['name'],
+				'id'          => $account_id,
+				'name'        => $account_data['name'],
+				'credentials' => $account_data['credentials'] ?? [],
 			),
 			$account_exists ? 200 : 201
 		);

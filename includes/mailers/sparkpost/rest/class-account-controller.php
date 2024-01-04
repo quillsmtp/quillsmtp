@@ -72,11 +72,9 @@ class Account_Controller extends Abstract_Account_Controller {
 			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quillsmtp' ) );
 		}
 
-		$api_key = sanitize_text_field( $api_key );
 		// Convert last 8 characters to numbers.
-		$account_id   = substr( $api_key, -8 );
-		$account_id   = preg_replace( '/[^0-9]/', '', $account_id );
-		$account_name = sprintf( __( 'Account #: %s', 'quillsmtp' ), $account_id );
+		$account_id   = $request->get_param( 'id' ) ?? wp_rand( 10000000, 99999999 );
+		$account_name = $request->get_param( 'name' ) ?? 'SparkPost ' . $account_id;
 
 		return [
 			'id'   => $account_id,

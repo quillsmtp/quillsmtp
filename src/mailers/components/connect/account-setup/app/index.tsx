@@ -14,6 +14,10 @@ import React from 'react';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -27,6 +31,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
  * Internal Dependencies
  */
 import type { Setup as SetupType } from '../../../types';
+import { EditApp } from '../../account-edit';
 import './style.scss';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
@@ -57,6 +62,8 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 	const [disconnecting, setDisconnecting] = useState(false);
 	const [disconnectError, setDisconnectError] = useState(false);
 	const [disconnectSuccess, setDisconnectSuccess] = useState(false);
+	const [editApp, setEditApp] = useState(false);
+	const [editingApp, setEditingApp] = useState(false);
 
 	// load app data.
 	useEffect(() => {
@@ -142,15 +149,52 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 						</>
 					)}
 				</div>
-				<Button
-					onClick={() => setDisconnectModal(true)}
-					variant="outlined"
-					color="error"
-					startIcon={<DeleteIcon />}
+				<div
+					className={css`
+						margin-right: 10px;
+					`}
 				>
-					{__('Disconnect App', 'quillsmtp')}
-				</Button>
+					<Tooltip title={__('Edit', 'quillsmtp')}>
+						<IconButton
+							onClick={() => setEditApp(true)}
+							color={editApp ? 'primary' : 'default'}
+						>
+							{editingApp ? (
+								<CircularProgress size={20} />
+							) : (
+								<EditIcon />
+							)}
+						</IconButton>
+					</Tooltip>
+				</div>
+				<div>
+					<Tooltip title={__('Disconnect', 'quillsmtp')}>
+						<IconButton
+							onClick={() => setDisconnectModal(true)}
+							disabled={disconnecting}
+							color="error"
+						>
+							<DeleteIcon />
+						</IconButton>
+					</Tooltip>
+				</div>
 			</div>
+			{editApp && (
+				<div
+					className={css`
+						margin-bottom: 20px;
+					`}
+				>
+					<EditApp
+						connectionId={connectionId}
+						fields={setup.fields}
+						values={app}
+						onEditing={setEditingApp}
+						isEditing={editingApp}
+						onCancel={() => setEditApp(false)}
+					/>
+				</div>
+			)}
 			{disconnectError && (
 				<Snackbar
 					open={disconnectError}

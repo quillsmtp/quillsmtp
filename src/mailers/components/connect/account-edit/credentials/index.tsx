@@ -2,13 +2,15 @@
  * QuillSMTP Dependencies
  */
 import { getMailerModules } from '@quillsmtp/mailers';
+import type { Account } from '@quillsmtp/store';
 
 /**
  * External Dependencies
  */
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
-import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+import SaveIcon from '@mui/icons-material/Save';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -16,6 +18,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { Stack } from '@mui/material';
 
 /**
  * WordPress Dependencies
@@ -32,22 +35,28 @@ import {
 	AccountsAuthFields,
 	AccountsLabels,
 	AccountsAuthField,
-} from '../../../../types';
+} from '../../../types';
 import './style.scss';
 
 interface Props {
 	connectionId: string;
-	onAdding?: (status: boolean) => void;
-	onAdded: (id: string, account: { name: string }) => void;
+	accountId: string;
+	account: Account;
+	onEditing?: (status: boolean) => void;
+	onEdited: (id: string, account: Account) => void;
+	onCancel: () => void;
 	labels?: AccountsLabels;
 	fields?: AccountsAuthFields;
 	Instructions?: React.FC;
 }
 
-const Credentials: React.FC<Props> = ({
+const EditCredentials: React.FC<Props> = ({
 	connectionId,
-	onAdding,
-	onAdded,
+	accountId,
+	account,
+	onEditing,
+	onEdited,
+	onCancel,
 	labels,
 	fields,
 	Instructions,
@@ -66,7 +75,8 @@ const Credentials: React.FC<Props> = ({
 	};
 
 	// state.
-	const [inputs, setInputs] = useState({});
+	const [inputs, setInputs] = useState(account.credentials ?? {});
+	const [name, setName] = useState(account.name ?? '');
 	const [submitting, setSubmitting] = useState(false);
 
 	// dispatch notices.
@@ -88,13 +98,16 @@ const Credentials: React.FC<Props> = ({
 
 	// submit.
 	const submit = () => {
+		if (submitting || !name) return;
 		setSubmitting(true);
-		if (onAdding) onAdding(true);
+		if (onEditing) onEditing(true);
 
 		apiFetch({
 			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts`,
 			method: 'POST',
 			data: {
+				id: accountId,
+				name,
 				credentials: getCredentials(),
 			},
 		})
@@ -104,17 +117,19 @@ const Credentials: React.FC<Props> = ({
 					message:
 						(labels?.singular ?? __('Account', 'quillsmtp')) +
 						' ' +
-						__('added successfully!', 'quillsmtp'),
+						__('edit successfully!', 'quillsmtp'),
 				});
-				onAdded(res.id, { name: res.name });
-				setInputs({});
+				onEdited(res.id, {
+					name: res.name,
+					credentials: res.credentials ?? {},
+				});
 			})
 			.catch((err) => {
 				createNotice({
 					type: 'error',
 					message:
 						err.message ??
-						__('Error in adding the ', 'quillsmtp') +
+						__('Error in editing the ', 'quillsmtp') +
 							(
 								labels?.singular ?? __('Account', 'quillsmtp')
 							).toLowerCase(),
@@ -122,7 +137,7 @@ const Credentials: React.FC<Props> = ({
 			})
 			.finally(() => {
 				setSubmitting(false);
-				if (onAdding) onAdding(false);
+				if (onEditing) onEditing(false);
 			});
 	};
 
@@ -182,12 +197,9 @@ const Credentials: React.FC<Props> = ({
 		<div className="mailer-auth-credentials">
 			<TextField
 				label={__('Account Name', 'quillsmtp')}
-				value={inputs['name'] ?? ''}
+				value={name}
 				onChange={(e) =>
-					setInputs({
-						...inputs,
-						name: e.target.value,
-					})
+					setName(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ''))
 				}
 				required
 				disabled={submitting}
@@ -295,16 +307,26 @@ const Credentials: React.FC<Props> = ({
 						return null;
 				}
 			})}
-			<LoadingButton
-				variant="contained"
-				color="primary"
-				startIcon={<AddIcon />}
-				loading={submitting}
-				disabled={!inputsFilled || submitting}
-				onClick={submit}
-			>
-				{__('Add', 'quillsmtp')}
-			</LoadingButton>
+			<Stack direction="row" spacing={2}>
+				<LoadingButton
+					variant="contained"
+					color="primary"
+					startIcon={<SaveIcon />}
+					loading={submitting}
+					disabled={!inputsFilled || submitting}
+					onClick={submit}
+				>
+					{__('Save', 'quillsmtp')}
+				</LoadingButton>
+				<Button
+					variant="outlined"
+					color="primary"
+					disabled={submitting}
+					onClick={onCancel}
+				>
+					{__('Cancel', 'quillsmtp')}
+				</Button>
+			</Stack>
 			{Instructions && (
 				<div className="mailer-auth-instructions">
 					<Instructions />
@@ -314,4 +336,4 @@ const Credentials: React.FC<Props> = ({
 	);
 };
 
-export default Credentials;
+export default EditCredentials;

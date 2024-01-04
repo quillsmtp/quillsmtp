@@ -118,6 +118,9 @@ export type Accounts = {
 
 export type Account = {
 	name: string;
+	credentials?: {
+		[x: string]: any;
+	};
 };
 
 type addAccount = {

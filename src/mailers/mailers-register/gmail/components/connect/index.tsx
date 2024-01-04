@@ -27,7 +27,7 @@ const ConnectPage: React.FC<Props> = ({ connectionId }) => {
 						},
 						client_secret: {
 							label: __('Client Secret', 'quillsmtp'),
-							type: 'text',
+							type: 'password',
 							check: false,
 						},
 					},

@@ -23,6 +23,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/lab/LoadingButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Dialog from '@mui/material/Dialog';
@@ -30,6 +31,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CircularProgress from '@mui/material/CircularProgress';
 
 /**
  * Internal Dependencies
@@ -37,6 +39,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import type { ConnectMain } from '../../../types';
 import type { Account } from '@quillsmtp/store';
 import AccountAuth from '../../account-setup/account-auth';
+import { EditCredentials } from '../../account-edit';
 
 interface Props {
 	connectionId: string;
@@ -64,6 +67,8 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const [deleteAccountID, setDeleteAccountID] = useState(null);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [isAdding, setIsAdding] = useState(false);
+	const [editingAccount, setEditingAccount] = useState(false);
+	const [editAccountID, setEditAccountID] = useState(null);
 
 	// Delete account.
 	const deleteHandler = () => {
@@ -134,38 +139,103 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	return (
 		<div className="mailer-connect-main__account-selector">
 			<div className="mailer-connect-main__account-selector__list">
-				{size(accounts) > 0 && (
-					<FormControl component="fieldset">
-						<FormLabel component="legend">
-							{__('Select an account', 'quillsmtp')}
-						</FormLabel>
-						<RadioGroup
-							aria-label="account"
-							name="account"
-							value={connection.account_id}
-							onChange={(e) => onChange(e.target.value)}
-						>
-							{map(accounts, (account, id) => (
-								<div key={id}>
-									<FormControlLabel
-										value={id}
-										control={<Radio />}
-										label={account.name}
-									/>
-									<IconButton
-										aria-label={__(
-											'Delete account',
-											'quillsmtp'
-										)}
-										onClick={() => setDeleteAccountID(id)}
-										color="error"
-									>
-										<DeleteIcon />
-									</IconButton>
-								</div>
-							))}
-						</RadioGroup>
-					</FormControl>
+				{main.accounts.auth.type === 'credentials' &&
+					size(accounts) > 0 && (
+						<FormControl component="fieldset" fullWidth>
+							<FormLabel component="legend">
+								{__('Select an account', 'quillsmtp')}
+							</FormLabel>
+							<RadioGroup
+								aria-label="account"
+								name="account"
+								value={connection.account_id}
+								onChange={(e) => onChange(e.target.value)}
+							>
+								{map(accounts, (account, id) => (
+									<div key={id}>
+										<div>
+											<FormControlLabel
+												value={id}
+												control={<Radio />}
+												label={account.name}
+											/>
+											{main.accounts.auth.type ===
+												'credentials' && (
+												<>
+													{!editingAccount && (
+														<IconButton
+															aria-label={__(
+																'Edit account',
+																'quillsmtp'
+															)}
+															onClick={() => {
+																setEditAccountID(
+																	id
+																);
+															}}
+															color={
+																editAccountID ===
+																id
+																	? 'primary'
+																	: 'default'
+															}
+														>
+															<EditIcon />
+														</IconButton>
+													)}
+													{editingAccount && (
+														<CircularProgress
+															size={20}
+														/>
+													)}
+												</>
+											)}
+											<IconButton
+												aria-label={__(
+													'Delete account',
+													'quillsmtp'
+												)}
+												onClick={() =>
+													setDeleteAccountID(id)
+												}
+												color="error"
+											>
+												<DeleteIcon />
+											</IconButton>
+										</div>
+										{main.accounts.auth.type ===
+											'credentials' &&
+											editAccountID &&
+											editAccountID === id && (
+												<EditCredentials
+													connectionId={connectionId}
+													accountId={editAccountID}
+													fields={
+														main.accounts.auth
+															.fields
+													}
+													account={
+														accounts[editAccountID]
+													}
+													onEditing={
+														setEditingAccount
+													}
+													onEdited={onAdded}
+													onCancel={() =>
+														setEditAccountID(null)
+													}
+												/>
+											)}
+									</div>
+								))}
+							</RadioGroup>
+						</FormControl>
+					)}
+				{main.accounts.auth.type === 'oauth' && size(accounts) > 0 && (
+					<div>
+						{__('Connected with', 'quillsmtp')}{' '}
+						<strong>{map(accounts, 'name').join(', ')}</strong>
+					</div>
 				)}
 			</div>
 			{deleteAccountID && (

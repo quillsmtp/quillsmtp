@@ -43,7 +43,7 @@ class Settings_Controller extends Abstract_Settings_Controller {
 						'client_secret' => [
 							'type'     => 'string',
 							'required' => true,
-							'context'  => [],
+							'context'  => [ 'view' ],
 						],
 					],
 				],

@@ -39,9 +39,7 @@ class REST extends Abstract_REST {
 	protected function get_rest_data( $settings ) {
 		$rest_data = parent::get_rest_data( $settings );
 
-		$app = $this->mailer->settings->get( 'app' ) ?? [];
-		unset( $app['client_secret'] );
-
+		$app              = $this->mailer->settings->get( 'app' ) ?? [];
 		$rest_data['app'] = $app;
 		return $rest_data;
 	}

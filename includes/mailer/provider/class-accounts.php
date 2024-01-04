@@ -58,16 +58,16 @@ abstract class Accounts {
 	 * @param array $account_data_keys Account data keys to be included.
 	 * @return array
 	 */
-	final public function get_accounts( $account_data_keys = array( 'name' ) ) {
+	final public function get_accounts( $account_data_keys = array() ) {
 		$accounts = array();
 		foreach ( $this->get_accounts_data() as $account_id => $account_data ) {
-			$accounts[ $account_id ] = array_filter(
+			$accounts[ $account_id ] = ! empty( $account_data_keys ) ? array_filter(
 				$account_data,
 				function( $key ) use ( $account_data_keys ) {
 					return in_array( $key, $account_data_keys, true );
 				},
 				ARRAY_FILTER_USE_KEY
-			);
+			) : $account_data;
 		}
 		return $accounts;
 	}
