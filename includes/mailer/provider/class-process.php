@@ -12,7 +12,7 @@ namespace QuillSMTP\Mailer\Provider;
 
 defined( 'ABSPATH' ) || exit;
 
-use QuillSMTP\Abstracts\Log_Levels;
+use QuillSMTP\Email_Log\Handler_DB;
 
 /**
  * Process class.
@@ -388,44 +388,29 @@ abstract class Process {
 	 * @return void
 	 */
 	public function log_result( $result ) {
-		switch ( $result['status'] ) {
-			case self::SUCCEEDED:
-				$level   = Log_Levels::INFO;
-				$message = esc_html__( 'Email sent successfully', 'quillsmtp' );
-				$code    = 'email_sent';
-				break;
-			case self::FAILED:
-				$level   = Log_Levels::ERROR;
-				$message = esc_html__( 'Failed to send email', 'quillsmtp' );
-				$code    = 'cannot_send_email';
-				break;
-		}
+		$email_details = $this->get_email_details();
+		$subject       = $email_details['subject'];
+		$body          = ! empty( $email_details['html'] ) ? $email_details['html'] : $email_details['plain'];
+		$headers       = $email_details['headers'];
+		$attachments   = $email_details['attachments'];
+		$from          = $email_details['from'];
+		$recipients    = [
+			'to'  => $email_details['to'],
+			'cc'  => $email_details['cc'],
+			'bcc' => $email_details['bcc'],
+		];
+		$status        = $result['status'];
+		$provider      = [
+			'connection_id' => $this->connection_id,
+			'accound_id'    => $this->connection['account_id'],
+			'name'          => $this->provider->name,
+		];
 
-		// add basic log context info.
-		$context = array(
-			'source'          => static::class . '->send',
-			'code'            => $code,
-			'connection_id'   => $this->connection_id,
-			'connection_name' => $this->connection['name'],
-			'provider'        => $this->provider->name,
-			'email_details'   => $this->get_email_details(),
-			'response'        => $result['response'],
-		);
-
-		// add additional info for failed and skipped connections.
-		if ( in_array( $result['status'], array( self::FAILED ), true ) ) {
-			$context = array_merge(
-				$context,
-				array(
-					'connection' => $this->connection,
-				)
-			);
-		}
-
-		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $level, $message, $context ) === false ) {
+		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $email_details ) === false ) {
 			return;
 		}
 
-		quillsmtp_get_logger()->log( $level, $message, $context );
+		$logger = Handler_DB::get_instance();
+		$logger->handle( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider );
 	}
 }
