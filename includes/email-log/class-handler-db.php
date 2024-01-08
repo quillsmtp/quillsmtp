@@ -11,6 +11,8 @@
 namespace QuillSMTP\Email_Log;
 
 use QuillSMTP\Vendor\Automattic\Jetpack\Constants;
+use QuillSMTP\Settings;
+use QuillSMTP\Mailers\Mailers;
 
 /**
  * Handles log entries by writing to database.
@@ -62,20 +64,26 @@ class Handler_DB {
 	 * @param string $from           The sender of the email.
 	 * @param array  $recipients     The recipients of the email.
 	 * @param string $status         The status of the email.
-	 * @param array  $provider       The email provider.
+	 * @param string $provider       The email provider.
+	 * @param string $connection_id       The email connection id.
+	 * @param string $account_id       The email account id.
+	 * @param array  $response The name of the initiator.
 	 * @param int    $resend_count   The number of times the email has been resent.
 	 * @return bool                  True if the email log entry is added successfully, false otherwise.
 	 */
-	public function handle( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $resend_count = 0 ) {
+	public function handle( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $connection_id, $account_id, $response, $resend_count = 0 ) {
 		// source.
-		$source = $this->get_log_source();
+		$source         = $this->get_log_source();
+		$initiator_name = isset( $source['name'] ) ? $source['name'] : '';
+		$initiator_slug = isset( $source['slug'] ) ? $source['slug'] : '';
+		$initiator_type = isset( $source['type'] ) ? $source['type'] : '';
 
 		// versions.
 		$context['versions'] = array();
 		// add main plugin version.
 		$context['versions']['QuillSMTP'] = QUILLSMTP_PLUGIN_VERSION;
 
-		return $this->add( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $resend_count, $source, $context );
+		return $this->add( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $connection_id, $account_id, $response, $initiator_name, $initiator_slug, $initiator_type, $context, $resend_count );
 	}
 
 	/**
@@ -89,12 +97,17 @@ class Handler_DB {
 	 * @param array  $recipients     The recipients of the email.
 	 * @param string $status         The status of the email.
 	 * @param array  $provider       The email provider.
-	 * @param int    $resend_count   The number of times the email has been resent.
-	 * @param array  $source         The source of the email.
+	 * @param string $connection_id       The email connection id.
+	 * @param string $account_id       The email account id.
+	 * @param array  $response The response of the initiator.
+	 * @param string $initiator_name The name of the initiator.
+	 * @param string $initiator_slug The slug of the initiator.
+	 * @param string $initiator_type The type of the initiator.
 	 * @param array  $context        The context of the email.
+	 * @param int    $resend_count   The number of times the email has been resent.
 	 * @return bool                  True if the email log entry is added successfully, false otherwise.
 	 */
-	protected function add( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $resend_count, $source, $context ) {
+	public static function add( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $connection_id, $account_id, $response, $initiator_name, $initiator_slug, $initiator_type, $context, $resend_count = 0 ) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'quillsmtp_email_log';
@@ -103,38 +116,47 @@ class Handler_DB {
 		$headers     = serialize( $headers );
 		$attachments = serialize( $attachments );
 		$recipients  = serialize( $recipients );
-		$provider    = serialize( $provider );
-		$source      = serialize( $source );
 		$context     = serialize( $context );
+		$response    = serialize( $response );
 
 		$data = array(
-			'timestamp'    => gmdate( 'Y-m-d H:i:s', time() ),
-			'subject'      => $subject,
-			'body'         => $body,
-			'headers'      => $headers,
-			'attachments'  => $attachments,
-			'from'         => $from,
-			'recipients'   => $recipients,
-			'status'       => $status,
-			'provider'     => $provider,
-			'resend_count' => $resend_count,
-			'source'       => $source,
-			'context'      => $context,
+			'timestamp'      => gmdate( 'Y-m-d H:i:s', time() ),
+			'subject'        => $subject,
+			'body'           => $body,
+			'headers'        => $headers,
+			'attachments'    => $attachments,
+			'from'           => $from,
+			'recipients'     => $recipients,
+			'status'         => $status,
+			'provider'       => $provider,
+			'connection_id'  => $connection_id,
+			'account_id'     => $account_id,
+			'response'       => $response,
+			'initiator_name' => $initiator_name,
+			'initiator_slug' => $initiator_slug,
+			'initiator_type' => $initiator_type,
+			'context'        => $context,
+			'resend_count'   => $resend_count,
 		);
 
 		$format = array(
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%s',
-			'%d',
-			'%s',
-			'%s',
+			'%s', // timestamp.
+			'%s', // subject.
+			'%s', // body.
+			'%s', // headers.
+			'%s', // attachments.
+			'%s', // from.
+			'%s', // recipients.
+			'%s', // status.
+			'%s', // provider.
+			'%s', // connection_id.
+			'%s', // account_id.
+			'%s', // response.
+			'%s', // initiator_name.
+			'%s', // initiator_slug.
+			'%s', // initiator_type.
+			'%s', // context.
+			'%d', // resend_count.
 		);
 
 		$result = $wpdb->insert( $table_name, $data, $format );
@@ -173,7 +195,7 @@ class Handler_DB {
 	 *
 	 * @return array An array of prepared email log results.
 	 */
-	public function get_all( $status = false, $offset = 0, $count = 0, $start_date = false, $end_date = false, $search = false ) {
+	public static function get_all( $status = false, $offset = 0, $count = 0, $start_date = false, $end_date = false, $search = false ) {
 		global $wpdb;
 
 		$where = '';
@@ -182,18 +204,13 @@ class Handler_DB {
 			$where .= 'WHERE status = "' . $status . '" ';
 		}
 
-		if ( $start_date ) {
-			if ( ! $where ) {
-				$where .= 'WHERE ';
+		if ( $start_date && $end_date ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
 			}
-			$where .= 'AND timestamp >= "' . $start_date . '" ';
-		}
-
-		if ( $end_date ) {
-			if ( ! $where ) {
-				$where .= 'WHERE ';
-			}
-			$where .= 'AND timestamp <= "' . $end_date . '" ';
+			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
 		}
 
 		if ( $search ) {
@@ -217,18 +234,55 @@ class Handler_DB {
 		$prepared_results = [];
 
 		foreach ( $results as $result ) {
-			// local datetime.
-			$local_datetime = get_date_from_gmt( $result['timestamp'] );
-
-			// Remove timestamp from array and add local datetime.
-			unset( $result['timestamp'] );
-			$result['local_datetime'] = $local_datetime;
-
 			// Add result to prepared results.
-			$prepared_results[] = $result;
+			$prepared_results[] = self::prepare_log( $result );
 		}
 
 		return $prepared_results;
+	}
+
+	/**
+	 * Prepare the log data for display or storage.
+	 *
+	 * @param array $log The log data to be prepared.
+	 * @return array The prepared log data.
+	 */
+	public static function prepare_log( $log ) {
+		// local datetime.
+		$local_datetime = get_date_from_gmt( $log['timestamp'] );
+		$connections    = Settings::get( 'connections' ) ?? [];
+		$connection     = $connections[ $log['connection_id'] ] ?? [];
+		$mailer         = [];
+
+		if ( ! empty( $connection['mailer'] ) ) {
+			$mailer = Mailers::get_mailer( $connection['mailer'] );
+		}
+
+		// Add result to prepared results.
+		return [
+			'log_id'          => $log['log_id'],
+			'datetime'        => $log['timestamp'],
+			'local_datetime'  => $local_datetime,
+			'subject'         => $log['subject'],
+			'body'            => $log['body'],
+			'headers'         => maybe_unserialize( $log['headers'] ),
+			'attachments'     => maybe_unserialize( $log['attachments'] ),
+			'from'            => $log['from'],
+			'recipients'      => maybe_unserialize( $log['recipients'] ),
+			'status'          => $log['status'],
+			'provider'        => $log['provider'],
+			'provider_name'   => $mailer->name ?? '',
+			'connection_id'   => $log['connection_id'],
+			'connection_name' => $connection['name'] ?? '',
+			'account_id'      => $log['account_id'],
+			'account_name'    => $mailer->accounts->get_account_data( $log['account_id'], 'name' ) ?? '',
+			'response'        => maybe_unserialize( $log['response'] ),
+			'initiator_name'  => $log['initiator_name'],
+			'initiator_slug'  => $log['initiator_slug'],
+			'initiator_type'  => $log['initiator_type'],
+			'context'         => maybe_unserialize( $log['context'] ),
+			'resend_count'    => $log['resend_count'] > 0 ? $log['resend_count'] : '',
+		];
 	}
 
 	/**
@@ -254,15 +308,8 @@ class Handler_DB {
 		$prepared_results = [];
 
 		foreach ( $results as $result ) {
-			// local datetime.
-			$local_datetime = get_date_from_gmt( $result['timestamp'] );
-
-			// Remove timestamp from array and add local datetime.
-			unset( $result['timestamp'] );
-			$result['local_datetime'] = $local_datetime;
-
 			// Add result to prepared results.
-			$prepared_results[] = $result;
+			$prepared_results[] = self::prepare_log( $result );
 		}
 
 		return $prepared_results;
@@ -287,18 +334,13 @@ class Handler_DB {
 			$where .= 'WHERE status = "' . $status . '" ';
 		}
 
-		if ( $start_date ) {
-			if ( ! $where ) {
-				$where .= 'WHERE ';
+		if ( $start_date && $end_date ) {
+			if ( ! empty( $where ) ) {
+				$where .= ' AND ';
+			} else {
+				$where .= ' WHERE ';
 			}
-			$where .= 'AND timestamp >= "' . $start_date . '" ';
-		}
-
-		if ( $end_date ) {
-			if ( ! $where ) {
-				$where .= 'WHERE ';
-			}
-			$where .= 'AND timestamp <= "' . $end_date . '" ';
+			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
 		}
 
 		if ( $search ) {
@@ -308,13 +350,7 @@ class Handler_DB {
 			$where .= 'AND (subject LIKE "%' . $search . '%" OR body LIKE "%' . $search . '%" OR headers LIKE "%' . $search . '%" OR to LIKE "%' . $search . '%" OR from LIKE "%' . $search . '%" OR recipients LIKE "%' . $search . '%") ';
 		}
 
-		return (int) $wpdb->get_var(
-            // @codingStandardsIgnoreStart
-            $wpdb->prepare(
-                "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_email_log $where"
-            )
-            // @codingStandardsIgnoreEnd
-		);
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_email_log $where" );
 	}
 
 	/**

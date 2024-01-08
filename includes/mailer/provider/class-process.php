@@ -12,8 +12,6 @@ namespace QuillSMTP\Mailer\Provider;
 
 defined( 'ABSPATH' ) || exit;
 
-use QuillSMTP\Email_Log\Handler_DB;
-
 /**
  * Process class.
  *
@@ -395,22 +393,16 @@ abstract class Process {
 		$attachments   = $email_details['attachments'];
 		$from          = $email_details['from'];
 		$recipients    = [
-			'to'  => $email_details['to'],
-			'cc'  => $email_details['cc'],
-			'bcc' => $email_details['bcc'],
-		];
-		$status        = $result['status'];
-		$provider      = [
-			'connection_id' => $this->connection_id,
-			'accound_id'    => $this->connection['account_id'],
-			'name'          => $this->provider->name,
+			'to'       => $email_details['to'],
+			'cc'       => $email_details['cc'],
+			'bcc'      => $email_details['bcc'],
+			'reply_to' => $email_details['reply_to'],
 		];
 
 		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $email_details ) === false ) {
 			return;
 		}
 
-		$logger = Handler_DB::get_instance();
-		$logger->handle( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider );
+		quillsmtp_get_email_log()->handle( $subject, $body, $headers, $attachments, $from, $recipients, $result['status'], $this->provider->slug, $this->connection_id, $this->connection['account_id'], $result['response'] );
 	}
 }

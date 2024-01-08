@@ -72,25 +72,26 @@ class Install {
 				KEY action_id (action_id)
 			) $charset_collate;
 			CREATE TABLE {$wpdb->prefix}quillsmtp_email_log (
-            log_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 			timestamp datetime NOT NULL,
-			subject text NOT NULL,
+			subject varchar(255) NOT NULL,
 			body longtext NOT NULL,
 			headers longtext NOT NULL,
 			attachments longtext NOT NULL,
-			`from` text NOT NULL,
+			`from` varchar(255) NOT NULL,
 			recipients longtext NOT NULL,
-			status varchar(20) NOT NULL,
-			provider varchar(255) NOT NULL,
-			resend_count int(11) NOT NULL,
-			source varchar(255) NOT NULL,
+			status varchar(255) NOT NULL,
+			provider varchar(20) NOT NULL,
+			connection_id varchar(20) NOT NULL,
+			account_id varchar(20) NOT NULL,
+			initiator_name varchar(255) NOT NULL,
+			initiator_slug varchar(255) NOT NULL,
+			initiator_type varchar(20) NOT NULL,
 			context longtext NOT NULL,
-			PRIMARY KEY  (log_id),
-			KEY timestamp (timestamp),
-			KEY status (status),
-			KEY provider (provider),
-			KEY source (source)
-		) $charset_collate";
+			response longtext NOT NULL,
+			resend_count int(11) NOT NULL,
+			PRIMARY KEY  (log_id)
+			) $charset_collate;";
 
 		dbDelta( $sql );
 	}

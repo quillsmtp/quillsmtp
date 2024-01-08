@@ -309,9 +309,9 @@ const Logs: React.FC = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		let path = `/qsmtp/v1/logs?page=${page}&per_page=${perPage}`;
+		let path = `/qsmtp/v1/email-logs?page=${page}&per_page=${perPage}`;
 		if (currentFilter !== 'all') {
-			path += `&levels=${currentFilter}`;
+			path += `&status=${currentFilter}`;
 		}
 		apiFetch({
 			path: path,
@@ -336,7 +336,7 @@ const Logs: React.FC = () => {
 		const endDate = dateRange.endDate.toLocaleDateString();
 
 		apiFetch({
-			path: `/qsmtp/v1/logs?start_date=${startDate}&end_date=${endDate}&page=${page}&per_page=${perPage}`,
+			path: `/qsmtp/v1/email-logs?start_date=${startDate}&end_date=${endDate}&page=${page}&per_page=${perPage}`,
 			method: 'GET',
 		})
 			.then((res: any) => {
@@ -356,7 +356,7 @@ const Logs: React.FC = () => {
 		setIsLoading(true);
 
 		apiFetch({
-			path: `/qsmtp/v1/logs?search=${search}&page=${page}&per_page=${perPage}`,
+			path: `/qsmtp/v1/email-logs?search=${search}&page=${page}&per_page=${perPage}`,
 			method: 'GET',
 		})
 			.then((res: any) => {
@@ -375,7 +375,7 @@ const Logs: React.FC = () => {
 		if (isDeleting) return;
 		setIsDeleting(true);
 		apiFetch({
-			path: `/qsmtp/v1/logs`,
+			path: `/qsmtp/v1/email-logs`,
 			method: 'DELETE',
 		}).then(() => {
 			setPage(1);
@@ -392,7 +392,7 @@ const Logs: React.FC = () => {
 		if (isDeleting || !logs) return;
 		setIsDeleting(true);
 		apiFetch({
-			path: `/qsmtp/v1/logs/${id}`,
+			path: `/qsmtp/v1/email-logs/${id}`,
 			method: 'DELETE',
 		})
 			.then((res: any) => {
@@ -420,7 +420,7 @@ const Logs: React.FC = () => {
 		if (isDeletingSelected || !logs) return;
 		setIsDeletingSelected(true);
 		apiFetch({
-			path: `/qsmtp/v1/logs`,
+			path: `/qsmtp/v1/email-logs`,
 			method: 'DELETE',
 			body: JSON.stringify({
 				ids: selectedLogs,
@@ -462,9 +462,9 @@ const Logs: React.FC = () => {
 
 	const getLogLevel = (level) => {
 		switch (level) {
-			case 'error':
+			case 'failed':
 				return <Chip label={__('Failed', 'quillsmtp')} color="error" />;
-			case 'info':
+			case 'succeeded':
 				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
 			default:
 				return (
@@ -487,11 +487,11 @@ const Logs: React.FC = () => {
 		},
 		{
 			label: __('Successfull', 'quillsmtp'),
-			value: 'info',
+			value: 'succeeded',
 		},
 		{
 			label: __('Failed', 'quillsmtp'),
-			value: 'error',
+			value: 'failed',
 		},
 	];
 
@@ -513,7 +513,7 @@ const Logs: React.FC = () => {
 		formData.append('ids', ids);
 
 		apiFetch({
-			path: `/qsmtp/v1/logs/resend`,
+			path: `/qsmtp/v1/email-logs/resend`,
 			method: 'POST',
 			body: formData,
 		})
@@ -735,7 +735,7 @@ const Logs: React.FC = () => {
 								{!isLoading &&
 									!isResending &&
 									logs.map((log) => (
-										<TableRow key={log.context.code}>
+										<TableRow key={log.log_id}>
 											<TableCell
 												component="th"
 												scope="row"
@@ -790,16 +790,13 @@ const Logs: React.FC = () => {
 												component="th"
 												scope="row"
 											>
-												{
-													log.context.email_details
-														.subject
-												}
+												{log.subject}
 											</TableCell>
 											<TableCell align="left">
-												{log.context.email_details.to}
+												{log.recipients.to}
 											</TableCell>
 											<TableCell align="left">
-												{getLogLevel(log.level)}
+												{getLogLevel(log.status)}
 											</TableCell>
 											<TableCell align="left">
 												{log.local_datetime}
@@ -811,8 +808,8 @@ const Logs: React.FC = () => {
 												>
 													<Tooltip
 														title={
-															log.level ===
-															'error'
+															log.status ===
+															'failed'
 																? __(
 																		'Retry',
 																		'quillsmtp'
@@ -835,8 +832,8 @@ const Logs: React.FC = () => {
 																isResending
 															}
 															color={
-																log.level ===
-																'error'
+																log.status ===
+																'failed'
 																	? 'error'
 																	: 'info'
 															}
@@ -845,12 +842,11 @@ const Logs: React.FC = () => {
 															}
 															size="small"
 														>
-															{log.context
-																?.resend_count
-																? `(${log.context?.resend_count})`
+															{log?.resend_count
+																? `(${log?.resend_count})`
 																: ''}{' '}
-															{log.level ===
-															'error'
+															{log.status ===
+															'failed'
 																? __(
 																		'Retry',
 																		'quillsmtp'

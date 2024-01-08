@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\REST_API\Controllers\V1\REST_Settings_Controller;
 use QuillSMTP\REST_API\Controllers\V1\REST_Log_Controller;
+use QuillSMTP\REST_API\Controllers\V1\REST_Email_Log_Controller;
 
 /**
  * REST_API class is mainly responsible for registering routes.
@@ -70,6 +71,7 @@ class REST_API {
 		$controllers = array(
 			REST_Settings_Controller::class,
 			REST_Log_Controller::class,
+			REST_Email_Log_Controller::class,
 		);
 
 		foreach ( $controllers as $controller ) {

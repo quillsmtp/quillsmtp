@@ -73,3 +73,15 @@ function quillsmtp_cleanup_logs() {
 	}
 }
 add_action( 'quillsmtp_cleanup_logs', 'quillsmtp_cleanup_logs' );
+
+/**
+ * Get Email Log instance.
+ *
+ * @since 1.0.0
+ *
+ * @return QuillSMTP\Email_Log\Handler_DB
+ */
+function quillsmtp_get_email_log() {
+
+	return QuillSMTP\Email_Log\Handler_DB::get_instance();
+}

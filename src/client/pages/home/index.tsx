@@ -69,7 +69,7 @@ const Home: React.FC = () => {
 		endDate.setDate(endDate.getDate());
 		const start = startDate.toLocaleDateString();
 		const end = endDate.toLocaleDateString();
-		let path = `/qsmtp/v1/logs/count?start=${start}&end=${end}`;
+		let path = `/qsmtp/v1/email-logs/count?start=${start}&end=${end}`;
 		apiFetch({
 			path: path,
 			method: 'GET',
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
 		setIsFiltering(true);
 		const startDate = dateRange.startDate?.toLocaleDateString();
 		const endDate = dateRange.endDate?.toLocaleDateString();
-		let path = `/qsmtp/v1/logs/count?start=${startDate}&end=${endDate}`;
+		let path = `/qsmtp/v1/email-logs/count?start=${startDate}&end=${endDate}`;
 		apiFetch({
 			path: path,
 			method: 'GET',

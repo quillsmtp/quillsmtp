@@ -71,9 +71,9 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 
 	const getLogLevel = (level) => {
 		switch (level) {
-			case 'error':
+			case 'succeeded':
 				return <Chip label={__('Error', 'quillsmtp')} color="error" />;
-			case 'info':
+			case 'failed':
 				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
 			default:
 				return (
@@ -118,7 +118,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('Status', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{getLogLevel(log.level)}
+								{getLogLevel(log.status)}
 							</div>
 						</Stack>
 						<Stack
@@ -146,7 +146,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('Connection Name', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.connection_name}
+								{log.connection_name}
 							</div>
 						</Stack>
 						<Stack
@@ -160,7 +160,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('Mailer', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.provider}
+								{log.provider_name}
 							</div>
 						</Stack>
 						<Stack
@@ -174,7 +174,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('Subject', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.email_details.subject}
+								{log.subject}
 							</div>
 						</Stack>
 						<Stack
@@ -187,9 +187,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							<div className="log-modal__label">
 								{__('From', 'quillsmtp')}:
 							</div>
-							<div className="log-modal__value">
-								{log.context.email_details.from}
-							</div>
+							<div className="log-modal__value">{log.from}</div>
 						</Stack>
 						<Stack
 							direction="row"
@@ -202,7 +200,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('To', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.email_details.to}
+								{log.recipients.to}
 							</div>
 						</Stack>
 						<Stack
@@ -216,7 +214,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('Reply To', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.email_details.reply_to || '-'}
+								{log.recipients.reply_to || '-'}
 							</div>
 						</Stack>
 						<Stack
@@ -230,7 +228,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('CC', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.email_details.cc || '-'}
+								{log.recipients.cc || '-'}
 							</div>
 						</Stack>
 						<Stack
@@ -244,25 +242,9 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 								{__('BCC', 'quillsmtp')}:
 							</div>
 							<div className="log-modal__value">
-								{log.context.email_details.bcc || '-'}
+								{log.recipients.bcc || '-'}
 							</div>
 						</Stack>
-						{log.context.email_details.plain && (
-							<Stack
-								direction="row"
-								spacing={1}
-								component={Grid}
-								item
-								xs={12}
-							>
-								<div className="log-modal__label">
-									{__('Email Body', 'quillsmtp')}:
-								</div>
-								<div className="log-modal__value">
-									{log.context.email_details.plain}
-								</div>
-							</Stack>
-						)}
 					</Grid>
 					<Accordion defaultExpanded={true}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -271,7 +253,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 						<AccordionDetails>
 							<div
 								dangerouslySetInnerHTML={{
-									__html: log.context.email_details.html,
+									__html: log.body,
 								}}
 							></div>
 						</AccordionDetails>
@@ -287,13 +269,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							{__('Headers', 'quillsmtp')}
 						</div>
 						<div className="log-modal__value">
-							<pre>
-								{JSON.stringify(
-									log.context.email_details.headers,
-									null,
-									2
-								)}
-							</pre>
+							<pre>{JSON.stringify(log.headers, null, 2)}</pre>
 						</div>
 					</Box>
 					<Box
@@ -307,9 +283,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							{__('Server Response', 'quillsmtp')}
 						</div>
 						<div className="log-modal__value">
-							<pre>
-								{JSON.stringify(log.context.response, null, 2)}
-							</pre>
+							<pre>{JSON.stringify(log.response, null, 2)}</pre>
 						</div>
 					</Box>
 					<Accordion>
@@ -317,14 +291,13 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							{sprintf(
 								/* translators: %s: Attachment Count */
 								__('Attachment (%s)', 'quillsmtp'),
-								log.context.email_details.attachments.length
+								log.attachments.length
 							)}
 						</AccordionSummary>
 						<AccordionDetails>
-							{log.context.email_details.attachments.length >
-							0 ? (
+							{log.attachments.length > 0 ? (
 								<ol className="log-modal__attachments">
-									{log.context.email_details.attachments.map(
+									{log.attachments.map(
 										(attachment, index) => (
 											<li key={index}>{attachment}</li>
 										)

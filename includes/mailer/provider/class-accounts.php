@@ -159,6 +159,27 @@ abstract class Accounts {
 	}
 
 	/**
+	 * Get account data.
+	 *
+	 * @param string $account_id Account id.
+	 * @param key    $key Key.
+	 *
+	 * @return array
+	 */
+	public function get_account_data( $account_id, $key = null ) {
+		$accounts_data = $this->get_accounts_data();
+		if ( ! isset( $accounts_data[ $account_id ] ) ) {
+			return null;
+		}
+
+		if ( null === $key ) {
+			return $accounts_data[ $account_id ];
+		}
+
+		return $accounts_data[ $account_id ][ $key ] ?? null;
+	}
+
+	/**
 	 * Get stored accounts data.
 	 *
 	 * @return array
