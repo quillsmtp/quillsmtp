@@ -111,44 +111,38 @@ class REST_Email_Log_Controller extends REST_Controller {
 			return new WP_Error( 'quillsmtp_logs_no_ids', esc_html__( 'No ids provided', 'quillsmtp' ), array( 'status' => 422 ) );
 		}
 
-		$logs = Log_Handler_DB::get( $ids );
+		$logs = Handler_DB::get( $ids );
 		if ( empty( $logs ) ) {
 			return new WP_Error( 'quillsmtp_logs_no_logs', esc_html__( 'No logs found', 'quillsmtp' ), array( 'status' => 422 ) );
 		}
 
 		foreach ( $logs as $log ) {
-			$log_context   = $log['context'] ?? [];
-			$email_details = $log_context['email_details'] ?? [];
-			if ( empty( $email_details ) ) {
+			if ( empty( $log ) ) {
 				continue;
 			}
 			$email = [
-				'to'          => $email_details['to'],
-				'from'        => $email_details['from'],
-				'cc'          => $email_details['cc'],
-				'bcc'         => $email_details['bcc'],
-				'reply_to'    => $email_details['reply_to'],
-				'subject'     => $email_details['subject'],
-				'html'        => $email_details['html'],
-				'plain'       => $email_details['plain'],
-				'headers'     => $email_details['headers'],
-				'attachments' => $email_details['attachments'],
+				'to'          => $log['recipients']['to'],
+				'from'        => $log['from'],
+				'cc'          => $log['recipients']['cc'],
+				'bcc'         => $log['recipients']['bcc'],
+				'reply_to'    => $log['recipients']['reply_to'],
+				'subject'     => $log['subject'],
+				'body'        => $log['body'],
+				'headers'     => $log['headers'],
+				'attachments' => $log['attachments'],
 			];
 
 			$to      = $email['to'];
 			$subject = $email['subject'];
 
 			// Message.
-			if ( ! empty( $email['html'] ) ) {
-				$message = $email['html'];
-			} else {
-				$message = $email['plain'];
-			}
+			$message = $email['body'];
 
 			// Headers.
 			$headers = array();
 
-			if ( ! empty( $email['html'] ) ) {
+			// Check if is body text is html.
+			if ( $this->is_html( $message ) ) {
 				$headers[] = 'Content-Type: text/html; charset=UTF-8';
 			} else {
 				$headers[] = 'Content-Type: text/plain; charset=UTF-8';
@@ -182,17 +176,25 @@ class REST_Email_Log_Controller extends REST_Controller {
 
 			add_filter(
 				'quillsmtp_mailer_log_result',
-				function( $result, $level, $message, $context ) use ( $log ) {
-					$resend_count = $log['context']['resend_count'] ?? 0;
-					if ( 'info' === $level ) {
+				function( $result, $email_data ) use ( $log ) {
+					$resend_count = $log['resend_count'] ?? 0;
+					if ( 'succeeded' === $email_data['status'] && 'succeeded' === $log['status'] ) {
 						// Update resent count.
-						$context['resend_count'] = $resend_count + 1;
+						$resend_count = is_numeric( $resend_count ) ? $resend_count + 1 : 1;
 					}
-					Handler_DB::update( $log['log_id'], $level, $message, $context );
+
+					Handler_DB::update(
+						$log['log_id'],
+						[
+							'resend_count' => $resend_count,
+							'status'       => $email_data['status'],
+							'response'     => $email_data['response'] ?? [],
+						]
+					);
 					return false;
 				},
 				10,
-				4
+				2
 			);
 
 			// Send email.
@@ -200,6 +202,16 @@ class REST_Email_Log_Controller extends REST_Controller {
 		}
 
 		return new WP_REST_Response( array( 'success' => true ), 200 );
+	}
+
+	/**
+	 * Check if string is html
+	 *
+	 * @param string $string string.
+	 * @return bool
+	 */
+	private function is_html( $string ) {
+		return preg_match( '/<[^<]+>/', $string ) !== 0;
 	}
 
 	/**

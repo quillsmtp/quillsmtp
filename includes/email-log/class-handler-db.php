@@ -178,6 +178,13 @@ class Handler_DB {
 
 		$table_name = $wpdb->prefix . 'quillsmtp_email_log';
 
+		// Serialize arrays before inserting
+		foreach ( $data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$data[ $key ] = serialize( $value );
+			}
+		}
+
 		$result = $wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
 
 		return $result;

@@ -398,8 +398,18 @@ abstract class Process {
 			'bcc'      => $email_details['bcc'],
 			'reply_to' => $email_details['reply_to'],
 		];
+		$email_data    = [
+			'subject'     => $subject,
+			'body'        => $body,
+			'headers'     => $headers,
+			'attachments' => $attachments,
+			'from'        => $from,
+			'recipients'  => $recipients,
+			'status'      => $result['status'],
+			'response'    => $result['response'],
+		];
 
-		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $email_details ) === false ) {
+		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $email_data ) === false ) {
 			return;
 		}
 
