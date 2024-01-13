@@ -261,27 +261,15 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-		/** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-		if ( is_wp_error( $account_api ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'SendInBlue Account API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_sendinblue_send_error',
-					'error' => [
-						'message' => $account_api->get_error_message(),
-						'code'    => $account_api->get_error_code(),
-						'data'    => $account_api->get_error_data(),
-					],
-				)
-			);
-			return false;
-		}
-		$api_instance = $account_api->get_api_instance();
-
 		try {
-			$result = $api_instance->sendTransacEmail( $this->get_body() );
+			$account_id = $this->connection['account_id'];
+			/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new Exception( $account_api->get_error_message() );
+			}
+			$api_instance = $account_api->get_api_instance();
+			$result       = $api_instance->sendTransacEmail( $this->get_body() );
 			if ( $result->getMessageId() ) {
 				$this->log_result(
 					[
@@ -293,15 +281,7 @@ class Process extends Abstract_Process {
 				);
 				return true;
 			} else {
-				$this->log_result(
-					[
-						'status'   => self::FAILED,
-						'response' => [
-							'message' => $result->getMessage(),
-						],
-					]
-				);
-				return false;
+				throw new Exception( $result->getMessage() );
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(

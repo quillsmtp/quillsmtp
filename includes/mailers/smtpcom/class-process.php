@@ -293,65 +293,51 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-		 /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-		if ( is_wp_error( $account_api ) ) {
+		try {
+			$account_id = $this->connection['account_id'];
+		 	/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new Exception( $account_api->get_error_message() );
+			}
+			$channel         = $account_api->get_sender_name();
+			$body            = $this->get_body();
+			$body['channel'] = $channel;
+			$send_email      = $account_api->send( $body );
+
+			if ( is_wp_error( $send_email ) ) {
+				throw new Exception( $send_email->get_error_message() );
+			}
+
+			if ( 'success' === $send_email['status'] ) {
+				$this->log_result(
+					[
+						'status'   => self::SUCCEEDED,
+						'response' => $send_email,
+					]
+				);
+				return true;
+			} else {
+				throw new Exception( $send_email['message'] );
+			}
+		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SMTPcom Account API Error', 'quillsmtp' ),
+				esc_html__( 'SMTPcom API Error', 'quillsmtp' ),
 				array(
 					'code'  => 'quillsmtp_smtpcom_send_error',
 					'error' => [
-						'message' => $account_api->get_error_message(),
-						'code'    => $account_api->get_error_code(),
-					],
-				)
-			);
-			return false;
-		}
-		$channel         = $account_api->get_sender_name();
-		$body            = $this->get_body();
-		$body['channel'] = $channel;
-		$send_email      = $account_api->send( $body );
-
-		if ( is_wp_error( $send_email ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'SMTPcom Send Email API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_smtpcom_send_email_error',
-					'error' => [
-						'message' => $send_email->get_error_message(),
-						'code'    => $send_email->get_error_code(),
+						'message' => $e->getMessage(),
+						'code'    => $e->getCode(),
 					],
 				)
 			);
 			$this->log_result(
-				array(
+				[
 					'status'   => self::FAILED,
-					'response' => $send_email->get_error_message(),
-				)
+					'response' => $e->getMessage(),
+				]
 			);
 			return false;
 		}
-
-		if ( 'success' === $send_email['status'] ) {
-			$this->log_result(
-				[
-					'status'   => self::SUCCEEDED,
-					'response' => $send_email,
-				]
-			);
-		} else {
-			$this->log_result(
-				[
-					'status'   => self::FAILED,
-					'response' => $send_email,
-				]
-			);
-
-			return false;
-		}
-
-		return true;
 	}
 }

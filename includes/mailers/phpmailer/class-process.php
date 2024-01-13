@@ -11,6 +11,7 @@
 namespace QuillSMTP\Mailers\PHPMailer;
 
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
+use Exception;
 
 /**
  * Process class.

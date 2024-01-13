@@ -31,30 +31,35 @@ class Process extends Abstract_Process {
 	 * @param string $name
 	 */
 	public function set_from( $email, $name ) {
-		$account_id = $this->connection['account_id'];
-        /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
+		try {
+			$account_id = $this->connection['account_id'];
+        	/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new \Exception( $account_api->get_error_message() );
+			}
 
-		if ( is_wp_error( $account_api ) ) {
+			$user = $account_api->get_profile();
+			if ( is_wp_error( $user ) ) {
+				throw new \Exception( $user->get_error_message() );
+			}
+			$email = $user->emailAddress;
+
+			$this->phpmailer->From   = $email;
+			$this->phpmailer->Sender = $email;
+		} catch ( \Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Gmail Account API Error', 'quillsmtp' ),
+				esc_html__( 'Gmail Send Error', 'quillsmtp' ),
 				array(
 					'code'  => 'quillsmtp_gmail_send_error',
 					'error' => [
-						'code'  => $account_api->get_error_code(),
-						'error' => $account_api->get_error_message(),
-						'data'  => $account_api->get_error_data(),
+						'code'  => $e->getCode(),
+						'error' => $e->getMessage(),
 					],
 				)
 			);
-			return $account_api;
+			return;
 		}
-
-		$user  = $account_api->get_profile();
-		$email = $user->emailAddress;
-
-		$this->phpmailer->From   = $email;
-		$this->phpmailer->Sender = $email;
 	}
 
 	/**
@@ -110,29 +115,19 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-        /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-
-		if ( is_wp_error( $account_api ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'Gmail Account API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_gmail_send_error',
-					'error' => [
-						'code'  => $account_api->get_error_code(),
-						'error' => $account_api->get_error_message(),
-						'data'  => $account_api->get_error_data(),
-					],
-				)
-			);
-			return false;
-		}
-
 		try {
+			$account_id = $this->connection['account_id'];
+			/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new \Exception( $account_api->get_error_message() );
+			}
 			$this->phpmailer->preSend();
 
-			$client  = $account_api->get_client();
+			$client = $account_api->get_client();
+			if ( is_wp_error( $client ) ) {
+				throw new \Exception( $client->get_error_message() );
+			}
 			$message = new Message();
 
 			$base64 = str_replace(
@@ -153,7 +148,17 @@ class Process extends Abstract_Process {
 				)
 			);
 			return true;
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Gmail Send Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_gmail_send_error',
+					'error' => [
+						'code'  => $e->getCode(),
+						'error' => $e->getMessage(),
+					],
+				)
+			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,

@@ -265,52 +265,42 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-		 /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-		if ( is_wp_error( $account_api ) ) {
+		try {
+			$account_id = $this->connection['account_id'];
+		 	/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new Exception( $account_api->get_error_message() );
+			}
+			$send_email = $account_api->send( $this->get_body() );
+			if ( is_wp_error( $send_email ) ) {
+				throw new Exception( $send_email->get_error_message() );
+			}
+
+			$this->log_result(
+				[
+					'status'   => self::SUCCEEDED,
+					'response' => $send_email,
+				]
+			);
+		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SendLayer Account API Error', 'quillsmtp' ),
-				array(
+				esc_html__( 'SendLayer API Error', 'quillsmtp' ),
+				[
 					'code'  => 'quillsmtp_sendlayer_send_error',
 					'error' => [
-						'message' => $account_api->get_error_message(),
-						'code'    => $account_api->get_error_code(),
-						'data'    => $account_api->get_error_data(),
+						'message' => $e->getMessage(),
+						'code'    => $e->getCode(),
 					],
-				)
-			);
-			return false;
-		}
-		$send_email = $account_api->send( $this->get_body() );
-		if ( is_wp_error( $send_email ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'SendLayer Send Email API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_sendlayer_send_email_error',
-					'error' => [
-						'message' => $send_email->get_error_message(),
-						'code'    => $send_email->get_error_code(),
-						'data'    => $send_email->get_error_data(),
-					],
-				)
+				]
 			);
 			$this->log_result(
-				array(
+				[
 					'status'   => self::FAILED,
-					'response' => $send_email->get_error_message(),
-				)
+					'response' => $e->getMessage(),
+				]
 			);
 			return false;
 		}
-
-		$this->log_result(
-			[
-				'status'   => self::SUCCEEDED,
-				'response' => $send_email,
-			]
-		);
-
-		return true;
 	}
 }

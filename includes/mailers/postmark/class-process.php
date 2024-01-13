@@ -222,32 +222,20 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-        /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-		if ( is_wp_error( $account_api ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'Postmark Account API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_postmark_send_error',
-					'error' => [
-						'message' => $account_api->get_error_message(),
-						'code'    => $account_api->get_error_code(),
-						'data'    => $account_api->get_error_data(),
-					],
-				)
-			);
-			return false;
-		}
-		$client            = $account_api->get_client();
-		$message_stream_id = $account_api->get_message_stream_id();
-		$body              = $this->get_body();
-
-		if ( ! empty( $message_stream_id ) ) {
-			$body['MessageStream'] = $message_stream_id;
-		}
-
 		try {
+			$account_id = $this->connection['account_id'];
+       		/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new Exception( $account_api->get_error_message() );
+			}
+			$client            = $account_api->get_client();
+			$message_stream_id = $account_api->get_message_stream_id();
+			$body              = $this->get_body();
+
+			if ( ! empty( $message_stream_id ) ) {
+				$body['MessageStream'] = $message_stream_id;
+			}
 			$results = $client->sendEmailBatch( [ $body ] );
 			if ( 'OK' === $results[0]->__get( 'Message' ) ) {
 				$this->log_result(

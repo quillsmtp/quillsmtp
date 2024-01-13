@@ -121,5 +121,15 @@ class Admin {
 			'quillsmtp&path=logs',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
+
+		// Debug.
+		add_submenu_page(
+			'quillsmtp',
+			__( 'Debug', 'quillsmtp' ),
+			__( 'Debug', 'quillsmtp' ),
+			'manage_options',
+			'quillsmtp&path=debug',
+			array( Admin_Loader::class, 'page_wrapper' )
+		);
 	}
 }

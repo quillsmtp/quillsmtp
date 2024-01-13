@@ -65,38 +65,35 @@ class Account_API {
 	 * @return Google_Client
 	 */
 	public function get_client() {
-		$app_credentials = $this->app->get_app_credentials();
-		$client          = new Google_Client();
-		$client->setApplicationName( 'QuillSMTP' );
-		$client->setClientId( $app_credentials['client_id'] );
-		$client->setClientSecret( $app_credentials['client_secret'] );
-		$client->setAccessToken( $this->access_token );
-		$client->setAccessType( 'offline' );
-		$client->setApprovalPrompt( 'force' );
-		$client->setRedirectUri( $this->app->get_redirect_uri() );
-		$client->setScopes( [ Gmail::MAIL_GOOGLE_COM, Gmail::GMAIL_SEND ] );
+		try {
+			$app_credentials = $this->app->get_app_credentials();
+			$client          = new Google_Client();
+			$client->setApplicationName( 'QuillSMTP' );
+			$client->setClientId( $app_credentials['client_id'] );
+			$client->setClientSecret( '123' );
+			$client->setAccessToken( $this->access_token );
+			$client->setAccessType( 'offline' );
+			$client->setApprovalPrompt( 'force' );
+			$client->setRedirectUri( $this->app->get_redirect_uri() );
+			$client->setScopes( [ Gmail::MAIL_GOOGLE_COM, Gmail::GMAIL_SEND ] );
 
-		// Refresh token if expired.
-		if ( $client->isAccessTokenExpired() ) {
-			try {
-				$client->fetchAccessTokenWithRefreshToken( $this->refresh_token );
+			// Refresh token if expired.
+			if ( $client->isAccessTokenExpired() ) {
+				$refresh_token = $client->fetchAccessTokenWithRefreshToken( $this->refresh_token );
+				if ( ! empty( $refresh_token ) ) {
+					throw new \Exception( $refresh_token['error_description'] );
+				}
 				$this->access_token = $client->getAccessToken();
-			} catch ( \Exception $e ) {
-				quillsmtp_get_logger()->error(
-					esc_html__( 'Gmail API: Failed to refresh token', 'quillsmtp' ),
-					array(
-						'code'  => 'refresh_token_error',
-						'error' => array(
-							'code'    => $e->getCode(),
-							'message' => $e->getMessage(),
-						),
-					)
-				);
-				return new WP_Error( 'refresh_token_error', $e->getMessage() );
 			}
-		}
 
-		return $client;
+			if ( ! $client->getAccessToken() ) {
+				throw new \Exception( esc_html__( 'Unable to get access token', 'quillsmtp' ) );
+			}
+
+			return $client;
+		} catch ( \Exception $e ) {
+			return new WP_Error( 'get_client_error', $e->getMessage() );
+		}
 	}
 
 	/**
@@ -105,14 +102,16 @@ class Account_API {
 	 * @return object|WP_Error
 	 */
 	public function get_profile() {
-		$client = $this->get_client();
-		if ( is_wp_error( $client ) ) {
-			return $client;
+		try {
+			$client = $this->get_client();
+			if ( is_wp_error( $client ) ) {
+				throw new \Exception( $client->get_error_message() );
+			}
+			$gmail = new Gmail( $client );
+
+			return $gmail->users->getProfile( 'me' );
+		} catch ( \Exception $e ) {
+			return new WP_Error( 'get_profile_error', $e->getMessage() );
 		}
-
-		$service = new Gmail( $client );
-		$profile = $service->users->getProfile( 'me' );
-
-		return $profile;
 	}
 }

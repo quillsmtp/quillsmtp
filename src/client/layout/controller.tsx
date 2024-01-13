@@ -22,6 +22,7 @@ import Settings from '../pages/settings';
 import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';
 import { Notices } from '../components';
+import Debug from '../pages/debug';
 
 export const Controller = ({ page, match, location }) => {
 	useEffect(() => {
@@ -74,4 +75,9 @@ registerAdminPage('email-test', {
 registerAdminPage('logs', {
 	component: Logs,
 	path: 'logs',
+});
+
+registerAdminPage('debug', {
+	component: Debug,
+	path: 'debug',
 });

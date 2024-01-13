@@ -1,0 +1,31 @@
+.qsmtp-debug {
+	margin: 0 auto;
+	width: 90%;
+	.qsmtp-debug__loading-row-bar {
+		background: #f3f3f3;
+		background-image: linear-gradient(
+			to right,
+			#f3f3f3 0%,
+			#ecebeb 20%,
+			#f3f3f3 40%,
+			#f3f3f3 100%
+		);
+		background-repeat: no-repeat;
+		background-size: 100% 20px;
+		display: inline-block;
+		position: relative;
+		animation: loading-bar 1.5s linear infinite;
+		height: 20px;
+		width: 100%;
+	}
+
+	.qsmtp-debug__header {
+		margin-bottom: 20px;
+		color: #697386;
+		padding: 10px 20px;
+		h2 {
+			color: #697386;
+			margin-right: 20px;
+		}
+	}
+}

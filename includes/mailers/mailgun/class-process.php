@@ -12,7 +12,6 @@ namespace QuillSMTP\Mailers\Mailgun;
 
 use Exception;
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
-use QuillSMTP\Vendor\Postmark\Models\PostmarkAttachment;
 use WP_Error;
 
 /**
@@ -258,65 +257,59 @@ class Process extends Abstract_Process {
 	 * @return bool
 	 */
 	public function send() {
-		$account_id = $this->connection['account_id'];
-        /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api = $this->provider->accounts->connect( $account_id );
-		if ( is_wp_error( $account_api ) ) {
-			quillsmtp_get_logger()->error(
-				esc_html__( 'Mailgun Account API Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_mailgun_send_error',
-					'error' => [
-						'code'  => $account_api->get_error_code(),
-						'error' => $account_api->get_error_message(),
-						'data'  => $account_api->get_error_data(),
-					],
-				)
-			);
-			return false;
-		}
-		$body   = $this->get_body();
-		$result = $account_api->send( $body, $this->content_type );
+		try {
+			$account_id = $this->connection['account_id'];
+			/** @var Account_API|WP_Error */ // phpcs:ignore
+			$account_api = $this->provider->accounts->connect( $account_id );
+			if ( is_wp_error( $account_api ) ) {
+				throw new Exception( $account_api->get_error_message() );
+			}
 
-		if ( is_wp_error( $result ) ) {
+			$body   = $this->get_body();
+			$result = $account_api->send( $body, $this->content_type );
+			if ( is_wp_error( $result ) ) {
+				throw new Exception( $result->get_error_message() );
+			}
+
+			if ( ! empty( $result['id'] ) ) {
+				$this->log_result(
+					array(
+						'status'   => self::SUCCEEDED,
+						'response' => $result,
+					)
+				);
+
+				return true;
+			} else {
+				$this->log_result(
+					array(
+						'status'   => self::FAILED,
+						'response' => $result,
+					)
+				);
+
+				return false;
+			}
+		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Mailgun API Error', 'quillsmtp' ),
+				esc_html__( 'Mailgun Send Email Error', 'quillsmtp' ),
 				array(
 					'code'  => 'quillsmtp_mailgun_send_error',
 					'error' => [
-						'code'  => $result->get_error_code(),
-						'error' => $result->get_error_message(),
-						'data'  => $result->get_error_data(),
+						'message' => $e->getMessage(),
+						'code'    => $e->getCode(),
+						'data'    => $e->getData(),
 					],
 				)
 			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,
-					'response' => $result->get_error_message(),
+					'response' => $e->getMessage(),
 				)
 			);
 			return false;
 		}
 
-		if ( ! empty( $result['id'] ) ) {
-			$this->log_result(
-				array(
-					'status'   => self::SUCCEEDED,
-					'response' => $result,
-				)
-			);
-		} else {
-			$this->log_result(
-				array(
-					'status'   => self::FAILED,
-					'response' => $result,
-				)
-			);
-
-			return false;
-		}
-
-		return true;
 	}
 }
