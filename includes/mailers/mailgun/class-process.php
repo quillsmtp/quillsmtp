@@ -262,12 +262,34 @@ class Process extends Abstract_Process {
         /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Mailgun Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_mailgun_send_error',
+					'error' => [
+						'code'  => $account_api->get_error_code(),
+						'error' => $account_api->get_error_message(),
+						'data'  => $account_api->get_error_data(),
+					],
+				)
+			);
 			return false;
 		}
 		$body   = $this->get_body();
 		$result = $account_api->send( $body, $this->content_type );
 
 		if ( is_wp_error( $result ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Mailgun API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_mailgun_send_error',
+					'error' => [
+						'code'  => $result->get_error_code(),
+						'error' => $result->get_error_message(),
+						'data'  => $result->get_error_data(),
+					],
+				)
+			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,

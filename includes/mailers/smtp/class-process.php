@@ -129,7 +129,21 @@ class Process extends Abstract_Process {
 
 		$account_id = $this->connection['account_id'];
         /** @var Account_API|WP_Error */ // phpcs:ignore
-		$account_api    = $this->provider->accounts->connect( $account_id );
+		$account_api = $this->provider->accounts->connect( $account_id );
+		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'SMTP Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_smtp_send_error',
+					'error' => [
+						'message' => $account_api->get_error_message(),
+						'code'    => $account_api->get_error_code(),
+						'data'    => $account_api->get_error_data(),
+					],
+				)
+			);
+			return false;
+		}
 		$smtp_host      = $account_api->get_smtp_host();
 		$smtp_port      = $account_api->get_smtp_port();
 		$encryption     = $account_api->get_encryption();
@@ -187,6 +201,17 @@ class Process extends Abstract_Process {
 				throw $exc;
 			}
 
+			quillsmtp_get_logger()->error(
+				esc_html__( 'PHPMailer Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_phpmailer_send_error',
+					'error' => [
+						'code'  => $exc->getCode(),
+						'error' => $exc->getMessage(),
+						'data'  => $exc->getTraceAsString(),
+					],
+				)
+			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,

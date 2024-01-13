@@ -265,6 +265,17 @@ class Process extends Abstract_Process {
 		/** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'SendInBlue Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_sendinblue_send_error',
+					'error' => [
+						'message' => $account_api->get_error_message(),
+						'code'    => $account_api->get_error_code(),
+						'data'    => $account_api->get_error_data(),
+					],
+				)
+			);
 			return false;
 		}
 		$api_instance = $account_api->get_api_instance();
@@ -293,6 +304,16 @@ class Process extends Abstract_Process {
 				return false;
 			}
 		} catch ( Exception $e ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'SendInBlue API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_sendinblue_send_error',
+					'error' => [
+						'message' => $e->getMessage(),
+						'code'    => $e->getCode(),
+					],
+				)
+			);
 			$this->log_result(
 				[
 					'status'   => self::FAILED,

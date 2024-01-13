@@ -161,6 +161,17 @@ class Process extends Abstract_Process {
 				throw $exc;
 			}
 
+			quillsmtp_get_logger()->error(
+				esc_html__( 'PHPMailer Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_phpmailer_send_error',
+					'error' => [
+						'code'  => $exc->getCode(),
+						'error' => $exc->getMessage(),
+						'data'  => $exc->getTraceAsString(),
+					],
+				)
+			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,

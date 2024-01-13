@@ -297,6 +297,16 @@ class Process extends Abstract_Process {
 		 /** @var Account_API|WP_Error */ // phpcs:ignore
 		$account_api = $this->provider->accounts->connect( $account_id );
 		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'SMTPcom Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_smtpcom_send_error',
+					'error' => [
+						'message' => $account_api->get_error_message(),
+						'code'    => $account_api->get_error_code(),
+					],
+				)
+			);
 			return false;
 		}
 		$channel         = $account_api->get_sender_name();
@@ -305,6 +315,16 @@ class Process extends Abstract_Process {
 		$send_email      = $account_api->send( $body );
 
 		if ( is_wp_error( $send_email ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'SMTPcom Send Email API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_smtpcom_send_email_error',
+					'error' => [
+						'message' => $send_email->get_error_message(),
+						'code'    => $send_email->get_error_code(),
+					],
+				)
+			);
 			$this->log_result(
 				array(
 					'status'   => self::FAILED,

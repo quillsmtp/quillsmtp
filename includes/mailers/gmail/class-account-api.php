@@ -82,6 +82,16 @@ class Account_API {
 				$client->fetchAccessTokenWithRefreshToken( $this->refresh_token );
 				$this->access_token = $client->getAccessToken();
 			} catch ( \Exception $e ) {
+				quillsmtp_get_logger()->error(
+					esc_html__( 'Gmail API: Failed to refresh token', 'quillsmtp' ),
+					array(
+						'code'  => 'refresh_token_error',
+						'error' => array(
+							'code'    => $e->getCode(),
+							'message' => $e->getMessage(),
+						),
+					)
+				);
 				return new WP_Error( 'refresh_token_error', $e->getMessage() );
 			}
 		}

@@ -36,6 +36,17 @@ class Process extends Abstract_Process {
 		$account_api = $this->provider->accounts->connect( $account_id );
 
 		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Gmail Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_gmail_send_error',
+					'error' => [
+						'code'  => $account_api->get_error_code(),
+						'error' => $account_api->get_error_message(),
+						'data'  => $account_api->get_error_data(),
+					],
+				)
+			);
 			return $account_api;
 		}
 
@@ -104,6 +115,17 @@ class Process extends Abstract_Process {
 		$account_api = $this->provider->accounts->connect( $account_id );
 
 		if ( is_wp_error( $account_api ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Gmail Account API Error', 'quillsmtp' ),
+				array(
+					'code'  => 'quillsmtp_gmail_send_error',
+					'error' => [
+						'code'  => $account_api->get_error_code(),
+						'error' => $account_api->get_error_message(),
+						'data'  => $account_api->get_error_data(),
+					],
+				)
+			);
 			return false;
 		}
 
