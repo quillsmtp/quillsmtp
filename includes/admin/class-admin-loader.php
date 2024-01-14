@@ -156,6 +156,8 @@ class Admin_Loader {
 		// Important to check for authentication.
 		wp_auth_check_load();
 
+		do_action( 'qsmtp_admin_enqueue_scripts' );
+
 		// Enqueue scripts.
 		wp_enqueue_script( 'qsmtp-config' );
 		wp_enqueue_script( 'qsmtp-admin' );

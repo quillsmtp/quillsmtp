@@ -285,8 +285,6 @@ const Debug: React.FC = () => {
 	};
 
 	const getLogLevel = (level) => {
-		console.log(level);
-
 		switch (level) {
 			case 'info':
 				return <Chip label={__('Info', 'quillsmtp')} color="info" />;

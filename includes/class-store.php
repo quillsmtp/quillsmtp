@@ -150,6 +150,22 @@ class Store {
 				),
 				'is_pro'      => true,
 			),
+			'outlook'    => array(
+				'name'        => __( 'Outlook', 'quillsmtp' ),
+				'description' => __( 'Send emails using Outlook SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/outlook/icon.svg',
+				),
+				'is_pro'      => true,
+			),
+			'zoho'       => array(
+				'name'        => __( 'Zoho', 'quillsmtp' ),
+				'description' => __( 'Send emails using Zoho SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/zoho/icon.svg',
+				),
+				'is_pro'      => true,
+			),
 		);
 	}
 }

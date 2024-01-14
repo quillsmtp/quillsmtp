@@ -51,7 +51,7 @@ class App {
 
 		$app_credentials = $this->get_app_credentials();
 		if ( empty( $app_credentials ) ) {
-			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp-gmail' );
+			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp' );
 			exit;
 		}
 
@@ -85,7 +85,7 @@ class App {
 		// ensure authorize code.
 		$code = $_GET['code'] ?? null;
 		if ( empty( $code ) ) {
-			echo esc_html__( 'Error, There is no authorize code passed!', 'quillsmtp-gmail' );
+			echo esc_html__( 'Error, There is no authorize code passed!', 'quillsmtp' );
 			exit;
 		}
 
@@ -102,7 +102,7 @@ class App {
 		);
 
 		if ( empty( $tokens ) ) {
-			echo esc_html__( 'Error, Cannot get account tokens!', 'quillsmtp-gmail' );
+			echo esc_html__( 'Error, Cannot get account tokens!', 'quillsmtp' );
 			exit;
 		}
 
@@ -111,7 +111,7 @@ class App {
 		$accounts_response = $account_api->get_profile();
 
 		if ( is_wp_error( $accounts_response ) ) {
-			echo esc_html__( 'Error, Cannot get profile details!', 'quillsmtp-gmail' );
+			echo esc_html__( 'Error, Cannot get profile details!', 'quillsmtp' );
 			exit;
 		}
 
@@ -129,13 +129,13 @@ class App {
 		if ( in_array( $account_id, array_keys( $this->provider->accounts->get_accounts() ), true ) ) {
 			$result = $this->provider->accounts->update_account( $account_id, $account_data );
 			if ( empty( $result ) || is_wp_error( $result ) ) {
-				echo esc_html__( 'Error, Cannot update the account!', 'quillsmtp-gmail' );
+				echo esc_html__( 'Error, Cannot update the account!', 'quillsmtp' );
 				exit;
 			}
 		} else {
 			$result = $this->provider->accounts->add_account( $account_id, $account_data );
 			if ( empty( $result ) || is_wp_error( $result ) ) {
-				echo esc_html__( 'Error, Cannot add the new account!', 'quillsmtp-gmail' );
+				echo esc_html__( 'Error, Cannot add the new account!', 'quillsmtp' );
 				exit;
 			}
 		}
@@ -151,7 +151,7 @@ class App {
 			<title>Authorization done</title>
 		</head>
 		<body>
-			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quillsmtp-gmail' ); ?>
+			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quillsmtp' ); ?>
 			<script>
 				if ( typeof window.opener.add_new_gmail_account === 'function' ) {
 					window.opener.add_new_gmail_account( '<?php echo $account_id; ?>', '<?php echo $account_name; ?>' );

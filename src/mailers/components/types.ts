@@ -1,8 +1,13 @@
 export type SetupFields = {
 	[key: string]: {
 		label: string;
-		type: 'text' | 'password';
+		type: 'text' | 'password' | 'select';
 		check: boolean;
+		help?: string;
+		options?: {
+			label: string;
+			value: string;
+		}[];
 	};
 };
 

@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * External Dependencies
@@ -187,6 +188,11 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 		return true;
 	};
 
+	const fromEmails = applyFilters(
+		'QuillSMTP.FromEmails',
+		{},
+		connection.mailer
+	);
 	return (
 		<Accordion
 			className="qsmtp-connection-options"

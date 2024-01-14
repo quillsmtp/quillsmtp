@@ -2,32 +2,79 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * External Dependencies
  */
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 /**
  * Internal Dependencies.
  */
 import ConfigAPI from '@quillsmtp/config';
+import MailerFeatureAvailability from './mailer-feature-availability';
 
 const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 	slug,
+	connectionId,
 }) => {
-	const [open, setOpen] = useState(true);
-	const mailer = ConfigAPI.getStoreMailers()[slug];
+	const { getStoreMailers } = ConfigAPI;
+	const mailers = getStoreMailers();
+	const mailer = mailers[slug];
+	const { getConnection } = useSelect((select) => ({
+		getConnection: select('quillSMTP/core').getConnection,
+	}));
+	const connection = getConnection(connectionId);
+	const { updateConnection } = useDispatch('quillSMTP/core');
 
 	return (
-		<Dialog open={open} onClose={() => setOpen(false)}>
-			<DialogTitle>{__('Settings', 'quillsmtp')}</DialogTitle>
+		<Dialog
+			open={connection.mailer === slug}
+			onClose={() => {
+				updateConnection(connectionId, {
+					mailer: 'phpmailer',
+					account_id: '',
+				});
+			}}
+		>
+			<DialogTitle
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					background:
+						'linear-gradient(42deg, rgb(235, 54, 221), rgb(238, 142, 22))',
+					color: '#fff',
+					fontWeight: 'bold',
+					marginBottom: '20px',
+					'& .MuiSvgIcon-root': {
+						color: '#fff',
+					},
+				}}
+			>
+				{mailer.name + __(' is a PRO feature', 'quillsmtp')}
+				<IconButton
+					aria-label="close"
+					onClick={() => {
+						updateConnection(connectionId, {
+							mailer: '',
+							account_id: '',
+						});
+					}}
+				>
+					<CloseIcon />
+				</IconButton>
+			</DialogTitle>
 			<DialogContent>
-				<DialogContentText>Test</DialogContentText>
+				<MailerFeatureAvailability
+					mailerSlug={slug}
+					showLockIcon={true}
+				/>
 			</DialogContent>
 		</Dialog>
 	);

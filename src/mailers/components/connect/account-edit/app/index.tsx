@@ -4,6 +4,11 @@
 import TextField from '@mui/material/TextField';
 import { Stack } from '@mui/material';
 import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
 
 /**
  * WordPress Dependencies
@@ -89,20 +94,63 @@ const EditApp: React.FC<Props> = ({
 					</div>
 				)}
 
-				{Object.entries(fields).map(([key, field]) => (
-					<TextField
-						key={key}
-						label={field.label}
-						value={inputs[key] ?? ''}
-						onChange={(e) =>
-							setInputs({ ...inputs, [key]: e.target.value })
-						}
-						variant="outlined"
-						fullWidth
-						sx={{ mb: 2 }}
-						type={field.type}
-					/>
-				))}
+				{Object.entries(fields).map(([key, field]) => {
+					switch (field.type) {
+						case 'text':
+						case 'password':
+							return (
+								<TextField
+									key={key}
+									label={field.label}
+									value={inputs[key] ?? ''}
+									onChange={(e) =>
+										setInputs({
+											...inputs,
+											[key]: e.target.value,
+										})
+									}
+									variant="outlined"
+									fullWidth
+									sx={{ mb: 2 }}
+									helperText={field?.help}
+									type={field.type}
+								/>
+							);
+						case 'select':
+							return (
+								<FormControl key={key} fullWidth sx={{ mb: 2 }}>
+									<InputLabel>{field.label}</InputLabel>
+									<Select
+										value={inputs[key] ?? ''}
+										label={field.label}
+										onChange={(e: SelectChangeEvent) =>
+											setInputs({
+												...inputs,
+												[key]: e.target.value,
+											})
+										}
+									>
+										{field.options &&
+											field.options.map((option) => (
+												<MenuItem
+													key={option.value}
+													value={option.value}
+												>
+													{option.label}
+												</MenuItem>
+											))}
+									</Select>
+									{field?.help && (
+										<FormHelperText>
+											{field?.help}
+										</FormHelperText>
+									)}
+								</FormControl>
+							);
+						default:
+							return null;
+					}
+				})}
 			</div>
 			<Stack direction="row" spacing={2}>
 				<Footer
