@@ -5,9 +5,9 @@ import { addFilter } from '@wordpress/hooks';
 
 addFilter(
 	'QuillSMTP.Fetch.FromEmails',
-	'QuillSMTP/Gmail/Fetch/FromEmails',
+	'QuillSMTP/ElasticEmail/Fetch/FromEmails',
 	(fetch: boolean, slug: string) => {
-		if (slug === 'gmail') {
+		if (slug === 'elasticemail') {
 			return true;
 		}
 		return fetch;

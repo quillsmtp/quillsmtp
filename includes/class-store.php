@@ -72,77 +72,77 @@ class Store {
 	 */
 	private function define_mailers() {
 		$this->mailers = array(
-			'phpmailer'  => array(
+			'phpmailer'    => array(
 				'name'        => __( 'Default', 'quillsmtp' ),
 				'description' => __( 'Use the default WordPress mailer', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/php/icon.svg',
 				),
 			),
-			'sendlayer'  => array(
+			'sendlayer'    => array(
 				'name'        => __( 'SendLayer', 'quillsmtp' ),
 				'description' => __( 'Send emails using SendLayer SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendlayer/icon.png',
 				),
 			),
-			'sendgrid'   => array(
+			'sendgrid'     => array(
 				'name'        => __( 'SendGrid', 'quillsmtp' ),
 				'description' => __( 'Send emails using SendGrid SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendgrid/icon.svg',
 				),
 			),
-			'mailgun'    => array(
+			'mailgun'      => array(
 				'name'        => __( 'Mailgun', 'quillsmtp' ),
 				'description' => __( 'Send emails using Mailgun SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/mailgun/icon.svg',
 				),
 			),
-			'sendinblue' => array(
+			'sendinblue'   => array(
 				'name'        => __( 'Sendinblue', 'quillsmtp' ),
 				'description' => __( 'Send emails using Sendinblue SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendinblue/icon.svg',
 				),
 			),
-			'postmark'   => array(
+			'postmark'     => array(
 				'name'        => __( 'Postmark', 'quillsmtp' ),
 				'description' => __( 'Send emails using Postmark SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/postmark/icon.svg',
 				),
 			),
-			'smtpcom'    => array(
+			'smtpcom'      => array(
 				'name'        => __( 'SMTP.com', 'quillsmtp' ),
 				'description' => __( 'Send emails using SMTP.com SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtpcom/icon.svg',
 				),
 			),
-			'sparkpost'  => array(
+			'sparkpost'    => array(
 				'name'        => __( 'SparkPost', 'quillsmtp' ),
 				'description' => __( 'Send emails using SparkPost SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sparkpost/icon.svg',
 				),
 			),
-			'gmail'      => array(
+			'gmail'        => array(
 				'name'        => __( 'Gmail', 'quillsmtp' ),
 				'description' => __( 'Send emails using Gmail SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/gmail/icon.svg',
 				),
 			),
-			'smtp'       => array(
+			'smtp'         => array(
 				'name'        => __( 'Other SMTP', 'quillsmtp' ),
 				'description' => __( 'Send emails using Other SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtp/icon.svg',
 				),
 			),
-			'pepipost'   => array(
+			'pepipost'     => array(
 				'name'        => __( 'Pepipost', 'quillsmtp' ),
 				'description' => __( 'Send emails using Pepipost SMTP', 'quillsmtp' ),
 				'assets'      => array(
@@ -150,7 +150,15 @@ class Store {
 				),
 				'is_pro'      => true,
 			),
-			'outlook'    => array(
+			'elasticemail' => array(
+				'name'        => __( 'Elastic Email', 'quillsmtp' ),
+				'description' => __( 'Send emails using Elastic Email SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/elasticemail/icon.svg',
+				),
+				'is_pro'      => true,
+			),
+			'outlook'      => array(
 				'name'        => __( 'Outlook', 'quillsmtp' ),
 				'description' => __( 'Send emails using Outlook SMTP', 'quillsmtp' ),
 				'assets'      => array(
@@ -158,11 +166,19 @@ class Store {
 				),
 				'is_pro'      => true,
 			),
-			'zoho'       => array(
+			'zoho'         => array(
 				'name'        => __( 'Zoho', 'quillsmtp' ),
 				'description' => __( 'Send emails using Zoho SMTP', 'quillsmtp' ),
 				'assets'      => array(
 					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/zoho/icon.svg',
+				),
+				'is_pro'      => true,
+			),
+			'smtp2go'      => array(
+				'name'        => __( 'SMTP2GO', 'quillsmtp' ),
+				'description' => __( 'Send emails using SMTP2GO SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/smtp2go/icon.png',
 				),
 				'is_pro'      => true,
 			),

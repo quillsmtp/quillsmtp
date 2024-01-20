@@ -8,3 +8,4 @@ import './gmail';
 import './sparkpost';
 import './smtp';
 import './phpmailer';
+import './elasticemail';

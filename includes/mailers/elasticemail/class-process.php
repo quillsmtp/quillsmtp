@@ -8,11 +8,10 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\Mailgun;
+namespace QuillSMTP\Mailers\ElasticEmail;
 
 use Exception;
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
-use WP_Error;
 
 /**
  * Process class.
@@ -20,6 +19,20 @@ use WP_Error;
  * @since 1.0.0
  */
 class Process extends Abstract_Process {
+
+	/**
+	 * Attachment boundary.
+	 *
+	 * @var string
+	 */
+	protected $boundary = '';
+
+	/**
+	 * Attachment payload.
+	 *
+	 * @var string
+	 */
+	protected $payload = '';
 
 	/**
 	 * Content type
@@ -35,10 +48,8 @@ class Process extends Abstract_Process {
 	 */
 	public function set_header( $name, $value ) {
 
-		$name = sanitize_text_field( $name );
-
-		$this->body[ 'h:' . $name ] = $value;
-		$this->headers[ $name ]     = $value;
+		$name                            = sanitize_text_field( $name );
+		$this->body[ "headers_{$name}" ] = "{$name}: {$value}";
 	}
 
 	/**
@@ -55,7 +66,10 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['from'] = $this->phpmailer->addrFormat( [ $email, $name ] );
+		$this->body['from'] = $email;
+		if ( ! empty( $name ) ) {
+			$this->body['fromName'] = sanitize_text_field( $name );
+		}
 	}
 
 	/**
@@ -77,20 +91,42 @@ class Process extends Abstract_Process {
 				continue;
 			}
 
-			$this->body[ $type ] = $this->addrs_format( $emails );
-		}
+			$type_address = [];
+			foreach ( $emails as $user ) {
+				$email_address = isset( $user[0] ) ? $user[0] : false;
+				$name          = isset( $user[1] ) ? $user[1] : false;
 
+				if ( ! filter_var( $email_address, FILTER_VALIDATE_EMAIL ) ) {
+					continue;
+				}
+
+				$type_address[] = $this->phpmailer->addrFormat( [ $email_address, $name ] );
+			}
+
+			if ( ! empty( $type_address ) ) {
+				switch ( $type ) {
+					case 'to':
+						$this->body['msgTo'] = implode( ';', $type_address );
+						break;
+					case 'cc':
+						$this->body['msgCC'] = implode( ';', $type_address );
+						break;
+					case 'bcc':
+						$this->body['msgBcc'] = implode( ';', $type_address );
+						break;
+				}
+			}
+		}
 	}
 
 	/**
-	 * Set email subject.
+	 * @inheritDoc
 	 *
 	 * @since 1.0.0
-	 *
-	 * @param string $subject
 	 */
 	public function set_subject( $subject ) {
-		$this->body['subject'] = sanitize_text_field( $subject );
+
+		$this->body['subject'] = $subject;
 	}
 
 	/**
@@ -109,17 +145,17 @@ class Process extends Abstract_Process {
 		if ( is_array( $content ) ) {
 
 			if ( ! empty( $content['text'] ) ) {
-				$this->body['text'] = $content['text'];
+				$this->body['bodyText'] = $content['text'];
 			}
 
 			if ( ! empty( $content['html'] ) ) {
-				$this->body['html'] = $content['html'];
+				$this->body['bodyHtml'] = $content['html'];
 			}
 		} else {
 			if ( $this->phpmailer->ContentType === 'text/plain' ) {
-				$this->body['text'] = $content;
+				$this->body['bodyText'] = $content;
 			} else {
-				$this->body['html'] = $content;
+				$this->body['bodyHtml'] = $content;
 			}
 		}
 	}
@@ -137,7 +173,20 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['h:Reply-To'] = $this->addrs_format( $emails );
+		// Get the first email address in the array.
+		$user  = reset( $emails );
+		$email = isset( $user[0] ) ? $user[0] : false;
+		$name  = isset( $user[1] ) ? $user[1] : false;
+
+		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			return;
+		}
+
+		$this->body['replyTo'] = $email;
+
+		if ( ! empty( $name ) ) {
+			$this->body['replyToName'] = sanitize_text_field( $name );
+		}
 	}
 
 	/**
@@ -210,26 +259,6 @@ class Process extends Abstract_Process {
 	}
 
 	/**
-	 * Get the email headers.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array
-	 */
-	public function get_headers() {
-		/**
-		 * Filters Postmark email headers.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $headers Email headers.
-		 */
-		$headers = apply_filters( 'quillsmtp_mailgun_mailer_get_headers', $this->headers );
-
-		return $headers;
-	}
-
-	/**
 	 * Get the email body.
 	 *
 	 * @since 1.0.0
@@ -237,16 +266,59 @@ class Process extends Abstract_Process {
 	 * @return array
 	 */
 	public function get_body() {
+
 		/**
-		 * Filters Postmark email body.
+		 * Filters ElasticEmail email body.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $body Email body.
 		 */
-		$body = apply_filters( 'quillsmtp_mailgun_mailer_get_body', $this->body );
+		$body = apply_filters( 'quillsmtp_elasticemail_mailer_get_body', $this->body );
 
 		return $body;
+	}
+
+	/**
+	 * Parse body.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $body
+	 *
+	 * @return array
+	 */
+	public function parse_body( $body ) {
+
+		if ( is_string( $body ) ) {
+			return $body;
+		}
+
+		$payload  = '';
+		$boundary = md5( time() );
+
+		foreach ( $body as $key => $value ) {
+			if ( is_array( $value ) ) {
+				foreach ( $value as $child_value ) {
+					$payload .= '--' . $boundary;
+					$payload .= "\r\n";
+					$payload .= 'Content-Disposition: form-data; name="' . $key . "\"\r\n\r\n";
+					$payload .= $child_value;
+					$payload .= "\r\n";
+				}
+			} else {
+				$payload .= '--' . $boundary;
+				$payload .= "\r\n";
+				$payload .= 'Content-Disposition: form-data; name="' . $key . '"' . "\r\n\r\n";
+				$payload .= $value;
+				$payload .= "\r\n";
+			}
+		}
+
+		$payload           .= '--' . $boundary . '--';
+		$this->content_type = 'multipart/form-data; boundary=' . $boundary;
+
+		return $payload;
 	}
 
 	/**
@@ -259,56 +331,45 @@ class Process extends Abstract_Process {
 	public function send() {
 		try {
 			$account_id = $this->connection['account_id'];
-			/** @var Account_API|WP_Error */ // phpcs:ignore
+		 	/** @var Account_API|WP_Error */ // phpcs:ignore
 			$account_api = $this->provider->accounts->connect( $account_id );
 			if ( is_wp_error( $account_api ) ) {
 				throw new Exception( $account_api->get_error_message() );
 			}
 
-			$body   = $this->get_body();
-			$result = $account_api->send( $body, $this->content_type );
-			if ( is_wp_error( $result ) ) {
-				throw new Exception( $result->get_error_message() );
+			$body       = $this->get_body();
+			$body       = $this->parse_body( $body );
+			$send_email = $account_api->send( $body, $this->content_type );
+
+			if ( is_wp_error( $send_email ) ) {
+				throw new Exception( $send_email->get_error_message() );
 			}
 
-			if ( ! empty( $result['id'] ) ) {
-				$this->log_result(
-					array(
-						'status'   => self::SUCCEEDED,
-						'response' => $result,
-					)
-				);
-
-				return true;
-			} else {
-				$this->log_result(
-					array(
-						'status'   => self::FAILED,
-						'response' => $result,
-					)
-				);
-
-				return false;
-			}
+			$this->log_result(
+				[
+					'status'   => self::SUCCEEDED,
+					'response' => $send_email,
+				]
+			);
+			return true;
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Mailgun Send Email Error', 'quillsmtp' ),
-				array(
-					'code'  => 'quillsmtp_mailgun_send_error',
+				esc_html__( 'ElasticEmail API Error', 'quillsmtp' ),
+				[
+					'code'  => 'quillsmtp_elasticemail_send_error',
 					'error' => [
 						'message' => $e->getMessage(),
 						'code'    => $e->getCode(),
 					],
-				)
+				]
 			);
 			$this->log_result(
-				array(
+				[
 					'status'   => self::FAILED,
 					'response' => $e->getMessage(),
-				)
+				]
 			);
 			return false;
 		}
-
 	}
 }

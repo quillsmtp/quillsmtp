@@ -96,6 +96,7 @@ const Credentials: React.FC<Props> = ({
 			method: 'POST',
 			data: {
 				credentials: getCredentials(),
+				name: inputs['name'],
 			},
 		})
 			.then((res: any) => {

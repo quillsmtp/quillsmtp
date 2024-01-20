@@ -70,7 +70,7 @@ class Account_API {
 			$client          = new Google_Client();
 			$client->setApplicationName( 'QuillSMTP' );
 			$client->setClientId( $app_credentials['client_id'] );
-			$client->setClientSecret( '123' );
+			$client->setClientSecret( $app_credentials['client_secret'] );
 			$client->setAccessToken( $this->access_token );
 			$client->setAccessType( 'offline' );
 			$client->setApprovalPrompt( 'force' );
@@ -80,7 +80,7 @@ class Account_API {
 			// Refresh token if expired.
 			if ( $client->isAccessTokenExpired() ) {
 				$refresh_token = $client->fetchAccessTokenWithRefreshToken( $this->refresh_token );
-				if ( ! empty( $refresh_token ) ) {
+				if ( isset( $refresh_token['error_description'] ) ) {
 					throw new \Exception( $refresh_token['error_description'] );
 				}
 				$this->access_token = $client->getAccessToken();

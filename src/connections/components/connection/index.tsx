@@ -9,7 +9,7 @@ import ConfigAPI from '@quillsmtp/config';
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
@@ -31,6 +31,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { FormControl, FormHelperText } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 /**
  * Internal dependencies.
@@ -71,6 +74,8 @@ interface Props {
 const Connection: React.FC<Props> = ({ connectionId, index }) => {
 	const [isSaving, setIsSaving] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [isFetching, setIsFetching] = useState(false);
+	const [fromEmails, setFromEmails] = useState<any>([]);
 	const { connections } = useSelect((select) => {
 		return {
 			connections: select('quillSMTP/core').getConnections(),
@@ -81,9 +86,44 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 	const connection = connections[connectionId];
 	const { from_email, force_from_email, from_name, force_from_name } =
 		connection;
-
+	const fetchFromEmails = applyFilters(
+		'QuillSMTP.Fetch.FromEmails',
+		false,
+		connection.mailer
+	);
 	// dispatch notices.
 	const { createNotice } = useDispatch('quillSMTP/core');
+
+	useEffect(() => {
+		if (fetchFromEmails) {
+			getFromEmails();
+		}
+	}, [fetchFromEmails]);
+
+	const getFromEmails = () => {
+		if (isFetching || !connection.mailer || !connection.account_id) return;
+		setIsFetching(true);
+		apiFetch({
+			path: `/qsmtp/v1/mailers/${connection.mailer}/settings/${connection.account_id}/from-emails`,
+		})
+			.then((res: any) => {
+				if (res.success) {
+					setFromEmails(res.options);
+				}
+			})
+			.catch(() => {
+				createNotice({
+					type: 'error',
+					message: __(
+						'Error fetching from emails for this account.',
+						'quillsmtp'
+					),
+				});
+			})
+			.finally(() => {
+				setIsFetching(false);
+			});
+	};
 
 	const save = () => {
 		// check validity.
@@ -91,13 +131,17 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 			return;
 		}
 		setIsSaving(true);
+		const updatedConnection = { ...connection };
+		if (fromEmails.length) {
+			updatedConnection.from_email = getFromValue();
+		}
 		apiFetch({
 			path: `/qsmtp/v1/settings`,
 			method: 'POST',
 			data: {
 				connections: {
 					...ConfigAPI.getInitialPayload().connections,
-					[connectionId]: connection,
+					[connectionId]: updatedConnection,
 				},
 			},
 		}).then((res: any) => {
@@ -188,11 +232,19 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 		return true;
 	};
 
-	const fromEmails = applyFilters(
-		'QuillSMTP.FromEmails',
-		{},
-		connection.mailer
-	);
+	const getFromValue = () => {
+		if (!fromEmails.length) return '';
+		// Check if fromEmails has the from_email.
+		for (const fromEmail of fromEmails) {
+			if (fromEmail.value === from_email) {
+				return from_email;
+			}
+		}
+
+		// return the first from email.
+		return fromEmails[0].value ?? '';
+	};
+
 	return (
 		<Accordion
 			className="qsmtp-connection-options"
@@ -231,23 +283,56 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 					<MailersSelector connectionId={connectionId} />
 					{connection.mailer && (
 						<>
-							<TextField
-								id="from_email"
-								label={__('From Email', 'quillsmtp')}
-								value={from_email}
-								onChange={(e) =>
-									updateConnection(connectionId, {
-										from_email: e.target.value,
-									})
-								}
-								variant="outlined"
-								fullWidth
-								sx={{ mb: 2 }}
-								helperText={__(
-									'If left blank, the default WordPress from email will be used.',
-									'quillsmtp'
-								)}
-							/>
+							{!fetchFromEmails && (
+								<TextField
+									id="from_email"
+									label={__('From Email', 'quillsmtp')}
+									value={from_email}
+									onChange={(e) =>
+										updateConnection(connectionId, {
+											from_email: e.target.value,
+										})
+									}
+									variant="outlined"
+									fullWidth
+									sx={{ mb: 2 }}
+									helperText={__(
+										'If left blank, the default WordPress from email will be used.',
+										'quillsmtp'
+									)}
+								/>
+							)}
+							{fetchFromEmails && (
+								<FormControl sx={{ mb: 3 }} fullWidth required>
+									<InputLabel>
+										{__('From Email', 'quillsmtp')}
+									</InputLabel>
+									<Select
+										value={getFromValue()}
+										label={__('From Email', 'quillsmtp')}
+										onChange={(e: SelectChangeEvent) =>
+											updateConnection(connectionId, {
+												from_email: e.target.value,
+											})
+										}
+										required
+										disabled={isFetching}
+									>
+										{fromEmails.map((option, index) => (
+											<MenuItem
+												key={index}
+												value={option.value}
+											>
+												{option.label}
+											</MenuItem>
+										))}
+									</Select>
+									{__(
+										'If left blank, the default WordPress from email will be used.',
+										'quillsmtp'
+									)}
+								</FormControl>
+							)}
 							<FormControl sx={{ mb: 3 }}>
 								<FormControlLabel
 									control={
