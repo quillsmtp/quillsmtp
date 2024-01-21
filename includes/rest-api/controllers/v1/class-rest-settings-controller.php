@@ -73,15 +73,19 @@ class REST_Settings_Controller extends REST_Controller {
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => array(
-				'default_connection'  => array(
+				'global_network_settings' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'default_connection'      => array(
 					'type'    => 'string',
 					'default' => '',
 				),
-				'fallback_connection' => array(
+				'fallback_connection'     => array(
 					'type'    => 'string',
 					'default' => '',
 				),
-				'connections'         => array(
+				'connections'             => array(
 					'type'       => 'object',
 					'properties' => array(
 						'from_email'       => array(

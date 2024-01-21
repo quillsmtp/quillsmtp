@@ -31,6 +31,7 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 * @return bool
 	 */
 	public function send() {
+		do_action( 'quillsmtp_before_get_settings' );
 		$connections            = Settings::get( 'connections' ) ?? [];
 		$default_connection_id  = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
 		$fallback_connection_id = Settings::get( 'fallback_connection' );
@@ -38,6 +39,7 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 		$default_connection_id  = $default_connection_id ?: $first_connection_id;
 		$default_connection     = $connections[ $default_connection_id ] ?? null;
 		$fallback_connection    = $connections[ $fallback_connection_id ] ?? null;
+		do_action( 'quillsmtp_after_get_settings' );
 
 		if ( ! $default_connection ) {
 			return parent::send();
