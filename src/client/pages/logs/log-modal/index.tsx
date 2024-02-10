@@ -72,9 +72,9 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 	const getLogLevel = (level) => {
 		switch (level) {
 			case 'succeeded':
-				return <Chip label={__('Error', 'quillsmtp')} color="error" />;
-			case 'failed':
 				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
+			case 'failed':
+				return <Chip label={__('Failed', 'quillsmtp')} color="error" />;
 			default:
 				return (
 					<Chip label={__('Debug', 'quillsmtp')} color="default" />

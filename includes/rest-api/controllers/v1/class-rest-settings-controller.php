@@ -116,9 +116,10 @@ class REST_Settings_Controller extends REST_Controller {
 				),
 			),
 			'default'              => array(
-				'default_connection'  => '',
-				'fallback_connection' => '',
-				'connections'         => array(),
+				'global_network_settings' => true,
+				'default_connection'      => '',
+				'fallback_connection'     => '',
+				'connections'             => array(),
 			),
 		);
 
@@ -139,9 +140,10 @@ class REST_Settings_Controller extends REST_Controller {
 		$settings = apply_filters(
 			'quillsmtp_rest_settings',
 			array(
-				'default_connection'  => Settings::get( 'default_connection', $defaults['default_connection'] ),
-				'fallback_connection' => Settings::get( 'fallback_connection', $defaults['fallback_connection'] ),
-				'connections'         => Settings::get( 'connections', $defaults['connections'] ),
+				'global_network_settings' => Settings::get( 'global_network_settings', $defaults['global_network_settings'] ),
+				'default_connection'      => Settings::get( 'default_connection', $defaults['default_connection'] ),
+				'fallback_connection'     => Settings::get( 'fallback_connection', $defaults['fallback_connection'] ),
+				'connections'             => Settings::get( 'connections', $defaults['connections'] ),
 			),
 		);
 

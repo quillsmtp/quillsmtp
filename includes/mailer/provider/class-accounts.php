@@ -185,7 +185,11 @@ abstract class Accounts {
 	 * @return array
 	 */
 	final protected function get_accounts_data() {
-		return $this->provider->settings->get( 'accounts' ) ?? array();
+		do_action( 'quillsmtp_before_get_mailers_settings' );
+		$account = $this->provider->settings->get( 'accounts' ) ?? array();
+		do_action( 'quillsmtp_after_get_mailers_settings' );
+
+		return $account;
 	}
 
 	/**

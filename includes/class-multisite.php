@@ -10,6 +10,7 @@
 namespace QuillSMTP;
 
 use QuillSMTP\Settings;
+use QuillSMTP\Admin\Admin;
 
 /**
  * Multisite class.
@@ -58,13 +59,36 @@ class Multisite {
 		$settings     = get_blog_option( $main_site_id, Settings::OPTION_NAME, array() );
 		// Check if global network settings enabled.
 		$global_settings_enabled = $settings['global_network_settings'] ?? true;
-
+		$admin                   = Admin::instance();
+		add_action( 'network_admin_menu', array( $admin, 'create_admin_menu_pages' ) );
 		// If global network settings enabled, remove the home and settings submenu pages from all sites except the main site.
 		if ( $global_settings_enabled ) {
 			add_action( 'admin_menu', array( $this, 'remove_submenu_pages' ), 999 );
 			add_action( 'quillsmtp_before_get_settings', array( $this, 'get_global_network_settings' ) );
 			add_action( 'quillsmtp_after_get_settings', array( $this, 'restore_blog_settings' ) );
+			add_action( 'quillsmtp_before_get_mailers_settings', array( $this, 'get_global_network_settings' ) );
+			add_action( 'quillsmtp_after_get_mailers_settings', array( $this, 'restore_blog_settings' ) );
+
+			// Remove notices.
+			add_action( 'network_admin_notices', array( $this, 'remove_notices' ), 1 );
 		}
+	}
+
+	/**
+	 * Remove Notices.
+	 *
+	 * @since 1.0.0
+	 */
+	public function remove_notices() {
+		// Check if quillsmtp is the current page.
+		$current_screen = get_current_screen();
+		// Check if current screen has a quillsmtp string.
+		if ( false === strpos( $current_screen->id, 'quillsmtp' ) ) {
+			return;
+		}
+
+		// Remove notices.
+		remove_all_actions( 'network_admin_notices' );
 	}
 
 	/**
@@ -74,10 +98,8 @@ class Multisite {
 	 */
 	public function remove_submenu_pages() {
 		// Remove the home and settings submenu pages from all sites except the main site.
-		if ( ! is_main_site() ) {
-			remove_submenu_page( 'quillsmtp', 'quillsmtp' );
-			remove_submenu_page( 'quillsmtp', 'settings' );
-		}
+		remove_submenu_page( 'quillsmtp', 'quillsmtp' );
+		remove_submenu_page( 'quillsmtp', 'quillsmtp&path=settings' );
 	}
 
 	/**
