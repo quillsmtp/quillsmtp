@@ -81,6 +81,18 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 				);
 		}
 	};
+	// The log response may have json array and inside that array there may be another json array or object so we need to parse it and display it in a readable format.
+	let response = '';
+	try {
+		response = JSON.stringify(JSON.parse(log.response), null, 2);
+	} catch (e) {
+		// check if is string or not
+		if (typeof log.response === 'string') {
+			response = log.response;
+		} else {
+			response = JSON.stringify(log.response, null, 2);
+		}
+	}
 
 	return (
 		<Dialog
@@ -283,7 +295,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							{__('Server Response', 'quillsmtp')}
 						</div>
 						<div className="log-modal__value">
-							<pre>{JSON.stringify(log.response, null, 2)}</pre>
+							<pre>{response}</pre>
 						</div>
 					</Box>
 					<Accordion>
