@@ -41,6 +41,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 				account_id = keys(accounts)[0];
 			}
 		}
+		console.log('account_id', account_id);
 
 		updateConnection(connectionId, { mailer: key, account_id: account_id });
 	};

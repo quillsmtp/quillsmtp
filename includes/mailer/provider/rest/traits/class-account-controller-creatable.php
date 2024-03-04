@@ -64,7 +64,7 @@ trait Account_Controller_Creatable {
 				),
 				'name'        => array(
 					'type'     => 'string',
-					'required' => false,
+					'required' => true,
 				),
 				'credentials' => array(
 					'type'       => 'object',

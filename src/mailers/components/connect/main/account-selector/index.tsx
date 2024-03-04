@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal Dependencies
@@ -136,176 +137,197 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		setIsAdding(false);
 	};
 
+	const filteredMarkup = applyFilters(
+		'quillSMTP.mailer.account',
+		<></>,
+		connectionId,
+		connection.mailer
+	);
+
 	return (
-		<div className="mailer-connect-main__account-selector">
-			<div className="mailer-connect-main__account-selector__list">
-				{main.accounts.auth.type === 'credentials' &&
-					size(accounts) > 0 && (
-						<FormControl component="fieldset" fullWidth>
-							<FormLabel component="legend">
-								{__('Select an account', 'quillsmtp')}
-							</FormLabel>
-							<RadioGroup
-								aria-label="account"
-								name="account"
-								value={connection.account_id}
-								onChange={(e) => onChange(e.target.value)}
-							>
-								{map(accounts, (account, id) => (
-									<div key={id}>
-										<div>
-											<FormControlLabel
-												value={id}
-												control={<Radio />}
-												label={account.name}
-											/>
-											{main.accounts.auth.type ===
-												'credentials' && (
-												<>
-													{!editingAccount && (
-														<IconButton
-															aria-label={__(
-																'Edit account',
-																'quillsmtp'
-															)}
-															onClick={() => {
-																setEditAccountID(
-																	id
-																);
-															}}
-															color={
-																editAccountID ===
-																id
-																	? 'primary'
-																	: 'default'
-															}
-														>
-															<EditIcon />
-														</IconButton>
-													)}
-													{editingAccount && (
-														<CircularProgress
-															size={20}
-														/>
-													)}
-												</>
-											)}
-											<IconButton
-												aria-label={__(
-													'Delete account',
-													'quillsmtp'
-												)}
-												onClick={() =>
-													setDeleteAccountID(id)
-												}
-												color="error"
-											>
-												<DeleteIcon />
-											</IconButton>
-										</div>
-										{main.accounts.auth.type ===
-											'credentials' &&
-											editAccountID &&
-											editAccountID === id && (
-												<EditCredentials
-													connectionId={connectionId}
-													accountId={editAccountID}
-													fields={
-														main.accounts.auth
-															.fields
-													}
-													account={
-														accounts[editAccountID]
-													}
-													onEditing={
-														setEditingAccount
-													}
-													onEdited={onAdded}
-													onCancel={() =>
-														setEditAccountID(null)
-													}
+		<>
+			<div className="mailer-connect-main__account-selector">
+				<div className="mailer-connect-main__account-selector__list">
+					{main.accounts.auth.type === 'credentials' &&
+						size(accounts) > 0 && (
+							<FormControl component="fieldset" fullWidth>
+								<FormLabel component="legend">
+									{__('Select an account', 'quillsmtp')}
+								</FormLabel>
+								<RadioGroup
+									aria-label="account"
+									name="account"
+									value={connection.account_id}
+									onChange={(e) => onChange(e.target.value)}
+								>
+									{map(accounts, (account, id) => (
+										<div key={id}>
+											<div>
+												<FormControlLabel
+													value={id}
+													control={<Radio />}
+													label={account.name}
 												/>
-											)}
-									</div>
-								))}
-							</RadioGroup>
-						</FormControl>
-					)}
-				{main.accounts.auth.type === 'oauth' && size(accounts) > 0 && (
-					<div>
-						{__('Connected with', 'quillsmtp')}{' '}
-						<strong>{map(accounts, 'name').join(', ')}</strong>
-					</div>
+												{main.accounts.auth.type ===
+													'credentials' && (
+													<>
+														{!editingAccount && (
+															<IconButton
+																aria-label={__(
+																	'Edit account',
+																	'quillsmtp'
+																)}
+																onClick={() => {
+																	setEditAccountID(
+																		id
+																	);
+																}}
+																color={
+																	editAccountID ===
+																	id
+																		? 'primary'
+																		: 'default'
+																}
+															>
+																<EditIcon />
+															</IconButton>
+														)}
+														{editingAccount && (
+															<CircularProgress
+																size={20}
+															/>
+														)}
+													</>
+												)}
+												<IconButton
+													aria-label={__(
+														'Delete account',
+														'quillsmtp'
+													)}
+													onClick={() =>
+														setDeleteAccountID(id)
+													}
+													color="error"
+												>
+													<DeleteIcon />
+												</IconButton>
+											</div>
+											{main.accounts.auth.type ===
+												'credentials' &&
+												editAccountID &&
+												editAccountID === id && (
+													<EditCredentials
+														connectionId={
+															connectionId
+														}
+														accountId={
+															editAccountID
+														}
+														fields={
+															main.accounts.auth
+																.fields
+														}
+														account={
+															accounts[
+																editAccountID
+															]
+														}
+														onEditing={
+															setEditingAccount
+														}
+														onEdited={onAdded}
+														onCancel={() =>
+															setEditAccountID(
+																null
+															)
+														}
+													/>
+												)}
+										</div>
+									))}
+								</RadioGroup>
+							</FormControl>
+						)}
+					{main.accounts.auth.type === 'oauth' &&
+						size(accounts) > 0 && (
+							<div>
+								{__('Connected with', 'quillsmtp')}{' '}
+								<strong>
+									{map(accounts, 'name').join(', ')}
+								</strong>
+							</div>
+						)}
+				</div>
+				{deleteAccountID && (
+					<Dialog
+						open={deleteAccountID !== null}
+						onClose={() => {
+							if (!isDeleting) setDeleteAccountID(null);
+						}}
+						aria-labelledby="alert-dialog-title"
+						aria-describedby="alert-dialog-description"
+					>
+						<DialogTitle id="alert-dialog-title">
+							{__('Delete account', 'quillsmtp')}
+						</DialogTitle>
+						<DialogContent>
+							<DialogContentText id="alert-dialog-description">
+								{sprintf(
+									__(
+										'Are you sure you want to delete the account %s ?',
+										'quillsmtp'
+									),
+									accounts[deleteAccountID]?.name
+								)}
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button
+								onClick={() => {
+									if (!isDeleting) setDeleteAccountID(null);
+								}}
+								autoFocus
+								disabled={isDeleting}
+							>
+								{__('Cancel', 'quillsmtp')}
+							</Button>
+							<LoadingButton
+								onClick={deleteHandler}
+								autoFocus
+								color="error"
+								startIcon={<DeleteIcon />}
+								loading={isDeleting}
+							>
+								{__('Delete', 'quillsmtp')}
+							</LoadingButton>
+						</DialogActions>
+					</Dialog>
+				)}
+				{main.accounts.auth.type === 'credentials' && !isAdding && (
+					<Button
+						component="label"
+						variant="outlined"
+						startIcon={<AddIcon />}
+						onClick={() => {
+							setShowingAddNewAccount(true);
+							setIsAdding(true);
+						}}
+						disabled={addingNewAccount}
+					>
+						{__('Add new account', 'quillsmtp')}
+					</Button>
+				)}
+				{showingAddNewAccount && (
+					<AccountAuth
+						connectionId={connectionId}
+						data={main.accounts}
+						onAdding={setAddingNewAccount}
+						onAdded={onAdded}
+					/>
 				)}
 			</div>
-			{deleteAccountID && (
-				<Dialog
-					open={deleteAccountID !== null}
-					onClose={() => {
-						if (!isDeleting) setDeleteAccountID(null);
-					}}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-				>
-					<DialogTitle id="alert-dialog-title">
-						{__('Delete account', 'quillsmtp')}
-					</DialogTitle>
-					<DialogContent>
-						<DialogContentText id="alert-dialog-description">
-							{sprintf(
-								__(
-									'Are you sure you want to delete the account %s ?',
-									'quillsmtp'
-								),
-								accounts[deleteAccountID]?.name
-							)}
-						</DialogContentText>
-					</DialogContent>
-					<DialogActions>
-						<Button
-							onClick={() => {
-								if (!isDeleting) setDeleteAccountID(null);
-							}}
-							autoFocus
-							disabled={isDeleting}
-						>
-							{__('Cancel', 'quillsmtp')}
-						</Button>
-						<LoadingButton
-							onClick={deleteHandler}
-							autoFocus
-							color="error"
-							startIcon={<DeleteIcon />}
-							loading={isDeleting}
-						>
-							{__('Delete', 'quillsmtp')}
-						</LoadingButton>
-					</DialogActions>
-				</Dialog>
-			)}
-			{main.accounts.auth.type === 'credentials' && !isAdding && (
-				<Button
-					component="label"
-					variant="outlined"
-					startIcon={<AddIcon />}
-					onClick={() => {
-						setShowingAddNewAccount(true);
-						setIsAdding(true);
-					}}
-					disabled={addingNewAccount}
-				>
-					{__('Add new account', 'quillsmtp')}
-				</Button>
-			)}
-			{showingAddNewAccount && (
-				<AccountAuth
-					connectionId={connectionId}
-					data={main.accounts}
-					onAdding={setAddingNewAccount}
-					onAdded={onAdded}
-				/>
-			)}
-		</div>
+			{filteredMarkup}
+		</>
 	);
 };
 

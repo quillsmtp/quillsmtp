@@ -85,6 +85,7 @@ const Credentials: React.FC<Props> = ({
 
 		return credentials;
 	};
+	const randomId = () => Math.random().toString(36).substr(2, 9);
 
 	// submit.
 	const submit = () => {
@@ -97,6 +98,7 @@ const Credentials: React.FC<Props> = ({
 			data: {
 				credentials: getCredentials(),
 				name: inputs['name'],
+				id: randomId(),
 			},
 		})
 			.then((res: any) => {
