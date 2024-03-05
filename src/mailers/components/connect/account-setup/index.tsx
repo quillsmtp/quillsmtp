@@ -36,9 +36,9 @@ const Setup: React.FC<Props> = ({
 	Controls,
 	onFinish,
 }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 	const [inputs, setInputs] = useState({});
@@ -47,7 +47,7 @@ const Setup: React.FC<Props> = ({
 
 	const submit = () => {
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/settings`,
+			path: `/qsmtp/v1/mailers/${mailer}/settings`,
 			method: 'POST',
 			data: {
 				app: inputs,

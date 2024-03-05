@@ -13,6 +13,11 @@ import {
 } from './types';
 
 /**
+ * External Dependencies
+ */
+import createSelector from 'rememo';
+
+/**
  * Returns the connections object.
  *
  * @param {State} state State.
@@ -39,6 +44,141 @@ export const getConnection = (
 
 	return connections[connectionId];
 };
+
+/**
+ * Returns the connection Mailer.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {string} Mailer.
+ */
+export const getConnectionMailer = (
+	state: State,
+	connectionId: string
+): string => {
+	const connections = state.connections;
+
+	return connections[connectionId].mailer;
+};
+
+/**
+ * Returns the connection Account Id.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {string} account id.
+ */
+export const getConnectionAccountId = (
+	state: State,
+	connectionId: string
+): string | null => {
+	const connections = state.connections;
+
+	return connections[connectionId].account_id || null;
+};
+
+/**
+ * Get connection from email.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {string} From email.
+ */
+export const getConnectionFromEmail = (
+	state: State,
+	connectionId: string
+): string => {
+	const connections = state.connections;
+
+	return connections[connectionId].from_email;
+};
+
+/**
+ * Get connection from name.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {string} From name.
+ */
+export const getConnectionFromName = (
+	state: State,
+	connectionId: string
+): string => {
+	const connections = state.connections;
+
+	return connections[connectionId].from_name;
+};
+
+/**
+ * Get connection force from email.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {boolean} Force from email.
+ */
+export const getConnectionForceFromEmail = (
+	state: State,
+	connectionId: string
+): boolean => {
+	const connections = state.connections;
+
+	return connections[connectionId].force_from_email;
+};
+
+/**
+ * Get connection force from name.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {boolean} Force from name.
+ */
+export const getConnectionForceFromName = (
+	state: State,
+	connectionId: string
+): boolean => {
+	const connections = state.connections;
+
+	return connections[connectionId].force_from_name;
+};
+
+/**
+ * Get connection name.
+ *
+ * @param {State} state State.
+ * @param {string} connectionId Connection ID.
+ *
+ * @return {boolean} Connection name.
+ */
+export const getConnectionName = (
+	state: State,
+	connectionId: string
+): string => {
+	const connections = state.connections;
+
+	return connections[connectionId].name;
+};
+
+/**
+ * Get connections ids list.
+ *
+ * @param {State} state State.
+ *
+ * @return {string[]} Connections ids.
+ */
+export const getConnectionsIds = createSelector(
+	(state: State): string[] => {
+		const connections = state.connections;
+
+		return Object.keys(connections);
+	},
+	(state) => [Object.keys(state.connections).length]
+);
 
 /**
  * Returns the mailers object.

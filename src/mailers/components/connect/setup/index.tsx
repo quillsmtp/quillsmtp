@@ -18,9 +18,9 @@ interface Props {
 }
 
 const Setup: React.FC<Props> = ({ connectionId, setup }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 	const { setupApp } = useDispatch('quillSMTP/core');
@@ -43,7 +43,7 @@ const Setup: React.FC<Props> = ({ connectionId, setup }) => {
 			fields={setup.fields}
 			Controls={SetupControls}
 			onFinish={(app) => {
-				setupApp(connection.mailer, app);
+				setupApp(mailer, app);
 			}}
 		/>
 	);

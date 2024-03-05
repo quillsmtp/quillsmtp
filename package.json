@@ -52,6 +52,7 @@
     "react-loader-spinner": "^5.4.5",
     "react-router-dom": "^5.2.0",
     "react-router-navigation-prompt": "^1.8.13",
+    "rememo": "^4.0.2",
     "rtlcss-webpack-plugin": "^4.0.7",
     "styled-components": "^5.3.11",
     "utility-types": "^3.10.0"

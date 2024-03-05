@@ -9,6 +9,10 @@ export type MailerModuleSettings = {
 	description: string;
 	icon: string;
 	is_pro?: boolean;
+	account_settings?:
+		| React.FC<{ connectionId: string }>
+		| JSX.Element
+		| React.Component;
 };
 
 export type MailerModules = Record<string, MailerModuleSettings>;

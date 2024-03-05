@@ -47,16 +47,16 @@ interface Props {
 
 const App: React.FC<Props> = ({ connectionId, setup }) => {
 	// context.
-	const { connection, getMailerApp } = useSelect((select) => {
+	const { mailer, getMailerApp } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 			getMailerApp: select('quillSMTP/core').getMailerApp,
 		};
 	});
 	const { setupApp, setupAccounts } = useDispatch('quillSMTP/core');
 
 	// state.
-	const app = getMailerApp(connection.mailer);
+	const app = getMailerApp(mailer);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [disconnectModal, setDisconnectModal] = useState(false);
 	const [disconnecting, setDisconnecting] = useState(false);
@@ -72,11 +72,11 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 			return;
 		}
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/settings`,
+			path: `/qsmtp/v1/mailers/${mailer}/settings`,
 			method: 'GET',
 		})
 			.then((res: any) => {
-				setupApp(connection.mailer, res.app);
+				setupApp(mailer, res.app);
 				setIsLoaded(true);
 			})
 			.catch((err) => {
@@ -101,7 +101,7 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 		if (disconnecting) return;
 		setDisconnecting(true);
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/settings`,
+			path: `/qsmtp/v1/mailers/${mailer}/settings`,
 			method: 'DELETE',
 			parse: false,
 		})
@@ -109,8 +109,8 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 				setDisconnecting(false);
 				setDisconnectModal(false);
 				setDisconnectSuccess(true);
-				setupApp(connection.mailer, {});
-				setupAccounts(connection.mailer, {});
+				setupApp(mailer, {});
+				setupAccounts(mailer, {});
 			})
 			// @ts-ignore
 			.catch((err) => {

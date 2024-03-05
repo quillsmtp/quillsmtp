@@ -26,15 +26,15 @@ const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 	const { getStoreMailers } = ConfigAPI;
 	const mailers = getStoreMailers();
 	const mailer = mailers[slug];
-	const { getConnection } = useSelect((select) => ({
-		getConnection: select('quillSMTP/core').getConnection,
+	const { getConnectionMailer } = useSelect((select) => ({
+		getConnectionMailer: select('quillSMTP/core').getConnectionMailer,
 	}));
-	const connection = getConnection(connectionId);
+	const mailerSlug = getConnectionMailer(connectionId);
 	const { updateConnection } = useDispatch('quillSMTP/core');
 
 	return (
 		<Dialog
-			open={connection.mailer === slug}
+			open={mailerSlug === slug}
 			onClose={() => {
 				updateConnection(connectionId, {
 					mailer: 'phpmailer',

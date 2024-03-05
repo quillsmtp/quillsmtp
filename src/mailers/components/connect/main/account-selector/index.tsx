@@ -10,7 +10,6 @@ import { useState } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
-import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal Dependencies
@@ -41,6 +40,7 @@ import type { ConnectMain } from '../../../types';
 import type { Account } from '@quillsmtp/store';
 import AccountAuth from '../../account-setup/account-auth';
 import { EditCredentials } from '../../account-edit';
+import { getMailerModule } from '@quillsmtp/mailers';
 
 interface Props {
 	connectionId: string;
@@ -49,11 +49,14 @@ interface Props {
 
 const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { mailer, connection } = useSelect((select) => {
-		const connection = select('quillSMTP/core').getConnection(connectionId);
+	const { mailer, mailerSlug, account_id } = useSelect((select) => {
+		const mailerSlug =
+			select('quillSMTP/core').getConnectionMailer(connectionId);
 		return {
-			connection,
-			mailer: select('quillSMTP/core').getMailer(connection.mailer),
+			account_id:
+				select('quillSMTP/core').getConnectionAccountId(connectionId),
+			mailer: select('quillSMTP/core').getMailer(mailerSlug),
+			mailerSlug,
 		};
 	});
 
@@ -76,11 +79,11 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		if (isDeleting || !deleteAccountID) return;
 		setIsDeleting(true);
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts/${deleteAccountID}`,
+			path: `/qsmtp/v1/mailers/${mailerSlug}/accounts/${deleteAccountID}`,
 			method: 'DELETE',
 		})
 			.then(() => {
-				deleteAccount(connection.mailer, deleteAccountID);
+				deleteAccount(mailerSlug, deleteAccountID);
 				setDeleteAccountID(null);
 				setIsDeleting(false);
 			})
@@ -111,21 +114,18 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const onAdded = (id: string, account: Account) => {
 		// add or update the account.
 		if (accounts[id]) {
-			updateAccount(connection.mailer, id, account);
+			updateAccount(mailerSlug, id, account);
 		} else {
-			addAccount(connection.mailer, id, account);
+			addAccount(mailerSlug, id, account);
 			ConfigAPI.setInitialPayload({
 				...ConfigAPI.getInitialPayload(),
 				mailers: {
 					...ConfigAPI.getInitialPayload().mailers,
-					[connection.mailer]: {
-						...ConfigAPI.getInitialPayload().mailers[
-							connection.mailer
-						],
+					[mailerSlug]: {
+						...ConfigAPI.getInitialPayload().mailers[mailerSlug],
 						accounts: {
-							...ConfigAPI.getInitialPayload().mailers[
-								connection.mailer
-							].accounts,
+							...ConfigAPI.getInitialPayload().mailers[mailerSlug]
+								.accounts,
 							[id]: account,
 						},
 					},
@@ -137,12 +137,14 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		setIsAdding(false);
 	};
 
-	const filteredMarkup = applyFilters(
-		'quillSMTP.mailer.account',
-		<></>,
-		connectionId,
-		connection.mailer
-	);
+	const mailerModule = getMailerModule(mailerSlug);
+	const AccountSettings = () => {
+		if (!mailerModule.account_settings) return null;
+		const Component = mailerModule.account_settings;
+
+		/* @ts-ignore */
+		return <Component connectionId={connectionId} />;
+	};
 
 	return (
 		<>
@@ -157,7 +159,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 								<RadioGroup
 									aria-label="account"
 									name="account"
-									value={connection.account_id}
+									value={account_id}
 									onChange={(e) => onChange(e.target.value)}
 								>
 									{map(accounts, (account, id) => (
@@ -326,7 +328,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					/>
 				)}
 			</div>
-			{filteredMarkup}
+			<AccountSettings />
 		</>
 	);
 };
