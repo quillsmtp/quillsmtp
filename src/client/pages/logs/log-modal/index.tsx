@@ -81,7 +81,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 				);
 		}
 	};
-	// The log response may have json array and inside that array there may be another json array or object so we need to parse it and display it in a readable format.
+
 	let response = '';
 	try {
 		response = JSON.stringify(JSON.parse(log.response), null, 2);
@@ -93,6 +93,8 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 			response = JSON.stringify(log.response, null, 2);
 		}
 	}
+
+	response = response.replace(/\\/g, '');
 
 	return (
 		<Dialog

@@ -141,7 +141,7 @@ const Credentials: React.FC<Props> = ({
 
 	// Function to check if all required fields are filled.
 	const checkInputsFilled = () => {
-		if (!fields?.['name']) return false;
+		if (!inputs['name']) return false;
 		for (const key of keys(fields)) {
 			if (
 				!inputs[key] &&
@@ -162,7 +162,7 @@ const Credentials: React.FC<Props> = ({
 		}
 	}
 
-	if (!fields?.['name']) {
+	if (!inputs['name']) {
 		inputsFilled = false;
 	}
 

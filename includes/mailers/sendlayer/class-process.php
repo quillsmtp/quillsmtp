@@ -231,7 +231,7 @@ class Process extends Abstract_Process {
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_sendlayer_mailer_get_headers', $this->body['Headers'] );
+		$headers = apply_filters( 'quillsmtp_sendlayer_mailer_get_headers', $this->body['Headers'] ?? [] );
 
 		return $headers;
 	}

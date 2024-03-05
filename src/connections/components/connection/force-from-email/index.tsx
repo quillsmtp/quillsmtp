@@ -39,7 +39,7 @@ const ForceFromEmail: React.FC<Props> = ({ connectionId }) => {
 						}
 					/>
 				}
-				label={__('Force From Name', 'quillsmtp')}
+				label={__('Force From Email', 'quillsmtp')}
 			/>
 			<FormHelperText>
 				{__(

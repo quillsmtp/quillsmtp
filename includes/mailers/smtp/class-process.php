@@ -171,12 +171,6 @@ class Process extends Abstract_Process {
 				return true;
 			}
 		} catch ( Exception $exc ) {
-			$this->phpmailer->mailHeader = '';
-			$this->phpmailer->setError( $exc->getMessage() );
-			if ( $this->phpmailer->exceptions ) {
-				throw $exc;
-			}
-
 			quillsmtp_get_logger()->error(
 				esc_html__( 'PHPMailer Error', 'quillsmtp' ),
 				array(

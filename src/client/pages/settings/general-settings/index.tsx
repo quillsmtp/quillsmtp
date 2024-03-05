@@ -168,7 +168,7 @@ const GeneralSettings: React.FC = () => {
 						)}
 					</Alert>
 				)}
-				{size(connections) > 1 && defaultConnection ? (
+				{size(connections) > 1 ? (
 					<FormControl fullWidth sx={{ mb: 2 }}>
 						<InputLabel id="qsmtp-general-settings-connections-label">
 							{__('Fallback Connection', 'quillsmtp')}
@@ -186,6 +186,10 @@ const GeneralSettings: React.FC = () => {
 								setFallbackConnection(event.target.value);
 							}}
 						>
+							{/* None Menu Item */}
+							<MenuItem value="" key="">
+								{__('None', 'quillsmtp')}
+							</MenuItem>
 							{map(keys(connections), (key) => {
 								return (
 									<MenuItem
