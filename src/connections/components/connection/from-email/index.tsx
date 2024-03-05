@@ -101,7 +101,6 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 				<>
 					{!fetchFromEmails && (
 						<TextField
-							id="from_email"
 							label={__('From Email', 'quillsmtp')}
 							value={from_email}
 							onChange={(e) =>

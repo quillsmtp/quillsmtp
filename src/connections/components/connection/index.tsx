@@ -214,7 +214,6 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 					component="div"
 				>
 					<TextField
-						id="name"
 						label={__('Name', 'quillsmtp')}
 						value={name}
 						onChange={(e) =>
