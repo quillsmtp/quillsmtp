@@ -65,8 +65,10 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-		$credentials = $request->get_param( 'credentials' );
-		$api_key     = $credentials['api_key'] ?? '';
+		$credentials  = $request->get_param( 'credentials' );
+		$api_key      = $credentials['api_key'] ?? '';
+		$account_name = $request->get_param( 'name' );
+		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'quillsmtp_sendgrid_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
@@ -75,13 +77,10 @@ class Account_Controller extends Abstract_Account_Controller {
 		try {
 			$client   = new SendGrid( $api_key );
 			$response = $client->client->user()->email()->get();
-			$body     = json_decode( $response->body() );
-			$email    = $body->email;
-			$id       = substr( $email, 0, strrpos( $email, '.' ) );
 
 			return [
-				'id'   => $id,
-				'name' => $email,
+				'id'   => $account_id,
+				'name' => $account_name,
 			];
 		} catch ( \Exception $e ) {
 			return new WP_Error( 'quillsmtp_sendgrid_api_key_invalid', __( 'API key is invalid.', 'quillsmtp' ) );

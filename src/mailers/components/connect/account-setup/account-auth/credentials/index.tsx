@@ -16,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { keys } from 'lodash';
 
 /**
  * WordPress Dependencies
@@ -89,6 +90,15 @@ const Credentials: React.FC<Props> = ({
 
 	// submit.
 	const submit = () => {
+		const valid = checkInputsFilled();
+		if (!valid) {
+			createNotice({
+				type: 'error',
+				message: __('Please fill all required fields', 'quillsmtp'),
+			});
+			return;
+		}
+
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
 
@@ -129,12 +139,31 @@ const Credentials: React.FC<Props> = ({
 			});
 	};
 
+	// Function to check if all required fields are filled.
+	const checkInputsFilled = () => {
+		if (!fields?.['name']) return false;
+		for (const key of keys(fields)) {
+			if (
+				!inputs[key] &&
+				fields?.[key].required &&
+				!fields[key].default
+			) {
+				return false;
+			}
+		}
+		return true;
+	};
+
 	let inputsFilled = true;
-	for (const key of Object.keys(fields)) {
+	for (const key of keys(fields)) {
 		if (!inputs[key] && fields[key].required && !fields[key].default) {
 			inputsFilled = false;
 			break;
 		}
+	}
+
+	if (!fields?.['name']) {
+		inputsFilled = false;
 	}
 
 	// Get field visibility depending on the field dependencies of other fields.
