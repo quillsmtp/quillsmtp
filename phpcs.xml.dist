@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards for Quill Forms Plugin">
-	<description>Sniffs for WordPress plugins, with minor modifications for Quill Forms</description>
+<ruleset name="WordPress Coding Standards for Quill SMTP Plugin">
+	<description>Sniffs for WordPress plugins, with minor modifications for Quill SMTP</description>
 
 	<exclude-pattern>./vendor/*</exclude-pattern>
 	<exclude-pattern>./dependencies/*</exclude-pattern>

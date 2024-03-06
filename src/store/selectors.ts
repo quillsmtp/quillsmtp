@@ -46,6 +46,25 @@ export const getConnection = (
 };
 
 /**
+ * Get connectionsIds by account id.
+ *
+ * @param {State} state State.
+ * @param {string} accountId Account ID.
+ *
+ * @return {string[]} Connections ids.
+ */
+export const getConnectionsIdsByAccountId = (
+	state: State,
+	accountId: string
+): string[] => {
+	const connections = state.connections;
+
+	return Object.keys(connections).filter(
+		(connectionId) => connections[connectionId].account_id === accountId
+	);
+};
+
+/**
  * Returns the connection Mailer.
  *
  * @param {State} state State.

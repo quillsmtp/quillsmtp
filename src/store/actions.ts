@@ -18,6 +18,7 @@ import {
 	DELETE_CONNECTION,
 	ADD_NOTICE,
 	DELETE_NOTICE,
+	DELETE_CONNECTIONS,
 } from './constants';
 import {
 	CoreActionTypes,
@@ -154,6 +155,16 @@ export const updateConnection = (
 export const deleteConnection = (id: string): CoreActionTypes => ({
 	type: DELETE_CONNECTION,
 	id,
+});
+
+/**
+ * Delete Connections Action.
+ * @param {string[]} ids Connection IDs.
+ * @returns {CoreActionTypes} Delete Connections Action.
+ */
+export const deleteConnections = (ids: string[]): CoreActionTypes => ({
+	type: DELETE_CONNECTIONS,
+	ids,
 });
 
 /**

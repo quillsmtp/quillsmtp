@@ -25,6 +25,7 @@ import {
 	DELETE_MAILER_ACCOUNT,
 	ADD_NOTICE,
 	DELETE_NOTICE,
+	DELETE_CONNECTIONS,
 } from './constants';
 
 export type CorePureState = {
@@ -94,6 +95,11 @@ type deleteConnection = {
 	id: string;
 };
 
+type deleteConnections = {
+	type: typeof DELETE_CONNECTIONS;
+	ids: string[];
+};
+
 export type App = {
 	[x: string]: any;
 };
@@ -158,6 +164,7 @@ export type CoreActionTypes =
 	| addConnection
 	| updateConnection
 	| deleteConnection
+	| deleteConnections
 	| setupAccounts
 	| addAccount
 	| updateAccount

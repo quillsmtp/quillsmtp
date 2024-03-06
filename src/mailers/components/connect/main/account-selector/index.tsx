@@ -49,21 +49,32 @@ interface Props {
 
 const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	// context.
-	const { mailer, mailerSlug, account_id } = useSelect((select) => {
-		const mailerSlug =
-			select('quillSMTP/core').getConnectionMailer(connectionId);
-		return {
-			account_id:
-				select('quillSMTP/core').getConnectionAccountId(connectionId),
-			mailer: select('quillSMTP/core').getMailer(mailerSlug),
-			mailerSlug,
-		};
-	});
+	const { mailer, mailerSlug, account_id, getConnectionsIdsByAccountId } =
+		useSelect((select) => {
+			const mailerSlug =
+				select('quillSMTP/core').getConnectionMailer(connectionId);
+			return {
+				account_id:
+					select('quillSMTP/core').getConnectionAccountId(
+						connectionId
+					),
+				mailer: select('quillSMTP/core').getMailer(mailerSlug),
+				mailerSlug,
+				getConnectionsIdsByAccountId:
+					select('quillSMTP/core').getConnectionsIdsByAccountId,
+			};
+		});
 
 	// dispatch.
 	const { accounts } = mailer;
-	const { addAccount, updateAccount, deleteAccount, updateConnection } =
-		useDispatch('quillSMTP/core');
+	const {
+		addAccount,
+		updateAccount,
+		deleteAccount,
+		updateConnection,
+		createNotice,
+		deleteConnections,
+	} = useDispatch('quillSMTP/core');
 
 	// state.
 	const [showingAddNewAccount, setShowingAddNewAccount] = useState(false);
@@ -74,8 +85,12 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const [editingAccount, setEditingAccount] = useState(false);
 	const [editAccountID, setEditAccountID] = useState(null);
 
+	const getAccountConnections = (accountId) => {
+		return getConnectionsIdsByAccountId(accountId);
+	};
+
 	// Delete account.
-	const deleteHandler = () => {
+	const removeAccount = () => {
 		if (isDeleting || !deleteAccountID) return;
 		setIsDeleting(true);
 		apiFetch({
@@ -86,6 +101,10 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 				deleteAccount(mailerSlug, deleteAccountID);
 				setDeleteAccountID(null);
 				setIsDeleting(false);
+				createNotice({
+					type: 'success',
+					message: __('Account deleted successfully.', 'quillsmtp'),
+				});
 			})
 			.catch((e) => {
 				setIsDeleting(false);
@@ -135,6 +154,49 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		// select it.
 		onChange(id);
 		setIsAdding(false);
+	};
+
+	const deleteHandler = () => {
+		// check if this account is used in any connection.
+		const connections = getAccountConnections(deleteAccountID);
+		if (connections.length === 0) {
+			removeAccount();
+			return;
+		}
+
+		// First check if this is connection in stored in the initial payload.
+		// If so, we need to remove it from the initial payload.
+		const initialPayload = ConfigAPI.getInitialPayload();
+		const newConnections = { ...initialPayload.connections };
+
+		connections.forEach((connectionId) => {
+			delete newConnections[connectionId];
+		});
+
+		setIsDeleting(true);
+		apiFetch({
+			path: `/qsmtp/v1/settings`,
+			method: 'POST',
+			data: {
+				connections: newConnections,
+			},
+		}).then((res: any) => {
+			if (res.success) {
+				ConfigAPI.setInitialPayload({
+					...ConfigAPI.getInitialPayload(),
+					connections: newConnections,
+				});
+				deleteConnections(connections);
+				removeAccount();
+			} else {
+				createNotice({
+					type: 'error',
+					message: __('Error deleting connections.', 'quillsmtp'),
+				});
+			}
+
+			setIsDeleting(false);
+		});
 	};
 
 	const mailerModule = getMailerModule(mailerSlug);
@@ -276,7 +338,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 							<DialogContentText id="alert-dialog-description">
 								{sprintf(
 									__(
-										'Are you sure you want to delete the account %s ?',
+										'Are you absolutely certain about deleting the account "%s"? This action will permanently erase all connections linked to this account.',
 										'quillsmtp'
 									),
 									accounts[deleteAccountID]?.name
