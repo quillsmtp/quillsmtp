@@ -378,6 +378,19 @@ abstract class Process {
 	}
 
 	/**
+	 * Handle failed email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $error Error message.\
+	 * @param array  $email_data Email data.
+	 * @return array
+	 */
+	public function handle_failed_email( $error, $email_data ) {
+		do_action( 'quillsmtp_mailer_handle_failed_email', $error, $email_data );
+	}
+
+	/**
 	 * Log connection process result
 	 *
 	 * @since 1.0.0
@@ -408,6 +421,16 @@ abstract class Process {
 			'status'      => $result['status'],
 			'response'    => $result['response'],
 		];
+
+		if ( self::FAILED === $result['status'] ) {
+			$this->handle_failed_email(
+				$result['response'],
+				[
+					'to'      => $email_details['to'],
+					'subject' => $subject,
+				]
+			);
+		}
 
 		if ( apply_filters( 'quillsmtp_mailer_log_result', true, $email_data ) === false ) {
 			return;

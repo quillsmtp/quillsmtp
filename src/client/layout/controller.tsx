@@ -23,6 +23,7 @@ import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';
 import { Notices } from '../components';
 import Debug from '../pages/debug';
+import Alerts from '../pages/alerts';
 
 export const Controller = ({ page, match, location }) => {
 	useEffect(() => {
@@ -64,6 +65,11 @@ registerAdminPage('settings', {
 	component: Settings,
 	path: 'settings',
 	requiresInitialPayload: true,
+});
+
+registerAdminPage('alerts', {
+	component: Alerts,
+	path: 'alerts',
 });
 
 registerAdminPage('email-test', {
