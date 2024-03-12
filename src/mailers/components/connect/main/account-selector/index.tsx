@@ -58,6 +58,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 
 	// dispatch.
 	const { accounts } = mailer;
+	console.log(accounts)
 	const { addAccount, updateAccount, deleteAccount, updateConnection } =
 		useDispatch('quillSMTP/core');
 
@@ -119,7 +120,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 					...ConfigAPI.getInitialPayload().mailers,
 					[connection.mailer]: {
 						...ConfigAPI.getInitialPayload().mailers[
-							connection.mailer
+						connection.mailer
 						],
 						accounts: {
 							...ConfigAPI.getInitialPayload().mailers[
@@ -135,6 +136,8 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		onChange(id);
 		setIsAdding(false);
 	};
+
+	console.log(main.accounts)
 
 	return (
 		<div className="mailer-connect-main__account-selector">
@@ -161,35 +164,37 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 											/>
 											{main.accounts.auth.type ===
 												'credentials' && (
-												<>
-													{!editingAccount && (
-														<IconButton
-															aria-label={__(
-																'Edit account',
-																'quillsmtp'
-															)}
-															onClick={() => {
-																setEditAccountID(
-																	id
-																);
-															}}
-															color={
-																editAccountID ===
-																id
-																	? 'primary'
-																	: 'default'
-															}
-														>
-															<EditIcon />
-														</IconButton>
-													)}
-													{editingAccount && (
-														<CircularProgress
-															size={20}
-														/>
-													)}
-												</>
-											)}
+													<>
+														{!editingAccount && (
+															<IconButton
+																aria-label={__(
+																	'Edit account',
+																	'quillsmtp'
+																)}
+																onClick={() => {
+																	console.log("bla bla")
+																	console.log(id)
+																	setEditAccountID(
+																		id
+																	);
+																}}
+																color={
+																	editAccountID ===
+																		id
+																		? 'primary'
+																		: 'default'
+																}
+															>
+																<EditIcon />
+															</IconButton>
+														)}
+														{editingAccount && (
+															<CircularProgress
+																size={20}
+															/>
+														)}
+													</>
+												)}
 											<IconButton
 												aria-label={__(
 													'Delete account',
