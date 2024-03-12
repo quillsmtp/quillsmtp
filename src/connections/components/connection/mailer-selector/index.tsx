@@ -24,11 +24,11 @@ interface Props {
 // @ts-ignore
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const mailerModules = getMailerModules();
-	const { getConnection, getMailer } = useSelect((select) => ({
-		getConnection: select('quillSMTP/core').getConnection,
+	const { getConnectionMailer, getMailer } = useSelect((select) => ({
+		getConnectionMailer: select('quillSMTP/core').getConnectionMailer,
 		getMailer: select('quillSMTP/core').getMailer,
 	}));
-	const connection = getConnection(connectionId);
+	const mailerSlug = getConnectionMailer(connectionId);
 	const { updateConnection } = useDispatch('quillSMTP/core');
 
 	const onChange = (key: string) => {
@@ -65,7 +65,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 										'qsmtp-mailers-selector__mailer',
 										{
 											'qsmtp-mailers-selector__mailer--active':
-												connection.mailer === key,
+												mailerSlug === key,
 										}
 									)}
 									onClick={() => onChange(key)}
@@ -76,11 +76,11 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 						);
 					})}
 			</Stack>
-			{connection?.mailer && (
+			{mailerSlug && (
 				<MailerAccounts
 					connectionId={connectionId}
-					mailer={mailerModules[connection.mailer]}
-					slug={connection.mailer}
+					mailer={mailerModules[mailerSlug]}
+					slug={mailerSlug}
 				/>
 			)}
 		</div>

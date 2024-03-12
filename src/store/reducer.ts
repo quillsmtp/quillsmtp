@@ -20,6 +20,7 @@ import {
 	DELETE_MAILER_ACCOUNT,
 	ADD_NOTICE,
 	DELETE_NOTICE,
+	DELETE_CONNECTIONS,
 } from './constants';
 import { CorePureState, CoreActionTypes } from './types';
 
@@ -184,6 +185,21 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			// @ts-ignore.
 			forEach(updatedConnections, (connection, connectionId) => {
 				if (connectionId === id) {
+					delete updatedConnections[connectionId];
+				}
+			});
+			return {
+				...state,
+				connections: updatedConnections,
+			};
+		}
+		case DELETE_CONNECTIONS: {
+			const { ids } = action;
+			const { connections } = state;
+			const updatedConnections = cloneDeep(connections);
+			// @ts-ignore.
+			forEach(updatedConnections, (connection, connectionId) => {
+				if (ids.includes(connectionId)) {
 					delete updatedConnections[connectionId];
 				}
 			});

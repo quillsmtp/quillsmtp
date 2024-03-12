@@ -65,8 +65,10 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-		$credentials = $request->get_param( 'credentials' );
-		$api_key     = $credentials['api_key'] ?? '';
+		$credentials  = $request->get_param( 'credentials' );
+		$api_key      = $credentials['api_key'] ?? '';
+		$account_name = $request->get_param( 'name' );
+		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'quillsmtp_postmark_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
@@ -76,8 +78,8 @@ class Account_Controller extends Abstract_Account_Controller {
 			$client = new PostmarkClient( $api_key );
 			$server = $client->getServer();
 			return [
-				'id'   => $server->__get( 'id' ),
-				'name' => $server->__get( 'name' ),
+				'id'   => $account_name,
+				'name' => $account_id,
 			];
 		} catch ( \Exception $e ) {
 			return new WP_Error( 'quillsmtp_postmark_api_key_invalid', __( 'API key is invalid.', 'quillsmtp' ) );

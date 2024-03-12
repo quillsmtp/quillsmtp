@@ -29,9 +29,9 @@ const Oauth: React.FC<Props> = ({
 	onAdded,
 	Instructions,
 }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 
@@ -39,10 +39,7 @@ const Oauth: React.FC<Props> = ({
 	const { createNotice } = useDispatch('quillSMTP/core');
 
 	const authorize = () => {
-		window[`add_new_${connection.mailer}_account`] = (
-			id: string,
-			name: string
-		) => {
+		window[`add_new_${mailer}_account`] = (id: string, name: string) => {
 			createNotice({
 				type: 'success',
 				message: sprintf(
@@ -53,7 +50,7 @@ const Oauth: React.FC<Props> = ({
 			onAdded(id, { name });
 		};
 		window.open(
-			`${window['qsmtpAdmin'].adminUrl}admin.php?quillsmtp-${connection.mailer}=authorize`,
+			`${window['qsmtpAdmin'].adminUrl}admin.php?quillsmtp-${mailer}=authorize`,
 			'authorize',
 			'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=500,left=100,top=100'
 		);

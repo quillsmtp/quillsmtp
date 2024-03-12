@@ -19,16 +19,17 @@ interface Props {
 }
 
 const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
-	const { connection, mailers } = useSelect((select) => {
+	const { connectionMailer, mailers } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			connectionMailer:
+				select('quillSMTP/core').getConnectionMailer(connectionId),
 			mailers: select('quillSMTP/core').getMailers(),
 		};
 	});
 
-	if (!connection?.mailer) return null;
+	if (!connectionMailer) return null;
 
-	const mailer = mailers[connection.mailer];
+	const mailer = mailers[connectionMailer];
 	const app = mailer?.app || {};
 
 	// check if need setup.

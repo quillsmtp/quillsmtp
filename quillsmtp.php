@@ -30,7 +30,7 @@ define( 'QUILLSMTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 // Require dependencies.
 require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/build/vendor/scoper-autoload.php';
-
+require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/libraries/load.php';
 
 // Require the autoloader.
 require_once QUILLSMTP_PLUGIN_DIR . 'includes/autoload.php';

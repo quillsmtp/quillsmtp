@@ -5,6 +5,7 @@ import { InitialPayload } from './types/initial-payload';
 
 const configData: ConfigData = {
 	initialPayload: {
+		global_network_settings: true,
 		default_connection: '',
 		fallback_connection: '',
 		mailers: {},
@@ -15,6 +16,8 @@ const configData: ConfigData = {
 	adminEmail: '',
 	ajaxUrl: '',
 	nonce: '',
+	isMultisite: false,
+	isMainSite: false,
 };
 
 /**
@@ -162,6 +165,52 @@ const setPluginDirUrl = (data: ConfigData) => (value: string) => {
 	data.pluginDirUrl = value;
 };
 
+/**
+ * Set is multisite
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {boolean} isMultisite
+ */
+const setIsMultisite = (data: ConfigData) => (value: boolean) => {
+	data.isMultisite = value;
+};
+
+/**
+ * Get is multisite
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {boolean} isMultisite
+ */
+const getIsMultisite = (data: ConfigData) => (): boolean => {
+	// Return boolean value
+	return data.isMultisite == true;
+};
+
+/**
+ * Set is main site
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {boolean} isMainSite
+ */
+const setIsMainSite = (data: ConfigData) => (value: boolean) => {
+	data.isMainSite = value;
+};
+
+/**
+ * Get is main site
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {boolean} isMainSite
+ */
+const getIsMainSite = (data: ConfigData) => (): boolean => {
+	// Return boolean value
+	return data.isMainSite == true;
+};
+
 export interface ConfigApi {
 	<T>(key: string): T;
 	setInitialPayload: (value: InitialPayload) => void;
@@ -178,6 +227,10 @@ export interface ConfigApi {
 	getNonce: () => string;
 	setPluginDirUrl: (value: string) => void;
 	getPluginDirUrl: () => string;
+	setIsMultisite: (value: boolean) => void;
+	getIsMultisite: () => boolean;
+	setIsMainSite: (value: boolean) => void;
+	getIsMainSite: () => boolean;
 }
 
 const createConfig = (data: ConfigData): ConfigApi => {
@@ -196,6 +249,10 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.setNonce = setNonce(data);
 	configApi.getPluginDirUrl = getPluginDirUrl(data);
 	configApi.setPluginDirUrl = setPluginDirUrl(data);
+	configApi.getIsMultisite = getIsMultisite(data);
+	configApi.setIsMultisite = setIsMultisite(data);
+	configApi.getIsMainSite = getIsMainSite(data);
+	configApi.setIsMainSite = setIsMainSite(data);
 
 	return configApi;
 };

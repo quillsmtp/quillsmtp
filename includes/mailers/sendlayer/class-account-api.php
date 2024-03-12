@@ -75,8 +75,8 @@ class Account_API {
 			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
 		}
 
-		if ( ! empty( $body['error'] ) ) {
-			return new WP_Error( 'send_error', $body['error'] );
+		if ( ! empty( $body['Errors'] ) ) {
+			return new WP_Error( 'send_error', wp_json_encode( $body['Errors'] ) );
 		}
 
 		return $body;

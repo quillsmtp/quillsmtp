@@ -9,4 +9,6 @@ export type ConfigData = Record<string, unknown> & {
 	adminEmail: string;
 	ajaxUrl: string;
 	nonce: string;
+	isMultisite: boolean;
+	isMainSite: boolean;
 };

@@ -16,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { keys } from 'lodash';
 
 /**
  * WordPress Dependencies
@@ -52,14 +53,14 @@ const Credentials: React.FC<Props> = ({
 	fields,
 	Instructions,
 }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 
 	// provider.
-	const provider = getMailerModules()[connection.mailer];
+	const provider = getMailerModules()[mailer];
 
 	fields = fields ?? {
 		api_key: { label: provider.title + ' API Key', type: 'text' },
@@ -85,18 +86,29 @@ const Credentials: React.FC<Props> = ({
 
 		return credentials;
 	};
+	const randomId = () => Math.random().toString(36).substr(2, 9);
 
 	// submit.
 	const submit = () => {
+		const valid = checkInputsFilled();
+		if (!valid) {
+			createNotice({
+				type: 'error',
+				message: __('Please fill all required fields', 'quillsmtp'),
+			});
+			return;
+		}
+
 		setSubmitting(true);
 		if (onAdding) onAdding(true);
 
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts`,
+			path: `/qsmtp/v1/mailers/${mailer}/accounts`,
 			method: 'POST',
 			data: {
 				credentials: getCredentials(),
 				name: inputs['name'],
+				id: randomId(),
 			},
 		})
 			.then((res: any) => {
@@ -127,12 +139,31 @@ const Credentials: React.FC<Props> = ({
 			});
 	};
 
+	// Function to check if all required fields are filled.
+	const checkInputsFilled = () => {
+		if (!inputs['name']) return false;
+		for (const key of keys(fields)) {
+			if (
+				!inputs[key] &&
+				fields?.[key].required &&
+				!fields[key].default
+			) {
+				return false;
+			}
+		}
+		return true;
+	};
+
 	let inputsFilled = true;
-	for (const key of Object.keys(fields)) {
+	for (const key of keys(fields)) {
 		if (!inputs[key] && fields[key].required && !fields[key].default) {
 			inputsFilled = false;
 			break;
 		}
+	}
+
+	if (!inputs['name']) {
+		inputsFilled = false;
 	}
 
 	// Get field visibility depending on the field dependencies of other fields.

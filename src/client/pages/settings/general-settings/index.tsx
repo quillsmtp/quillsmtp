@@ -25,6 +25,9 @@ import CardContent from '@mui/material/CardContent';
 import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import FormHelperText from '@mui/material/FormHelperText';
 
 /**
  * Internal dependencies
@@ -33,12 +36,17 @@ import './style.scss';
 
 const GeneralSettings: React.FC = () => {
 	const initialPayload = ConfigAPI.getInitialPayload();
+	const isMultisite = ConfigAPI.getIsMultisite();
+	const isMainSite = ConfigAPI.getIsMainSite();
 	const [isSaving, setIsSaving] = useState(false);
 	const [defaultConnection, setDefaultConnection] = useState(
 		initialPayload.default_connection || ''
 	);
 	const [fallbackConnection, setFallbackConnection] = useState(
 		initialPayload.fallback_connection || ''
+	);
+	const [globalSettings, setGlobalSettings] = useState<boolean>(
+		initialPayload.global_network_settings
 	);
 	const { connections } = useSelect((select) => {
 		return {
@@ -58,6 +66,7 @@ const GeneralSettings: React.FC = () => {
 			data: {
 				default_connection: defaultConnection,
 				fallback_connection: fallbackConnection,
+				global_network_settings: globalSettings,
 			},
 		}).then((res: any) => {
 			if (res.success) {
@@ -91,6 +100,28 @@ const GeneralSettings: React.FC = () => {
 				</div>
 			</div>
 			<CardContent>
+				{isMultisite && isMainSite && (
+					<>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={globalSettings}
+									name="global_network_settings"
+									onChange={(event) => {
+										setGlobalSettings(event.target.checked);
+									}}
+								/>
+							}
+							label={__('Global Network Settings', 'quillsmtp')}
+						/>
+						<FormHelperText sx={{ mb: 2 }}>
+							{__(
+								'Enable this option to use the same settings across all sites on the network.',
+								'quillsmtp'
+							)}
+						</FormHelperText>
+					</>
+				)}
 				{size(connections) > 0 ? (
 					<FormControl fullWidth sx={{ mb: 2 }}>
 						<InputLabel id="qsmtp-general-settings-default-connection-label">
@@ -137,7 +168,7 @@ const GeneralSettings: React.FC = () => {
 						)}
 					</Alert>
 				)}
-				{size(connections) > 1 && defaultConnection ? (
+				{size(connections) > 1 ? (
 					<FormControl fullWidth sx={{ mb: 2 }}>
 						<InputLabel id="qsmtp-general-settings-connections-label">
 							{__('Fallback Connection', 'quillsmtp')}
@@ -155,6 +186,10 @@ const GeneralSettings: React.FC = () => {
 								setFallbackConnection(event.target.value);
 							}}
 						>
+							{/* None Menu Item */}
+							<MenuItem value="" key="">
+								{__('None', 'quillsmtp')}
+							</MenuItem>
 							{map(keys(connections), (key) => {
 								return (
 									<MenuItem

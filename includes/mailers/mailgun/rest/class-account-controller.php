@@ -68,10 +68,12 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-		$credentials = $request->get_param( 'credentials' );
-		$api_key     = $credentials['api_key'] ?? '';
-		$domain_name = $credentials['domain_name'] ?? '';
-		$region      = $credentials['region'] ?? '';
+		$credentials  = $request->get_param( 'credentials' );
+		$api_key      = $credentials['api_key'] ?? '';
+		$domain_name  = $credentials['domain_name'] ?? '';
+		$region       = $credentials['region'] ?? '';
+		$account_name = $request->get_param( 'name' );
+		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'quillsmtp_mailgun_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
@@ -105,8 +107,8 @@ class Account_Controller extends Abstract_Account_Controller {
 		}
 
 		return [
-			'id'   => $body['domain']['id'],
-			'name' => $body['domain']['name'],
+			'id'   => $account_id,
+			'name' => $account_name,
 		];
 	}
 

@@ -88,6 +88,6 @@ export const getMailerModules = (): MailerModules => {
 	return mailerModules;
 };
 
-export const getMailerModule = (slug: string) => {
+export const getMailerModule = (slug: string): MailerModuleSettings => {
 	return mailerModules[slug];
 };

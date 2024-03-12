@@ -65,16 +65,14 @@ class Account_Controller extends Abstract_Account_Controller {
 	 * @return array|WP_Error array of id & name if success.
 	 */
 	protected function get_account_info( $request ) {
-		$credentials = $request->get_param( 'credentials' );
-		$api_key     = $credentials['api_key'] ?? '';
+		$credentials  = $request->get_param( 'credentials' );
+		$api_key      = $credentials['api_key'] ?? '';
+		$account_id   = $request->get_param( 'id' );
+		$account_name = $request->get_param( 'name' );
 
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quillsmtp' ) );
 		}
-
-		// Convert last 8 characters to numbers.
-		$account_id   = $request->get_param( 'id' ) ?? wp_rand( 10000000, 99999999 );
-		$account_name = $request->get_param( 'name' ) ?? 'SparkPost ' . $account_id;
 
 		return [
 			'id'   => $account_id,

@@ -93,6 +93,8 @@ class Account_Controller extends Abstract_Account_Controller {
 		$authentication = $credentials['authentication'] ?? false;
 		$username       = $credentials['username'] ?? '';
 		$password       = $credentials['password'] ?? '';
+		$account_name   = $request->get_param( 'name' );
+		$account_id     = $request->get_param( 'id' );
 
 		if ( empty( $smtp_host ) ) {
 			return new WP_Error( 'quillsmtp_rest_invalid_smtp_host', __( 'Invalid SMTP Host.', 'quillsmtp' ), array( 'status' => 400 ) );
@@ -113,9 +115,6 @@ class Account_Controller extends Abstract_Account_Controller {
 		if ( $authentication && empty( $password ) ) {
 			return new WP_Error( 'quillsmtp_rest_invalid_password', __( 'Invalid Password.', 'quillsmtp' ), array( 'status' => 400 ) );
 		}
-
-		$account_id   = $smtp_host . ':' . $smtp_port . ':' . $encryption;
-		$account_name = $smtp_host . ':' . $smtp_port . ':' . $encryption;
 
 		return array(
 			'id'   => $account_id,

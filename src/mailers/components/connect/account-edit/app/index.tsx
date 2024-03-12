@@ -43,9 +43,9 @@ const EditApp: React.FC<Props> = ({
 	isEditing,
 	onCancel,
 }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 	const { setupApp, setupAccounts } = useDispatch('quillSMTP/core');
@@ -55,7 +55,7 @@ const EditApp: React.FC<Props> = ({
 	const submit = () => {
 		if (onEditing) onEditing(true);
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/settings`,
+			path: `/qsmtp/v1/mailers/${mailer}/settings`,
 			method: 'POST',
 			data: {
 				app: inputs,
@@ -67,8 +67,8 @@ const EditApp: React.FC<Props> = ({
 				for (const [key, field] of Object.entries(fields)) {
 					app[key] = inputs[key];
 				}
-				setupApp(connection.mailer, app);
-				setupAccounts(connection.mailer, {});
+				setupApp(mailer, app);
+				setupAccounts(mailer, {});
 				createNotice({
 					type: 'success',
 					message: __('App edited successfully.', 'quill-smtp'),

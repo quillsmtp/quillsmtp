@@ -40,7 +40,9 @@ class Core {
 			'qsmtp.config.setStoreMailers(' . json_encode( Store::instance()->get_all_mailers() ) . ');' .
 			'qsmtp.config.setAdminEmail("' . $admin_email . '");' .
 			'qsmtp.config.setAjaxUrl("' . $ajax_url . '");' .
-			'qsmtp.config.setNonce("' . $nonce . '");'
+			'qsmtp.config.setNonce("' . $nonce . '");' .
+			'qsmtp.config.setIsMultisite("' . ( is_multisite() ? '1' : '0' ) . '");' .
+			'qsmtp.config.setIsMainSite("' . ( is_main_site() ? '1' : '0' ) . '");'
 		);
 	}
 }

@@ -73,7 +73,11 @@ class Settings {
 	 * @return array
 	 */
 	public static function get_all() {
-		return get_option( self::OPTION_NAME, array() );
+		do_action( 'quillsmtp_before_get_settings' );
+		$settings = get_option( self::OPTION_NAME, array() );
+		do_action( 'quillsmtp_after_get_settings' );
+
+		return $settings;
 	}
 
 	/**

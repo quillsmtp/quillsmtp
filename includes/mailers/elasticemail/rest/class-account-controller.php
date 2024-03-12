@@ -63,8 +63,8 @@ class Account_Controller extends Abstract_Account_Controller {
 	protected function get_account_info( $request ) {
 		$credentials  = $request->get_param( 'credentials' );
 		$api_key      = $credentials['api_key'] ?? '';
-		$account_name = $request->get_param( 'name' ) ?? '';
-		$account_id   = $request->get_param( 'id' ) ?? '';
+		$account_name = $request->get_param( 'name' );
+		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
 			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quillsmtp' ) );

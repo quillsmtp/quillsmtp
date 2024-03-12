@@ -72,15 +72,29 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 	const getLogLevel = (level) => {
 		switch (level) {
 			case 'succeeded':
-				return <Chip label={__('Error', 'quillsmtp')} color="error" />;
-			case 'failed':
 				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
+			case 'failed':
+				return <Chip label={__('Failed', 'quillsmtp')} color="error" />;
 			default:
 				return (
 					<Chip label={__('Debug', 'quillsmtp')} color="default" />
 				);
 		}
 	};
+
+	let response = '';
+	try {
+		response = JSON.stringify(JSON.parse(log.response), null, 2);
+	} catch (e) {
+		// check if is string or not
+		if (typeof log.response === 'string') {
+			response = log.response;
+		} else {
+			response = JSON.stringify(log.response, null, 2);
+		}
+	}
+
+	response = response.replace(/\\/g, '');
 
 	return (
 		<Dialog
@@ -283,7 +297,7 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 							{__('Server Response', 'quillsmtp')}
 						</div>
 						<div className="log-modal__value">
-							<pre>{JSON.stringify(log.response, null, 2)}</pre>
+							<pre>{response}</pre>
 						</div>
 					</Box>
 					<Accordion>

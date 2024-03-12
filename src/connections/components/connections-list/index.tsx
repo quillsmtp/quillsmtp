@@ -7,7 +7,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 /**
  * External Dependencies
  */
-import { map, keys, size } from 'lodash';
+import { map, size } from 'lodash';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -20,11 +20,11 @@ import Connection from '../connection';
 import './style.scss';
 
 const ConnectionsList: React.FC = () => {
-	const { connections } = useSelect((select) => ({
-		connections: select('quillSMTP/core').getConnections(),
+	const { connectionsIds } = useSelect((select) => ({
+		connectionsIds: select('quillSMTP/core').getConnectionsIds(),
 	}));
 
-	if (!connections) return null;
+	if (!connectionsIds) return null;
 	const { addConnection } = useDispatch('quillSMTP/core');
 	const randomId = () => Math.random().toString(36).substr(2, 9);
 
@@ -36,9 +36,9 @@ const ConnectionsList: React.FC = () => {
 				</div>
 			</div>
 			<CardContent>
-				{size(connections) > 0 && (
+				{size(connectionsIds) > 0 && (
 					<div className="qsmtp-connections-list">
-						{map(keys(connections), (key, index) => {
+						{map(connectionsIds, (key, index) => {
 							return (
 								<Connection
 									key={key}
@@ -58,7 +58,7 @@ const ConnectionsList: React.FC = () => {
 							addConnection(connectionId, {
 								name: sprintf(
 									__('Connection #%s', 'quillsmtp'),
-									size(connections) + 1
+									size(connectionsIds) + 1
 								),
 								mailer: '',
 								account_id: '',

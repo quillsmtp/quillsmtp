@@ -61,14 +61,14 @@ const EditCredentials: React.FC<Props> = ({
 	fields,
 	Instructions,
 }) => {
-	const { connection } = useSelect((select) => {
+	const { mailer } = useSelect((select) => {
 		return {
-			connection: select('quillSMTP/core').getConnection(connectionId),
+			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
 		};
 	});
 
 	// provider.
-	const provider = getMailerModules()[connection.mailer];
+	const provider = getMailerModules()[mailer];
 
 	fields = fields ?? {
 		api_key: { label: provider.title + ' API Key', type: 'text' },
@@ -103,7 +103,7 @@ const EditCredentials: React.FC<Props> = ({
 		if (onEditing) onEditing(true);
 
 		apiFetch({
-			path: `/qsmtp/v1/mailers/${connection.mailer}/accounts`,
+			path: `/qsmtp/v1/mailers/${mailer}/accounts`,
 			method: 'POST',
 			data: {
 				id: accountId,
