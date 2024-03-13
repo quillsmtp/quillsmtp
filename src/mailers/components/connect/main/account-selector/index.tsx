@@ -234,35 +234,35 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 												/>
 												{main.accounts.auth.type ===
 													'credentials' && (
-													<>
-														{!editingAccount && (
-															<IconButton
-																aria-label={__(
-																	'Edit account',
-																	'quillsmtp'
-																)}
-																onClick={() => {
-																	setEditAccountID(
-																		id
-																	);
-																}}
-																color={
-																	editAccountID ===
-																	id
-																		? 'primary'
-																		: 'default'
-																}
-															>
-																<EditIcon />
-															</IconButton>
-														)}
-														{editingAccount && (
-															<CircularProgress
-																size={20}
-															/>
-														)}
-													</>
-												)}
+														<>
+															{!editingAccount && (
+																<IconButton
+																	aria-label={__(
+																		'Edit account',
+																		'quillsmtp'
+																	)}
+																	onClick={() => {
+																		setEditAccountID(
+																			id
+																		);
+																	}}
+																	color={
+																		editAccountID ===
+																			id
+																			? 'primary'
+																			: 'default'
+																	}
+																>
+																	<EditIcon />
+																</IconButton>
+															)}
+															{editingAccount && (
+																<CircularProgress
+																	size={20}
+																/>
+															)}
+														</>
+													)}
 												<IconButton
 													aria-label={__(
 														'Delete account',
@@ -293,7 +293,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 														}
 														account={
 															accounts[
-																editAccountID
+															editAccountID
 															]
 														}
 														onEditing={
