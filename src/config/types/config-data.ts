@@ -11,4 +11,16 @@ export type ConfigData = Record<string, unknown> & {
 	nonce: string;
 	isMultisite: boolean;
 	isMainSite: boolean;
+	license: License | false;
+};
+
+export type License = {
+	upgrades: {
+		[key: string]: Upgrade;
+	};
+	[key: string]: any;
+};
+
+export type Upgrade = {
+	[key: string]: any;
 };

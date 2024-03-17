@@ -20,6 +20,7 @@ use QuillSMTP\Log_Handlers\Log_Handler_DB;
 use QuillSMTP\Email_Test\Email_Test;
 use QuillSMTP\Tasks;
 use QuillSMTP\Reports\Summary_Email;
+use QuillSMTP\Site\Site;
 
 /**
  * QuillSMTP Main Class.
@@ -112,6 +113,7 @@ final class QuillSMTP {
 		Mailers::instance();
 		Email_Test::instance();
 		Summary_Email::instance();
+		Site::instance();
 	}
 
 	/**

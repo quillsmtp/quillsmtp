@@ -70,7 +70,6 @@ class Admin_Loader {
 		// Enqueue admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_inline_scripts' ), 14 );
-;
 
 		// Remove notices.
 		add_action( 'admin_notices', array( $this, 'remove_notices' ), 1 );
@@ -185,6 +184,8 @@ class Admin_Loader {
 				'adminUrl'       => admin_url(),
 				'assetsBuildUrl' => QUILLSMTP_PLUGIN_URL,
 				'submenuPages'   => $submenu['quillsmtp'] ?? [],
+				'license_nonce'  => wp_create_nonce( 'quillsmtp_license' ),
+				'adminUrl'       => admin_url(),
 			)
 		);
 
@@ -215,7 +216,7 @@ class Admin_Loader {
 		wp_enqueue_script( 'qsmtp-config' );
 		wp_enqueue_script( 'qsmtp-admin' );
 		wp_enqueue_style( 'qsmtp-admin' );
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'jquery' );
 
 		?>
 		<div class="quillsmtp-wrap">
