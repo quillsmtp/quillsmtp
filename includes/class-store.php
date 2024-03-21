@@ -181,6 +181,46 @@ class Store {
 				),
 				'is_pro'      => true,
 			),
+			'mailjet'      => array(
+				'name'        => __( 'Mailjet', 'quillsmtp' ),
+				'description' => __( 'Send emails using Mailjet SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/mailjet/icon.png',
+				),
+				'is_pro'      => true,
+			),
+			'mandrill'     => array(
+				'name'        => __( 'Mandrill', 'quillsmtp' ),
+				'description' => __( 'Send emails using Mandrill SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/mandrill/icon.png',
+				),
+				'is_pro'      => true,
+			),
+			'mailersend'   => array(
+				'name'        => __( 'MailerSend', 'quillsmtp' ),
+				'description' => __( 'Send emails using MailerSend SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/mailersend/icon.svg',
+				),
+				'is_pro'      => true,
+			),
+			'loops'        => array(
+				'name'        => __( 'Loops', 'quillsmtp' ),
+				'description' => __( 'Send emails using Loops SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/loops/icon.png',
+				),
+				'is_pro'      => true,
+			),
+			'socketlabs'   => array(
+				'name'        => __( 'SocketLabs', 'quillsmtp' ),
+				'description' => __( 'Send emails using SocketLabs SMTP', 'quillsmtp' ),
+				'assets'      => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/socketlabs/icon.svg',
+				),
+				'is_pro'      => true,
+			),
 		);
 	}
 }

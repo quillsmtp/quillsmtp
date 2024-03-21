@@ -282,7 +282,7 @@ class Handler_DB {
 			'connection_id'   => $log['connection_id'],
 			'connection_name' => $connection['name'] ?? '',
 			'account_id'      => $log['account_id'],
-			'account_name'    => $mailer->accounts->get_account_data( $log['account_id'], 'name' ) ?? '',
+			'account_name'    => isset( $mailer->accounts ) ? $mailer->accounts->get_account_data( $log['account_id'], 'name' ) ?? '' : '',
 			'response'        => maybe_unserialize( $log['response'] ),
 			'initiator_name'  => $log['initiator_name'],
 			'initiator_slug'  => $log['initiator_slug'],

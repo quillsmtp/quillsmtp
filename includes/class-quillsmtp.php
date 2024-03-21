@@ -72,8 +72,8 @@ final class QuillSMTP {
 	 */
 	private function __construct() {
 		$this->load_dependencies();
-		$this->init_objects();
 		$this->init_hooks();
+		add_action( 'init', array( $this, 'init_objects' ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ final class QuillSMTP {
 	 *
 	 * @since 1.0.0
 	 */
-	private function init_objects() {
+	public function init_objects() {
 		$this->tasks = new Tasks( 'quillsmtp' );
 
 		Admin_Loader::instance();
