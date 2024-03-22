@@ -163,14 +163,38 @@ class Tasks {
 		add_action(
 			"{$this->group}_$hook",
 			function( $meta_id ) use ( $hook, $callback ) {
+				quillsmtp_get_logger()->debug( "Start processing 'as' task '{$this->group}_$hook'" );
+				error_log( "Start processing 'as' task '{$this->group}_$hook'" . ' ' . $meta_id );
 				$meta = $this->get_meta( $meta_id );
 				if ( ! isset( $meta['value'] ) ) {
+					quillsmtp_get_logger()->critical(
+						esc_html__( 'Cannot find task meta', 'quillsmtp' ),
+						array(
+							'code'    => 'cannot_find_task_meta',
+							'hook'    => $hook,
+							'group'   => $this->group,
+							'meta_id' => $meta_id,
+						)
+					);
 					return;
 				}
 				try {
+					quillsmtp_get_logger()->debug( "Processing 'as' task.", compact( 'meta' ) );
 					call_user_func_array( $callback, $meta['value'] );
 				} catch ( Throwable $e ) {
-					return;
+					quillsmtp_get_logger()->error(
+						esc_html__( 'Task threw an exception', 'quillsmtp' ),
+						array(
+							'code'      => 'task_threw_exception',
+							'hook'      => $hook,
+							'group'     => $this->group,
+							'exception' => array(
+								'code'    => $e->getCode(),
+								'message' => $e->getMessage(),
+								'trace'   => $e->getTraceAsString(),
+							),
+						)
+					);
 				}
 			}
 		);

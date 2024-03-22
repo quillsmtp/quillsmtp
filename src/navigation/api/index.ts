@@ -15,8 +15,9 @@ import { __ } from '@wordpress/i18n';
 import { Pages, PageSettings } from '../types';
 
 const adminPages: Pages = {};
-export const registerAdminPage = ( id: string, settings: PageSettings ) => {
-	if ( settings.exact === undefined ) {
+
+export const registerAdminPage = (id: string, settings: PageSettings) => {
+	if (settings.exact === undefined) {
 		settings.exact = true;
 	}
 
@@ -26,48 +27,41 @@ export const registerAdminPage = ( id: string, settings: PageSettings ) => {
 		id
 	) as PageSettings;
 
-	if ( adminPages[ id ] ) {
-		console.error(
-			__( 'This page id is already registered', 'quillsmtp' )
-		);
+	if (adminPages[id]) {
+		console.error(__('This page id is already registered', 'quillsmtp'));
 		return;
 	}
 
-	if ( ! settings.path ) {
-		console.error( __( 'Path property is mandatory!', 'quillsmtp' ) );
+	if (!settings.path) {
+		console.error(__('Path property is mandatory!', 'quillsmtp'));
 		return;
 	}
 
-	if ( typeof settings.path !== 'string' ) {
-		console.error(
-			__( 'The "path" property must be a string!', 'quillsmtp' )
-		);
+	if (typeof settings.path !== 'string') {
+		console.error(__('The "path" property must be a string!', 'quillsmtp'));
 		return;
 	}
 
 	if (
-		some(
-			Object.values( adminPages ),
-			( page ) => page.path === settings.path
-		)
+		some(Object.values(adminPages), (page) => page.path === settings.path)
 	) {
-		console.error( __( 'This path is already registered!', 'quillsmtp' ) );
+		console.error(__('This path is already registered!', 'quillsmtp'));
 		return;
 	}
 
-	if ( typeof settings.exact !== 'boolean' ) {
+	if (typeof settings.exact !== 'boolean') {
 		console.error(
-			__( 'The "exact" property must be a boolean!', 'quillsmtp' )
+			__('The "exact" property must be a boolean!', 'quillsmtp')
 		);
 		return;
 	}
 
-	if ( ! settings.component ) {
-		console.error( __( 'Component property is mandatory!', 'quillsmtp' ) );
+	if (!settings.component) {
+		console.error(__('Component property is mandatory!', 'quillsmtp'));
 		return;
 	}
 
-	if ( ! isFunction( settings.component ) ) {
+	if (!isFunction(settings.component)) {
 		console.error(
 			__(
 				'The "component" property must be a valid function!',
@@ -77,7 +71,7 @@ export const registerAdminPage = ( id: string, settings: PageSettings ) => {
 		return;
 	}
 
-	adminPages[ id ] = settings;
+	adminPages[id] = settings;
 };
 
 export const getAdminPages = (): Pages => {

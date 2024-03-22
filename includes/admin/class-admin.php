@@ -166,6 +166,16 @@ class Admin {
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 
+		// Alerts.
+		add_submenu_page(
+			'quillsmtp',
+			__( 'Alerts', 'quillsmtp-pro' ),
+			__( 'Alerts', 'quillsmtp-pro' ),
+			'manage_options',
+			'quillsmtp&path=alerts',
+			array( Admin_Loader::class, 'page_wrapper' )
+		);
+
 		// Logs.
 		add_submenu_page(
 			'quillsmtp',
@@ -183,6 +193,16 @@ class Admin {
 			__( 'Debug', 'quillsmtp' ),
 			'manage_options',
 			'quillsmtp&path=debug',
+			array( Admin_Loader::class, 'page_wrapper' )
+		);
+
+		// License.
+		add_submenu_page(
+			'quillsmtp',
+			__( 'License', 'quillsmtp' ),
+			__( 'License', 'quillsmtp' ),
+			'manage_options',
+			'quillsmtp&path=license',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 	}

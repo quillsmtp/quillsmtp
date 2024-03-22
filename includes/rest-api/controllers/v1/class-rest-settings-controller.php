@@ -135,19 +135,20 @@ class REST_Settings_Controller extends REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get( $request ) { // phpcs:ignore
-		$schema   = $this->get_schema();
-		$defaults = $schema['default'];
-		$settings = apply_filters(
+		$schema       = $this->get_schema();
+		$defaults     = $schema['default'];
+		$all_settings = [];
+		$settings     = Settings::get_all();
+		foreach ( $settings as $key => $value ) {
+			$all_settings[ $key ] = isset( $defaults[ $key ] ) ? Settings::get( $key, $defaults[ $key ] ) : $value;
+		}
+
+		$all_settings = apply_filters(
 			'quillsmtp_rest_settings',
-			array(
-				'global_network_settings' => Settings::get( 'global_network_settings', $defaults['global_network_settings'] ),
-				'default_connection'      => Settings::get( 'default_connection', $defaults['default_connection'] ),
-				'fallback_connection'     => Settings::get( 'fallback_connection', $defaults['fallback_connection'] ),
-				'connections'             => Settings::get( 'connections', $defaults['connections'] ),
-			),
+			$all_settings,
 		);
 
-		return new WP_REST_Response( $settings, 200 );
+		return new WP_REST_Response( $all_settings, 200 );
 	}
 
 	/**

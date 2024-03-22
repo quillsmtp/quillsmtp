@@ -12,6 +12,7 @@ namespace QuillSMTP;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Store;
+use QuillSMTP\Site\License;
 
 /**
  * Core Class
@@ -42,7 +43,8 @@ class Core {
 			'qsmtp.config.setAjaxUrl("' . $ajax_url . '");' .
 			'qsmtp.config.setNonce("' . $nonce . '");' .
 			'qsmtp.config.setIsMultisite("' . ( is_multisite() ? '1' : '0' ) . '");' .
-			'qsmtp.config.setIsMainSite("' . ( is_main_site() ? '1' : '0' ) . '");'
+			'qsmtp.config.setIsMainSite("' . ( is_main_site() ? '1' : '0' ) . '");' .
+			'qsmtp.config.setLicense(' . json_encode( License::instance()->get_license_info() ) . ');'
 		);
 	}
 }

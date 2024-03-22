@@ -5,4 +5,4 @@ export type PageSettings = {
 	component: React.FC | JSX.Element | React.Component;
 	requiresInitialPayload?: boolean;
 };
-export type Pages = Record< string, PageSettings >;
+export type Pages = Record<string, PageSettings>;

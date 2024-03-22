@@ -85,3 +85,22 @@ function quillsmtp_get_email_log() {
 
 	return QuillSMTP\Email_Log\Handler_DB::get_instance();
 }
+
+/**
+ * Find object in objects has specific key and value
+ *
+ * @since 1.0.0
+ *
+ * @param object[] $objects Array of objects.
+ * @param string   $key    Key.
+ * @param mixed    $value  Value.
+ * @return object|null
+ */
+function quillsmtp_objects_find( $objects, $key, $value ) {
+	foreach ( $objects as $object ) {
+		if ( $object->{$key} === $value ) {
+			return $object;
+		}
+	}
+	return null;
+}
