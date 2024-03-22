@@ -81,19 +81,19 @@ class Admin {
 			'data:image/svg+xml;base64,' . base64_encode(
 				'<svg xmlns="http://www.w3.org/2000/svg" version="1.2" viewBox="0 0 1350 1539" width="1350" height="1539">
 					<style>
-						.s0 { fill: #a9abae } 
-						.s1 { fill: #a9abae } 
-						.s2 { fill: #246193 } 
-						.s3 { fill: #1e93cf } 
-						.s4 { fill: #a9abae } 
-						.s5 { fill: #a9abae } 
-						.s6 { fill: #a9abae } 
-						.s7 { fill: #a9abae } 
-						.s8 { fill: #a9abae } 
+						.s0 { fill: #a9abae; fill-rule:nonzero } 
+						.s1 { fill: #a9abae; fill-rule:nonzero } 
+						.s2 { fill: #246193; fill-rule:nonzero } 
+						.s3 { fill: #1e93cf; fill-rule:nonzero } 
+						.s4 { fill: #a9abae; fill-rule:nonzero } 
+						.s5 { fill: #a9abae; fill-rule:nonzero } 
+						.s6 { fill: #a9abae; fill-rule:nonzero } 
+						.s7 { fill: #a9abae; fill-rule:nonzero } 
+						.s8 { fill: #a9abae; fill-rule:nonzero} 
 						.s9 { opacity: .3;fill: none } 
 						.s10 { fill: none } 
-						.s11 { fill: #a9abae } 
-						path { fill: #a9abae !important; fill-rule="evenodd" !important;}
+						.s11 { fill: #a9abae; fill-rule:nonzero } 
+						path { fill: #a9abae; fill-rule:nonzero}
 					</style>
 					<g id="Layer_x0020_1">
 						<g id="_3181323266288">

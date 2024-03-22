@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
+import { useSelect } from "@wordpress/data";
 
 /**
  * External Dependencies
@@ -10,7 +11,7 @@ import Popover from '@mui/material/Popover';
 import { LoadingButton } from '@mui/lab';
 import DateIcon from '@mui/icons-material/DateRange';
 import FilterIcon from '@mui/icons-material/FilterAlt';
-import { keys, map, isEmpty } from 'lodash';
+import { keys, map, isEmpty, size } from 'lodash';
 import {
     Chart as ChartJS,
     LinearScale,
@@ -32,6 +33,7 @@ import Logo from "../../assets/logo.svg";
  * Internal Dependencies
  */
 import './style.scss';
+import WelcomePage from '../welcome-page';
 
 ChartJS.register(
     LinearScale,
@@ -44,14 +46,38 @@ ChartJS.register(
     LineController,
     BarController
 );
-const Demo = () => {
+const Home = () => {
+
+    const { connections } = useSelect((select) => ({
+        connections: select('quillSMTP/core').getConnections(),
+    }));
+
+    const { hasConnectionsFinishedResolution } = useSelect((select) => {
+        const { hasFinishedResolution } = select('quillSMTP/core');
+
+        return {
+            hasConnectionsFinishedResolution:
+                hasFinishedResolution('getConnections'),
+        };
+    });
+
 
     const [logs, setLogs] = useState<Logs>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isFiltering, setIsFiltering] = useState<boolean>(false);
     const [dateRange, setDateRange] = useState<any>({});
+    const [isResolving, setIsResolving] = useState<boolean>(true);
     const [openDateRangePicker, setOpenDateRangePicker] =
         useState<boolean>(false);
+
+
+    useEffect(() => {
+        if (isResolving) {
+            if (hasConnectionsFinishedResolution) {
+                setIsResolving(false);
+            }
+        }
+    }, [hasConnectionsFinishedResolution]);
 
     useEffect(() => {
         if (isLoading) return;
@@ -75,6 +101,12 @@ const Demo = () => {
                 setIsLoading(false);
             });
     }, []);
+
+    if (size(connections) == 0) {
+        return (
+            <WelcomePage />
+        )
+    }
 
     const filterLogsByDate = () => {
         if (isFiltering || !dateRange.startDate || !dateRange.endDate) return;
@@ -129,7 +161,7 @@ const Demo = () => {
 								}
 
 								.qsmtp-home-page__overview__content__item {
-									background-color: #f7fafc;
+									background: #536ad9;
 									padding: 20px;
 									display: flex;
 									flex-direction: column;
@@ -195,7 +227,7 @@ const Demo = () => {
                     {!isLoading && (
                         <div className="qsmtp-home-page__content">
                             <div className="qsmtp-home-page__chart-wrap">
-                                <div className="qsmtp-home-page__chart__header qsmtp-cards-header">
+                                <div className="qsmtp-home-page__chart__header">
                                     <h2 style={{ color: "#fff" }}>{__('Sending Stats', 'quill-smtp')}</h2>
                                     <div className="qsmtp-home-page__chart-section">
                                         <div
@@ -269,7 +301,7 @@ const Demo = () => {
                                 </div>
                                 {!isEmpty(logs) && (
                                     <div
-                                        className="qsmtp-home-page__chart qsmtp-card"
+                                        className="qsmtp-home-page__chart"
                                         style={{
                                             padding: '20px',
                                         }}
@@ -336,4 +368,4 @@ const Demo = () => {
     )
 }
 
-export default Demo;
+export default Home;

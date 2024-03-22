@@ -809,15 +809,15 @@ const Logs: React.FC = () => {
 													<Tooltip
 														title={
 															log.status ===
-															'failed'
+																'failed'
 																? __(
-																		'Retry',
-																		'quillsmtp'
-																  )
+																	'Retry',
+																	'quillsmtp'
+																)
 																: __(
-																		'Resend',
-																		'quillsmtp'
-																  )
+																	'Resend',
+																	'quillsmtp'
+																)
 														}
 														placement="top"
 													>
@@ -833,7 +833,7 @@ const Logs: React.FC = () => {
 															}
 															color={
 																log.status ===
-																'failed'
+																	'failed'
 																	? 'error'
 																	: 'info'
 															}
@@ -846,15 +846,15 @@ const Logs: React.FC = () => {
 																? `(${log?.resend_count})`
 																: ''}{' '}
 															{log.status ===
-															'failed'
+																'failed'
 																? __(
-																		'Retry',
-																		'quillsmtp'
-																  )
+																	'Retry',
+																	'quillsmtp'
+																)
 																: __(
-																		'Resend',
-																		'quillsmtp'
-																  )}
+																	'Resend',
+																	'quillsmtp'
+																)}
 														</Button>
 													</Tooltip>
 													<Tooltip

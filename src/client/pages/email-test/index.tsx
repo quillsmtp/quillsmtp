@@ -97,8 +97,8 @@ const EmailTest: React.FC = () => {
 
 	return (
 		<div className="qsmtp-email-test-page">
-			<Card className="qsmtp-email-test-card" variant="outlined">
-				<div className="qsmtp-email-test-header">
+			<Card className="qsmtp-email-test-card qsmtp-card" variant="outlined">
+				<div className="qsmtp-card-header">
 					<div className="qsmtp-email-test-header__title">
 						{__('Send Test Email', 'quillsmtp')}
 					</div>
@@ -110,7 +110,14 @@ const EmailTest: React.FC = () => {
 							setIsSending(true);
 						}}
 					>
-						<FormControl fullWidth sx={{ mb: 2 }}>
+						<FormControl fullWidth sx={{
+							mb: 2, "& .MuiOutlinedInput-notchedOutline": {
+								borderColor: "gray",
+							},
+							"&:hover > .MuiOutlinedInput-notchedOutline": {
+								borderColor: "gray"
+							}
+						}}>
 							<InputLabel id="qsmtp-general-settings-default-connection-label">
 								{__('Default Connection', 'quillsmtp')}
 							</InputLabel>
@@ -121,8 +128,8 @@ const EmailTest: React.FC = () => {
 									connection
 										? connection
 										: keys(connections).length > 0
-										? keys(connections)[0]
-										: ''
+											? keys(connections)[0]
+											: ''
 								}
 								label={__('Default Connection', 'quillsmtp')}
 								onChange={(event: SelectChangeEvent) => {
@@ -157,7 +164,14 @@ const EmailTest: React.FC = () => {
 								setEmail(event.target.value);
 							}}
 							fullWidth
-							sx={{ mb: 2 }}
+							sx={{
+								mb: 2, "& .MuiOutlinedInput-notchedOutline": {
+									borderColor: "gray",
+								},
+								"&:hover > .MuiOutlinedInput-notchedOutline": {
+									borderColor: "gray"
+								}
+							}}
 							type="email"
 						/>
 						<FormControlLabel
@@ -185,6 +199,7 @@ const EmailTest: React.FC = () => {
 							type="submit"
 							variant="contained"
 							color="primary"
+							size='large'
 							disabled={size(connections) === 0 || !email}
 							startIcon={<SendIcon />}
 							onClick={() => {

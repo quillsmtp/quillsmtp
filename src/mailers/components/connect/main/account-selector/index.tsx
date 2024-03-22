@@ -67,6 +67,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 
 	// dispatch.
 	const { accounts } = mailer;
+	console.log(accounts)
 	const {
 		addAccount,
 		updateAccount,

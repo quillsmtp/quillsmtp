@@ -82,7 +82,7 @@ export const Layout = (props) => {
 								align-items: center;
 							`}
 						>
-							<Loader color="#8640e3" height={50} width={50} />
+							<Loader color="#cb3b87" height={50} width={50} />
 						</div>
 					) : (
 						<Controller {...props} />

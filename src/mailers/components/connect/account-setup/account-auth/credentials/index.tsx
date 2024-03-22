@@ -119,7 +119,7 @@ const Credentials: React.FC<Props> = ({
 						' ' +
 						__('added successfully!', 'quillsmtp'),
 				});
-				onAdded(res.id, { name: res.name });
+				onAdded(res.id, { name: res.name, credentials: res.credentials });
 				setInputs({});
 			})
 			.catch((err) => {
@@ -128,9 +128,9 @@ const Credentials: React.FC<Props> = ({
 					message:
 						err.message ??
 						__('Error in adding the ', 'quillsmtp') +
-							(
-								labels?.singular ?? __('Account', 'quillsmtp')
-							).toLowerCase(),
+						(
+							labels?.singular ?? __('Account', 'quillsmtp')
+						).toLowerCase(),
 				});
 			})
 			.finally(() => {
@@ -236,6 +236,7 @@ const Credentials: React.FC<Props> = ({
 					case 'password':
 						return (
 							<TextField
+								autoComplete='off'
 								key={key}
 								label={field.label}
 								value={inputValue}

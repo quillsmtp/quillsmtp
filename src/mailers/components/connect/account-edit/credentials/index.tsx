@@ -117,7 +117,7 @@ const EditCredentials: React.FC<Props> = ({
 					message:
 						(labels?.singular ?? __('Account', 'quillsmtp')) +
 						' ' +
-						__('edit successfully!', 'quillsmtp'),
+						__('updated successfully!', 'quillsmtp'),
 				});
 				onEdited(res.id, {
 					name: res.name,
@@ -129,10 +129,10 @@ const EditCredentials: React.FC<Props> = ({
 					type: 'error',
 					message:
 						err.message ??
-						__('Error in editing the ', 'quillsmtp') +
-							(
-								labels?.singular ?? __('Account', 'quillsmtp')
-							).toLowerCase(),
+						__('Error in updating  the ', 'quillsmtp') +
+						(
+							labels?.singular ?? __('Account', 'quillsmtp')
+						).toLowerCase(),
 				});
 			})
 			.finally(() => {
