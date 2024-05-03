@@ -16,6 +16,9 @@
     border: none;
     color: #fff;
 
+    svg {
+      fill: #fff;
+    }
     &.is-large {
       padding: 10px 20px;
       font-size: 16px;
@@ -256,31 +259,26 @@ body {
 .qsmtp-table {
   text-align: left;
   padding: 0;
+  background: #191644;
+  color: #fff;
+
+  thead th {
+    background: #5a9bf7 !important;
+    vertical-align: middle !important;
+    display: table-cell;
+    height: 100%;
+  }
+  p, td, th {
+    color: #fff;
+    svg {
+      fill: #fff;
+    }
+  }
 }
-.qsmtp-table th {
-  font-size: 14px;
-  font-weight: normal;
-  padding-bottom: 16px;
-}
-.qsmtp-table th:nth-child(n+5) {
-  padding: 0 10px 16px;
-}
-.qsmtp-table th:first-child {
-  padding-left: 36px;
-}
-.qsmtp-table td {
-  font-size: 15px;
-  vertical-align: middle;
-  padding: 8px 0;
-}
-.qsmtp-table td:last-of-type {
-  width: 100px;
-}
-.qsmtp-table td:nth-child(n+5) {
-  padding: 0 10px;
-}
-.qsmtp-table td:nth-last-of-type(2) svg {
-  width: 16px;
+
+
+.qsmtp-table tr, .qsmtp-table td, .qsmtp-table th {
+border-color: #7a77775a !important;  
 }
 .qsmtp-table input {
   -webkit-appearance: none;

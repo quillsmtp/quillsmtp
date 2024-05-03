@@ -73,9 +73,8 @@ class REST extends Abstract_REST {
 	 */
 	protected function get_rest_data( $settings ) {
 		if ( $this->mailer->accounts ) {
-			$settings['accounts'] = $this->mailer->accounts->get_accounts();
+ 			return array('accounts' =>  $this->mailer->accounts->get_accounts());
 		}
-
-		return $settings;
+		return array();
 	}
 }

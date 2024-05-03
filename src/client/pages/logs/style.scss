@@ -2,14 +2,14 @@
 	margin: 0 auto;
 	width: 90%;
 	.qsmtp-logs__loading-row-bar {
-		background: #f3f3f3;
-		background-image: linear-gradient(
-			to right,
-			#f3f3f3 0%,
-			#ecebeb 20%,
-			#f3f3f3 40%,
-			#f3f3f3 100%
-		);
+		background: #7a77775a;
+		// background-image: linear-gradient(
+		// 	to right,
+		// 	#7a77775a 0%,
+		// 	#7a77775a 40%,
+		// 	#7a77775a 100%
+		// );
+		border-radius: 10px;
 		background-repeat: no-repeat;
 		background-size: 100% 20px;
 		display: inline-block;
@@ -21,7 +21,7 @@
 
 	.qsmtp-logs__header {
 		margin-bottom: 20px;
-		background-color: #f7fafc;
+		background-color: #181641;
 		color: #697386;
 		padding: 10px 20px;
 		border-radius: 10px;
@@ -29,7 +29,9 @@
 		align-items: center;
 		justify-content: space-between;
 		h2 {
-			color: #697386;
+			color: #fff;
+			font-size: 25px;
+			font-weight: 500;
 			margin-right: 20px;
 		}
 		.qsmtp-logs__header-section {
@@ -42,26 +44,21 @@
 		.qsmtp-logs__header-filters {
 			display: flex;
 			align-items: center;
-			.qsmtp-logs__header-filter {
-				padding: 10px 20px;
-				border: 1px solid #dcdfe6;
-				color: #606266;
-				font-weight: bold;
-				cursor: pointer;
+			> div {
+				margin: 10px;
+				padding: 8px 10px;
+				border: none;
+				border-bottom: 1px solid #7a7777;
+				background: transparent;
+				color: #7a7777;
 				transition: all 0.3s ease-in-out;
-				&:not(:last-child) {
-					border-right: none;
-				}
-				&:hover {
-					background-color: #409eff;
-					border-color: #409eff;
-					color: #fff;
-				}
-				&--active {
-					background-color: #409eff;
-					border-color: #409eff;
-					color: #fff;
-				}
+				cursor: pointer;
+				
+			}
+			
+			.qsmtp-logs__header-filter--active, > div:hover {
+				color: #5a86ff;
+				border-bottom: 1px solid #5a86ff;
 			}
 		}
 		.qsmtp-logs__header-date-range {
@@ -92,6 +89,36 @@
 	}
 }
 
+.qsmtp-logs__apply-actions-section {
+    position: fixed;
+    bottom:0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #081646;
+    height: 60px;
+    color: #fff;
+	#qsmtp-logs__apply-actions-select {
+		width: 200px;
+		height: 40px;
+		box-sizing: border-box;
+	}
+	button {
+		height: 40px;
+		width: 130px;
+	}
+
+	svg {
+		fill: #fff;
+	}
+
+	input, p, span, label {
+		color: #fff !important;
+	}
+}
+
 // Loading bar animation
 @keyframes loading-bar {
 	0% {
@@ -105,7 +132,7 @@
 // Date picker.
 .rdrCalendarWrapper {
 	box-sizing: border-box;
-	background: #ffffff;
+	background: #fff;
 	display: inline-flex;
 	flex-direction: column;
 	-webkit-user-select: none;

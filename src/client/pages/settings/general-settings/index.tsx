@@ -91,10 +91,10 @@ const GeneralSettings: React.FC = () => {
 
 	return (
 		<Card
-			className="qsmtp-general-settings"
+			className="qsmtp-general-settings qsmtp-card"
 			sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
 		>
-			<div className="qsmtp-general-settings-header">
+			<div className="qsmtp-card-header">
 				<div className="qsmtp-general-settings-header__title">
 					{__('General', 'quillsmtp')}
 				</div>
@@ -123,7 +123,14 @@ const GeneralSettings: React.FC = () => {
 					</>
 				)}
 				{size(connections) > 0 ? (
-					<FormControl fullWidth sx={{ mb: 2 }}>
+					<FormControl fullWidth sx={{
+						mb: 2, "& .MuiOutlinedInput-notchedOutline": {
+							borderColor: "gray",
+						},
+						"&:hover > .MuiOutlinedInput-notchedOutline": {
+							borderColor: "gray"
+						}
+					}}>
 						<InputLabel id="qsmtp-general-settings-default-connection-label">
 							{__('Default Connection', 'quillsmtp')}
 						</InputLabel>
@@ -161,7 +168,16 @@ const GeneralSettings: React.FC = () => {
 						</Select>
 					</FormControl>
 				) : (
-					<Alert severity="warning" sx={{ mb: 2 }}>
+					<Alert severity="warning" sx={{
+						mb: 2,
+						color: "#333 !important",
+						svg: {
+							fill: "#333 !important"
+						},
+						div: {
+							color: "#333 !important"
+						}
+					}}>
 						{__(
 							'You need to create at least one connection to use QuillSMTP.',
 							'quillsmtp'
@@ -169,7 +185,14 @@ const GeneralSettings: React.FC = () => {
 					</Alert>
 				)}
 				{size(connections) > 1 ? (
-					<FormControl fullWidth sx={{ mb: 2 }}>
+					<FormControl fullWidth sx={{
+						mb: 2, "& .MuiOutlinedInput-notchedOutline": {
+							borderColor: "gray",
+						},
+						"&:hover > .MuiOutlinedInput-notchedOutline": {
+							borderColor: "gray"
+						}
+					}} >
 						<InputLabel id="qsmtp-general-settings-connections-label">
 							{__('Fallback Connection', 'quillsmtp')}
 						</InputLabel>
@@ -185,6 +208,7 @@ const GeneralSettings: React.FC = () => {
 							onChange={(event: SelectChangeEvent) => {
 								setFallbackConnection(event.target.value);
 							}}
+
 						>
 							{/* None Menu Item */}
 							<MenuItem value="" key="">
@@ -222,6 +246,13 @@ const GeneralSettings: React.FC = () => {
 						severity="warning"
 						sx={{
 							mb: 2,
+							color: "#333 !important",
+							svg: {
+								fill: "#333 !important"
+							},
+							div: {
+								color: "#333 !important"
+							}
 						}}
 					>
 						{__(
@@ -233,6 +264,10 @@ const GeneralSettings: React.FC = () => {
 				<LoadingButton
 					variant="contained"
 					onClick={saveSettings}
+					size='large'
+					sx={{
+						mt: 5
+					}}
 					loading={isSaving}
 					loadingPosition="start"
 					startIcon={<SaveIcon />}
@@ -240,7 +275,7 @@ const GeneralSettings: React.FC = () => {
 					{__('Save Settings', 'quillsmtp')}
 				</LoadingButton>
 			</CardContent>
-		</Card>
+		</Card >
 	);
 };
 

@@ -24,6 +24,7 @@ const FromName: React.FC<Props> = ({ connectionId }) => {
 
 	return (
 		<TextField
+			autoComplete='new-password'
 			sx={{ mb: 2 }}
 			label={__('From Name', 'quillsmtp')}
 			value={from_name}

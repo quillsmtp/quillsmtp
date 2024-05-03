@@ -108,6 +108,7 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 									from_email: e.target.value,
 								})
 							}
+							autoComplete='new-password'
 							variant="outlined"
 							fullWidth
 							sx={{ mb: 2 }}

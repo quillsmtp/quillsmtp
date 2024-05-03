@@ -562,47 +562,7 @@ const Logs: React.FC = () => {
 					}}
 				>
 					<div className="qsmtp-logs__header">
-						{selectedLogs.length > 0 && (
-							<div className="qsmtp-logs__header-section">
-								<FormControl
-									sx={{ minWidth: 120 }}
-									size="small"
-								>
-									<InputLabel id="demo-simple-select-label">
-										{__('Action', 'quillsmtp')}
-									</InputLabel>
-									<Select
-										labelId="demo-simple-select-label"
-										id="demo-simple-select"
-										value={selectedAction}
-										label={__('Action', 'quillsmtp')}
-										onChange={(event: SelectChangeEvent) =>
-											setSelectedAction(
-												event.target.value
-											)
-										}
-									>
-										<MenuItem value={'delete'}>
-											{__('Delete Selected', 'quillsmtp')}
-										</MenuItem>
-										<MenuItem value={'resend'}>
-											{__('Resend Selected', 'quillsmtp')}
-										</MenuItem>
-									</Select>
-								</FormControl>
-								<Button
-									sx={{
-										marginLeft: '10px',
-									}}
-									variant="outlined"
-									onClick={() => applyAction()}
-									disabled={isDeleting}
-									color="primary"
-								>
-									{__('Apply', 'quillsmtp')}
-								</Button>
-							</div>
-						)}
+
 						<div className="qsmtp-logs__header-section">
 							<h2>{__('Logs', 'quillsmtp')}</h2>
 							<div className="qsmtp-logs__header-filters">
@@ -718,6 +678,7 @@ const Logs: React.FC = () => {
 						<Table
 							sx={{ minWidth: 500 }}
 							aria-label="custom pagination table"
+							className='qsmtp-table'
 						>
 							<EnhancedTableHead
 								numSelected={selectedLogs.length}
@@ -1016,6 +977,64 @@ const Logs: React.FC = () => {
 					open={modalLogId !== null}
 					onClose={() => setModalLogId(null)}
 				/>
+			)}
+
+			{selectedLogs.length > 0 && (
+				<div className="qsmtp-logs__apply-actions-section">
+					<FormControl
+
+						sx={{
+							minWidth: 120,
+							"& .MuiOutlinedInput-notchedOutline": {
+								borderColor: "white",
+							},
+							"&:hover > .MuiOutlinedInput-notchedOutline": {
+								borderColor: "white"
+							}
+						}}
+						size="small"
+					>
+						<InputLabel id="demo-simple-select-label">
+							{__('Action', 'quillsmtp')}
+						</InputLabel>
+						<Select
+							labelId="demo-simple-select-label"
+							id="qsmtp-logs__apply-actions-select"
+							value={selectedAction}
+							label={__('Action', 'quillsmtp')}
+							onChange={(event: SelectChangeEvent) =>
+								setSelectedAction(
+									event.target.value
+								)
+							}
+							sx={{
+								//color
+								'& .MuiSelect-select': {
+									color: '#fff',
+									borderColor: '#fff'
+								},
+							}}
+						>
+							<MenuItem value={'delete'}>
+								{__('Delete Selected', 'quillsmtp')}
+							</MenuItem>
+							<MenuItem value={'resend'}>
+								{__('Resend Selected', 'quillsmtp')}
+							</MenuItem>
+						</Select>
+					</FormControl>
+					<Button
+						sx={{
+							marginLeft: '10px',
+						}}
+						variant="outlined"
+						onClick={() => applyAction()}
+						disabled={isDeleting}
+						color="primary"
+					>
+						{__('Apply', 'quillsmtp')}
+					</Button>
+				</div>
 			)}
 		</div>
 	);

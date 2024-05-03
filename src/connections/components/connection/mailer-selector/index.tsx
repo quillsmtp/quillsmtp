@@ -14,7 +14,6 @@ import Tooltip from '@mui/material/Tooltip';
 /**
  * Internal dependencies
  */
-import MailerAccounts from './mailer-accounts';
 import { getMailerModules } from '@quillsmtp/mailers';
 import './style.scss';
 
@@ -24,16 +23,18 @@ interface Props {
 // @ts-ignore
 const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const mailerModules = getMailerModules();
-	const { getConnectionMailer, getMailer } = useSelect((select) => ({
-		getConnectionMailer: select('quillSMTP/core').getConnectionMailer,
-		getMailer: select('quillSMTP/core').getMailer,
-	}));
-	const mailerSlug = getConnectionMailer(connectionId);
+	const { mailerSlug, mailers } = useSelect((select) => {
+		return {
+			mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailers: select('quillSMTP/core').getMailers(),
+		}
+	});
+
 	const { updateConnection } = useDispatch('quillSMTP/core');
 
 	const onChange = (key: string) => {
 		let account_id = '';
-		const mailerData = getMailer(key);
+		const mailerData = mailers[key];
 		if (mailerData) {
 			const { accounts } = mailerData;
 			if (size(accounts) > 0) {
@@ -47,9 +48,6 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 
 	return (
 		<div className="qsmtp-mailers-selector">
-			<div className="qsmtp-mailers-selector__title">
-				{__('Select Mailer', 'quillsmtp')}
-			</div>
 			<Stack direction="row" spacing={2} useFlexGap flexWrap={'wrap'}>
 				{size(mailerModules) > 0 &&
 					map(keys(mailerModules), (key) => {
@@ -76,13 +74,7 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 						);
 					})}
 			</Stack>
-			{mailerSlug && (
-				<MailerAccounts
-					connectionId={connectionId}
-					mailer={mailerModules[mailerSlug]}
-					slug={mailerSlug}
-				/>
-			)}
+
 		</div>
 	);
 };

@@ -56,7 +56,7 @@ interface TablePaginationActionsProps {
 }
 
 interface Column {
-	id: 'id' | 'source' | 'level' | 'message' | 'datetime';
+	id: 'source' | 'level' | 'message' | 'datetime';
 	label: string;
 	minWidth?: number;
 	align?: 'right';
@@ -165,11 +165,6 @@ const EnhancedTableHead = () => {
 };
 
 const columns: readonly Column[] = [
-	{
-		id: 'id',
-		label: __('ID', 'quillsmtp'),
-		minWidth: 200,
-	},
 	{
 		id: 'source',
 		label: __('Source', 'quillsmtp'),
@@ -385,6 +380,7 @@ const Debug: React.FC = () => {
 						<Table
 							sx={{ minWidth: 500 }}
 							aria-label="custom pagination table"
+							className='qsmtp-table'
 						>
 							<EnhancedTableHead />
 							<TableBody>
@@ -397,64 +393,12 @@ const Debug: React.FC = () => {
 											key={log.log_id}
 											className={css`
 												cursor: pointer;
-												&:hover {
-													background-color: #f5f5f5;
-												}
 											`}
 											onClick={() =>
 												setModalLogId(log.log_id)
 											}
 										>
-											<TableCell
-												component="th"
-												scope="row"
-												padding="checkbox"
-											>
-												<FormControlLabel
-													sx={{
-														margin: '0',
-													}}
-													control={
-														<Checkbox
-															color="primary"
-															checked={selectedLogs.includes(
-																log.log_id
-															)}
-															onChange={(e) => {
-																if (
-																	e.target
-																		.checked
-																) {
-																	setSelectedLogs(
-																		[
-																			...selectedLogs,
-																			log.log_id,
-																		]
-																	);
-																} else {
-																	setSelectedLogs(
-																		selectedLogs.filter(
-																			(
-																				id
-																			) =>
-																				id !==
-																				log.log_id
-																		)
-																	);
-																}
-															}}
-															inputProps={{
-																'aria-label':
-																	__(
-																		'select log',
-																		'quillsmtp'
-																	),
-															}}
-														/>
-													}
-													label={''}
-												/>
-											</TableCell>
+
 											<TableCell
 												component="th"
 												scope="row"

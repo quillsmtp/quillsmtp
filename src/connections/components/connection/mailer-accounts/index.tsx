@@ -7,14 +7,17 @@ interface Props {
 	connectionId: string;
 	mailer: MailerModuleSettings;
 	slug: string;
+	setStep?: (step: number) => void;
 }
 
-const MailerAccounts: React.FC<Props> = ({ connectionId, mailer, slug }) => {
+const MailerAccounts: React.FC<Props> = ({ connectionId, mailer, slug, setStep }) => {
 	const Render = () => {
-		const Component = mailer.render;
-
+		const Component = mailer?.render;
+		if (!Component) {
+			return null;
+		}
 		/* @ts-ignore */
-		return <Component connectionId={connectionId} slug={slug} />;
+		return <Component connectionId={connectionId} slug={slug} setStep={setStep} />;
 	};
 
 	return (

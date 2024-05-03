@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * External dependencies
  */
-import Stack from '@mui/material/Stack';
+import { Grid } from '@mui/material';
 
 /**
  * QuillSMTP dependencies
@@ -22,10 +22,14 @@ import './style.scss';
 const Settings = () => {
 	return (
 		<div className="qsmtp-settings-page">
-			<Stack alignItems={'center'} spacing={2}>
-				<GeneralSettings />
-				<ConnectionsList />
-			</Stack>
+			<Grid container maxWidth={'1200px'} margin={'auto'} spacing={2} >
+				<Grid item xs={8}>
+					<ConnectionsList />
+				</Grid>
+				<Grid item xs={4}>
+					<GeneralSettings />
+				</Grid>
+			</Grid>
 		</div>
 	);
 };
