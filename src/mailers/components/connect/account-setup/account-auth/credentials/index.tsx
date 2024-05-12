@@ -314,7 +314,7 @@ const Credentials: React.FC<Props> = ({
 								</Select>
 								{field?.help && (
 									<FormHelperText>
-										{field?.help}
+										{<Help field={field} />}
 									</FormHelperText>
 								)}
 							</FormControl>
@@ -345,7 +345,7 @@ const Credentials: React.FC<Props> = ({
 								/>
 								{field?.help && (
 									<FormHelperText>
-										{field?.help}
+										{<Help field={field} />}
 									</FormHelperText>
 								)}
 							</FormControl>
