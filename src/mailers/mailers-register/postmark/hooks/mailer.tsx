@@ -19,6 +19,24 @@ addFilter(
 									label: __('Server API Token', 'quillsmtp'),
 									type: 'password',
 									required: true,
+									help: () => (
+										<p>
+											{__(
+												'Follow this link to get your API key:',
+												'quillsmtp'
+											)}{' '}
+											<a
+												href="https://account.postmarkapp.com/servers"
+												target="_blank"
+												rel="noreferrer"
+											>
+												{__(
+													'Get Postmark API Key',
+													'quillsmtp'
+												)}
+											</a>
+										</p>
+									),
 								},
 								message_stream_id: {
 									label: __('Message Stream ID', 'quillsmtp'),

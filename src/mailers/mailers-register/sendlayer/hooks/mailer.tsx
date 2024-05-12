@@ -19,6 +19,24 @@ addFilter(
 									label: __('API Key', 'quillsmtp'),
 									type: 'password',
 									required: true,
+									help: () => (
+										<p>
+											{__(
+												'Follow this link to get your API key:',
+												'quillsmtp'
+											)}{' '}
+											<a
+												href="https://app.sendlayer.com/settings/api"
+												target="_blank"
+												rel="noreferrer"
+											>
+												{__(
+													'Get SendLayer API Key',
+													'quillsmtp'
+												)}
+											</a>
+										</p>
+									),
 								},
 							},
 						},

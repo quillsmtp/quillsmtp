@@ -16,7 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { keys } from 'lodash';
+import { keys, isFunction } from 'lodash';
 
 /**
  * WordPress Dependencies
@@ -225,6 +225,15 @@ const Credentials: React.FC<Props> = ({
 		return result;
 	};
 
+	const Help = ({ field }) => {
+		if (!field?.help) return null;
+		if (isFunction(field.help)) {
+			return <field.help />;
+		}
+
+		return <p>{field.help}</p>;
+	};
+
 	return (
 		<div className="mailer-auth-credentials">
 			<TextField
@@ -268,7 +277,7 @@ const Credentials: React.FC<Props> = ({
 								variant="outlined"
 								fullWidth
 								sx={{ mb: 2 }}
-								helperText={field?.help}
+								helperText={<Help field={field} />}
 								type={field.type}
 							/>
 						);

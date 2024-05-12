@@ -19,6 +19,24 @@ addFilter(
 									label: __('API Key', 'quillsmtp'),
 									type: 'password',
 									required: true,
+									help: () => (
+										<p>
+											{__(
+												'Follow this link to get your API key:',
+												'quillsmtp'
+											)}{' '}
+											<a
+												href="https://app.sparkpost.com/account/api-keys"
+												target="_blank"
+												rel="noreferrer"
+											>
+												{__(
+													'Get SparkPost API Key',
+													'quillsmtp'
+												)}
+											</a>
+										</p>
+									),
 								},
 								region: {
 									label: __('Region', 'quillsmtp'),
@@ -34,6 +52,21 @@ addFilter(
 										},
 									],
 									required: true,
+									help: () => (
+										<p>
+											{__(
+												'Choose the region where your SparkPost account is located.',
+												'quillsmtp'
+											)}{' '}
+											<a
+												href="https://www.sparkpost.com/docs/getting-started/getting-started-sparkpost"
+												target="_blank"
+												rel="noreferrer"
+											>
+												{__('Learn more', 'quillsmtp')}
+											</a>
+										</p>
+									),
 								},
 							},
 						},
