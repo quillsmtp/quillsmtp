@@ -21,6 +21,7 @@ const configData: ConfigData = {
 	license: false,
 	wpMailConfig: false,
 	easySMTPConfig: false,
+	fluentSMTPConfig: false,
 };
 
 /**
@@ -281,6 +282,28 @@ const setEasySMTPConfig = (data: ConfigData) => (value: any) => {
 	data.easySMTPConfig = value;
 };
 
+/**
+ * Set fluent mail smtp
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} fluentSMTP
+ */
+const setFluentSMTPConfig = (data: ConfigData) => (value: any) => {
+	data.fluentSMTPConfig = value;
+};
+
+/**
+ * Get fluent mail smtp
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} fluentSMTP
+ */
+const getFluentSMTPConfig = (data: ConfigData) => (): any => {
+	return data.fluentSMTPConfig;
+};
+
 export interface ConfigApi {
 	<T>(key: string): T;
 	setInitialPayload: (value: InitialPayload) => void;
@@ -307,6 +330,8 @@ export interface ConfigApi {
 	getWpMailConfig: () => any;
 	setEasySMTPConfig: (value: any) => void;
 	getEasySMTPConfig: () => any;
+	setFluentSMTPConfig: (value: any) => void;
+	getFluentSMTPConfig: () => any;
 }
 
 const createConfig = (data: ConfigData): ConfigApi => {
@@ -335,6 +360,8 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.getWpMailConfig = getWpMailConfig(data);
 	configApi.setEasySMTPConfig = setEasySMTPConfig(data);
 	configApi.getEasySMTPConfig = getEasySMTPConfig(data);
+	configApi.setFluentSMTPConfig = setFluentSMTPConfig(data);
+	configApi.getFluentSMTPConfig = getFluentSMTPConfig(data);
 
 	return configApi;
 };

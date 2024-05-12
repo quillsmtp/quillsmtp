@@ -32,49 +32,58 @@ const ConnectionsList: React.FC = () => {
 	const [setUpWizard, setSetUpWizard] = useState(false);
 	const wpMailConfig = ConfigAPI.getWpMailConfig();
 	const easySMTP = ConfigAPI.getEasySMTPConfig();
+	const fluentSMTP = ConfigAPI.getFluentSMTPConfig();
 
 	if (!connectionsIds) return null;
 	const { addConnection, setInitialAccountData } =
 		useDispatch('quillSMTP/core');
 
-	const importFrom = (type: 'wpMailConfig' | 'easySMTP') => () => {
-		let data = null;
-		if (type === 'wpMailConfig') {
-			data = wpMailConfig;
-		} else {
-			data = easySMTP;
-		}
+	const importFrom =
+		(type: 'wpMailConfig' | 'easySMTP' | 'fluentSMTP') => () => {
+			let data = null;
 
-		if (!data) {
-			return;
-		}
+			switch (type) {
+				case 'wpMailConfig':
+					data = wpMailConfig;
+					break;
+				case 'easySMTP':
+					data = easySMTP;
+					break;
+				case 'fluentSMTP':
+					data = fluentSMTP;
+					break;
+			}
 
-		const {
-			mailer,
-			from_email,
-			from_name,
-			from_name_force,
-			from_email_force,
-		} = data;
+			if (!data) {
+				return;
+			}
 
-		const randomId = () => Math.random().toString(36).substr(2, 9);
-		const connectionId = randomId();
-		setNewConnectionId(connectionId);
-		setInitialAccountData(data[mailer]);
-		addConnection(connectionId, {
-			name: __('Connection #1', 'quillsmtp'),
-			mailer,
-			account_id: '',
-			from_email,
-			force_from_email: from_email_force,
-			from_name,
-			force_from_name: from_name_force,
-		});
+			const {
+				mailer,
+				from_email,
+				from_name,
+				from_name_force,
+				from_email_force,
+			} = data;
 
-		setTimeout(() => {
-			setSetUpWizard(true);
-		}, 100);
-	};
+			const randomId = () => Math.random().toString(36).substr(2, 9);
+			const connectionId = randomId();
+			setNewConnectionId(connectionId);
+			setInitialAccountData(data[mailer]);
+			addConnection(connectionId, {
+				name: __('Connection #1', 'quillsmtp'),
+				mailer,
+				account_id: '',
+				from_email,
+				force_from_email: from_email_force,
+				from_name,
+				force_from_name: from_name_force,
+			});
+
+			setTimeout(() => {
+				setSetUpWizard(true);
+			}, 100);
+		};
 
 	return (
 		<Card
@@ -87,31 +96,48 @@ const ConnectionsList: React.FC = () => {
 				</div>
 			</div>
 			<CardContent>
-				{size(connectionsIds) === 0 && wpMailConfig && (
-					<div
-						className="qsmtp-connections-list__import"
-						style={{
-							marginTop: '20px',
-							display: 'flex',
-							gap: '10px',
-						}}
-					>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={importFrom('wpMailConfig')}
+				{size(connectionsIds) === 0 &&
+					(wpMailConfig || fluentSMTP || easySMTP) && (
+						<div
+							className="qsmtp-connections-list__import"
+							style={{
+								marginTop: '20px',
+								display: 'flex',
+								gap: '10px',
+							}}
 						>
-							{__('Import from WP Mail', 'quillsmtp')}
-						</Button>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={importFrom('easySMTP')}
-						>
-							{__('Import from Easy Mail SMTP', 'quillsmtp')}
-						</Button>
-					</div>
-				)}
+							{wpMailConfig && (
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={importFrom('wpMailConfig')}
+								>
+									{__('Import from WP Mail', 'quillsmtp')}
+								</Button>
+							)}
+							{easySMTP && (
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={importFrom('easySMTP')}
+								>
+									{__(
+										'Import from Easy Mail SMTP',
+										'quillsmtp'
+									)}
+								</Button>
+							)}
+							{fluentSMTP && (
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={importFrom('fluentSMTP')}
+								>
+									{__('Import from Fluent SMTP', 'quillsmtp')}
+								</Button>
+							)}
+						</div>
+					)}
 				<div className="qsmtp-connections-list">
 					<div className="qsmtp-connections-list__add">
 						<Card
@@ -163,7 +189,10 @@ const ConnectionsList: React.FC = () => {
 							<SetUpWizard
 								mode="add"
 								connectionId={newConnectionId}
-								setSetUpWizard={setSetUpWizard}
+								setSetUpWizard={(value) => {
+									setSetUpWizard(value);
+									setInitialAccountData({});
+								}}
 								onSetupsComplete={() => {
 									setSetUpWizard(false);
 								}}

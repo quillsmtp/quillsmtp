@@ -8,7 +8,7 @@ addFilter(
 	'QuillSMTP/PHPMailer/ImplementIntegrationModuleSettings',
 	(settings, slug: string) => {
 		if (slug === 'phpmailer') {
-			settings.render = () => null;
+			settings.connectParameters = null;
 		}
 		return settings;
 	}

@@ -14,6 +14,7 @@ export type ConfigData = Record<string, unknown> & {
 	license: License | false;
 	wpMailConfig: SMTP_Config | false;
 	easySMTPConfig: SMTP_Config | false;
+	fluentSMTPConfig: SMTP_Config | false;
 };
 
 export type SMTP_Config = {

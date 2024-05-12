@@ -1,7 +1,13 @@
 /**
+ * External dependencies
+ */
+import { isEmpty } from 'lodash';
+
+/**
  * Internal dependencies
  */
 import { MailerModuleSettings } from '@quillsmtp/mailers';
+import { Connect, SettingsRender } from '@quillsmtp/mailers';
 
 interface Props {
 	connectionId: string;
@@ -10,14 +16,30 @@ interface Props {
 	setStep?: (step: number) => void;
 }
 
-const MailerAccounts: React.FC<Props> = ({ connectionId, mailer, slug, setStep }) => {
+const MailerAccounts: React.FC<Props> = ({
+	connectionId,
+	mailer,
+	slug,
+	setStep,
+}) => {
 	const Render = () => {
-		const Component = mailer?.render;
-		if (!Component) {
+		const connectParameters = mailer?.connectParameters;
+		if (!connectParameters === null) {
 			return null;
 		}
+
+		if (isEmpty(connectParameters)) {
+			return (
+				<SettingsRender
+					slug={slug}
+					connectionId={connectionId}
+					setStep={setStep}
+				/>
+			);
+		}
+
 		/* @ts-ignore */
-		return <Component connectionId={connectionId} slug={slug} setStep={setStep} />;
+		return <Connect connectionId={connectionId} {...connectParameters} />;
 	};
 
 	return (

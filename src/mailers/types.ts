@@ -1,10 +1,7 @@
 import React from 'react';
 
 export type MailerModuleSettings = {
-	render:
-		| React.FC<{ slug: string; connectionId: string }>
-		| JSX.Element
-		| React.Component;
+	connectParameters?: Record<string, any>;
 	title: string;
 	description: string;
 	icon: string;

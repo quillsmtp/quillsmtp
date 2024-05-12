@@ -46,7 +46,8 @@ class Core {
 			'qsmtp.config.setIsMainSite("' . ( is_main_site() ? '1' : '0' ) . '");' .
 			'qsmtp.config.setLicense(' . json_encode( License::instance()->get_license_info() ) . ');' .
 			'qsmtp.config.setWpMailConfig(' . json_encode( self::wp_mail_config() ) . ');' .
-			'qsmtp.config.setEasySMTPConfig(' . json_encode( self::easy_smtp_config() ) . ');'
+			'qsmtp.config.setEasySMTPConfig(' . json_encode( self::easy_smtp_config() ) . ');' .
+			'qsmtp.config.setFluentSMTPConfig(' . json_encode( self::fluent_smtp_config() ) . ');'
 		);
 	}
 
@@ -948,5 +949,330 @@ class Core {
 		}
 
 		return $secret_key;
+	}
+
+	/**
+	 * Get FluentSMTP settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public static function fluent_smtp_config() {
+		$fluent_smtp_settings = get_option( 'fluentmail-settings' );
+		if ( empty( $fluent_smtp_settings ) ) {
+			return false;
+		}
+
+		$misc_settings      = $fluent_smtp_settings['misc'] ?? [];
+		$default_connection = $misc_settings['default_connection'] ?? '';
+		$connections        = $fluent_smtp_settings['connections'] ?? [];
+		$use_encrypt        = $fluent_smtp_settings['use_encrypt'] ?? 'no';
+
+		if ( empty( $default_connection ) || empty( $connections ) ) {
+			return false;
+		}
+
+		$connection_settings = $connections[ $default_connection ] ?? [];
+		if ( empty( $connection_settings ) ) {
+			return false;
+		}
+
+		$settings                     = [];
+		$connection_settings          = $connection_settings['provider_settings'];
+		$settings['from_email']       = $connection_settings['sender_email'] ?? '';
+		$settings['from_name']        = $connection_settings['sender_name'] ?? '';
+		$settings['mailer']           = $connection_settings['provider'] ?? '';
+		$settings['from_name_force']  = 'no' === ( $connection_settings['force_from_name'] ?? 'no' ) ? false : true;
+		$settings['from_email_force'] = 'no' === ( $connection_settings['force_from_email'] ?? 'no' ) ? false : true;
+
+		switch ( $settings['mailer'] ) {
+			case 'smtp':
+				$settings['smtp']['smtp_host']      = $connection_settings['host'] ?? '';
+				$settings['smtp']['smtp_port']      = $connection_settings['port'] ?? '';
+				$settings['smtp']['encryption']     = $connection_settings['encryption'] ?? '';
+				$settings['smtp']['username']       = $connection_settings['username'] ?? '';
+				$settings['smtp']['authentication'] = 'yes' === $connection_settings['auth'] ?? 'no' ? true : false;
+				$settings['smtp']['auto_tls']       = $connection_settings['autotls'] ?? false;
+				$password                           = $connection_settings['password'] ?? '';
+				$settings['smtp']['password']       = 'yes' === $use_encrypt ? self::fluent_decrypt( $password ) : $password;
+				break;
+			case 'elasticmail':
+				$api_key                             = self::get_fluent_elasticmail_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['elasticemail']['api_key'] = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				break;
+			case 'mailgun':
+				$settings['mailgun']['domain_name'] = self::get_fluent_mailgun_setting( 'domain', $connection_settings['domain'] ?? '', $connection_settings );
+				$api_key                            = self::get_fluent_mailgun_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['mailgun']['api_key']     = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				break;
+			case 'sendgrid':
+				$api_key                         = self::get_fluent_sendgrid_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['sendgrid']['api_key'] = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				break;
+			case 'postmark':
+				$api_key                                   = self::get_fluent_postmark_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['postmark']['api_token']         = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				$settings['postmark']['message_stream_id'] = self::get_fluent_postmark_setting( 'message_stream', $connection_settings['message_stream'] ?? '', $connection_settings );
+				break;
+			case 'sendinblue':
+				$api_key                           = self::get_fluent_sendinblue_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['sendinblue']['api_key'] = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				break;
+			case 'sparkpost':
+				$api_key                          = self::get_fluent_sparkpost_setting( 'api_key', $connection_settings['api_key'] ?? '', $connection_settings );
+				$settings['sparkpost']['api_key'] = 'yes' === $use_encrypt ? self::fluent_decrypt( $api_key ) : $api_key;
+				break;
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Get Fluent ElasticEmail settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_elasticmail_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_ELASTICMAIL_API_KEY' ) && FLUENTMAIL_ELASTICMAIL_API_KEY ) {
+					$value = FLUENTMAIL_ELASTICMAIL_API_KEY;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP mailgun settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_mailgun_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'domain':
+				if ( defined( 'FLUENTMAIL_MAILGUN_DOMAIN' ) && FLUENTMAIL_MAILGUN_DOMAIN ) {
+					$value = FLUENTMAIL_MAILGUN_DOMAIN;
+				}
+				break;
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_MAILGUN_API_KEY' ) && FLUENTMAIL_MAILGUN_API_KEY ) {
+					$value = FLUENTMAIL_MAILGUN_API_KEY;
+				}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP sendgrid settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_sendgrid_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_SENDGRID_API_KEY' ) && FLUENTMAIL_SENDGRID_API_KEY ) {
+					$value = FLUENTMAIL_SENDGRID_API_KEY;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP postmark settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_postmark_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_POSTMARK_API_KEY' ) && FLUENTMAIL_POSTMARK_API_KEY ) {
+					$value = FLUENTMAIL_POSTMARK_API_KEY;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP sendinblue settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_sendinblue_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_SENDINBLUE_API_KEY' ) && FLUENTMAIL_SENDINBLUE_API_KEY ) {
+					$value = FLUENTMAIL_SENDINBLUE_API_KEY;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP sparkpost settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_sparkpost_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'api_key':
+				if ( defined( 'FLUENTMAIL_SPARKPOST_API_KEY' ) && FLUENTMAIL_SPARKPOST_API_KEY ) {
+					$value = FLUENTMAIL_SPARKPOST_API_KEY;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get FluentSMTP smtp settings
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Key.
+	 * @param string $default Default value.
+	 * @param array  $settings Settings.
+	 *
+	 * @return string
+	 */
+	public static function get_fluent_smtp_setting( $key, $default, $settings ) {
+		if ( 'wp_config' !== $settings['key_store'] ) {
+			return $default;
+		}
+
+		$value = $default;
+		switch ( $key ) {
+			case 'username':
+				if ( defined( 'FLUENTMAIL_SMTP_USERNAME' ) && FLUENTMAIL_SMTP_USERNAME ) {
+					$value = FLUENTMAIL_SMTP_USERNAME;
+				}
+				break;
+			case 'password':
+				if ( defined( 'FLUENTMAIL_SMTP_PASSWORD' ) && FLUENTMAIL_SMTP_PASSWORD ) {
+					$value = FLUENTMAIL_SMTP_PASSWORD;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * Decrypts a value using AES-256 encryption with a provided key and salt.
+	 *
+	 * @param string $value The value to decrypt.
+	 * @return string|false The decrypted value, or false if decryption fails.
+	 */
+	public static function fluent_decrypt( $value ) {
+		if ( ! $value ) {
+			return $value;
+		}
+
+		if ( ! extension_loaded( 'openssl' ) ) {
+			return $value;
+		}
+
+		if ( defined( 'FLUENTMAIL_ENCRYPT_SALT' ) ) {
+			$salt = FLUENTMAIL_ENCRYPT_SALT;
+		} else {
+			$salt = ( defined( 'LOGGED_IN_SALT' ) && '' !== LOGGED_IN_SALT ) ? LOGGED_IN_SALT : 'this-is-a-fallback-salt-but-not-secure';
+		}
+
+		if ( defined( 'FLUENTMAIL_ENCRYPT_KEY' ) ) {
+			$key = FLUENTMAIL_ENCRYPT_KEY;
+		} else {
+			$key = ( defined( 'LOGGED_IN_KEY' ) && '' !== LOGGED_IN_KEY ) ? LOGGED_IN_KEY : 'this-is-a-fallback-key-but-not-secure';
+		}
+
+		$raw_value = base64_decode( $value, true ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+
+		$method = 'aes-256-ctr';
+		$ivlen  = openssl_cipher_iv_length( $method );
+		$iv     = substr( $raw_value, 0, $ivlen );
+
+		$raw_value = substr( $raw_value, $ivlen );
+
+		$newValue = openssl_decrypt( $raw_value, $method, $key, 0, $iv );
+		if ( ! $newValue || substr( $newValue, -strlen( $salt ) ) !== $salt ) {
+			return false;
+		}
+
+		return substr( $newValue, 0, -strlen( $salt ) );
 	}
 }
