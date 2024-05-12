@@ -1,31 +1,95 @@
-import { TextField } from '@mui/material';
+/**
+ * QuillSMTP Dependencies
+ */
+import ConfigAPI from '@quillsmtp/config';
+import { getMailerModules } from '@quillsmtp/mailers';
+
+/**
+ * WordPress Dependencies
+ */
 import { useEffect, useState } from '@wordpress/element';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Icon } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
+
 import { check } from '@wordpress/icons';
+
+/**
+ * External Dependencies
+ */
+import { TextField } from '@mui/material';
 import { __ } from '@wordpress/i18n';
 import { motion } from "framer-motion"
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+
+/**
+ * Internal Dependencies
+ */
 import "./style.scss";
 import MailersSelector from '../connection/mailer-selector';
 import MailerAccounts from '../connection/mailer-accounts';
-import { getMailerModules } from '@quillsmtp/mailers';
 import classNames from "classnames";
+import FromEmail from '../connection/from-email';
+import ForceFromEmail from '../connection/force-from-email';
+import FromName from '../connection/from-name';
+import ForceFromName from '../connection/force-from-name';
+import Notices from '../../../client/components/notices';
 
 const WizardContent = ({ connectionId }) => {
     const [step, setStep] = useState(1);
     const [showNextButton, setShowNextButton] = useState(false);
-
-    console.log(connectionId);
-
+    const [isSaving, setIsSaving] = useState(false);
+    // dispatch notices.
+    const { createNotice } = useDispatch('quillSMTP/core');
 
     const mailerModules = getMailerModules();
-    const { mailerSlug, connectionName } = useSelect((select) => {
+    const { mailerSlug, connectionName, accountId, connection } = useSelect((select) => {
         return {
             mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
             connectionName: select('quillSMTP/core').getConnectionName(connectionId),
+            accountId: select('quillSMTP/core').getConnectionAccountId(connectionId),
+            connection: select('quillSMTP/core').getConnection(connectionId)
+
         }
     });
+
+
+    const save = () => {
+
+        setIsSaving(true);
+
+        const updatedConnection = { ...connection };
+        apiFetch({
+            path: `/qsmtp/v1/settings`,
+            method: 'POST',
+            data: {
+                connections: {
+                    ...ConfigAPI.getInitialPayload().connections,
+                    [connectionId]: updatedConnection,
+                },
+            },
+        }).then((res: any) => {
+            if (res.success) {
+                ConfigAPI.setInitialPayload({
+                    ...ConfigAPI.getInitialPayload(),
+                    connections: {
+                        ...ConfigAPI.getInitialPayload().connections,
+                        [connectionId]: connection,
+                    },
+                });
+                setStep(step + 1);
+            } else {
+                createNotice({
+                    type: 'error',
+                    message: __('Error saving settings.', 'quillsmtp'),
+                });
+            }
+            setIsSaving(false);
+        });
+    };
+
 
     useEffect(() => {
 
@@ -37,12 +101,18 @@ const WizardContent = ({ connectionId }) => {
             setShowNextButton(true);
             return;
         }
-        if (step === 3) {
+        if (step === 3 && accountId) {
             setShowNextButton(true);
             return;
         }
+
+        if (step === 4) {
+            setShowNextButton(true);
+            return;
+
+        }
         setShowNextButton(false);
-    }, [step, connectionName, mailerSlug]);
+    }, [step, connectionName, mailerSlug, accountId]);
 
     const { updateConnection } = useDispatch('quillSMTP/core');
 
@@ -154,34 +224,78 @@ const WizardContent = ({ connectionId }) => {
 
                 )}
 
-                <div className="qsmtp-setup-wizard__buttons">
-                    <Button
-                        className='qsmtp-setup-wizard__prev-button'
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                            if (step > 1) {
-                                setStep(step - 1)
-                            }
-                        }}
-                    >
-                        {__('Previous', 'quillsmtp')}
-                    </Button>
-                    <Button
-                        className={classNames('qsmtp-setup-wizard__next-button')}
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                            if (showNextButton === false) return;
-                            if (step < 4) {
-                                setStep(step + 1)
-                            }
-                        }}
-                    >
-                        {__('Next', 'quillsmtp')}
-                    </Button>
-                </div>
+                {step === 4 && (
+
+                    <>
+                        <div className="qsmtp-setup-wizard__header">
+                            <h2 className='qsmtp-setup-wizard__header-title'>{__('Finally, configure your sender settings', 'quillsmtp')}</h2>
+
+                        </div>
+                        <>
+                            <FromEmail connectionId={connectionId} />
+                            <ForceFromEmail connectionId={connectionId} />
+                            <FromName connectionId={connectionId} />
+                            <ForceFromName connectionId={connectionId} />
+                        </>
+                    </>
+                )}
+
+                {step === 5 && (
+                    <>
+                        <div className="qsmtp-setup-wizard__header">
+                            <h2 className='qsmtp-setup-wizard__header-title'>{__('All set!', 'quillsmtp')}</h2>
+                            <p> You have successfully configured your connection. </p>
+                        </div>
+                        <Button className='qsmtp-setup-wizard__dashboard-button' variant="contained" color="primary" onClick={() => {
+                            location.reload();
+                        }}>
+                            {__('Go to Dashboard', 'quillsmtp')}
+
+                        </Button>
+                    </>
+                )}
+                {step !== 5 && (
+                    <div className="qsmtp-setup-wizard__buttons">
+                        <Button
+                            className='qsmtp-setup-wizard__prev-button'
+                            variant="contained"
+                            color="primary"
+
+                            onClick={() => {
+                                if (step > 1) {
+                                    setStep(step - 1);
+                                    setIsSaving(false);
+                                }
+                            }}
+                        >
+                            {__('Previous', 'quillsmtp')}
+                        </Button>
+                        <Button
+                            className={classNames('qsmtp-setup-wizard__next-button', {
+                                'qsmtp-setup-wizard__next-button--disabled': !showNextButton
+                            })}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                if (showNextButton === false || isSaving) return;
+                                if (step === 4) {
+                                    save();
+                                    return;
+                                }
+                                if (step < 4) {
+                                    setStep(step + 1)
+                                }
+                            }}
+                        >
+                            {step === 4 ? __('Save', 'quillsmtp') : __('Next', 'quillsmtp')}
+                        </Button>
+
+                    </div>
+                )}
             </div>
+
+            <Notices />
+
         </>
     )
 }

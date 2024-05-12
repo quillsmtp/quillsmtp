@@ -10,7 +10,7 @@ import { getMailerModules } from '@quillsmtp/mailers';
 import { __ } from '@wordpress/i18n';
 import { select, useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
+import { useState, createPortal } from '@wordpress/element';
 
 /**
  * External Dependencies
@@ -18,6 +18,8 @@ import { useState } from '@wordpress/element';
 import { styled } from '@mui/material/styles';
 import { Card } from '@mui/material';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import EditIcon from '@mui/icons-material/Edit';
+import SetUpWizard from '../setupwizard';
 
 
 interface Props {
@@ -26,8 +28,9 @@ interface Props {
 }
 
 const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [setUpWizard, setSetUpWizard] = useState(false);
     const mailerModules = getMailerModules();
-    console.log(mailerModules);
     const { mailerSlug, name } = useSelect((select) => {
         return {
             mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
@@ -78,7 +81,7 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
                 });
             }
 
-            // setIsDeleting(false);
+            setIsDeleting(false);
         });
     };
 
@@ -88,8 +91,19 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
             className="qsmtp-connection-card"
             data-label="Default Connection"
         >
-            {mailerSlug && <img src={mailerModules[mailerSlug].icon} alt={mailerSlug} className='qsmtp-connection-card__icon' />}
+            {mailerSlug && mailerModules[mailerSlug] && mailerModules[mailerSlug].icon && <img src={mailerModules[mailerSlug].icon} alt={mailerSlug} className='qsmtp-connection-card__icon' />}
+            <EditIcon className='qsmtp-connection-card__edit-icon' onClick={() => {
+                setSetUpWizard(true);
+            }} />
             <div className="qsmtp-connection-card__connection-name">{name}</div>
+            {setUpWizard && createPortal(
+                <SetUpWizard
+                    mode="edit"
+                    connectionId={connectionId}
+                    setSetUpWizard={setSetUpWizard}
+                />,
+                document.body
+            )}
         </div>
     );
 };

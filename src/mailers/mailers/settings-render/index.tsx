@@ -18,10 +18,12 @@ import CloseIcon from '@mui/icons-material/Close';
  */
 import ConfigAPI from '@quillsmtp/config';
 import MailerFeatureAvailability from './mailer-feature-availability';
+import { css } from "@emotion/css";
 
 const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 	slug,
 	connectionId,
+	setStep
 }) => {
 	const { getStoreMailers } = ConfigAPI;
 	const mailers = getStoreMailers();
@@ -36,11 +38,13 @@ const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 		<Dialog
 			open={mailerSlug === slug}
 			onClose={() => {
+				setStep(2)
 				updateConnection(connectionId, {
-					mailer: 'phpmailer',
+					mailer: '',
 					account_id: '',
 				});
 			}}
+
 		>
 			<DialogTitle
 				sx={{
@@ -65,6 +69,7 @@ const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 							mailer: '',
 							account_id: '',
 						});
+						setStep(2);
 					}}
 				>
 					<CloseIcon />

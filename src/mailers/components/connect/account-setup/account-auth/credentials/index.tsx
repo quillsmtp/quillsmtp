@@ -222,6 +222,7 @@ const Credentials: React.FC<Props> = ({
 					})
 				}
 				required
+				autoComplete='new-password'
 				disabled={submitting}
 				variant="outlined"
 				fullWidth
@@ -236,7 +237,7 @@ const Credentials: React.FC<Props> = ({
 					case 'password':
 						return (
 							<TextField
-								autoComplete='off'
+								autoComplete='new-password'
 								key={key}
 								label={field.label}
 								value={inputValue}

@@ -45,7 +45,6 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 
 		updateConnection(connectionId, { mailer: key, account_id: account_id });
 	};
-
 	return (
 		<div className="qsmtp-mailers-selector">
 			<Stack direction="row" spacing={2} useFlexGap flexWrap={'wrap'}>

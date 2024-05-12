@@ -14,8 +14,3 @@ export const getConnections = () => {
 	return setupStore(initialPayload);
 };
 
-export const getMailers = () => {
-	const initialPayload = ConfigAPI.getInitialPayload();
-
-	return setupStore(initialPayload);
-};

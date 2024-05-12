@@ -66,7 +66,9 @@ const ConnectionsList: React.FC = () => {
 									force_from_name: false,
 								});
 
-								setSetUpWizard(true);
+								setTimeout(() => {
+									setSetUpWizard(true);
+								}, 100);
 
 							}}
 						>
@@ -92,7 +94,7 @@ const ConnectionsList: React.FC = () => {
 						</>
 					)}
 
-					{setUpWizard && createPortal(
+					{setUpWizard && newConnectionId && createPortal(
 						<SetUpWizard
 							mode="add"
 							connectionId={newConnectionId}

@@ -299,7 +299,7 @@ abstract class Process {
 		$force_from_email      = $this->connection['force_from_email'] ?? false;
 		$from_email            = $this->phpmailer->From ?? $connection_from_email;
 
-		if ( $force_from_email && ! empty( $connection_from_email ) ) {
+		if ( $force_from_email && ! empty( $connection_from_email && is_email( $connection_from_email ) ) ) {
 			$from_email = $connection_from_email;
 		}
 

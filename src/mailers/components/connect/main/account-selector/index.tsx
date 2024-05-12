@@ -6,14 +6,17 @@ import ConfigAPI from '@quillsmtp/config';
 /**
  * WordPress Dependencies
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
+import { Icon } from "@wordpress/components";
+import { warning } from '@wordpress/icons'
 
 /**
- * Internal Dependencies
+ * External Dependencies
  */
+
 import { size, map } from 'lodash';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -41,7 +44,7 @@ import type { Account } from '@quillsmtp/store';
 import AccountAuth from '../../account-setup/account-auth';
 import { EditCredentials } from '../../account-edit';
 import { getMailerModule } from '@quillsmtp/mailers';
-
+import "./style.scss";
 interface Props {
 	connectionId: string;
 	main: ConnectMain;
@@ -90,6 +93,13 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		return getConnectionsIdsByAccountId(accountId);
 	};
 
+	useEffect(() => {
+		if (account_id && !accounts[account_id]) {
+			updateConnection(connectionId, {
+				account_id: '',
+			});
+		}
+	}, [])
 	// Delete account.
 	const removeAccount = () => {
 		if (isDeleting || !deleteAccountID) return;
@@ -100,6 +110,12 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		})
 			.then(() => {
 				deleteAccount(mailerSlug, deleteAccountID);
+				// if current connection uses the same account
+				if (deleteAccountID === account_id) {
+					updateConnection(connectionId, {
+						account_id: size(accounts) > 0 ? Object.keys(accounts)[0] : '',
+					});
+				}
 				setDeleteAccountID(null);
 				setIsDeleting(false);
 				createNotice({
@@ -157,48 +173,48 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 		setIsAdding(false);
 	};
 
-	const deleteHandler = () => {
-		// check if this account is used in any connection.
-		const connections = getAccountConnections(deleteAccountID);
-		if (connections.length === 0) {
-			removeAccount();
-			return;
-		}
+	// const deleteHandler = () => {
+	// 	// check if this account is used in any connection.
+	// 	const connections = getAccountConnections(deleteAccountID);
+	// 	if (connections.length === 0) {
+	// 		removeAccount();
+	// 		return;
+	// 	}
 
-		// First check if this is connection in stored in the initial payload.
-		// If so, we need to remove it from the initial payload.
-		const initialPayload = ConfigAPI.getInitialPayload();
-		const newConnections = { ...initialPayload.connections };
+	// 	// First check if this is connection in stored in the initial payload.
+	// 	// If so, we need to remove it from the initial payload.
+	// 	const initialPayload = ConfigAPI.getInitialPayload();
+	// 	const newConnections = { ...initialPayload.connections };
 
-		connections.forEach((connectionId) => {
-			delete newConnections[connectionId];
-		});
+	// 	connections.forEach((connectionId) => {
+	// 		delete newConnections[connectionId];
+	// 	});
 
-		setIsDeleting(true);
-		apiFetch({
-			path: `/qsmtp/v1/settings`,
-			method: 'POST',
-			data: {
-				connections: newConnections,
-			},
-		}).then((res: any) => {
-			if (res.success) {
-				ConfigAPI.setInitialPayload({
-					...ConfigAPI.getInitialPayload(),
-					connections: newConnections,
-				});
-				deleteConnections(connections);
-				removeAccount();
-			} else {
-				createNotice({
-					type: 'error',
-					message: __('Error deleting connections.', 'quillsmtp'),
-				});
-			}
+	// 	setIsDeleting(true);
+	// 	apiFetch({
+	// 		path: `/qsmtp/v1/settings`,
+	// 		method: 'POST',
+	// 		data: {
+	// 			connections: newConnections,
+	// 		},
+	// 	}).then((res: any) => {
+	// 		if (res.success) {
+	// 			ConfigAPI.setInitialPayload({
+	// 				...ConfigAPI.getInitialPayload(),
+	// 				connections: newConnections,
+	// 			});
+	// 			deleteConnections(connections);
+	// 			removeAccount();
+	// 		} else {
+	// 			createNotice({
+	// 				type: 'error',
+	// 				message: __('Error deleting connections.', 'quillsmtp'),
+	// 			});
+	// 		}
 
-			setIsDeleting(false);
-		});
-	};
+	// 		setIsDeleting(false);
+	// 	});
+	// };
 
 	const mailerModule = getMailerModule(mailerSlug);
 	const AccountSettings = () => {
@@ -339,11 +355,25 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 							<DialogContentText id="alert-dialog-description">
 								{sprintf(
 									__(
-										'Are you absolutely certain about deleting the account "%s"? This action will permanently erase all connections linked to this account.',
+										'Are you absolutely certain about deleting the account "%s"?',
 										'quillsmtp'
 									),
 									accounts[deleteAccountID]?.name
 								)}
+								{getAccountConnections(deleteAccountID).length > 0 &&
+									getAccountConnections(deleteAccountID).filter((connectionId) => connectionId !== connectionId).length > 0 &&
+									(
+										<p>
+											{__('This account is used in the following connections:', 'quillsmtp')}
+											<ul>
+												{getAccountConnections(deleteAccountID).filter((connectionId) => connectionId !== connectionId).map((connectionId) => (
+													<li key={connectionId}>
+														{connectionId}
+													</li>
+												))}
+											</ul>
+										</p>
+									)}
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
@@ -357,7 +387,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 								{__('Cancel', 'quillsmtp')}
 							</Button>
 							<LoadingButton
-								onClick={deleteHandler}
+								onClick={removeAccount}
 								autoFocus
 								color="error"
 								startIcon={<DeleteIcon />}
@@ -368,6 +398,21 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 						</DialogActions>
 					</Dialog>
 				)}
+				<>
+					{size(accounts) === 0 && (
+						<div className="mailer-connect-main__account-selector__no-accounts">
+							<Icon
+								icon={warning}
+								size={30}
+							/>
+							<p>
+								{__(`Looks like you don\'t have any  ${mailerModule.title} 
+                                    accounts configured. Please add an account to continue.`, 'quillsmtp')}
+							</p>
+						</div>
+
+					)}
+				</>
 				{main.accounts.auth.type === 'credentials' && !isAdding && (
 					<Button
 						component="label"

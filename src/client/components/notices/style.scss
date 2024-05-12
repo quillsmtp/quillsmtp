@@ -29,3 +29,10 @@
 		}
 	}
 }
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiAlert-filled {
+    z-index: 11111111111111
+}
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiAlert-filled  button {
+    background: inherit
+}

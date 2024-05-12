@@ -45,6 +45,8 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 	state = initialState,
 	action
 ) => {
+	console.log('action', action);
+
 	switch (action.type) {
 		case SETUP_STORE: {
 			const { initialPayload } = action;

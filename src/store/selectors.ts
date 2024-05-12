@@ -77,7 +77,9 @@ export const getConnectionMailer = (
 	connectionId: string
 ): string => {
 	const connections = state.connections;
-
+	if (!connections[connectionId]) {
+		return '';
+	}
 	return connections[connectionId].mailer;
 };
 
@@ -94,6 +96,9 @@ export const getConnectionAccountId = (
 	connectionId: string
 ): string | null => {
 	const connections = state.connections;
+	if (!connections[connectionId]) {
+		return null;
+	}
 
 	return connections[connectionId].account_id || null;
 };
@@ -179,6 +184,9 @@ export const getConnectionName = (
 	connectionId: string
 ): string => {
 	const connections = state.connections;
+	// if (!connections[connectionId]) {
+	// 	return '';
+	// }
 
 	return connections[connectionId].name;
 };

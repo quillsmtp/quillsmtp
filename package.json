@@ -25,6 +25,8 @@
     "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.10",
     "@mui/styled-engine-sc": "^5.14.10",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.3.0",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
     "@woocommerce/navigation": "^7.0.0",

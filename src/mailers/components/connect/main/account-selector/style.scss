@@ -1,0 +1,24 @@
+.mailer-connect-main__account-selector__no-accounts {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffd9d9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+        text-align: center;
+        color: #333
+    }
+    svg {
+        fill: #d34040;
+    }
+    button {
+        background: #d77f7f !important;
+        color: #fff;
+        svg {
+            fill: #fff;
+        }
+    }
+}
