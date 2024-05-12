@@ -19,6 +19,8 @@ const configData: ConfigData = {
 	isMultisite: false,
 	isMainSite: false,
 	license: false,
+	wpMailConfig: false,
+	easySMTPConfig: false,
 };
 
 /**
@@ -235,6 +237,50 @@ const getLicense = (data: ConfigData) => (): License | false => {
 	return data.license;
 };
 
+/**
+ * Set wp mail config
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} wpMailConfig
+ */
+const setWpMailConfig = (data: ConfigData) => (value: any) => {
+	data.wpMailConfig = value;
+};
+
+/**
+ * Get wp mail config
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} wpMailConfig
+ */
+const getWpMailConfig = (data: ConfigData) => (): any => {
+	return data.wpMailConfig;
+};
+
+/**
+ * Get easy mail smtp
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} easySMTP
+ */
+const getEasySMTPConfig = (data: ConfigData) => (): any => {
+	return data.easySMTPConfig;
+};
+
+/**
+ * Set easy mail smtp
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {any} easySMTP
+ */
+const setEasySMTPConfig = (data: ConfigData) => (value: any) => {
+	data.easySMTPConfig = value;
+};
+
 export interface ConfigApi {
 	<T>(key: string): T;
 	setInitialPayload: (value: InitialPayload) => void;
@@ -257,6 +303,10 @@ export interface ConfigApi {
 	getIsMainSite: () => boolean;
 	setLicense: (value: License | false) => void;
 	getLicense: () => License | false;
+	setWpMailConfig: (value: any) => void;
+	getWpMailConfig: () => any;
+	setEasySMTPConfig: (value: any) => void;
+	getEasySMTPConfig: () => any;
 }
 
 const createConfig = (data: ConfigData): ConfigApi => {
@@ -281,6 +331,10 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.setIsMainSite = setIsMainSite(data);
 	configApi.getLicense = getLicense(data);
 	configApi.setLicense = setLicense(data);
+	configApi.setWpMailConfig = setWpMailConfig(data);
+	configApi.getWpMailConfig = getWpMailConfig(data);
+	configApi.setEasySMTPConfig = setEasySMTPConfig(data);
+	configApi.getEasySMTPConfig = getEasySMTPConfig(data);
 
 	return configApi;
 };

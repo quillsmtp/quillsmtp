@@ -10,6 +10,7 @@ import {
 	Mailer,
 	App,
 	Notices,
+	InitialAccountData,
 } from './types';
 
 /**
@@ -249,6 +250,17 @@ export const getMailerAccount = (
 	const mailers = state.mailers;
 
 	return mailers[mailer].accounts[accountId];
+};
+
+/**
+ * Get initial account data.
+ *
+ * @param {State} state State.
+ *
+ * @return {InitialAccountData} Initial account data.
+ */
+export const getInitialAccountData = (state: State): InitialAccountData => {
+	return state.initialAccountData;
 };
 
 /**

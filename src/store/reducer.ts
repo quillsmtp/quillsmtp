@@ -21,6 +21,7 @@ import {
 	ADD_NOTICE,
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
+	SET_INITIAL_ACCOUNT_DATA,
 } from './constants';
 import { CorePureState, CoreActionTypes } from './types';
 
@@ -29,6 +30,7 @@ const initialState: CorePureState = {
 	connections: {},
 	mailers: {},
 	notices: {},
+	initialAccountData: {},
 };
 
 // Reducer.
@@ -152,6 +154,14 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 						accounts: updatedAccounts,
 					},
 				},
+			};
+		}
+		case SET_INITIAL_ACCOUNT_DATA: {
+			const { data } = action;
+
+			return {
+				...state,
+				initialAccountData: data,
 			};
 		}
 		case ADD_CONNECTION: {

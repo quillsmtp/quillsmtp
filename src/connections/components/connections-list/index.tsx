@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useState, createPortal } from "@wordpress/element";
+import { useState, createPortal } from '@wordpress/element';
 /**
  * External Dependencies
  */
@@ -11,18 +11,17 @@ import { map, size } from 'lodash';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 
 /**
  * Internal Dependencies
  */
-import Connection from '../connection';
 import './style.scss';
 import ConnectionCard from '../connection-card';
 import { Icon } from '@wordpress/components';
 
 import { plusCircle } from '@wordpress/icons';
 import SetUpWizard from '../setupwizard';
+import ConfigAPI from '@quillsmtp/config';
 
 const ConnectionsList: React.FC = () => {
 	const { connectionsIds } = useSelect((select) => ({
@@ -31,25 +30,95 @@ const ConnectionsList: React.FC = () => {
 
 	const [newConnectionId, setNewConnectionId] = useState('');
 	const [setUpWizard, setSetUpWizard] = useState(false);
+	const wpMailConfig = ConfigAPI.getWpMailConfig();
+	const easySMTP = ConfigAPI.getEasySMTPConfig();
 
 	if (!connectionsIds) return null;
-	const { addConnection } = useDispatch('quillSMTP/core');
+	const { addConnection, setInitialAccountData } =
+		useDispatch('quillSMTP/core');
+
+	const importFrom = (type: 'wpMailConfig' | 'easySMTP') => () => {
+		let data = null;
+		if (type === 'wpMailConfig') {
+			data = wpMailConfig;
+		} else {
+			data = easySMTP;
+		}
+
+		if (!data) {
+			return;
+		}
+
+		const {
+			mailer,
+			from_email,
+			from_name,
+			from_name_force,
+			from_email_force,
+		} = data;
+
+		const randomId = () => Math.random().toString(36).substr(2, 9);
+		const connectionId = randomId();
+		setNewConnectionId(connectionId);
+		setInitialAccountData(data[mailer]);
+		addConnection(connectionId, {
+			name: __('Connection #1', 'quillsmtp'),
+			mailer,
+			account_id: '',
+			from_email,
+			force_from_email: from_email_force,
+			from_name,
+			force_from_name: from_name_force,
+		});
+
+		setTimeout(() => {
+			setSetUpWizard(true);
+		}, 100);
+	};
 
 	return (
-		<Card className="qsmtp-connections-list-wrapper qsmtp-card" sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}>
+		<Card
+			className="qsmtp-connections-list-wrapper qsmtp-card"
+			sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
+		>
 			<div className="qsmtp-card-header">
 				<div className="qsmtp-card-header__title">
 					{__('Connections', 'quillsmtp')}
 				</div>
 			</div>
 			<CardContent>
+				{size(connectionsIds) === 0 && wpMailConfig && (
+					<div
+						className="qsmtp-connections-list__import"
+						style={{
+							marginTop: '20px',
+							display: 'flex',
+							gap: '10px',
+						}}
+					>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={importFrom('wpMailConfig')}
+						>
+							{__('Import from WP Mail', 'quillsmtp')}
+						</Button>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={importFrom('easySMTP')}
+						>
+							{__('Import from Easy Mail SMTP', 'quillsmtp')}
+						</Button>
+					</div>
+				)}
 				<div className="qsmtp-connections-list">
-
 					<div className="qsmtp-connections-list__add">
 						<Card
 							className="qsmtp-connections-list__add-card qsmtp-connection-card"
 							onClick={() => {
-								const randomId = () => Math.random().toString(36).substr(2, 9);
+								const randomId = () =>
+									Math.random().toString(36).substr(2, 9);
 
 								const connectionId = randomId();
 								setNewConnectionId(connectionId);
@@ -69,13 +138,9 @@ const ConnectionsList: React.FC = () => {
 								setTimeout(() => {
 									setSetUpWizard(true);
 								}, 100);
-
 							}}
 						>
-							<Icon
-								icon={plusCircle}
-								size={30}
-							/>
+							<Icon icon={plusCircle} size={30} />
 							{__('Add Connection', 'quillsmtp')}
 						</Card>
 					</div>
@@ -89,29 +154,25 @@ const ConnectionsList: React.FC = () => {
 										index={index}
 									/>
 								);
-							}
-							)}
+							})}
 						</>
 					)}
-
-					{setUpWizard && newConnectionId && createPortal(
-						<SetUpWizard
-							mode="add"
-							connectionId={newConnectionId}
-							setSetUpWizard={setSetUpWizard}
-							onSetupsComplete={() => {
-								setSetUpWizard(false);
-
-							}}
-						/>,
-						document.body
-					)}
+					{setUpWizard &&
+						newConnectionId &&
+						createPortal(
+							<SetUpWizard
+								mode="add"
+								connectionId={newConnectionId}
+								setSetUpWizard={setSetUpWizard}
+								onSetupsComplete={() => {
+									setSetUpWizard(false);
+								}}
+							/>,
+							document.body
+						)}
 				</div>
-
-
-
 			</CardContent>
-		</Card >
+		</Card>
 	);
 };
 
