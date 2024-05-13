@@ -10,6 +10,7 @@ export type MailerModuleSettings = {
 		| React.FC<{ connectionId: string }>
 		| JSX.Element
 		| React.Component;
+	documentation: string | false;
 };
 
 export type MailerModules = Record<string, MailerModuleSettings>;
