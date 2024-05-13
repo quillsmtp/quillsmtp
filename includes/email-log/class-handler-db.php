@@ -158,8 +158,15 @@ class Handler_DB {
 			'%s', // context.
 			'%d', // resend_count.
 		);
+		$result = $wpdb->prepare( "INSERT INTO $table_name (
+			// get columns from the array
+			" . implode( ',', array_keys( $data ) ) . "
+		) VALUES (
+			" . implode( ',', $format ) . "
+		)", $data ); // @codingStandardsIgnoreLine. 
 
-		$result = $wpdb->insert( $table_name, $data, $format );
+
+		//$wpdb->insert( $table_name, $data, $format );
 		return $result;
 	}
 
@@ -185,7 +192,9 @@ class Handler_DB {
 			}
 		}
 
-		$result = $wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
+		$result = $wpdb->prepare( "UPDATE $table_name SET " . implode( ', ', array_map( function ( $v, $k ) { return $k . ' = ' . $v; }, $data, array_keys( $data ) ) ) . " WHERE log_id = %d", $log_id ); // @codingStandardsIgnoreLine.
+		
+		//$wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
 
 		return $result;
 	}
