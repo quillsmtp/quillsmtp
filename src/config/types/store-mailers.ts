@@ -8,6 +8,7 @@ export type StoreMailer = {
 		banner: string;
 	};
 	is_pro?: boolean;
+	documentation: string | false;
 };
 
 export type StoreMailers = {

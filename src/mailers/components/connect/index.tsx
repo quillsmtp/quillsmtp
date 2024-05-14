@@ -11,6 +11,7 @@ import type { Setup as SetupType, ConnectMain } from '../types';
 import Setup from './setup';
 import Main from './main';
 import App from './account-setup/app';
+import { getMailerModule } from '@quillsmtp/mailers';
 
 interface Props {
 	connectionId: string;
@@ -31,6 +32,7 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 
 	const mailer = mailers[connectionMailer];
 	const app = mailer?.app || {};
+	const storeMailer = getMailerModule(connectionMailer);
 
 	// check if need setup.
 	let needSetup = false;
@@ -45,6 +47,22 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 
 	return (
 		<div className="mailer-connect">
+			{storeMailer.documentation && (
+				<p
+					className="qsmtp-mailer-accounts__documentation"
+					style={{ marginBottom: '20px' }}
+				>
+					{__('Need help setting up your account?', 'quillsmtp')}{' '}
+					<a
+						href={storeMailer.documentation}
+						target="_blank"
+						rel="noreferrer"
+						className="qsmtp-mailer-accounts__documentation"
+					>
+						{__('View Documentation', 'quillsmtp')}
+					</a>
+				</p>
+			)}
 			{setup && needSetup ? (
 				<Setup connectionId={connectionId} setup={setup} />
 			) : (

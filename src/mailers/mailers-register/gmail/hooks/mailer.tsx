@@ -4,6 +4,11 @@
 import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Internal Dependencies
+ */
+import config from '@quillsmtp/config';
+
 addFilter(
 	'QuillSMTP.Mailers.MailerModuleSettings',
 	'QuillSMTP/Gmail/ImplementIntegrationModuleSettings',
@@ -18,7 +23,19 @@ addFilter(
 					},
 				},
 				setup: {
-					Instructions: () => null,
+					Instructions: () => (
+						<>
+							<p
+								style={{
+									marginBottom: '10px',
+									fontWeight: 'bold',
+								}}
+							>
+								{__('Redirect URI:', 'quillsmtp-pro')}{' '}
+								<code>{`${config.getAdminUrl()}admin.php`}</code>
+							</p>
+						</>
+					),
 					fields: {
 						client_id: {
 							label: __('Client ID', 'quillsmtp'),

@@ -23,6 +23,7 @@ function register() {
 			icon: mailer.assets.icon,
 			connectParameters: {},
 			is_pro: mailer?.is_pro,
+			documentation: mailer?.documentation,
 		});
 	}
 }
