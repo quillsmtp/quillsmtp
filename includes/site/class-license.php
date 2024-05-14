@@ -316,9 +316,9 @@ class License {
 			wp_send_json_error( esc_html__( 'Current license must be deactivated first', 'quillsmtp' ), 403 );
 			exit;
 		}
-
+		
 		// posted license key.
-		$license_key = trim( $_POST['license_key'] ?? '' );
+		$license_key = trim(sanitize_text_field( $_POST['license_key'] ?? '' ));
 		if ( empty( $license_key ) ) {
 			wp_send_json_error( esc_html__( 'License key is required', 'quillsmtp' ), 400 );
 			exit;

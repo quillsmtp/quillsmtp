@@ -5,14 +5,10 @@ import { applyFilters } from '@wordpress/hooks';
 import { __, sprintf } from '@wordpress/i18n';
 
 /**
- * External Dependencies
- */
-import { isFunction } from 'lodash';
-
-/**
  * Internal Modules
  */
 import type { MailerModules, MailerModuleSettings } from '../types';
+import Connect from '../components/connect';
 
 let mailerModules = {};
 
@@ -30,7 +26,8 @@ export const registerMailerModule = (
 	settings = applyFilters(
 		'QuillSMTP.Mailers.MailerModuleSettings',
 		settings,
-		slug
+		slug,
+		Connect
 	) as MailerModuleSettings;
 
 	if (mailerModules[slug]) {
@@ -39,18 +36,6 @@ export const registerMailerModule = (
 				__('This mailer %s is already registered!', 'quillsmtp'),
 				slug
 			)
-		);
-		return;
-	}
-
-	if (!settings.render) {
-		console.error(__('The "render" property is mandatory!', 'quillsmtp'));
-		return;
-	}
-
-	if (!isFunction(settings.render)) {
-		console.error(
-			__('The "render" property must be a function!', 'quillsmtp')
 		);
 		return;
 	}

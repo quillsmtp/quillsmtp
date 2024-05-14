@@ -376,7 +376,7 @@ class REST_Email_Log_Controller extends REST_Controller {
 		header( 'Content-Type: application/json' );
 		header( 'Content-Description: File Transfer' );
 		header( "Content-Disposition: attachment; filename=\"$filename\";" );
-		echo json_encode( $rows );
+		echo wp_json_encode( $rows );
 		exit;
 	}
 

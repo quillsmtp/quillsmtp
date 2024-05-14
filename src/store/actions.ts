@@ -19,6 +19,7 @@ import {
 	ADD_NOTICE,
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
+	SET_INITIAL_ACCOUNT_DATA,
 } from './constants';
 import {
 	CoreActionTypes,
@@ -27,6 +28,7 @@ import {
 	Connection,
 	Accounts,
 	Notice,
+	InitialAccountData,
 } from './types';
 
 /**
@@ -114,6 +116,18 @@ export const deleteAccount = (mailer: string, id: string): CoreActionTypes => ({
 	type: DELETE_MAILER_ACCOUNT,
 	mailer,
 	id,
+});
+
+/**
+ * Set Initial Account Data Action.
+ * @param {InitialAccountData} initialAccountData Initial Account Data object.
+ * @returns {CoreActionTypes} Set Initial Account Data Action.
+ */
+export const setInitialAccountData = (
+	initialAccountData: InitialAccountData
+): CoreActionTypes => ({
+	type: SET_INITIAL_ACCOUNT_DATA,
+	data: initialAccountData,
 });
 
 /**

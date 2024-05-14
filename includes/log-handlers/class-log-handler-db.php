@@ -74,7 +74,7 @@ class Log_Handler_DB extends Log_Handler {
 	 */
 	protected static function add( $timestamp, $level, $message, $source, $context ) {
 		global $wpdb;
-
+	
 		$insert = array(
 			'timestamp' => gmdate( 'Y-m-d H:i:s', $timestamp ),
 			'level'     => Log_Levels::get_level_severity( $level ),
@@ -82,20 +82,28 @@ class Log_Handler_DB extends Log_Handler {
 			'source'    => $source,
 		);
 
-		$format = array(
-			'%s',
-			'%d',
-			'%s',
-			'%s',
-			'%s', // possible serialized context.
-		);
-
+	
 		if ( ! empty( $context ) ) {
 			$insert['context'] = serialize( $context ); // @codingStandardsIgnoreLine.
 		}
-
-		return false !== $wpdb->insert( "{$wpdb->prefix}quillsmtp_log", $insert, $format );
+	
+		// Prepare the SQL statement
+		$query = $wpdb->prepare(
+			"INSERT INTO {$wpdb->prefix}quillsmtp_log (timestamp, level, message, source, context) VALUES (%s, %d, %s, %s, %s)",
+			$insert['timestamp'],
+			$insert['level'],
+			$insert['message'],
+			$insert['source'],
+			$insert['context']
+		);
+	
+		// Execute the prepared statement
+		$result = $wpdb->query( $query );
+	
+		// Return the result
+		return false !== $result;
 	}
+	
 
 	/**
 	 * Get all logs
@@ -352,17 +360,25 @@ class Log_Handler_DB extends Log_Handler {
 			'message' => $message,
 		);
 
-		$format = array(
-			'%d',
-			'%s',
-		);
-
+		$update['context'] = '';
 		if ( ! empty( $context ) ) {
 			$update['context'] = serialize( $context ); // @codingStandardsIgnoreLine.
-			$format[]          = '%s';
 		}
 
-		return false !== $wpdb->update( "{$wpdb->prefix}quillsmtp_log", $update, array( 'log_id' => $log_id ), $format, array( '%d' ) );
+		// Prepare the SQL statement
+		$query = $wpdb->prepare(
+			"UPDATE {$wpdb->prefix}quillsmtp_log SET level = %s, message = %s, context = %s WHERE log_id = %d",
+			$update['level'],
+			$update['message'],
+			$update['context'],
+			$log_id
+		);
+
+		// Execute the prepared statement
+		$result = $wpdb->query( $query );
+
+		// Return the result
+		return false !== $result;
 	}
 
 	/**

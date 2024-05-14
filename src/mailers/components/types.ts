@@ -3,7 +3,7 @@ export type SetupFields = {
 		label: string;
 		type: 'text' | 'password' | 'select';
 		check: boolean;
-		help?: string;
+		help?: string | React.FC;
 		options?: {
 			label: string;
 			value: string;
@@ -24,7 +24,7 @@ export type AccountsAuthField = {
 	label: string;
 	type: 'text' | 'select' | 'toggle' | 'number' | 'password';
 	required?: boolean;
-	help?: string;
+	help?: string | React.FC;
 	options?: {
 		label: string;
 		value: string;

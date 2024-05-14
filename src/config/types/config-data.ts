@@ -12,6 +12,18 @@ export type ConfigData = Record<string, unknown> & {
 	isMultisite: boolean;
 	isMainSite: boolean;
 	license: License | false;
+	wpMailConfig: SMTP_Config | false;
+	easySMTPConfig: SMTP_Config | false;
+	fluentSMTPConfig: SMTP_Config | false;
+};
+
+export type SMTP_Config = {
+	from_email: string;
+	from_name: string;
+	from_name_force: boolean;
+	from_email_force: boolean;
+	mailer: string;
+	[key: string]: any;
 };
 
 export type License = {

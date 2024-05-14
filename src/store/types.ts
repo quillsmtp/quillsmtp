@@ -26,12 +26,18 @@ import {
 	ADD_NOTICE,
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
+	SET_INITIAL_ACCOUNT_DATA,
 } from './constants';
 
 export type CorePureState = {
 	connections: Connections;
 	mailers: Mailers;
 	notices: Notices;
+	initialAccountData: InitialAccountData;
+};
+
+export type InitialAccountData = {
+	[key: string]: string;
 };
 
 export type Notices = {
@@ -149,6 +155,11 @@ type deleteAccount = {
 	id: string;
 };
 
+type addInitialAccountData = {
+	type: typeof SET_INITIAL_ACCOUNT_DATA;
+	data: InitialAccountData;
+};
+
 type addNote = {
 	type: typeof ADD_NOTICE;
 	notice: Notice;
@@ -172,6 +183,7 @@ export type CoreActionTypes =
 	| addNote
 	| deleteNote
 	| AppActionTypes
+	| addInitialAccountData
 	| ReturnType<() => { type: 'NOOP' }>;
 
 /**

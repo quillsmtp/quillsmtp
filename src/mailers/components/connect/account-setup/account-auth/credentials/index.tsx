@@ -16,7 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { keys } from 'lodash';
+import { keys, isFunction } from 'lodash';
 
 /**
  * WordPress Dependencies
@@ -53,9 +53,10 @@ const Credentials: React.FC<Props> = ({
 	fields,
 	Instructions,
 }) => {
-	const { mailer } = useSelect((select) => {
+	const { mailer, initialValues } = useSelect((select) => {
 		return {
 			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			initialValues: select('quillSMTP/core').getInitialAccountData(),
 		};
 	});
 
@@ -78,9 +79,14 @@ const Credentials: React.FC<Props> = ({
 		const credentials: any = {};
 		for (const [id, field] of Object.entries(fields ?? {})) {
 			if (field.type === 'toggle') {
-				credentials[id] = inputs[id] ?? field?.default ?? false;
+				credentials[id] =
+					inputs[id] ??
+					initialValues?.[id] ??
+					field?.default ??
+					false;
 			} else {
-				credentials[id] = inputs[id] ?? field?.default ?? '';
+				credentials[id] =
+					inputs[id] ?? initialValues?.[id] ?? field?.default ?? '';
 			}
 		}
 
@@ -119,7 +125,10 @@ const Credentials: React.FC<Props> = ({
 						' ' +
 						__('added successfully!', 'quillsmtp'),
 				});
-				onAdded(res.id, { name: res.name, credentials: res.credentials });
+				onAdded(res.id, {
+					name: res.name,
+					credentials: res.credentials,
+				});
 				setInputs({});
 			})
 			.catch((err) => {
@@ -128,9 +137,9 @@ const Credentials: React.FC<Props> = ({
 					message:
 						err.message ??
 						__('Error in adding the ', 'quillsmtp') +
-						(
-							labels?.singular ?? __('Account', 'quillsmtp')
-						).toLowerCase(),
+							(
+								labels?.singular ?? __('Account', 'quillsmtp')
+							).toLowerCase(),
 				});
 			})
 			.finally(() => {
@@ -146,7 +155,8 @@ const Credentials: React.FC<Props> = ({
 			if (
 				!inputs[key] &&
 				fields?.[key].required &&
-				!fields[key].default
+				!fields[key].default &&
+				!initialValues?.[key]
 			) {
 				return false;
 			}
@@ -156,7 +166,12 @@ const Credentials: React.FC<Props> = ({
 
 	let inputsFilled = true;
 	for (const key of keys(fields)) {
-		if (!inputs[key] && fields[key].required && !fields[key].default) {
+		if (
+			!inputs[key] &&
+			fields[key].required &&
+			!fields[key].default &&
+			!initialValues?.[key]
+		) {
 			inputsFilled = false;
 			break;
 		}
@@ -210,11 +225,20 @@ const Credentials: React.FC<Props> = ({
 		return result;
 	};
 
+	const Help = ({ field }) => {
+		if (!field?.help) return null;
+		if (isFunction(field.help)) {
+			return <field.help />;
+		}
+
+		return <p>{field.help}</p>;
+	};
+
 	return (
 		<div className="mailer-auth-credentials">
 			<TextField
 				label={__('Account Name', 'quillsmtp')}
-				value={inputs['name'] ?? ''}
+				value={inputs['name'] ?? initialValues?.name ?? ''}
 				onChange={(e) =>
 					setInputs({
 						...inputs,
@@ -222,7 +246,7 @@ const Credentials: React.FC<Props> = ({
 					})
 				}
 				required
-				autoComplete='new-password'
+				autoComplete="new-password"
 				disabled={submitting}
 				variant="outlined"
 				fullWidth
@@ -230,14 +254,15 @@ const Credentials: React.FC<Props> = ({
 			/>
 			{Object.entries(fields).map(([key, field]) => {
 				if (!getFieldVisibility(field)) return null;
-				const inputValue = inputs[key] ?? field?.default ?? '';
+				const inputValue =
+					inputs[key] ?? initialValues?.[key] ?? field?.default ?? '';
 				switch (field.type) {
 					case 'text':
 					case 'number':
 					case 'password':
 						return (
 							<TextField
-								autoComplete='new-password'
+								autoComplete="new-password"
 								key={key}
 								label={field.label}
 								value={inputValue}
@@ -252,7 +277,7 @@ const Credentials: React.FC<Props> = ({
 								variant="outlined"
 								fullWidth
 								sx={{ mb: 2 }}
-								helperText={field?.help}
+								helperText={<Help field={field} />}
 								type={field.type}
 							/>
 						);
@@ -289,7 +314,7 @@ const Credentials: React.FC<Props> = ({
 								</Select>
 								{field?.help && (
 									<FormHelperText>
-										{field?.help}
+										{<Help field={field} />}
 									</FormHelperText>
 								)}
 							</FormControl>
@@ -320,7 +345,7 @@ const Credentials: React.FC<Props> = ({
 								/>
 								{field?.help && (
 									<FormHelperText>
-										{field?.help}
+										{<Help field={field} />}
 									</FormHelperText>
 								)}
 							</FormControl>

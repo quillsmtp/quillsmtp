@@ -44,7 +44,7 @@ class App {
 	 * @return void
 	 */
 	public function maybe_authorize() {
-		$action = $_GET['quillsmtp-gmail'] ?? null;
+		$action = esc_attr( $_GET['action'] ?? '' );
 		if ( $action !== 'authorize' ) {
 			return;
 		}
@@ -76,14 +76,13 @@ class App {
 	 * @return void
 	 */
 	public function maybe_add_account() {
-		$state = $_GET['state'] ?? '';
-
+		$state = esc_attr( $_GET['state'] ?? '' );
 		if ( $state !== 'quillsmtp-gmail' ) {
 			return;
 		}
 
 		// ensure authorize code.
-		$code = $_GET['code'] ?? null;
+		$code = esc_attr( $_GET['code'] ?? '' );
 		if ( empty( $code ) ) {
 			echo esc_html__( 'Error, There is no authorize code passed!', 'quillsmtp' );
 			exit;

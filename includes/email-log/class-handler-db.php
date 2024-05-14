@@ -159,7 +159,6 @@ class Handler_DB {
 			'%d', // resend_count.
 		);
 		$result = $wpdb->prepare( "INSERT INTO $table_name (
-			// get columns from the array
 			" . implode( ',', array_keys( $data ) ) . "
 		) VALUES (
 			" . implode( ',', $format ) . "
@@ -194,8 +193,6 @@ class Handler_DB {
 
 		$result = $wpdb->prepare( "UPDATE $table_name SET " . implode( ', ', array_map( function ( $v, $k ) { return $k . ' = ' . $v; }, $data, array_keys( $data ) ) ) . " WHERE log_id = %d", $log_id ); // @codingStandardsIgnoreLine.
 		
-		//$wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
-
 		return $result;
 	}
 

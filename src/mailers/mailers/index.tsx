@@ -8,7 +8,6 @@ import { addAction } from '@wordpress/hooks';
  */
 import ConfigAPI from '@quillsmtp/config';
 import { registerMailerModule } from '../api';
-import SettingsRender from './settings-render';
 
 addAction(
 	'QuillSMTP.Admin.PluginsLoaded',
@@ -22,7 +21,7 @@ function register() {
 			title: mailer.name,
 			description: mailer.description,
 			icon: mailer.assets.icon,
-			render: SettingsRender,
+			connectParameters: {},
 			is_pro: mailer?.is_pro,
 		});
 	}
