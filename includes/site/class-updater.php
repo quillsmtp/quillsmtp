@@ -235,7 +235,7 @@ class Updater {
 
 		// invalid license.
 		if ( ! $license_info || 'valid' !== $license_info['status'] ) {
-			echo '&nbsp;<strong><a href="' . $license_page . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quillsmtp' ) . '</a></strong>';
+			echo '&nbsp;<strong><a href="' . esc_attr($license_page) . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quillsmtp' ) . '</a></strong>';
 			return;
 		}
 	}

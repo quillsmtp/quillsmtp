@@ -153,7 +153,7 @@ class App {
 			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quillsmtp' ); ?>
 			<script>
 				if ( typeof window.opener.add_new_gmail_account === 'function' ) {
-					window.opener.add_new_gmail_account( '<?php echo $account_id; ?>', '<?php echo $account_name; ?>' );
+					window.opener.add_new_gmail_account( '<?php echo  esc_attr($account_id); ?>', '<?php echo esc_attr($account_name); ?>' );
 					window.close();
 				}
 			</script>
