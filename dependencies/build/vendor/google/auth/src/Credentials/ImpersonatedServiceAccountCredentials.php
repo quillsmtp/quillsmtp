@@ -23,6 +23,7 @@ use QuillSMTP\Vendor\Google\Auth\SignBlobInterface;
 class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements SignBlobInterface
 {
     use IamSignerTrait;
+    private const CRED_TYPE = 'imp';
     /**
      * @var string
      */
@@ -101,7 +102,8 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
      */
     public function fetchAuthToken(callable $httpHandler = null)
     {
-        return $this->sourceCredentials->fetchAuthToken($httpHandler);
+        // We don't support id token endpoint requests as of now for Impersonated Cred
+        return $this->sourceCredentials->fetchAuthToken($httpHandler, $this->applyTokenEndpointMetrics([], 'at'));
     }
     /**
      * @return string
@@ -116,5 +118,9 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
     public function getLastReceivedToken()
     {
         return $this->sourceCredentials->getLastReceivedToken();
+    }
+    protected function getCredType() : string
+    {
+        return self::CRED_TYPE;
     }
 }

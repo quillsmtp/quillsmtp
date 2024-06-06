@@ -51,13 +51,13 @@ class Body5 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['linkContactIds' => 'int[]', 'unlinkContactIds' => 'int[]', 'linkCompanyIds' => 'string[]', 'unlinkCompanyIds' => 'string[]'];
+    protected static $swaggerTypes = ['name' => 'string', 'attributes' => 'object'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['linkContactIds' => 'int64', 'unlinkContactIds' => 'int64', 'linkCompanyIds' => null, 'unlinkCompanyIds' => null];
+    protected static $swaggerFormats = ['name' => null, 'attributes' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class Body5 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['linkContactIds' => 'linkContactIds', 'unlinkContactIds' => 'unlinkContactIds', 'linkCompanyIds' => 'linkCompanyIds', 'unlinkCompanyIds' => 'unlinkCompanyIds'];
+    protected static $attributeMap = ['name' => 'name', 'attributes' => 'attributes'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['linkContactIds' => 'setLinkContactIds', 'unlinkContactIds' => 'setUnlinkContactIds', 'linkCompanyIds' => 'setLinkCompanyIds', 'unlinkCompanyIds' => 'setUnlinkCompanyIds'];
+    protected static $setters = ['name' => 'setName', 'attributes' => 'setAttributes'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['linkContactIds' => 'getLinkContactIds', 'unlinkContactIds' => 'getUnlinkContactIds', 'linkCompanyIds' => 'getLinkCompanyIds', 'unlinkCompanyIds' => 'getUnlinkCompanyIds'];
+    protected static $getters = ['name' => 'getName', 'attributes' => 'getAttributes'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -146,10 +146,8 @@ class Body5 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['linkContactIds'] = isset($data['linkContactIds']) ? $data['linkContactIds'] : null;
-        $this->container['unlinkContactIds'] = isset($data['unlinkContactIds']) ? $data['unlinkContactIds'] : null;
-        $this->container['linkCompanyIds'] = isset($data['linkCompanyIds']) ? $data['linkCompanyIds'] : null;
-        $this->container['unlinkCompanyIds'] = isset($data['unlinkCompanyIds']) ? $data['unlinkCompanyIds'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['attributes'] = isset($data['attributes']) ? $data['attributes'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -159,6 +157,9 @@ class Body5 implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
         return $invalidProperties;
     }
     /**
@@ -172,87 +173,45 @@ class Body5 implements ModelInterface, ArrayAccess
         return \count($this->listInvalidProperties()) === 0;
     }
     /**
-     * Gets linkContactIds
+     * Gets name
      *
-     * @return int[]
+     * @return string
      */
-    public function getLinkContactIds()
+    public function getName()
     {
-        return $this->container['linkContactIds'];
+        return $this->container['name'];
     }
     /**
-     * Sets linkContactIds
+     * Sets name
      *
-     * @param int[] $linkContactIds Contact ids for contacts to be linked with deal
+     * @param string $name Name of deal
      *
      * @return $this
      */
-    public function setLinkContactIds($linkContactIds)
+    public function setName($name)
     {
-        $this->container['linkContactIds'] = $linkContactIds;
+        $this->container['name'] = $name;
         return $this;
     }
     /**
-     * Gets unlinkContactIds
+     * Gets attributes
      *
-     * @return int[]
+     * @return object
      */
-    public function getUnlinkContactIds()
+    public function getAttributes()
     {
-        return $this->container['unlinkContactIds'];
+        return $this->container['attributes'];
     }
     /**
-     * Sets unlinkContactIds
+     * Sets attributes
      *
-     * @param int[] $unlinkContactIds Contact ids for contacts to be unlinked from deal
+     * @param object $attributes Attributes for deal creation  If you want to create a deal on a specific pipeline and stage you can use the following attributes `pipeline` and `deal_stage`.  Pipeline and deal_stage are ids you can fetch using this endpoint `/crm/pipeline/details/{pipelineID}`
      *
      * @return $this
      */
-    public function setUnlinkContactIds($unlinkContactIds)
+    public function setAttributes($attributes)
     {
-        $this->container['unlinkContactIds'] = $unlinkContactIds;
-        return $this;
-    }
-    /**
-     * Gets linkCompanyIds
-     *
-     * @return string[]
-     */
-    public function getLinkCompanyIds()
-    {
-        return $this->container['linkCompanyIds'];
-    }
-    /**
-     * Sets linkCompanyIds
-     *
-     * @param string[] $linkCompanyIds Company ids to be linked with deal
-     *
-     * @return $this
-     */
-    public function setLinkCompanyIds($linkCompanyIds)
-    {
-        $this->container['linkCompanyIds'] = $linkCompanyIds;
-        return $this;
-    }
-    /**
-     * Gets unlinkCompanyIds
-     *
-     * @return string[]
-     */
-    public function getUnlinkCompanyIds()
-    {
-        return $this->container['unlinkCompanyIds'];
-    }
-    /**
-     * Sets unlinkCompanyIds
-     *
-     * @param string[] $unlinkCompanyIds Company ids to be unlinked from deal
-     *
-     * @return $this
-     */
-    public function setUnlinkCompanyIds($unlinkCompanyIds)
-    {
-        $this->container['unlinkCompanyIds'] = $unlinkCompanyIds;
+        $this->container['attributes'] = $attributes;
         return $this;
     }
     /**

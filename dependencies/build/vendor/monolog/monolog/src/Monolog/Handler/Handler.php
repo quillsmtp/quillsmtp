@@ -19,7 +19,7 @@ namespace QuillSMTP\Vendor\Monolog\Handler;
 abstract class Handler implements HandlerInterface
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function handleBatch(array $records) : void
     {
@@ -28,7 +28,7 @@ abstract class Handler implements HandlerInterface
         }
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function close() : void
     {

@@ -232,6 +232,18 @@ class Client
         return $this->host;
     }
     /**
+     * Set host
+     *
+     * @param string $host
+     *
+     * @return Client
+     */
+    public function setHost(string $host)
+    {
+        $this->host = $host;
+        return $this;
+    }
+    /**
      * @return array
      */
     public function getHeaders()

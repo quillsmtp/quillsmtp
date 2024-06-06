@@ -40,6 +40,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param array $optParams Optional parameters.
      * @return AutoForwarding
+     * @throws \Google\Service\Exception
      */
     public function getAutoForwarding($userId, $optParams = [])
     {
@@ -54,6 +55,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param array $optParams Optional parameters.
      * @return ImapSettings
+     * @throws \Google\Service\Exception
      */
     public function getImap($userId, $optParams = [])
     {
@@ -68,6 +70,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param array $optParams Optional parameters.
      * @return LanguageSettings
+     * @throws \Google\Service\Exception
      */
     public function getLanguage($userId, $optParams = [])
     {
@@ -82,6 +85,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param array $optParams Optional parameters.
      * @return PopSettings
+     * @throws \Google\Service\Exception
      */
     public function getPop($userId, $optParams = [])
     {
@@ -96,6 +100,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param array $optParams Optional parameters.
      * @return VacationSettings
+     * @throws \Google\Service\Exception
      */
     public function getVacation($userId, $optParams = [])
     {
@@ -114,6 +119,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param AutoForwarding $postBody
      * @param array $optParams Optional parameters.
      * @return AutoForwarding
+     * @throws \Google\Service\Exception
      */
     public function updateAutoForwarding($userId, AutoForwarding $postBody, $optParams = [])
     {
@@ -129,6 +135,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param ImapSettings $postBody
      * @param array $optParams Optional parameters.
      * @return ImapSettings
+     * @throws \Google\Service\Exception
      */
     public function updateImap($userId, ImapSettings $postBody, $optParams = [])
     {
@@ -149,6 +156,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param LanguageSettings $postBody
      * @param array $optParams Optional parameters.
      * @return LanguageSettings
+     * @throws \Google\Service\Exception
      */
     public function updateLanguage($userId, LanguageSettings $postBody, $optParams = [])
     {
@@ -164,6 +172,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param PopSettings $postBody
      * @param array $optParams Optional parameters.
      * @return PopSettings
+     * @throws \Google\Service\Exception
      */
     public function updatePop($userId, PopSettings $postBody, $optParams = [])
     {
@@ -179,6 +188,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param VacationSettings $postBody
      * @param array $optParams Optional parameters.
      * @return VacationSettings
+     * @throws \Google\Service\Exception
      */
     public function updateVacation($userId, VacationSettings $postBody, $optParams = [])
     {

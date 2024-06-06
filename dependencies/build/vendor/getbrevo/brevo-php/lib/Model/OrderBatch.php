@@ -51,13 +51,13 @@ class OrderBatch implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['orders' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Order[]', 'notifyUrl' => 'string'];
+    protected static $swaggerTypes = ['orders' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Order[]', 'notifyUrl' => 'string', 'historical' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['orders' => null, 'notifyUrl' => null];
+    protected static $swaggerFormats = ['orders' => null, 'notifyUrl' => null, 'historical' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class OrderBatch implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['orders' => 'orders', 'notifyUrl' => 'notifyUrl'];
+    protected static $attributeMap = ['orders' => 'orders', 'notifyUrl' => 'notifyUrl', 'historical' => 'historical'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['orders' => 'setOrders', 'notifyUrl' => 'setNotifyUrl'];
+    protected static $setters = ['orders' => 'setOrders', 'notifyUrl' => 'setNotifyUrl', 'historical' => 'setHistorical'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['orders' => 'getOrders', 'notifyUrl' => 'getNotifyUrl'];
+    protected static $getters = ['orders' => 'getOrders', 'notifyUrl' => 'getNotifyUrl', 'historical' => 'getHistorical'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -148,6 +148,7 @@ class OrderBatch implements ModelInterface, ArrayAccess
     {
         $this->container['orders'] = isset($data['orders']) ? $data['orders'] : null;
         $this->container['notifyUrl'] = isset($data['notifyUrl']) ? $data['notifyUrl'] : null;
+        $this->container['historical'] = isset($data['historical']) ? $data['historical'] : \true;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -212,6 +213,27 @@ class OrderBatch implements ModelInterface, ArrayAccess
     public function setNotifyUrl($notifyUrl)
     {
         $this->container['notifyUrl'] = $notifyUrl;
+        return $this;
+    }
+    /**
+     * Gets historical
+     *
+     * @return bool
+     */
+    public function getHistorical()
+    {
+        return $this->container['historical'];
+    }
+    /**
+     * Sets historical
+     *
+     * @param bool $historical Defines wether you want your orders to be considered as live data or as historical data (import of past data, synchronising data). True: orders will not trigger any automation workflows. False: orders will trigger workflows as usual.
+     *
+     * @return $this
+     */
+    public function setHistorical($historical)
+    {
+        $this->container['historical'] = $historical;
         return $this;
     }
     /**

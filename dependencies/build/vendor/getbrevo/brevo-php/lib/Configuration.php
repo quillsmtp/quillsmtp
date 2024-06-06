@@ -35,7 +35,7 @@ namespace QuillSMTP\Vendor\Brevo\Client;
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-$GLOBALS['version'] = '1.0.2';
+$GLOBALS['version'] = '2.0.0';
 class Configuration
 {
     private static $defaultConfiguration;

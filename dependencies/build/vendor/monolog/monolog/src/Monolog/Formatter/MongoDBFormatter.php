@@ -14,6 +14,7 @@ namespace QuillSMTP\Vendor\Monolog\Formatter;
 use MongoDB\BSON\Type;
 use MongoDB\BSON\UTCDateTime;
 use QuillSMTP\Vendor\Monolog\Utils;
+use QuillSMTP\Vendor\Monolog\LogRecord;
 /**
  * Formats a record for use with the MongoDBHandler.
  *
@@ -21,14 +22,11 @@ use QuillSMTP\Vendor\Monolog\Utils;
  */
 class MongoDBFormatter implements FormatterInterface
 {
-    /** @var bool */
-    private $exceptionTraceAsString;
-    /** @var int */
-    private $maxNestingLevel;
-    /** @var bool */
-    private $isLegacyMongoExt;
+    private bool $exceptionTraceAsString;
+    private int $maxNestingLevel;
+    private bool $isLegacyMongoExt;
     /**
-     * @param int  $maxNestingLevel        0 means infinite nesting, the $record itself is level 1, $record['context'] is 2
+     * @param int  $maxNestingLevel        0 means infinite nesting, the $record itself is level 1, $record->context is 2
      * @param bool $exceptionTraceAsString set to false to log exception traces as a sub documents instead of strings
      */
     public function __construct(int $maxNestingLevel = 3, bool $exceptionTraceAsString = \true)
@@ -38,18 +36,18 @@ class MongoDBFormatter implements FormatterInterface
         $this->isLegacyMongoExt = \extension_loaded('mongodb') && \version_compare((string) \phpversion('mongodb'), '1.1.9', '<=');
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      *
      * @return mixed[]
      */
-    public function format(array $record) : array
+    public function format(LogRecord $record) : array
     {
         /** @var mixed[] $res */
-        $res = $this->formatArray($record);
+        $res = $this->formatArray($record->toArray());
         return $res;
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      *
      * @return array<mixed[]>
      */
@@ -128,7 +126,6 @@ class MongoDBFormatter implements FormatterInterface
     {
         $milliseconds = \floor((float) $value->format('U.u') * 1000);
         $milliseconds = \PHP_INT_SIZE == 8 ? (int) $milliseconds : (string) $milliseconds;
-        // @phpstan-ignore-next-line
         return new UTCDateTime($milliseconds);
     }
 }

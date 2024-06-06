@@ -51,13 +51,13 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'language' => 'string', 'category' => 'string', 'mediaUrl' => 'string', 'bodyText' => 'string', 'headerText' => 'string'];
+    protected static $swaggerTypes = ['name' => 'string', 'language' => 'string', 'category' => 'string', 'mediaUrl' => 'string', 'bodyText' => 'string', 'headerText' => 'string', 'source' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['name' => null, 'language' => null, 'category' => null, 'mediaUrl' => null, 'bodyText' => null, 'headerText' => null];
+    protected static $swaggerFormats = ['name' => null, 'language' => null, 'category' => null, 'mediaUrl' => null, 'bodyText' => null, 'headerText' => null, 'source' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['name' => 'name', 'language' => 'language', 'category' => 'category', 'mediaUrl' => 'mediaUrl', 'bodyText' => 'bodyText', 'headerText' => 'headerText'];
+    protected static $attributeMap = ['name' => 'name', 'language' => 'language', 'category' => 'category', 'mediaUrl' => 'mediaUrl', 'bodyText' => 'bodyText', 'headerText' => 'headerText', 'source' => 'source'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['name' => 'setName', 'language' => 'setLanguage', 'category' => 'setCategory', 'mediaUrl' => 'setMediaUrl', 'bodyText' => 'setBodyText', 'headerText' => 'setHeaderText'];
+    protected static $setters = ['name' => 'setName', 'language' => 'setLanguage', 'category' => 'setCategory', 'mediaUrl' => 'setMediaUrl', 'bodyText' => 'setBodyText', 'headerText' => 'setHeaderText', 'source' => 'setSource'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['name' => 'getName', 'language' => 'getLanguage', 'category' => 'getCategory', 'mediaUrl' => 'getMediaUrl', 'bodyText' => 'getBodyText', 'headerText' => 'getHeaderText'];
+    protected static $getters = ['name' => 'getName', 'language' => 'getLanguage', 'category' => 'getCategory', 'mediaUrl' => 'getMediaUrl', 'bodyText' => 'getBodyText', 'headerText' => 'getHeaderText', 'source' => 'getSource'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -133,7 +133,9 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
         return self::$swaggerModelName;
     }
     const CATEGORY_MARKETING = 'MARKETING';
-    const CATEGORY_TRANSACTIONAL = 'TRANSACTIONAL';
+    const CATEGORY_UTILITY = 'UTILITY';
+    const SOURCE_AUTOMATION = 'Automation';
+    const SOURCE_CONVERSATIONS = 'Conversations';
     /**
      * Gets allowable values of the enum
      *
@@ -141,7 +143,16 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
      */
     public function getCategoryAllowableValues()
     {
-        return [self::CATEGORY_MARKETING, self::CATEGORY_TRANSACTIONAL];
+        return [self::CATEGORY_MARKETING, self::CATEGORY_UTILITY];
+    }
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getSourceAllowableValues()
+    {
+        return [self::SOURCE_AUTOMATION, self::SOURCE_CONVERSATIONS];
     }
     /**
      * Associative array for storing property values
@@ -163,6 +174,7 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
         $this->container['mediaUrl'] = isset($data['mediaUrl']) ? $data['mediaUrl'] : null;
         $this->container['bodyText'] = isset($data['bodyText']) ? $data['bodyText'] : null;
         $this->container['headerText'] = isset($data['headerText']) ? $data['headerText'] : null;
+        $this->container['source'] = isset($data['source']) ? $data['source'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -187,6 +199,10 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
         }
         if ($this->container['bodyText'] === null) {
             $invalidProperties[] = "'bodyText' can't be null";
+        }
+        $allowedValues = $this->getSourceAllowableValues();
+        if (!\is_null($this->container['source']) && !\in_array($this->container['source'], $allowedValues, \true)) {
+            $invalidProperties[] = \sprintf("invalid value for 'source', must be one of '%s'", \implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -328,6 +344,31 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
     public function setHeaderText($headerText)
     {
         $this->container['headerText'] = $headerText;
+        return $this;
+    }
+    /**
+     * Gets source
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->container['source'];
+    }
+    /**
+     * Sets source
+     *
+     * @param string $source source of the template
+     *
+     * @return $this
+     */
+    public function setSource($source)
+    {
+        $allowedValues = $this->getSourceAllowableValues();
+        if (!\is_null($source) && !\in_array($source, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(\sprintf("Invalid value for 'source', must be one of '%s'", \implode("', '", $allowedValues)));
+        }
+        $this->container['source'] = $source;
         return $this;
     }
     /**

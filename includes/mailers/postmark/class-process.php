@@ -189,7 +189,7 @@ class Process extends Abstract_Process {
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_postmark_mailer_get_headers', $this->body['Headers'] );
+		$headers = apply_filters( 'quillsmtp_postmark_mailer_get_headers', $this->body['Headers'] ?? [] );
 
 		return $headers;
 	}
@@ -237,12 +237,12 @@ class Process extends Abstract_Process {
 				$body['MessageStream'] = $message_stream_id;
 			}
 			$results = $client->sendEmailBatch( [ $body ] );
-			if ( 'OK' === $results[0]->__get( 'Message' ) ) {
+			if ( 'OK' === $results[0]->getMessage() ) {
 				$this->log_result(
 					[
 						'status'   => self::SUCCEEDED,
 						'response' => [
-							'message_id' => $results[0]->__get( 'MessageId' ),
+							'message_id' => $results[0]->getMessageId(),
 						],
 					]
 				);
@@ -252,7 +252,7 @@ class Process extends Abstract_Process {
 					[
 						'status'   => self::FAILED,
 						'response' => [
-							'message' => $results[0]->__get( 'Message' ),
+							'message' => $results[0]->getMessage(),
 						],
 					]
 				);

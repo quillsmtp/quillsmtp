@@ -870,7 +870,7 @@ class DealsApi
      * Update a deal
      *
      * @param  string $id id (required)
-     * @param  \Brevo\Client\Model\Body4 $body Updated deal details. (required)
+     * @param  \Brevo\Client\Model\Body6 $body Updated deal details. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -886,7 +886,7 @@ class DealsApi
      * Update a deal
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body4 $body Updated deal details. (required)
+     * @param  \Brevo\Client\Model\Body6 $body Updated deal details. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -928,7 +928,7 @@ class DealsApi
      * Update a deal
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body4 $body Updated deal details. (required)
+     * @param  \Brevo\Client\Model\Body6 $body Updated deal details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -945,7 +945,7 @@ class DealsApi
      * Update a deal
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body4 $body Updated deal details. (required)
+     * @param  \Brevo\Client\Model\Body6 $body Updated deal details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -966,7 +966,7 @@ class DealsApi
      * Create request for operation 'crmDealsIdPatch'
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body4 $body Updated deal details. (required)
+     * @param  \Brevo\Client\Model\Body6 $body Updated deal details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1054,7 +1054,7 @@ class DealsApi
      * Link and Unlink a deal with contacts and companies
      *
      * @param  string $id id (required)
-     * @param  \Brevo\Client\Model\Body5 $body Linked / Unlinked contacts and companies ids. (required)
+     * @param  \Brevo\Client\Model\Body7 $body Linked / Unlinked contacts and companies ids. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1070,7 +1070,7 @@ class DealsApi
      * Link and Unlink a deal with contacts and companies
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body5 $body Linked / Unlinked contacts and companies ids. (required)
+     * @param  \Brevo\Client\Model\Body7 $body Linked / Unlinked contacts and companies ids. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1108,7 +1108,7 @@ class DealsApi
      * Link and Unlink a deal with contacts and companies
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body5 $body Linked / Unlinked contacts and companies ids. (required)
+     * @param  \Brevo\Client\Model\Body7 $body Linked / Unlinked contacts and companies ids. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1125,7 +1125,7 @@ class DealsApi
      * Link and Unlink a deal with contacts and companies
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body5 $body Linked / Unlinked contacts and companies ids. (required)
+     * @param  \Brevo\Client\Model\Body7 $body Linked / Unlinked contacts and companies ids. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1146,7 +1146,7 @@ class DealsApi
      * Create request for operation 'crmDealsLinkUnlinkIdPatch'
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body5 $body Linked / Unlinked contacts and companies ids. (required)
+     * @param  \Brevo\Client\Model\Body7 $body Linked / Unlinked contacts and companies ids. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1233,11 +1233,11 @@ class DealsApi
      *
      * Create a deal
      *
-     * @param  \Brevo\Client\Model\Body3 $body Deal create data. (required)
+     * @param  \Brevo\Client\Model\Body5 $body Deal create data. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Brevo\Client\Model\InlineResponse201
+     * @return \Brevo\Client\Model\InlineResponse2011
      */
     public function crmDealsPost($body)
     {
@@ -1249,15 +1249,15 @@ class DealsApi
      *
      * Create a deal
      *
-     * @param  \Brevo\Client\Model\Body3 $body Deal create data. (required)
+     * @param  \Brevo\Client\Model\Body5 $body Deal create data. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Brevo\Client\Model\InlineResponse201, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Brevo\Client\Model\InlineResponse2011, HTTP status code, HTTP response headers (array of strings)
      */
     public function crmDealsPostWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse201';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011';
         $request = $this->crmDealsPostRequest($body);
         try {
             $options = $this->createHttpClientOption();
@@ -1284,7 +1284,7 @@ class DealsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse201', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1296,7 +1296,7 @@ class DealsApi
      *
      * Create a deal
      *
-     * @param  \Brevo\Client\Model\Body3 $body Deal create data. (required)
+     * @param  \Brevo\Client\Model\Body5 $body Deal create data. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1312,14 +1312,14 @@ class DealsApi
      *
      * Create a deal
      *
-     * @param  \Brevo\Client\Model\Body3 $body Deal create data. (required)
+     * @param  \Brevo\Client\Model\Body5 $body Deal create data. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function crmDealsPostAsyncWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse201';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011';
         $request = $this->crmDealsPostRequest($body);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -1342,7 +1342,7 @@ class DealsApi
     /**
      * Create request for operation 'crmDealsPost'
      *
-     * @param  \Brevo\Client\Model\Body3 $body Deal create data. (required)
+     * @param  \Brevo\Client\Model\Body5 $body Deal create data. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

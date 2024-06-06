@@ -11,10 +11,11 @@ declare (strict_types=1);
  */
 namespace QuillSMTP\Vendor\Monolog\Handler;
 
-use QuillSMTP\Vendor\Monolog\Logger;
+use QuillSMTP\Vendor\Monolog\Level;
 use QuillSMTP\Vendor\Monolog\Formatter\NormalizerFormatter;
 use QuillSMTP\Vendor\Monolog\Formatter\FormatterInterface;
 use QuillSMTP\Vendor\Doctrine\CouchDB\CouchDBClient;
+use QuillSMTP\Vendor\Monolog\LogRecord;
 /**
  * CouchDB handler for Doctrine CouchDB ODM
  *
@@ -22,19 +23,18 @@ use QuillSMTP\Vendor\Doctrine\CouchDB\CouchDBClient;
  */
 class DoctrineCouchDBHandler extends AbstractProcessingHandler
 {
-    /** @var CouchDBClient */
-    private $client;
-    public function __construct(CouchDBClient $client, $level = Logger::DEBUG, bool $bubble = \true)
+    private CouchDBClient $client;
+    public function __construct(CouchDBClient $client, int|string|Level $level = Level::Debug, bool $bubble = \true)
     {
         $this->client = $client;
         parent::__construct($level, $bubble);
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function write(array $record) : void
+    protected function write(LogRecord $record) : void
     {
-        $this->client->postDocument($record['formatted']);
+        $this->client->postDocument($record->formatted);
     }
     protected function getDefaultFormatter() : FormatterInterface
     {

@@ -51,13 +51,13 @@ class GetWebhook implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['url' => 'string', 'id' => 'int', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string'];
+    protected static $swaggerTypes = ['url' => 'string', 'id' => 'int', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookAuth', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookHeaders[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['url' => 'url', 'id' => 'int64', 'description' => null, 'events' => null, 'type' => null, 'createdAt' => null, 'modifiedAt' => null];
+    protected static $swaggerFormats = ['url' => 'url', 'id' => 'int64', 'description' => null, 'events' => null, 'type' => null, 'createdAt' => null, 'modifiedAt' => null, 'batched' => null, 'auth' => null, 'headers' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class GetWebhook implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['url' => 'url', 'id' => 'id', 'description' => 'description', 'events' => 'events', 'type' => 'type', 'createdAt' => 'createdAt', 'modifiedAt' => 'modifiedAt'];
+    protected static $attributeMap = ['url' => 'url', 'id' => 'id', 'description' => 'description', 'events' => 'events', 'type' => 'type', 'createdAt' => 'createdAt', 'modifiedAt' => 'modifiedAt', 'batched' => 'batched', 'auth' => 'auth', 'headers' => 'headers'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['url' => 'setUrl', 'id' => 'setId', 'description' => 'setDescription', 'events' => 'setEvents', 'type' => 'setType', 'createdAt' => 'setCreatedAt', 'modifiedAt' => 'setModifiedAt'];
+    protected static $setters = ['url' => 'setUrl', 'id' => 'setId', 'description' => 'setDescription', 'events' => 'setEvents', 'type' => 'setType', 'createdAt' => 'setCreatedAt', 'modifiedAt' => 'setModifiedAt', 'batched' => 'setBatched', 'auth' => 'setAuth', 'headers' => 'setHeaders'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['url' => 'getUrl', 'id' => 'getId', 'description' => 'getDescription', 'events' => 'getEvents', 'type' => 'getType', 'createdAt' => 'getCreatedAt', 'modifiedAt' => 'getModifiedAt'];
+    protected static $getters = ['url' => 'getUrl', 'id' => 'getId', 'description' => 'getDescription', 'events' => 'getEvents', 'type' => 'getType', 'createdAt' => 'getCreatedAt', 'modifiedAt' => 'getModifiedAt', 'batched' => 'getBatched', 'auth' => 'getAuth', 'headers' => 'getHeaders'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -164,6 +164,9 @@ class GetWebhook implements ModelInterface, ArrayAccess
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['createdAt'] = isset($data['createdAt']) ? $data['createdAt'] : null;
         $this->container['modifiedAt'] = isset($data['modifiedAt']) ? $data['modifiedAt'] : null;
+        $this->container['batched'] = isset($data['batched']) ? $data['batched'] : null;
+        $this->container['auth'] = isset($data['auth']) ? $data['auth'] : null;
+        $this->container['headers'] = isset($data['headers']) ? $data['headers'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -359,6 +362,69 @@ class GetWebhook implements ModelInterface, ArrayAccess
     public function setModifiedAt($modifiedAt)
     {
         $this->container['modifiedAt'] = $modifiedAt;
+        return $this;
+    }
+    /**
+     * Gets batched
+     *
+     * @return bool
+     */
+    public function getBatched()
+    {
+        return $this->container['batched'];
+    }
+    /**
+     * Sets batched
+     *
+     * @param bool $batched To send batched webhooks
+     *
+     * @return $this
+     */
+    public function setBatched($batched)
+    {
+        $this->container['batched'] = $batched;
+        return $this;
+    }
+    /**
+     * Gets auth
+     *
+     * @return \Brevo\Client\Model\GetWebhookAuth
+     */
+    public function getAuth()
+    {
+        return $this->container['auth'];
+    }
+    /**
+     * Sets auth
+     *
+     * @param \Brevo\Client\Model\GetWebhookAuth $auth auth
+     *
+     * @return $this
+     */
+    public function setAuth($auth)
+    {
+        $this->container['auth'] = $auth;
+        return $this;
+    }
+    /**
+     * Gets headers
+     *
+     * @return \Brevo\Client\Model\GetWebhookHeaders[]
+     */
+    public function getHeaders()
+    {
+        return $this->container['headers'];
+    }
+    /**
+     * Sets headers
+     *
+     * @param \Brevo\Client\Model\GetWebhookHeaders[] $headers Custom headers to be send with webhooks
+     *
+     * @return $this
+     */
+    public function setHeaders($headers)
+    {
+        $this->container['headers'] = $headers;
         return $this;
     }
     /**

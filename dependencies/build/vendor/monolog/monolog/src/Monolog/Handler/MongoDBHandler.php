@@ -14,9 +14,10 @@ namespace QuillSMTP\Vendor\Monolog\Handler;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use QuillSMTP\Vendor\MongoDB\Client;
-use QuillSMTP\Vendor\Monolog\Logger;
+use QuillSMTP\Vendor\Monolog\Level;
 use QuillSMTP\Vendor\Monolog\Formatter\FormatterInterface;
 use QuillSMTP\Vendor\Monolog\Formatter\MongoDBFormatter;
+use QuillSMTP\Vendor\Monolog\LogRecord;
 /**
  * Logs to a MongoDB database.
  *
@@ -32,12 +33,9 @@ use QuillSMTP\Vendor\Monolog\Formatter\MongoDBFormatter;
  */
 class MongoDBHandler extends AbstractProcessingHandler
 {
-    /** @var \MongoDB\Collection */
-    private $collection;
-    /** @var Client|Manager */
-    private $manager;
-    /** @var string */
-    private $namespace;
+    private \QuillSMTP\Vendor\MongoDB\Collection $collection;
+    private Client|Manager $manager;
+    private string|null $namespace = null;
     /**
      * Constructor.
      *
@@ -45,11 +43,8 @@ class MongoDBHandler extends AbstractProcessingHandler
      * @param string         $database   Database name
      * @param string         $collection Collection name
      */
-    public function __construct($mongodb, string $database, string $collection, $level = Logger::DEBUG, bool $bubble = \true)
+    public function __construct(Client|Manager $mongodb, string $database, string $collection, int|string|Level $level = Level::Debug, bool $bubble = \true)
     {
-        if (!($mongodb instanceof Client || $mongodb instanceof Manager)) {
-            throw new \InvalidArgumentException('MongoDB\\Client or MongoDB\\Driver\\Manager instance required');
-        }
         if ($mongodb instanceof Client) {
             $this->collection = $mongodb->selectCollection($database, $collection);
         } else {
@@ -58,19 +53,19 @@ class MongoDBHandler extends AbstractProcessingHandler
         }
         parent::__construct($level, $bubble);
     }
-    protected function write(array $record) : void
+    protected function write(LogRecord $record) : void
     {
         if (isset($this->collection)) {
-            $this->collection->insertOne($record['formatted']);
+            $this->collection->insertOne($record->formatted);
         }
         if (isset($this->manager, $this->namespace)) {
             $bulk = new BulkWrite();
-            $bulk->insert($record["formatted"]);
+            $bulk->insert($record->formatted);
             $this->manager->executeBulkWrite($this->namespace, $bulk);
         }
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function getDefaultFormatter() : FormatterInterface
     {

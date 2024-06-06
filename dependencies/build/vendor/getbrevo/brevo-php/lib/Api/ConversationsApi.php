@@ -81,7 +81,7 @@ class ConversationsApi
      *
      * Sets agent’s status to online for 2-3 minutes
      *
-     * @param  \Brevo\Client\Model\Body12 $body Agent fields. (required)
+     * @param  \Brevo\Client\Model\Body14 $body Agent fields. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -96,7 +96,7 @@ class ConversationsApi
      *
      * Sets agent’s status to online for 2-3 minutes
      *
-     * @param  \Brevo\Client\Model\Body12 $body Agent fields. (required)
+     * @param  \Brevo\Client\Model\Body14 $body Agent fields. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -133,7 +133,7 @@ class ConversationsApi
      *
      * Sets agent’s status to online for 2-3 minutes
      *
-     * @param  \Brevo\Client\Model\Body12 $body Agent fields. (required)
+     * @param  \Brevo\Client\Model\Body14 $body Agent fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -149,7 +149,7 @@ class ConversationsApi
      *
      * Sets agent’s status to online for 2-3 minutes
      *
-     * @param  \Brevo\Client\Model\Body12 $body Agent fields. (required)
+     * @param  \Brevo\Client\Model\Body14 $body Agent fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -169,7 +169,7 @@ class ConversationsApi
     /**
      * Create request for operation 'conversationsAgentOnlinePingPost'
      *
-     * @param  \Brevo\Client\Model\Body12 $body Agent fields. (required)
+     * @param  \Brevo\Client\Model\Body14 $body Agent fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -618,7 +618,7 @@ class ConversationsApi
      * Update a message sent by an agent
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body9 $body body (optional)
+     * @param  \Brevo\Client\Model\Body11 $body body (optional)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -635,7 +635,7 @@ class ConversationsApi
      * Update a message sent by an agent
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body9 $body (optional)
+     * @param  \Brevo\Client\Model\Body11 $body (optional)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -691,7 +691,7 @@ class ConversationsApi
      * Update a message sent by an agent
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body9 $body (optional)
+     * @param  \Brevo\Client\Model\Body11 $body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -708,7 +708,7 @@ class ConversationsApi
      * Update a message sent by an agent
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body9 $body (optional)
+     * @param  \Brevo\Client\Model\Body11 $body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -739,7 +739,7 @@ class ConversationsApi
      * Create request for operation 'conversationsMessagesIdPut'
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body9 $body (optional)
+     * @param  \Brevo\Client\Model\Body11 $body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -822,7 +822,7 @@ class ConversationsApi
      *
      * Send a message as an agent
      *
-     * @param  \Brevo\Client\Model\Body8 $body Message fields. (required)
+     * @param  \Brevo\Client\Model\Body10 $body Message fields. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -838,7 +838,7 @@ class ConversationsApi
      *
      * Send a message as an agent
      *
-     * @param  \Brevo\Client\Model\Body8 $body Message fields. (required)
+     * @param  \Brevo\Client\Model\Body10 $body Message fields. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -889,7 +889,7 @@ class ConversationsApi
      *
      * Send a message as an agent
      *
-     * @param  \Brevo\Client\Model\Body8 $body Message fields. (required)
+     * @param  \Brevo\Client\Model\Body10 $body Message fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -905,7 +905,7 @@ class ConversationsApi
      *
      * Send a message as an agent
      *
-     * @param  \Brevo\Client\Model\Body8 $body Message fields. (required)
+     * @param  \Brevo\Client\Model\Body10 $body Message fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -935,7 +935,7 @@ class ConversationsApi
     /**
      * Create request for operation 'conversationsMessagesPost'
      *
-     * @param  \Brevo\Client\Model\Body8 $body Message fields. (required)
+     * @param  \Brevo\Client\Model\Body10 $body Message fields. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1384,7 +1384,7 @@ class ConversationsApi
      * Update an automated message
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body11 $body body (required)
+     * @param  \Brevo\Client\Model\Body13 $body body (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1401,7 +1401,7 @@ class ConversationsApi
      * Update an automated message
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body11 $body (required)
+     * @param  \Brevo\Client\Model\Body13 $body (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1457,7 +1457,7 @@ class ConversationsApi
      * Update an automated message
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body11 $body (required)
+     * @param  \Brevo\Client\Model\Body13 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1474,7 +1474,7 @@ class ConversationsApi
      * Update an automated message
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body11 $body (required)
+     * @param  \Brevo\Client\Model\Body13 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1505,7 +1505,7 @@ class ConversationsApi
      * Create request for operation 'conversationsPushedMessagesIdPut'
      *
      * @param  string $id ID of the message (required)
-     * @param  \Brevo\Client\Model\Body11 $body (required)
+     * @param  \Brevo\Client\Model\Body13 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1592,7 +1592,7 @@ class ConversationsApi
      *
      * Send an automated message to a visitor
      *
-     * @param  \Brevo\Client\Model\Body10 $body body (required)
+     * @param  \Brevo\Client\Model\Body12 $body body (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1608,7 +1608,7 @@ class ConversationsApi
      *
      * Send an automated message to a visitor
      *
-     * @param  \Brevo\Client\Model\Body10 $body (required)
+     * @param  \Brevo\Client\Model\Body12 $body (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1659,7 +1659,7 @@ class ConversationsApi
      *
      * Send an automated message to a visitor
      *
-     * @param  \Brevo\Client\Model\Body10 $body (required)
+     * @param  \Brevo\Client\Model\Body12 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1675,7 +1675,7 @@ class ConversationsApi
      *
      * Send an automated message to a visitor
      *
-     * @param  \Brevo\Client\Model\Body10 $body (required)
+     * @param  \Brevo\Client\Model\Body12 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1705,7 +1705,7 @@ class ConversationsApi
     /**
      * Create request for operation 'conversationsPushedMessagesPost'
      *
-     * @param  \Brevo\Client\Model\Body10 $body (required)
+     * @param  \Brevo\Client\Model\Body12 $body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

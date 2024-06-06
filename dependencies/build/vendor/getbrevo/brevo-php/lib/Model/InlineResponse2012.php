@@ -33,6 +33,7 @@ use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
  * InlineResponse2012 Class Doc Comment
  *
  * @category Class
+ * @description Task Details
  * @package  Brevo\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -57,7 +58,7 @@ class InlineResponse2012 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['id' => 'uuidv4'];
+    protected static $swaggerFormats = ['id' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -183,7 +184,7 @@ class InlineResponse2012 implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param string $id The id of the created collection
+     * @param string $id Unique task id
      *
      * @return $this
      */

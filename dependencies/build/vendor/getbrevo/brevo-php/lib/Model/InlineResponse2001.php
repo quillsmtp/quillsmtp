@@ -33,6 +33,7 @@ use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
  * InlineResponse2001 Class Doc Comment
  *
  * @category Class
+ * @description Created company id
  * @package  Brevo\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -51,13 +52,13 @@ class InlineResponse2001 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'name' => 'string', 'defaultCoupon' => 'string'];
+    protected static $swaggerTypes = ['id' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['id' => 'uuidv4', 'name' => 'uuidv4', 'defaultCoupon' => null];
+    protected static $swaggerFormats = ['id' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +83,19 @@ class InlineResponse2001 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['id' => 'id', 'name' => 'name', 'defaultCoupon' => 'defaultCoupon'];
+    protected static $attributeMap = ['id' => 'id'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['id' => 'setId', 'name' => 'setName', 'defaultCoupon' => 'setDefaultCoupon'];
+    protected static $setters = ['id' => 'setId'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['id' => 'getId', 'name' => 'getName', 'defaultCoupon' => 'getDefaultCoupon'];
+    protected static $getters = ['id' => 'getId'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -147,8 +148,6 @@ class InlineResponse2001 implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['defaultCoupon'] = isset($data['defaultCoupon']) ? $data['defaultCoupon'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -160,12 +159,6 @@ class InlineResponse2001 implements ModelInterface, ArrayAccess
         $invalidProperties = [];
         if ($this->container['id'] === null) {
             $invalidProperties[] = "'id' can't be null";
-        }
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
-        if ($this->container['defaultCoupon'] === null) {
-            $invalidProperties[] = "'defaultCoupon' can't be null";
         }
         return $invalidProperties;
     }
@@ -191,55 +184,13 @@ class InlineResponse2001 implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param string $id The id of the collection
+     * @param string $id Unique company id
      *
      * @return $this
      */
     public function setId($id)
     {
         $this->container['id'] = $id;
-        return $this;
-    }
-    /**
-     * Gets name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->container['name'];
-    }
-    /**
-     * Sets name
-     *
-     * @param string $name The name of the collection
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->container['name'] = $name;
-        return $this;
-    }
-    /**
-     * Gets defaultCoupon
-     *
-     * @return string
-     */
-    public function getDefaultCoupon()
-    {
-        return $this->container['defaultCoupon'];
-    }
-    /**
-     * Sets defaultCoupon
-     *
-     * @param string $defaultCoupon The default coupon of the collection
-     *
-     * @return $this
-     */
-    public function setDefaultCoupon($defaultCoupon)
-    {
-        $this->container['defaultCoupon'] = $defaultCoupon;
         return $this;
     }
     /**

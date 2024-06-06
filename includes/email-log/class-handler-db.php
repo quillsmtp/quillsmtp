@@ -158,15 +158,20 @@ class Handler_DB {
 			'%s', // context.
 			'%d', // resend_count.
 		);
-		$result = $wpdb->prepare( "INSERT INTO $table_name (
-			" . implode( ',', array_keys( $data ) ) . "
-		) VALUES (
-			" . implode( ',', $format ) . "
-		)", $data ); // @codingStandardsIgnoreLine. 
 
+		$columns = array_map(
+			function( $column ) {
+				return "`$column`";
+			},
+			array_keys( $data )
+		);
 
-		//$wpdb->insert( $table_name, $data, $format );
-		return $result;
+		$query = $wpdb->prepare(
+			"INSERT INTO $table_name (" . implode( ',', $columns ) . ') VALUES (' . implode( ',', $format ) . ')',
+			array_values( $data )
+		); // @codingStandardsIgnoreLine.
+
+		return $wpdb->query( $query );
 	}
 
 	/**
@@ -192,7 +197,7 @@ class Handler_DB {
 		}
 
 		$result = $wpdb->prepare( "UPDATE $table_name SET " . implode( ', ', array_map( function ( $v, $k ) { return $k . ' = ' . $v; }, $data, array_keys( $data ) ) ) . " WHERE log_id = %d", $log_id ); // @codingStandardsIgnoreLine.
-		
+
 		return $result;
 	}
 

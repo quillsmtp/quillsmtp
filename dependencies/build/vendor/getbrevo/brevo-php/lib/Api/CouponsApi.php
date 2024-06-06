@@ -85,7 +85,7 @@ class CouponsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Brevo\Client\Model\InlineResponse2012
+     * @return \Brevo\Client\Model\InlineResponse2013
      */
     public function createCouponCollection($createCouponCollection)
     {
@@ -101,11 +101,11 @@ class CouponsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Brevo\Client\Model\InlineResponse2012, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Brevo\Client\Model\InlineResponse2013, HTTP status code, HTTP response headers (array of strings)
      */
     public function createCouponCollectionWithHttpInfo($createCouponCollection)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013';
         $request = $this->createCouponCollectionRequest($createCouponCollection);
         try {
             $options = $this->createHttpClientOption();
@@ -132,7 +132,7 @@ class CouponsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 401:
@@ -175,7 +175,7 @@ class CouponsApi
      */
     public function createCouponCollectionAsyncWithHttpInfo($createCouponCollection)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2013';
         $request = $this->createCouponCollectionRequest($createCouponCollection);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -882,7 +882,7 @@ class CouponsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Brevo\Client\Model\InlineResponse2001
+     * @return \Brevo\Client\Model\InlineResponse2002
      */
     public function updateCouponCollection($id, $updateCouponCollection)
     {
@@ -899,11 +899,11 @@ class CouponsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Brevo\Client\Model\InlineResponse2001, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Brevo\Client\Model\InlineResponse2002, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateCouponCollectionWithHttpInfo($id, $updateCouponCollection)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2001';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2002';
         $request = $this->updateCouponCollectionRequest($id, $updateCouponCollection);
         try {
             $options = $this->createHttpClientOption();
@@ -930,7 +930,7 @@ class CouponsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2001', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2002', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -975,7 +975,7 @@ class CouponsApi
      */
     public function updateCouponCollectionAsyncWithHttpInfo($id, $updateCouponCollection)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2001';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2002';
         $request = $this->updateCouponCollectionRequest($id, $updateCouponCollection);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();

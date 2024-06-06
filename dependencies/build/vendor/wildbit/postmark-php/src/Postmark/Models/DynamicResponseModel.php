@@ -2,6 +2,7 @@
 
 namespace QuillSMTP\Vendor\Postmark\Models;
 
+use ReturnTypeWillChange;
 /**
  * The DynamicResponseModel class allows flexible and forgiving access to responses from the Postmark API.
  *
@@ -27,23 +28,23 @@ class DynamicResponseModel extends CaseInsensitiveArray
     /**
      * Create a new DynamicResponseModel from an associative array.
      *
-     * @param array $data The source associative array.
+     * @param array $data the source associative array
      */
-    function __construct(array $data)
+    public function __construct(array $data)
     {
         parent::__construct($data);
     }
     /**
      * Infrastructure. Get an element by name.
      *
-     * @param mixed $name Name of element to get from the dynamic response model.
+     * @param mixed $name name of element to get from the dynamic response model
      */
     public function __get($name)
     {
         $value = $this[$name];
         // If there's a value and it's an array,
         // convert it to a dynamic response object, too.
-        if ($value != NULL && \is_array($value)) {
+        if (null != $value && \is_array($value)) {
             $value = new DynamicResponseModel($value);
         }
         return $value;
@@ -55,7 +56,7 @@ class DynamicResponseModel extends CaseInsensitiveArray
     public function offsetGet($offset)
     {
         $result = parent::offsetGet($offset);
-        if ($result != NULL && \is_array($result)) {
+        if (null != $result && \is_array($result)) {
             $result = new DynamicResponseModel($result);
         }
         return $result;

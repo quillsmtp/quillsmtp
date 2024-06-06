@@ -77,6 +77,7 @@ class Gmail extends \QuillSMTP\Vendor\Google\Service
     public $users_settings_sendAs;
     public $users_settings_sendAs_smimeInfo;
     public $users_threads;
+    public $rootUrlTemplate;
     /**
      * Constructs the internal representation of the Gmail service.
      *
@@ -88,6 +89,7 @@ class Gmail extends \QuillSMTP\Vendor\Google\Service
     {
         parent::__construct($clientOrConfig);
         $this->rootUrl = $rootUrl ?: 'https://gmail.googleapis.com/';
+        $this->rootUrlTemplate = $rootUrl ?: 'https://gmail.UNIVERSE_DOMAIN/';
         $this->servicePath = '';
         $this->batchPath = 'batch';
         $this->version = 'v1';

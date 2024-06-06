@@ -11,37 +11,30 @@ declare (strict_types=1);
  */
 namespace QuillSMTP\Vendor\Monolog\Handler;
 
-use QuillSMTP\Vendor\Monolog\Logger;
+use QuillSMTP\Vendor\Monolog\Level;
 use QuillSMTP\Vendor\Monolog\Utils;
+use QuillSMTP\Vendor\Monolog\LogRecord;
 /**
  * Stores to any stream resource
  *
  * Can be used to store into php://stderr, remote and local files, etc.
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
- *
- * @phpstan-import-type FormattedRecord from AbstractProcessingHandler
  */
 class StreamHandler extends AbstractProcessingHandler
 {
-    /** @const int */
     protected const MAX_CHUNK_SIZE = 2147483647;
-    /** @const int 10MB */
+    /** 10MB */
     protected const DEFAULT_CHUNK_SIZE = 10 * 1024 * 1024;
-    /** @var int */
-    protected $streamChunkSize;
+    protected int $streamChunkSize;
     /** @var resource|null */
     protected $stream;
-    /** @var ?string */
-    protected $url = null;
-    /** @var ?string */
-    private $errorMessage = null;
-    /** @var ?int */
-    protected $filePermission;
-    /** @var bool */
-    protected $useLocking;
+    protected string|null $url = null;
+    private string|null $errorMessage = null;
+    protected int|null $filePermission;
+    protected bool $useLocking;
     /** @var true|null */
-    private $dirCreated = null;
+    private bool|null $dirCreated = null;
     /**
      * @param resource|string $stream         If a missing path can't be created, an UnexpectedValueException will be thrown on first write
      * @param int|null        $filePermission Optional file permissions (default (0644) are only for owner read/write)
@@ -49,7 +42,7 @@ class StreamHandler extends AbstractProcessingHandler
      *
      * @throws \InvalidArgumentException If stream is not a resource or string
      */
-    public function __construct($stream, $level = Logger::DEBUG, bool $bubble = \true, ?int $filePermission = null, bool $useLocking = \false)
+    public function __construct($stream, int|string|Level $level = Level::Debug, bool $bubble = \true, ?int $filePermission = null, bool $useLocking = \false)
     {
         parent::__construct($level, $bubble);
         if (($phpMemoryLimit = Utils::expandIniShorthandBytes(\ini_get('memory_limit'))) !== \false) {
@@ -76,11 +69,11 @@ class StreamHandler extends AbstractProcessingHandler
         $this->useLocking = $useLocking;
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function close() : void
     {
-        if ($this->url && \is_resource($this->stream)) {
+        if (null !== $this->url && \is_resource($this->stream)) {
             \fclose($this->stream);
         }
         $this->stream = null;
@@ -97,24 +90,19 @@ class StreamHandler extends AbstractProcessingHandler
     }
     /**
      * Return the stream URL if it was configured with a URL and not an active resource
-     *
-     * @return string|null
      */
     public function getUrl() : ?string
     {
         return $this->url;
     }
-    /**
-     * @return int
-     */
     public function getStreamChunkSize() : int
     {
         return $this->streamChunkSize;
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function write(array $record) : void
+    protected function write(LogRecord $record) : void
     {
         if (!\is_resource($this->stream)) {
             $url = $this->url;
@@ -140,9 +128,6 @@ class StreamHandler extends AbstractProcessingHandler
             $this->stream = $stream;
         }
         $stream = $this->stream;
-        if (!\is_resource($stream)) {
-            throw new \LogicException('No stream was opened yet' . Utils::getRecordMessageForException($record));
-        }
         if ($this->useLocking) {
             // ignoring errors here, there's not much we can do about them
             \flock($stream, \LOCK_EX);
@@ -155,13 +140,10 @@ class StreamHandler extends AbstractProcessingHandler
     /**
      * Write to stream
      * @param resource $stream
-     * @param array    $record
-     *
-     * @phpstan-param FormattedRecord $record
      */
-    protected function streamWrite($stream, array $record) : void
+    protected function streamWrite($stream, LogRecord $record) : void
     {
-        \fwrite($stream, (string) $record['formatted']);
+        \fwrite($stream, (string) $record->formatted);
     }
     private function customErrorHandler(int $code, string $msg) : bool
     {
@@ -182,7 +164,7 @@ class StreamHandler extends AbstractProcessingHandler
     private function createDir(string $url) : void
     {
         // Do not try to create dir if it has already been tried.
-        if ($this->dirCreated) {
+        if (\true === $this->dirCreated) {
             return;
         }
         $dir = $this->getDirFromStream($url);

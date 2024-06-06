@@ -51,13 +51,13 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['days' => 'int', 'startDate' => 'string', 'endDate' => 'string', 'sort' => 'string', 'event' => 'string', 'notifyURL' => 'string', 'webhookId' => 'int', 'email' => 'string', 'messageId' => 'int'];
+    protected static $swaggerTypes = ['days' => 'int', 'startDate' => 'string', 'endDate' => 'string', 'sort' => 'string', 'type' => 'string', 'event' => 'string', 'notifyURL' => 'string', 'webhookId' => 'int', 'email' => 'string', 'messageId' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['days' => null, 'startDate' => null, 'endDate' => null, 'sort' => null, 'event' => null, 'notifyURL' => null, 'webhookId' => null, 'email' => null, 'messageId' => null];
+    protected static $swaggerFormats = ['days' => null, 'startDate' => null, 'endDate' => null, 'sort' => null, 'type' => null, 'event' => null, 'notifyURL' => null, 'webhookId' => null, 'email' => null, 'messageId' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['days' => 'days', 'startDate' => 'startDate', 'endDate' => 'endDate', 'sort' => 'sort', 'event' => 'event', 'notifyURL' => 'notifyURL', 'webhookId' => 'webhookId', 'email' => 'email', 'messageId' => 'messageId'];
+    protected static $attributeMap = ['days' => 'days', 'startDate' => 'startDate', 'endDate' => 'endDate', 'sort' => 'sort', 'type' => 'type', 'event' => 'event', 'notifyURL' => 'notifyURL', 'webhookId' => 'webhookId', 'email' => 'email', 'messageId' => 'messageId'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['days' => 'setDays', 'startDate' => 'setStartDate', 'endDate' => 'setEndDate', 'sort' => 'setSort', 'event' => 'setEvent', 'notifyURL' => 'setNotifyURL', 'webhookId' => 'setWebhookId', 'email' => 'setEmail', 'messageId' => 'setMessageId'];
+    protected static $setters = ['days' => 'setDays', 'startDate' => 'setStartDate', 'endDate' => 'setEndDate', 'sort' => 'setSort', 'type' => 'setType', 'event' => 'setEvent', 'notifyURL' => 'setNotifyURL', 'webhookId' => 'setWebhookId', 'email' => 'setEmail', 'messageId' => 'setMessageId'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['days' => 'getDays', 'startDate' => 'getStartDate', 'endDate' => 'getEndDate', 'sort' => 'getSort', 'event' => 'getEvent', 'notifyURL' => 'getNotifyURL', 'webhookId' => 'getWebhookId', 'email' => 'getEmail', 'messageId' => 'getMessageId'];
+    protected static $getters = ['days' => 'getDays', 'startDate' => 'getStartDate', 'endDate' => 'getEndDate', 'sort' => 'getSort', 'type' => 'getType', 'event' => 'getEvent', 'notifyURL' => 'getNotifyURL', 'webhookId' => 'getWebhookId', 'email' => 'getEmail', 'messageId' => 'getMessageId'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -132,6 +132,8 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     {
         return self::$swaggerModelName;
     }
+    const TYPE_TRANSACTIONAL = 'transactional';
+    const TYPE_MARKETING = 'marketing';
     const EVENT_INVALID_PARAMETER = 'invalid_parameter';
     const EVENT_MISSING_PARAMETER = 'missing_parameter';
     const EVENT_HARD_BOUNCE = 'hardBounce';
@@ -149,6 +151,15 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     const EVENT_UNIQUE_OPENED = 'uniqueOpened';
     const EVENT_LOADED_BY_PROXY = 'loadedByProxy';
     const EVENT_ALL_EVENTS = 'allEvents';
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getTypeAllowableValues()
+    {
+        return [self::TYPE_TRANSACTIONAL, self::TYPE_MARKETING];
+    }
     /**
      * Gets allowable values of the enum
      *
@@ -176,6 +187,7 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
         $this->container['startDate'] = isset($data['startDate']) ? $data['startDate'] : null;
         $this->container['endDate'] = isset($data['endDate']) ? $data['endDate'] : null;
         $this->container['sort'] = isset($data['sort']) ? $data['sort'] : null;
+        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['event'] = isset($data['event']) ? $data['event'] : null;
         $this->container['notifyURL'] = isset($data['notifyURL']) ? $data['notifyURL'] : null;
         $this->container['webhookId'] = isset($data['webhookId']) ? $data['webhookId'] : null;
@@ -190,6 +202,13 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
+        $allowedValues = $this->getTypeAllowableValues();
+        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        }
         if ($this->container['event'] === null) {
             $invalidProperties[] = "'event' can't be null";
         }
@@ -297,6 +316,31 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
         return $this;
     }
     /**
+     * Gets type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->container['type'];
+    }
+    /**
+     * Sets type
+     *
+     * @param string $type Filter the history based on webhook type
+     *
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $allowedValues = $this->getTypeAllowableValues();
+        if (!\in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        }
+        $this->container['type'] = $type;
+        return $this;
+    }
+    /**
      * Gets event
      *
      * @return string
@@ -396,7 +440,7 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     /**
      * Sets messageId
      *
-     * @param int $messageId Filter the history for a specific message id
+     * @param int $messageId Filter the history for a specific message id. Applicable only for transactional webhooks.
      *
      * @return $this
      */

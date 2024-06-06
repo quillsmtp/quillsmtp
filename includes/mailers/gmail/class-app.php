@@ -44,7 +44,7 @@ class App {
 	 * @return void
 	 */
 	public function maybe_authorize() {
-		$action = esc_attr( $_GET['action'] ?? '' );
+		$action = esc_attr( $_GET['quillsmtp-gmail'] ?? '' );
 		if ( $action !== 'authorize' ) {
 			return;
 		}
@@ -66,6 +66,7 @@ class App {
 			],
 			'https://accounts.google.com/o/oauth2/auth'
 		);
+		error_log( $auth_url );
 		wp_redirect( $auth_url );
 		exit;
 	}
@@ -153,7 +154,7 @@ class App {
 			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quillsmtp' ); ?>
 			<script>
 				if ( typeof window.opener.add_new_gmail_account === 'function' ) {
-					window.opener.add_new_gmail_account( '<?php echo  esc_attr($account_id); ?>', '<?php echo esc_attr($account_name); ?>' );
+					window.opener.add_new_gmail_account( '<?php echo  esc_attr( $account_id ); ?>', '<?php echo esc_attr( $account_name ); ?>' );
 					window.close();
 				}
 			</script>

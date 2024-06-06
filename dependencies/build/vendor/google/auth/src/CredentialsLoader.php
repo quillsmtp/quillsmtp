@@ -28,7 +28,7 @@ use UnexpectedValueException;
  * CredentialsLoader contains the behaviour used to locate and find default
  * credentials files on the file system.
  */
-abstract class CredentialsLoader implements FetchAuthTokenInterface, UpdateMetadataInterface
+abstract class CredentialsLoader implements GetUniverseDomainInterface, FetchAuthTokenInterface, UpdateMetadataInterface
 {
     use UpdateMetadataTrait;
     const TOKEN_CREDENTIAL_URI = 'https://oauth2.googleapis.com/token';
@@ -228,5 +228,15 @@ abstract class CredentialsLoader implements FetchAuthTokenInterface, UpdateMetad
             throw new UnexpectedValueException('cert source expects "cert_provider_command" to be an array');
         }
         return $clientCertSourceJson;
+    }
+    /**
+     * Get the universe domain from the credential. Defaults to "googleapis.com"
+     * for all credential types which do not support universe domain.
+     *
+     * @return string
+     */
+    public function getUniverseDomain() : string
+    {
+        return self::DEFAULT_UNIVERSE_DOMAIN;
     }
 }

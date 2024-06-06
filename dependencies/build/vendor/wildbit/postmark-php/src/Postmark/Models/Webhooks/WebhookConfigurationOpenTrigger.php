@@ -2,35 +2,35 @@
 
 namespace QuillSMTP\Vendor\Postmark\Models\Webhooks;
 
+use JsonSerializable;
 /**
  * Settings for Open webhooks.
  */
-class WebhookConfigurationOpenTrigger implements \JsonSerializable
+class WebhookConfigurationOpenTrigger implements JsonSerializable
 {
-    private $enabled;
-    private $postFirstOpenOnly;
+    private bool $Enabled;
+    private bool $PostFirstOpenOnly;
     /**
      * Create a new WebhookConfigurationOpenTrigger.
      *
-     * @param boolean $enabled Specifies whether or not webhooks will be triggered by Open events.
-     * @param boolean $postFirstOpenOnly If enabled, Open webhooks will only POST on first open.
+     * @param bool $enabled           specifies whether or not webhooks will be triggered by Open events
+     * @param bool $postFirstOpenOnly if enabled, Open webhooks will only POST on first open
      */
-    public function __construct($enabled = \false, $postFirstOpenOnly = \false)
+    public function __construct(bool $enabled, bool $postFirstOpenOnly)
     {
-        $this->enabled = $enabled;
-        $this->postFirstOpenOnly = $postFirstOpenOnly;
+        $this->Enabled = $enabled;
+        $this->PostFirstOpenOnly = $postFirstOpenOnly;
     }
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
-        $retval = array("Enabled" => $this->enabled, "PostFirstOpenOnly" => $this->postFirstOpenOnly);
-        return $retval;
+        return ['Enabled' => $this->Enabled, 'PostFirstOpenOnly' => $this->PostFirstOpenOnly];
     }
-    public function getEnabled()
+    public function getEnabled() : bool
     {
-        return $this->enabled;
+        return $this->Enabled;
     }
-    public function getPostFirstOpenOnly()
+    public function getPostFirstOpenOnly() : bool
     {
-        return $this->postFirstOpenOnly;
+        return $this->PostFirstOpenOnly;
     }
 }

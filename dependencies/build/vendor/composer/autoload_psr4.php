@@ -13,7 +13,7 @@ return array(
     'QuillSMTP\\Vendor\\SendGrid\\EventWebhook\\' => array($vendorDir . '/sendgrid/sendgrid/lib/eventwebhook'),
     'QuillSMTP\\Vendor\\SendGrid\\Contacts\\' => array($vendorDir . '/sendgrid/sendgrid/lib/contacts'),
     'QuillSMTP\\Vendor\\SendGrid\\' => array($vendorDir . '/sendgrid/php-http-client/lib'),
-    'QuillSMTP\\Vendor\\Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'QuillSMTP\\Vendor\\Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'QuillSMTP\\Vendor\\Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),

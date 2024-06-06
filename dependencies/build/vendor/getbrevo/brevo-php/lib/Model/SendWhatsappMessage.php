@@ -51,13 +51,13 @@ class SendWhatsappMessage implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['templateId' => 'int', 'text' => 'string', 'senderNumber' => 'string', 'contactNumbers' => 'string[]'];
+    protected static $swaggerTypes = ['templateId' => 'int', 'text' => 'string', 'senderNumber' => 'string', 'params' => 'object', 'contactNumbers' => 'string[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['templateId' => null, 'text' => null, 'senderNumber' => 'mobile', 'contactNumbers' => 'mobile'];
+    protected static $swaggerFormats = ['templateId' => null, 'text' => null, 'senderNumber' => 'mobile', 'params' => null, 'contactNumbers' => 'mobile'];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class SendWhatsappMessage implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['templateId' => 'templateId', 'text' => 'text', 'senderNumber' => 'senderNumber', 'contactNumbers' => 'contactNumbers'];
+    protected static $attributeMap = ['templateId' => 'templateId', 'text' => 'text', 'senderNumber' => 'senderNumber', 'params' => 'params', 'contactNumbers' => 'contactNumbers'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['templateId' => 'setTemplateId', 'text' => 'setText', 'senderNumber' => 'setSenderNumber', 'contactNumbers' => 'setContactNumbers'];
+    protected static $setters = ['templateId' => 'setTemplateId', 'text' => 'setText', 'senderNumber' => 'setSenderNumber', 'params' => 'setParams', 'contactNumbers' => 'setContactNumbers'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['templateId' => 'getTemplateId', 'text' => 'getText', 'senderNumber' => 'getSenderNumber', 'contactNumbers' => 'getContactNumbers'];
+    protected static $getters = ['templateId' => 'getTemplateId', 'text' => 'getText', 'senderNumber' => 'getSenderNumber', 'params' => 'getParams', 'contactNumbers' => 'getContactNumbers'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -149,6 +149,7 @@ class SendWhatsappMessage implements ModelInterface, ArrayAccess
         $this->container['templateId'] = isset($data['templateId']) ? $data['templateId'] : null;
         $this->container['text'] = isset($data['text']) ? $data['text'] : null;
         $this->container['senderNumber'] = isset($data['senderNumber']) ? $data['senderNumber'] : null;
+        $this->container['params'] = isset($data['params']) ? $data['params'] : null;
         $this->container['contactNumbers'] = isset($data['contactNumbers']) ? $data['contactNumbers'] : null;
     }
     /**
@@ -238,6 +239,27 @@ class SendWhatsappMessage implements ModelInterface, ArrayAccess
     public function setSenderNumber($senderNumber)
     {
         $this->container['senderNumber'] = $senderNumber;
+        return $this;
+    }
+    /**
+     * Gets params
+     *
+     * @return object
+     */
+    public function getParams()
+    {
+        return $this->container['params'];
+    }
+    /**
+     * Sets params
+     *
+     * @param object $params Pass the set of attributes to customize the template. For example, {\"FNAME\":\"Joe\", \"LNAME\":\"Doe\"}.
+     *
+     * @return $this
+     */
+    public function setParams($params)
+    {
+        $this->container['params'] = $params;
         return $this;
     }
     /**

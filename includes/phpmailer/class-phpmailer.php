@@ -46,10 +46,16 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 		}
 
 		$mailer = Mailers::get_mailer( $default_connection['mailer'] );
+		if ( ! $mailer ) {
+			return false;
+		}
 		$result = $mailer->process( $this, $default_connection_id, $default_connection )->send();
 
 		if ( ! $result && $fallback_connection ) {
 			$mailer = Mailers::get_mailer( $fallback_connection['mailer'] );
+			if ( ! $mailer ) {
+				return false;
+			}
 			$result = $mailer->process( $this, $fallback_connection_id, $fallback_connection )->send();
 		}
 

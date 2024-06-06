@@ -23,10 +23,6 @@ class ListLabelsResponse extends \QuillSMTP\Vendor\Google\Collection
     protected $labelsType = Label::class;
     protected $labelsDataType = 'array';
     /**
-     * @var int
-     */
-    public $productId;
-    /**
      * @param Label[]
      */
     public function setLabels($labels)
@@ -39,20 +35,6 @@ class ListLabelsResponse extends \QuillSMTP\Vendor\Google\Collection
     public function getLabels()
     {
         return $this->labels;
-    }
-    /**
-     * @param int
-     */
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-    }
-    /**
-     * @return int
-     */
-    public function getProductId()
-    {
-        return $this->productId;
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.

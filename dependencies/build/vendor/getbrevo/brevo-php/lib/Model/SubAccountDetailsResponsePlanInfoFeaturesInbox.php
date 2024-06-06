@@ -33,7 +33,7 @@ use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
  * SubAccountDetailsResponsePlanInfoFeaturesInbox Class Doc Comment
  *
  * @category Class
- * @description Inbox details
+ * @description Inbox details / Not available on ENTv2
  * @package  Brevo\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen

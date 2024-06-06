@@ -204,7 +204,7 @@ class SubAccountUpdatePlanRequestFeatures implements ModelInterface, ArrayAccess
     /**
      * Sets landingPage
      *
-     * @param int $landingPage Number of landing pages
+     * @param int $landingPage Number of landing pages / Not required on ENTv2
      *
      * @return $this
      */
@@ -225,7 +225,7 @@ class SubAccountUpdatePlanRequestFeatures implements ModelInterface, ArrayAccess
     /**
      * Sets inbox
      *
-     * @param int $inbox Number of inboxes
+     * @param int $inbox Number of inboxes / Not required on ENTv2
      *
      * @return $this
      */

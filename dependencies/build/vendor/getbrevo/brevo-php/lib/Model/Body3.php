@@ -51,13 +51,13 @@ class Body3 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'attributes' => 'object'];
+    protected static $swaggerTypes = ['name' => 'string', 'attributes' => 'object', 'countryCode' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['name' => null, 'attributes' => null];
+    protected static $swaggerFormats = ['name' => null, 'attributes' => null, 'countryCode' => 'int64'];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class Body3 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['name' => 'name', 'attributes' => 'attributes'];
+    protected static $attributeMap = ['name' => 'name', 'attributes' => 'attributes', 'countryCode' => 'countryCode'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['name' => 'setName', 'attributes' => 'setAttributes'];
+    protected static $setters = ['name' => 'setName', 'attributes' => 'setAttributes', 'countryCode' => 'setCountryCode'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['name' => 'getName', 'attributes' => 'getAttributes'];
+    protected static $getters = ['name' => 'getName', 'attributes' => 'getAttributes', 'countryCode' => 'getCountryCode'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -148,6 +148,7 @@ class Body3 implements ModelInterface, ArrayAccess
     {
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['attributes'] = isset($data['attributes']) ? $data['attributes'] : null;
+        $this->container['countryCode'] = isset($data['countryCode']) ? $data['countryCode'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -157,9 +158,6 @@ class Body3 implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
         return $invalidProperties;
     }
     /**
@@ -184,7 +182,7 @@ class Body3 implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param string $name Name of deal
+     * @param string $name Name of company
      *
      * @return $this
      */
@@ -205,13 +203,34 @@ class Body3 implements ModelInterface, ArrayAccess
     /**
      * Sets attributes
      *
-     * @param object $attributes Attributes for deal creation  If you want to create a deal on a specific pipeline and stage you can use the following attributes `pipeline` and `deal_stage`.  Pipeline and deal_stage are ids you can fetch using this endpoint `/crm/pipeline/details/{pipelineID}`
+     * @param object $attributes Attributes for company update
      *
      * @return $this
      */
     public function setAttributes($attributes)
     {
         $this->container['attributes'] = $attributes;
+        return $this;
+    }
+    /**
+     * Gets countryCode
+     *
+     * @return int
+     */
+    public function getCountryCode()
+    {
+        return $this->container['countryCode'];
+    }
+    /**
+     * Sets countryCode
+     *
+     * @param int $countryCode Country code if phone_number is passed in attributes.
+     *
+     * @return $this
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->container['countryCode'] = $countryCode;
         return $this;
     }
     /**

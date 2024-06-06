@@ -51,13 +51,13 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
+    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'disableNotification' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['fileUrl' => 'url', 'fileBody' => null, 'jsonBody' => null, 'listIds' => 'int64', 'notifyUrl' => 'url', 'newList' => null, 'emailBlacklist' => null, 'smsBlacklist' => null, 'updateExistingContacts' => null, 'emptyContactsAttributes' => null];
+    protected static $swaggerFormats = ['fileUrl' => 'url', 'fileBody' => null, 'jsonBody' => null, 'listIds' => 'int64', 'notifyUrl' => 'url', 'newList' => null, 'emailBlacklist' => null, 'disableNotification' => null, 'smsBlacklist' => null, 'updateExistingContacts' => null, 'emptyContactsAttributes' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['fileUrl' => 'fileUrl', 'fileBody' => 'fileBody', 'jsonBody' => 'jsonBody', 'listIds' => 'listIds', 'notifyUrl' => 'notifyUrl', 'newList' => 'newList', 'emailBlacklist' => 'emailBlacklist', 'smsBlacklist' => 'smsBlacklist', 'updateExistingContacts' => 'updateExistingContacts', 'emptyContactsAttributes' => 'emptyContactsAttributes'];
+    protected static $attributeMap = ['fileUrl' => 'fileUrl', 'fileBody' => 'fileBody', 'jsonBody' => 'jsonBody', 'listIds' => 'listIds', 'notifyUrl' => 'notifyUrl', 'newList' => 'newList', 'emailBlacklist' => 'emailBlacklist', 'disableNotification' => 'disableNotification', 'smsBlacklist' => 'smsBlacklist', 'updateExistingContacts' => 'updateExistingContacts', 'emptyContactsAttributes' => 'emptyContactsAttributes'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['fileUrl' => 'setFileUrl', 'fileBody' => 'setFileBody', 'jsonBody' => 'setJsonBody', 'listIds' => 'setListIds', 'notifyUrl' => 'setNotifyUrl', 'newList' => 'setNewList', 'emailBlacklist' => 'setEmailBlacklist', 'smsBlacklist' => 'setSmsBlacklist', 'updateExistingContacts' => 'setUpdateExistingContacts', 'emptyContactsAttributes' => 'setEmptyContactsAttributes'];
+    protected static $setters = ['fileUrl' => 'setFileUrl', 'fileBody' => 'setFileBody', 'jsonBody' => 'setJsonBody', 'listIds' => 'setListIds', 'notifyUrl' => 'setNotifyUrl', 'newList' => 'setNewList', 'emailBlacklist' => 'setEmailBlacklist', 'disableNotification' => 'setDisableNotification', 'smsBlacklist' => 'setSmsBlacklist', 'updateExistingContacts' => 'setUpdateExistingContacts', 'emptyContactsAttributes' => 'setEmptyContactsAttributes'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['fileUrl' => 'getFileUrl', 'fileBody' => 'getFileBody', 'jsonBody' => 'getJsonBody', 'listIds' => 'getListIds', 'notifyUrl' => 'getNotifyUrl', 'newList' => 'getNewList', 'emailBlacklist' => 'getEmailBlacklist', 'smsBlacklist' => 'getSmsBlacklist', 'updateExistingContacts' => 'getUpdateExistingContacts', 'emptyContactsAttributes' => 'getEmptyContactsAttributes'];
+    protected static $getters = ['fileUrl' => 'getFileUrl', 'fileBody' => 'getFileBody', 'jsonBody' => 'getJsonBody', 'listIds' => 'getListIds', 'notifyUrl' => 'getNotifyUrl', 'newList' => 'getNewList', 'emailBlacklist' => 'getEmailBlacklist', 'disableNotification' => 'getDisableNotification', 'smsBlacklist' => 'getSmsBlacklist', 'updateExistingContacts' => 'getUpdateExistingContacts', 'emptyContactsAttributes' => 'getEmptyContactsAttributes'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -153,6 +153,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
         $this->container['notifyUrl'] = isset($data['notifyUrl']) ? $data['notifyUrl'] : null;
         $this->container['newList'] = isset($data['newList']) ? $data['newList'] : null;
         $this->container['emailBlacklist'] = isset($data['emailBlacklist']) ? $data['emailBlacklist'] : \false;
+        $this->container['disableNotification'] = isset($data['disableNotification']) ? $data['disableNotification'] : \false;
         $this->container['smsBlacklist'] = isset($data['smsBlacklist']) ? $data['smsBlacklist'] : \false;
         $this->container['updateExistingContacts'] = isset($data['updateExistingContacts']) ? $data['updateExistingContacts'] : \true;
         $this->container['emptyContactsAttributes'] = isset($data['emptyContactsAttributes']) ? $data['emptyContactsAttributes'] : \false;
@@ -322,6 +323,27 @@ class RequestContactImport implements ModelInterface, ArrayAccess
     public function setEmailBlacklist($emailBlacklist)
     {
         $this->container['emailBlacklist'] = $emailBlacklist;
+        return $this;
+    }
+    /**
+     * Gets disableNotification
+     *
+     * @return bool
+     */
+    public function getDisableNotification()
+    {
+        return $this->container['disableNotification'];
+    }
+    /**
+     * Sets disableNotification
+     *
+     * @param bool $disableNotification To disable email notification
+     *
+     * @return $this
+     */
+    public function setDisableNotification($disableNotification)
+    {
+        $this->container['disableNotification'] = $disableNotification;
         return $this;
     }
     /**

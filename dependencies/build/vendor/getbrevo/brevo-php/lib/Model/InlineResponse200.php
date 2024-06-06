@@ -33,7 +33,6 @@ use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
  * InlineResponse200 Class Doc Comment
  *
  * @category Class
- * @description Created company id
  * @package  Brevo\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -52,13 +51,13 @@ class InlineResponse200 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string'];
+    protected static $swaggerTypes = ['id' => 'string', 'groupName' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['id' => null];
+    protected static $swaggerFormats = ['id' => null, 'groupName' => null];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -83,19 +82,19 @@ class InlineResponse200 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['id' => 'id'];
+    protected static $attributeMap = ['id' => 'id', 'groupName' => 'groupName'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['id' => 'setId'];
+    protected static $setters = ['id' => 'setId', 'groupName' => 'setGroupName'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['id' => 'getId'];
+    protected static $getters = ['id' => 'getId', 'groupName' => 'getGroupName'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -148,6 +147,7 @@ class InlineResponse200 implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['groupName'] = isset($data['groupName']) ? $data['groupName'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -157,9 +157,6 @@ class InlineResponse200 implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if ($this->container['id'] === null) {
-            $invalidProperties[] = "'id' can't be null";
-        }
         return $invalidProperties;
     }
     /**
@@ -184,13 +181,34 @@ class InlineResponse200 implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param string $id Unique company id
+     * @param string $id Unique id of the group
      *
      * @return $this
      */
     public function setId($id)
     {
         $this->container['id'] = $id;
+        return $this;
+    }
+    /**
+     * Gets groupName
+     *
+     * @return string
+     */
+    public function getGroupName()
+    {
+        return $this->container['groupName'];
+    }
+    /**
+     * Sets groupName
+     *
+     * @param string $groupName The name of the group of sub-accounts
+     *
+     * @return $this
+     */
+    public function setGroupName($groupName)
+    {
+        $this->container['groupName'] = $groupName;
         return $this;
     }
     /**

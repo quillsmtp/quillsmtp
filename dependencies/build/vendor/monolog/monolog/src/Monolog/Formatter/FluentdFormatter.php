@@ -12,6 +12,7 @@ declare (strict_types=1);
 namespace QuillSMTP\Vendor\Monolog\Formatter;
 
 use QuillSMTP\Vendor\Monolog\Utils;
+use QuillSMTP\Vendor\Monolog\LogRecord;
 /**
  * Class FluentdFormatter
  *
@@ -38,7 +39,10 @@ class FluentdFormatter implements FormatterInterface
     /**
      * @var bool $levelTag should message level be a part of the fluentd tag
      */
-    protected $levelTag = \false;
+    protected bool $levelTag = \false;
+    /**
+     * @throws \RuntimeException If the function json_encode does not exist
+     */
     public function __construct(bool $levelTag = \false)
     {
         if (!\function_exists('json_encode')) {
@@ -50,18 +54,18 @@ class FluentdFormatter implements FormatterInterface
     {
         return $this->levelTag;
     }
-    public function format(array $record) : string
+    public function format(LogRecord $record) : string
     {
-        $tag = $record['channel'];
+        $tag = $record->channel;
         if ($this->levelTag) {
-            $tag .= '.' . \strtolower($record['level_name']);
+            $tag .= '.' . $record->level->toPsrLogLevel();
         }
-        $message = ['message' => $record['message'], 'context' => $record['context'], 'extra' => $record['extra']];
+        $message = ['message' => $record->message, 'context' => $record->context, 'extra' => $record->extra];
         if (!$this->levelTag) {
-            $message['level'] = $record['level'];
-            $message['level_name'] = $record['level_name'];
+            $message['level'] = $record->level->value;
+            $message['level_name'] = $record->level->getName();
         }
-        return Utils::jsonEncode([$tag, $record['datetime']->getTimestamp(), $message]);
+        return Utils::jsonEncode([$tag, $record->datetime->getTimestamp(), $message]);
     }
     public function formatBatch(array $records) : string
     {

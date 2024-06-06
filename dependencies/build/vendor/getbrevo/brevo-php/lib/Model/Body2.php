@@ -51,13 +51,13 @@ class Body2 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['linkContactIds' => 'int[]', 'unlinkContactIds' => 'int[]', 'linkDealsIds' => 'string[]', 'unlinkDealsIds' => 'string[]'];
+    protected static $swaggerTypes = ['name' => 'string', 'attributes' => 'object', 'countryCode' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['linkContactIds' => 'int64', 'unlinkContactIds' => 'int64', 'linkDealsIds' => null, 'unlinkDealsIds' => null];
+    protected static $swaggerFormats = ['name' => null, 'attributes' => null, 'countryCode' => 'int64'];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class Body2 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['linkContactIds' => 'linkContactIds', 'unlinkContactIds' => 'unlinkContactIds', 'linkDealsIds' => 'linkDealsIds', 'unlinkDealsIds' => 'unlinkDealsIds'];
+    protected static $attributeMap = ['name' => 'name', 'attributes' => 'attributes', 'countryCode' => 'countryCode'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['linkContactIds' => 'setLinkContactIds', 'unlinkContactIds' => 'setUnlinkContactIds', 'linkDealsIds' => 'setLinkDealsIds', 'unlinkDealsIds' => 'setUnlinkDealsIds'];
+    protected static $setters = ['name' => 'setName', 'attributes' => 'setAttributes', 'countryCode' => 'setCountryCode'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['linkContactIds' => 'getLinkContactIds', 'unlinkContactIds' => 'getUnlinkContactIds', 'linkDealsIds' => 'getLinkDealsIds', 'unlinkDealsIds' => 'getUnlinkDealsIds'];
+    protected static $getters = ['name' => 'getName', 'attributes' => 'getAttributes', 'countryCode' => 'getCountryCode'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -146,10 +146,9 @@ class Body2 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['linkContactIds'] = isset($data['linkContactIds']) ? $data['linkContactIds'] : null;
-        $this->container['unlinkContactIds'] = isset($data['unlinkContactIds']) ? $data['unlinkContactIds'] : null;
-        $this->container['linkDealsIds'] = isset($data['linkDealsIds']) ? $data['linkDealsIds'] : null;
-        $this->container['unlinkDealsIds'] = isset($data['unlinkDealsIds']) ? $data['unlinkDealsIds'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['attributes'] = isset($data['attributes']) ? $data['attributes'] : null;
+        $this->container['countryCode'] = isset($data['countryCode']) ? $data['countryCode'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -159,6 +158,9 @@ class Body2 implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
         return $invalidProperties;
     }
     /**
@@ -172,87 +174,66 @@ class Body2 implements ModelInterface, ArrayAccess
         return \count($this->listInvalidProperties()) === 0;
     }
     /**
-     * Gets linkContactIds
+     * Gets name
      *
-     * @return int[]
+     * @return string
      */
-    public function getLinkContactIds()
+    public function getName()
     {
-        return $this->container['linkContactIds'];
+        return $this->container['name'];
     }
     /**
-     * Sets linkContactIds
+     * Sets name
      *
-     * @param int[] $linkContactIds Contact ids for contacts to be linked with company
+     * @param string $name Name of company
      *
      * @return $this
      */
-    public function setLinkContactIds($linkContactIds)
+    public function setName($name)
     {
-        $this->container['linkContactIds'] = $linkContactIds;
+        $this->container['name'] = $name;
         return $this;
     }
     /**
-     * Gets unlinkContactIds
+     * Gets attributes
      *
-     * @return int[]
+     * @return object
      */
-    public function getUnlinkContactIds()
+    public function getAttributes()
     {
-        return $this->container['unlinkContactIds'];
+        return $this->container['attributes'];
     }
     /**
-     * Sets unlinkContactIds
+     * Sets attributes
      *
-     * @param int[] $unlinkContactIds Contact ids for contacts to be unlinked from company
+     * @param object $attributes Attributes for company creation
      *
      * @return $this
      */
-    public function setUnlinkContactIds($unlinkContactIds)
+    public function setAttributes($attributes)
     {
-        $this->container['unlinkContactIds'] = $unlinkContactIds;
+        $this->container['attributes'] = $attributes;
         return $this;
     }
     /**
-     * Gets linkDealsIds
+     * Gets countryCode
      *
-     * @return string[]
+     * @return int
      */
-    public function getLinkDealsIds()
+    public function getCountryCode()
     {
-        return $this->container['linkDealsIds'];
+        return $this->container['countryCode'];
     }
     /**
-     * Sets linkDealsIds
+     * Sets countryCode
      *
-     * @param string[] $linkDealsIds Deals ids for deals to be linked with company
+     * @param int $countryCode Country code if phone_number is passed in attributes.
      *
      * @return $this
      */
-    public function setLinkDealsIds($linkDealsIds)
+    public function setCountryCode($countryCode)
     {
-        $this->container['linkDealsIds'] = $linkDealsIds;
-        return $this;
-    }
-    /**
-     * Gets unlinkDealsIds
-     *
-     * @return string[]
-     */
-    public function getUnlinkDealsIds()
-    {
-        return $this->container['unlinkDealsIds'];
-    }
-    /**
-     * Sets unlinkDealsIds
-     *
-     * @param string[] $unlinkDealsIds Deals ids for deals to be unlinked from company
-     *
-     * @return $this
-     */
-    public function setUnlinkDealsIds($unlinkDealsIds)
-    {
-        $this->container['unlinkDealsIds'] = $unlinkDealsIds;
+        $this->container['countryCode'] = $countryCode;
         return $this;
     }
     /**

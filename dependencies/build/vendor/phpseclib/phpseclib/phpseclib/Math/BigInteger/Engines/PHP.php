@@ -1088,12 +1088,23 @@ abstract class PHP extends Engine
      */
     protected static function testJITOnWindows()
     {
-        if (\strtoupper(\substr(\PHP_OS, 0, 3)) === 'WIN' && \function_exists('opcache_get_status') && !\defined('QuillSMTP\\Vendor\\PHPSECLIB_ALLOW_JIT')) {
+        // see https://github.com/php/php-src/issues/11917
+        if (\strtoupper(\substr(\PHP_OS, 0, 3)) === 'WIN' && \function_exists('opcache_get_status') && \PHP_VERSION_ID < 80213 && !\defined('QuillSMTP\\Vendor\\PHPSECLIB_ALLOW_JIT')) {
             $status = \opcache_get_status();
             if ($status && isset($status['jit']) && $status['jit']['enabled'] && $status['jit']['on']) {
                 return \true;
             }
         }
         return \false;
+    }
+    /**
+     * Return the size of a BigInteger in bits
+     *
+     * @return int
+     */
+    public function getLength()
+    {
+        $max = \count($this->value) - 1;
+        return $max != -1 ? $max * static::BASE + \intval(\ceil(\log($this->value[$max] + 1, 2))) : 0;
     }
 }

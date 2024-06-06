@@ -397,7 +397,7 @@ class WhatsAppCampaignsApi
         if ($whatsAppTemplates === null || \is_array($whatsAppTemplates) && \count($whatsAppTemplates) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $whatsAppTemplates when calling createWhatsAppTemplate');
         }
-        $resourcePath = '/whatsappCampaigns/template';
+        $resourcePath = '/whatsppCampaigns/template';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -1250,14 +1250,15 @@ class WhatsAppCampaignsApi
      * @param  int $limit Number of documents per page (optional, default to 50)
      * @param  int $offset Index of the first document in the page (optional, default to 0)
      * @param  string $sort Sort the results in the ascending/descending order of record modification. Default order is **descending** if &#x60;sort&#x60; is not passed (optional, default to desc)
+     * @param  string $source source of the template (optional)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Brevo\Client\Model\GetWATemplates
      */
-    public function getWhatsAppTemplates($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc')
+    public function getWhatsAppTemplates($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc', $source = null)
     {
-        list($response) = $this->getWhatsAppTemplatesWithHttpInfo($startDate, $endDate, $limit, $offset, $sort);
+        list($response) = $this->getWhatsAppTemplatesWithHttpInfo($startDate, $endDate, $limit, $offset, $sort, $source);
         return $response;
     }
     /**
@@ -1270,15 +1271,16 @@ class WhatsAppCampaignsApi
      * @param  int $limit Number of documents per page (optional, default to 50)
      * @param  int $offset Index of the first document in the page (optional, default to 0)
      * @param  string $sort Sort the results in the ascending/descending order of record modification. Default order is **descending** if &#x60;sort&#x60; is not passed (optional, default to desc)
+     * @param  string $source source of the template (optional)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Brevo\Client\Model\GetWATemplates, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getWhatsAppTemplatesWithHttpInfo($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc')
+    public function getWhatsAppTemplatesWithHttpInfo($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc', $source = null)
     {
         $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWATemplates';
-        $request = $this->getWhatsAppTemplatesRequest($startDate, $endDate, $limit, $offset, $sort);
+        $request = $this->getWhatsAppTemplatesRequest($startDate, $endDate, $limit, $offset, $sort, $source);
         try {
             $options = $this->createHttpClientOption();
             try {
@@ -1325,13 +1327,14 @@ class WhatsAppCampaignsApi
      * @param  int $limit Number of documents per page (optional, default to 50)
      * @param  int $offset Index of the first document in the page (optional, default to 0)
      * @param  string $sort Sort the results in the ascending/descending order of record modification. Default order is **descending** if &#x60;sort&#x60; is not passed (optional, default to desc)
+     * @param  string $source source of the template (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getWhatsAppTemplatesAsync($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc')
+    public function getWhatsAppTemplatesAsync($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc', $source = null)
     {
-        return $this->getWhatsAppTemplatesAsyncWithHttpInfo($startDate, $endDate, $limit, $offset, $sort)->then(function ($response) {
+        return $this->getWhatsAppTemplatesAsyncWithHttpInfo($startDate, $endDate, $limit, $offset, $sort, $source)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1345,14 +1348,15 @@ class WhatsAppCampaignsApi
      * @param  int $limit Number of documents per page (optional, default to 50)
      * @param  int $offset Index of the first document in the page (optional, default to 0)
      * @param  string $sort Sort the results in the ascending/descending order of record modification. Default order is **descending** if &#x60;sort&#x60; is not passed (optional, default to desc)
+     * @param  string $source source of the template (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getWhatsAppTemplatesAsyncWithHttpInfo($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc')
+    public function getWhatsAppTemplatesAsyncWithHttpInfo($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc', $source = null)
     {
         $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWATemplates';
-        $request = $this->getWhatsAppTemplatesRequest($startDate, $endDate, $limit, $offset, $sort);
+        $request = $this->getWhatsAppTemplatesRequest($startDate, $endDate, $limit, $offset, $sort, $source);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
             if ($returnType === '\\SplFileObject') {
@@ -1379,11 +1383,12 @@ class WhatsAppCampaignsApi
      * @param  int $limit Number of documents per page (optional, default to 50)
      * @param  int $offset Index of the first document in the page (optional, default to 0)
      * @param  string $sort Sort the results in the ascending/descending order of record modification. Default order is **descending** if &#x60;sort&#x60; is not passed (optional, default to desc)
+     * @param  string $source source of the template (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getWhatsAppTemplatesRequest($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc')
+    protected function getWhatsAppTemplatesRequest($startDate = null, $endDate = null, $limit = '50', $offset = '0', $sort = 'desc', $source = null)
     {
         if ($limit !== null && $limit > 100) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling WhatsAppCampaignsApi.getWhatsAppTemplates, must be smaller than or equal to 100.');
@@ -1416,6 +1421,10 @@ class WhatsAppCampaignsApi
         // query params
         if ($sort !== null) {
             $queryParams['sort'] = ObjectSerializer::toQueryValue($sort);
+        }
+        // query params
+        if ($source !== null) {
+            $queryParams['source'] = ObjectSerializer::toQueryValue($source);
         }
         // body params
         $_tempBody = null;

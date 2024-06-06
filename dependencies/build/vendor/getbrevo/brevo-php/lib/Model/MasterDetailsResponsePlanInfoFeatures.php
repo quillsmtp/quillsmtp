@@ -51,13 +51,13 @@ class MasterDetailsResponsePlanInfoFeatures implements ModelInterface, ArrayAcce
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'unitValue' => 'string', 'quantity' => 'int', 'used' => 'int', 'remaining' => 'int'];
+    protected static $swaggerTypes = ['name' => 'string', 'unitValue' => 'string', 'quantity' => 'int', 'quantityWithOverages' => 'int', 'used' => 'int', 'usedOverages' => 'int', 'remaining' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['name' => null, 'unitValue' => null, 'quantity' => 'int64', 'used' => 'int64', 'remaining' => 'int64'];
+    protected static $swaggerFormats = ['name' => null, 'unitValue' => null, 'quantity' => 'int64', 'quantityWithOverages' => 'int64', 'used' => 'int64', 'usedOverages' => 'int64', 'remaining' => 'int64'];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class MasterDetailsResponsePlanInfoFeatures implements ModelInterface, ArrayAcce
      *
      * @var string[]
      */
-    protected static $attributeMap = ['name' => 'name', 'unitValue' => 'unitValue', 'quantity' => 'quantity', 'used' => 'used', 'remaining' => 'remaining'];
+    protected static $attributeMap = ['name' => 'name', 'unitValue' => 'unitValue', 'quantity' => 'quantity', 'quantityWithOverages' => 'quantityWithOverages', 'used' => 'used', 'usedOverages' => 'usedOverages', 'remaining' => 'remaining'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['name' => 'setName', 'unitValue' => 'setUnitValue', 'quantity' => 'setQuantity', 'used' => 'setUsed', 'remaining' => 'setRemaining'];
+    protected static $setters = ['name' => 'setName', 'unitValue' => 'setUnitValue', 'quantity' => 'setQuantity', 'quantityWithOverages' => 'setQuantityWithOverages', 'used' => 'setUsed', 'usedOverages' => 'setUsedOverages', 'remaining' => 'setRemaining'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['name' => 'getName', 'unitValue' => 'getUnitValue', 'quantity' => 'getQuantity', 'used' => 'getUsed', 'remaining' => 'getRemaining'];
+    protected static $getters = ['name' => 'getName', 'unitValue' => 'getUnitValue', 'quantity' => 'getQuantity', 'quantityWithOverages' => 'getQuantityWithOverages', 'used' => 'getUsed', 'usedOverages' => 'getUsedOverages', 'remaining' => 'getRemaining'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -149,7 +149,9 @@ class MasterDetailsResponsePlanInfoFeatures implements ModelInterface, ArrayAcce
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['unitValue'] = isset($data['unitValue']) ? $data['unitValue'] : null;
         $this->container['quantity'] = isset($data['quantity']) ? $data['quantity'] : null;
+        $this->container['quantityWithOverages'] = isset($data['quantityWithOverages']) ? $data['quantityWithOverages'] : null;
         $this->container['used'] = isset($data['used']) ? $data['used'] : null;
+        $this->container['usedOverages'] = isset($data['usedOverages']) ? $data['usedOverages'] : null;
         $this->container['remaining'] = isset($data['remaining']) ? $data['remaining'] : null;
     }
     /**
@@ -236,6 +238,27 @@ class MasterDetailsResponsePlanInfoFeatures implements ModelInterface, ArrayAcce
         return $this;
     }
     /**
+     * Gets quantityWithOverages
+     *
+     * @return int
+     */
+    public function getQuantityWithOverages()
+    {
+        return $this->container['quantityWithOverages'];
+    }
+    /**
+     * Sets quantityWithOverages
+     *
+     * @param int $quantityWithOverages Quantity with overages provided in the plan (only applicable on ENTv2)
+     *
+     * @return $this
+     */
+    public function setQuantityWithOverages($quantityWithOverages)
+    {
+        $this->container['quantityWithOverages'] = $quantityWithOverages;
+        return $this;
+    }
+    /**
      * Gets used
      *
      * @return int
@@ -254,6 +277,27 @@ class MasterDetailsResponsePlanInfoFeatures implements ModelInterface, ArrayAcce
     public function setUsed($used)
     {
         $this->container['used'] = $used;
+        return $this;
+    }
+    /**
+     * Gets usedOverages
+     *
+     * @return int
+     */
+    public function getUsedOverages()
+    {
+        return $this->container['usedOverages'];
+    }
+    /**
+     * Sets usedOverages
+     *
+     * @param int $usedOverages Quantity consumed by sub-organizations over the admin plan limit (only applicable on ENTv2)
+     *
+     * @return $this
+     */
+    public function setUsedOverages($usedOverages)
+    {
+        $this->container['usedOverages'] = $usedOverages;
         return $this;
     }
     /**

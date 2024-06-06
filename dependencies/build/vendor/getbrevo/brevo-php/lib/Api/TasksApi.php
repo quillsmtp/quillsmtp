@@ -748,7 +748,7 @@ class TasksApi
      * Update a task
      *
      * @param  string $id id (required)
-     * @param  \Brevo\Client\Model\Body7 $body Updated task details. (required)
+     * @param  \Brevo\Client\Model\Body9 $body Updated task details. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -764,7 +764,7 @@ class TasksApi
      * Update a task
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body7 $body Updated task details. (required)
+     * @param  \Brevo\Client\Model\Body9 $body Updated task details. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -806,7 +806,7 @@ class TasksApi
      * Update a task
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body7 $body Updated task details. (required)
+     * @param  \Brevo\Client\Model\Body9 $body Updated task details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -823,7 +823,7 @@ class TasksApi
      * Update a task
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body7 $body Updated task details. (required)
+     * @param  \Brevo\Client\Model\Body9 $body Updated task details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -844,7 +844,7 @@ class TasksApi
      * Create request for operation 'crmTasksIdPatch'
      *
      * @param  string $id (required)
-     * @param  \Brevo\Client\Model\Body7 $body Updated task details. (required)
+     * @param  \Brevo\Client\Model\Body9 $body Updated task details. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -931,11 +931,11 @@ class TasksApi
      *
      * Create a task
      *
-     * @param  \Brevo\Client\Model\Body6 $body Task name. (required)
+     * @param  \Brevo\Client\Model\Body8 $body Task name. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Brevo\Client\Model\InlineResponse2011
+     * @return \Brevo\Client\Model\InlineResponse2012
      */
     public function crmTasksPost($body)
     {
@@ -947,15 +947,15 @@ class TasksApi
      *
      * Create a task
      *
-     * @param  \Brevo\Client\Model\Body6 $body Task name. (required)
+     * @param  \Brevo\Client\Model\Body8 $body Task name. (required)
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Brevo\Client\Model\InlineResponse2011, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Brevo\Client\Model\InlineResponse2012, HTTP status code, HTTP response headers (array of strings)
      */
     public function crmTasksPostWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
         $request = $this->crmTasksPostRequest($body);
         try {
             $options = $this->createHttpClientOption();
@@ -982,7 +982,7 @@ class TasksApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -994,7 +994,7 @@ class TasksApi
      *
      * Create a task
      *
-     * @param  \Brevo\Client\Model\Body6 $body Task name. (required)
+     * @param  \Brevo\Client\Model\Body8 $body Task name. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1010,14 +1010,14 @@ class TasksApi
      *
      * Create a task
      *
-     * @param  \Brevo\Client\Model\Body6 $body Task name. (required)
+     * @param  \Brevo\Client\Model\Body8 $body Task name. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function crmTasksPostAsyncWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2011';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
         $request = $this->crmTasksPostRequest($body);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
@@ -1040,7 +1040,7 @@ class TasksApi
     /**
      * Create request for operation 'crmTasksPost'
      *
-     * @param  \Brevo\Client\Model\Body6 $body Task name. (required)
+     * @param  \Brevo\Client\Model\Body8 $body Task name. (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

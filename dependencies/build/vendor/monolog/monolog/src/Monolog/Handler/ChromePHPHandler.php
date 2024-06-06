@@ -13,16 +13,16 @@ namespace QuillSMTP\Vendor\Monolog\Handler;
 
 use QuillSMTP\Vendor\Monolog\Formatter\ChromePHPFormatter;
 use QuillSMTP\Vendor\Monolog\Formatter\FormatterInterface;
-use QuillSMTP\Vendor\Monolog\Logger;
+use QuillSMTP\Vendor\Monolog\Level;
 use QuillSMTP\Vendor\Monolog\Utils;
+use QuillSMTP\Vendor\Monolog\LogRecord;
+use QuillSMTP\Vendor\Monolog\DateTimeImmutable;
 /**
  * Handler sending logs to the ChromePHP extension (http://www.chromephp.com/)
  *
  * This also works out of the box with Firefox 43+
  *
  * @author Christophe Coevoet <stof@notk.org>
- *
- * @phpstan-import-type Record from \Monolog\Logger
  */
 class ChromePHPHandler extends AbstractProcessingHandler
 {
@@ -39,21 +39,20 @@ class ChromePHPHandler extends AbstractProcessingHandler
      * Regular expression to detect supported browsers (matches any Chrome, or Firefox 43+)
      */
     protected const USER_AGENT_REGEX = '{\\b(?:Chrome/\\d+(?:\\.\\d+)*|HeadlessChrome|Firefox/(?:4[3-9]|[5-9]\\d|\\d{3,})(?:\\.\\d)*)\\b}';
-    /** @var bool */
-    protected static $initialized = \false;
+    protected static bool $initialized = \false;
     /**
      * Tracks whether we sent too much data
      *
      * Chrome limits the headers to 4KB, so when we sent 3KB we stop sending
-     *
-     * @var bool
      */
-    protected static $overflowed = \false;
+    protected static bool $overflowed = \false;
     /** @var mixed[] */
-    protected static $json = ['version' => self::VERSION, 'columns' => ['label', 'log', 'backtrace', 'type'], 'rows' => []];
-    /** @var bool */
-    protected static $sendHeaders = \true;
-    public function __construct($level = Logger::DEBUG, bool $bubble = \true)
+    protected static array $json = ['version' => self::VERSION, 'columns' => ['label', 'log', 'backtrace', 'type'], 'rows' => []];
+    protected static bool $sendHeaders = \true;
+    /**
+     * @throws \RuntimeException If the function json_encode does not exist
+     */
+    public function __construct(int|string|Level $level = Level::Debug, bool $bubble = \true)
     {
         parent::__construct($level, $bubble);
         if (!\function_exists('json_encode')) {
@@ -61,7 +60,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
         }
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function handleBatch(array $records) : void
     {
@@ -70,21 +69,20 @@ class ChromePHPHandler extends AbstractProcessingHandler
         }
         $messages = [];
         foreach ($records as $record) {
-            if ($record['level'] < $this->level) {
+            if ($record->level < $this->level) {
                 continue;
             }
-            /** @var Record $message */
             $message = $this->processRecord($record);
             $messages[] = $message;
         }
-        if (!empty($messages)) {
+        if (\count($messages) > 0) {
             $messages = $this->getFormatter()->formatBatch($messages);
             self::$json['rows'] = \array_merge(self::$json['rows'], $messages);
             $this->send();
         }
     }
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function getDefaultFormatter() : FormatterInterface
     {
@@ -96,12 +94,12 @@ class ChromePHPHandler extends AbstractProcessingHandler
      * @see sendHeader()
      * @see send()
      */
-    protected function write(array $record) : void
+    protected function write(LogRecord $record) : void
     {
         if (!$this->isWebRequest()) {
             return;
         }
-        self::$json['rows'][] = $record['formatted'];
+        self::$json['rows'][] = $record->formatted;
         $this->send();
     }
     /**
@@ -126,7 +124,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
         $data = \base64_encode($json);
         if (\strlen($data) > 3 * 1024) {
             self::$overflowed = \true;
-            $record = ['message' => 'Incomplete logs, chrome header size limit reached', 'context' => [], 'level' => Logger::WARNING, 'level_name' => Logger::getLevelName(Logger::WARNING), 'channel' => 'monolog', 'datetime' => new \DateTimeImmutable(), 'extra' => []];
+            $record = new LogRecord(message: 'Incomplete logs, chrome header size limit reached', level: Level::Warning, channel: 'monolog', datetime: new DateTimeImmutable(\true));
             self::$json['rows'][\count(self::$json['rows']) - 1] = $this->getFormatter()->format($record);
             $json = Utils::jsonEncode(self::$json, Utils::DEFAULT_JSON_FLAGS & ~\JSON_UNESCAPED_UNICODE, \true);
             $data = \base64_encode($json);
@@ -149,7 +147,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
      */
     protected function headersAccepted() : bool
     {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return \false;
         }
         return \preg_match(static::USER_AGENT_REGEX, $_SERVER['HTTP_USER_AGENT']) === 1;

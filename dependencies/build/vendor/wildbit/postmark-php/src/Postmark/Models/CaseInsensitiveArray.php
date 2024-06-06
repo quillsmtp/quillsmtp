@@ -2,26 +2,26 @@
 
 namespace QuillSMTP\Vendor\Postmark\Models;
 
+use ArrayAccess;
+use Iterator;
+use ReturnTypeWillChange;
+// phpcs:ignore
 /**
  * CaseInsensitiveArray allows accessing elements with mixed-case keys.
  *
  * This allows access to the array to be very forgiving. (i.e. If you access something
  * with the wrong CaSe, it'll still find the correct element)
  */
-class CaseInsensitiveArray implements \ArrayAccess, \Iterator
+class CaseInsensitiveArray implements ArrayAccess, Iterator
 {
-    private $_container = array();
+    private $_container = [];
     private $_pointer = 0;
-    private function fixOffsetName($offset)
-    {
-        return \preg_replace('/_/', '', \strtolower($offset));
-    }
     /**
      * Initialize a CaseInsensitiveArray from an existing array.
      *
-     * @param array $initialArray The base array from which to create the new array.
+     * @param array $initialArray the base array from which to create the new array
      */
-    public function __construct(array $initialArray = array())
+    public function __construct(array $initialArray = [])
     {
         $this->_container = \array_change_key_case($initialArray);
     }
@@ -59,7 +59,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
         if (\is_string($offset)) {
             $offset = $this->fixOffsetName($offset);
         }
-        return isset($this->_container[$offset]) ? $this->_container[$offset] : null;
+        return $this->_container[$offset] ?? null;
     }
     #[\ReturnTypeWillChange]
     public function current()
@@ -77,7 +77,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function next()
     {
-        $this->_pointer++;
+        ++$this->_pointer;
     }
     #[\ReturnTypeWillChange]
     public function rewind()
@@ -88,5 +88,9 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     public function valid()
     {
         return \count(\array_keys($this->_container)) > $this->_pointer;
+    }
+    private function fixOffsetName($offset)
+    {
+        return \preg_replace('/_/', '', \strtolower($offset));
     }
 }

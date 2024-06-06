@@ -28,7 +28,6 @@ namespace QuillSMTP\Vendor\phpseclib3\Math;
 
 use QuillSMTP\Vendor\phpseclib3\Exception\BadConfigurationException;
 use QuillSMTP\Vendor\phpseclib3\Math\BigInteger\Engines\Engine;
-use UnexpectedValueException;
 /**
  * Pure-PHP arbitrary precision integer arithmetic library. Supports base-2, base-10, base-16, and base-256
  * numbers.
@@ -130,7 +129,7 @@ class BigInteger implements \JsonSerializable
                 } catch (\Exception $e) {
                 }
             }
-            throw new UnexpectedValueException('No valid BigInteger found. This is only possible when JIT is enabled on Windows and neither the GMP or BCMath extensions are available so either disable JIT or install GMP / BCMath');
+            throw new \UnexpectedValueException('No valid BigInteger found. This is only possible when JIT is enabled on Windows and neither the GMP or BCMath extensions are available so either disable JIT or install GMP / BCMath');
         }
     }
     /**

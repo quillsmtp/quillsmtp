@@ -33,7 +33,7 @@ use QuillSMTP\Vendor\Brevo\Client\ObjectSerializer;
  * InlineResponse2011 Class Doc Comment
  *
  * @category Class
- * @description Task Details
+ * @description Created deal id
  * @package  Brevo\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -184,7 +184,7 @@ class InlineResponse2011 implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param string $id Unique task id
+     * @param string $id Unique deal id
      *
      * @return $this
      */

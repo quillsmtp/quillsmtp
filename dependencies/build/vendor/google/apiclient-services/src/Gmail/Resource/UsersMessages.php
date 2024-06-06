@@ -40,6 +40,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param BatchDeleteMessagesRequest $postBody
      * @param array $optParams Optional parameters.
+     * @throws \Google\Service\Exception
      */
     public function batchDelete($userId, BatchDeleteMessagesRequest $postBody, $optParams = [])
     {
@@ -54,6 +55,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param BatchModifyMessagesRequest $postBody
      * @param array $optParams Optional parameters.
+     * @throws \Google\Service\Exception
      */
     public function batchModify($userId, BatchModifyMessagesRequest $postBody, $optParams = [])
     {
@@ -69,6 +71,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * used to indicate the authenticated user.
      * @param string $id The ID of the message to delete.
      * @param array $optParams Optional parameters.
+     * @throws \Google\Service\Exception
      */
     public function delete($userId, $id, $optParams = [])
     {
@@ -90,6 +93,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @opt_param string metadataHeaders When given and format is `METADATA`, only
      * include headers specified.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function get($userId, $id, $optParams = [])
     {
@@ -119,6 +123,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @opt_param bool processForCalendar Process calendar invites in the email and
      * add any extracted meetings to the Google Calendar for this user.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function import($userId, Message $postBody, $optParams = [])
     {
@@ -142,6 +147,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @opt_param string internalDateSource Source for Gmail's internal date of the
      * message.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function insert($userId, Message $postBody, $optParams = [])
     {
@@ -172,6 +178,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * `"from:someuser@example.com rfc822msgid: is:unread"`. Parameter cannot be
      * used when accessing the api using the gmail.metadata scope.
      * @return ListMessagesResponse
+     * @throws \Google\Service\Exception
      */
     public function listUsersMessages($userId, $optParams = [])
     {
@@ -188,6 +195,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param ModifyMessageRequest $postBody
      * @param array $optParams Optional parameters.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function modify($userId, $id, ModifyMessageRequest $postBody, $optParams = [])
     {
@@ -206,6 +214,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param Message $postBody
      * @param array $optParams Optional parameters.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function send($userId, Message $postBody, $optParams = [])
     {
@@ -221,6 +230,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param string $id The ID of the message to Trash.
      * @param array $optParams Optional parameters.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function trash($userId, $id, $optParams = [])
     {
@@ -236,6 +246,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
      * @param string $id The ID of the message to remove from Trash.
      * @param array $optParams Optional parameters.
      * @return Message
+     * @throws \Google\Service\Exception
      */
     public function untrash($userId, $id, $optParams = [])
     {

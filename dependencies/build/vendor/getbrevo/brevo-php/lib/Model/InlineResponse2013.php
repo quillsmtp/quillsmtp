@@ -51,13 +51,13 @@ class InlineResponse2013 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['messageId' => 'string'];
+    protected static $swaggerTypes = ['id' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
      * @var string[]
      */
-    protected static $swaggerFormats = ['messageId' => 'uuidv4'];
+    protected static $swaggerFormats = ['id' => 'uuidv4'];
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
@@ -82,19 +82,19 @@ class InlineResponse2013 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $attributeMap = ['messageId' => 'messageId'];
+    protected static $attributeMap = ['id' => 'id'];
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
-    protected static $setters = ['messageId' => 'setMessageId'];
+    protected static $setters = ['id' => 'setId'];
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
-    protected static $getters = ['messageId' => 'getMessageId'];
+    protected static $getters = ['id' => 'getId'];
     /**
      * Array of attributes where the key is the local name,
      * and the value is the original name
@@ -146,7 +146,7 @@ class InlineResponse2013 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['messageId'] = isset($data['messageId']) ? $data['messageId'] : null;
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
     }
     /**
      * Show all the invalid properties with reasons.
@@ -156,8 +156,8 @@ class InlineResponse2013 implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if ($this->container['messageId'] === null) {
-            $invalidProperties[] = "'messageId' can't be null";
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
         }
         return $invalidProperties;
     }
@@ -172,24 +172,24 @@ class InlineResponse2013 implements ModelInterface, ArrayAccess
         return \count($this->listInvalidProperties()) === 0;
     }
     /**
-     * Gets messageId
+     * Gets id
      *
      * @return string
      */
-    public function getMessageId()
+    public function getId()
     {
-        return $this->container['messageId'];
+        return $this->container['id'];
     }
     /**
-     * Sets messageId
+     * Sets id
      *
-     * @param string $messageId messageId of sent message
+     * @param string $id The id of the created collection
      *
      * @return $this
      */
-    public function setMessageId($messageId)
+    public function setId($id)
     {
-        $this->container['messageId'] = $messageId;
+        $this->container['id'] = $id;
         return $this;
     }
     /**

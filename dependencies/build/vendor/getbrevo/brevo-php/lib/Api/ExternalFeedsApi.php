@@ -85,7 +85,7 @@ class ExternalFeedsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Brevo\Client\Model\InlineResponse2014
+     * @return \Brevo\Client\Model\InlineResponse2015
      */
     public function createExternalFeed($createExternalFeed)
     {
@@ -101,11 +101,11 @@ class ExternalFeedsApi
      *
      * @throws \Brevo\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Brevo\Client\Model\InlineResponse2014, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Brevo\Client\Model\InlineResponse2015, HTTP status code, HTTP response headers (array of strings)
      */
     public function createExternalFeedWithHttpInfo($createExternalFeed)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2014';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2015';
         $request = $this->createExternalFeedRequest($createExternalFeed);
         try {
             $options = $this->createHttpClientOption();
@@ -132,7 +132,7 @@ class ExternalFeedsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2014', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2015', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -171,7 +171,7 @@ class ExternalFeedsApi
      */
     public function createExternalFeedAsyncWithHttpInfo($createExternalFeed)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2014';
+        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2015';
         $request = $this->createExternalFeedRequest($createExternalFeed);
         return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
             $responseBody = $response->getBody();
