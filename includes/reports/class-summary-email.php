@@ -64,22 +64,14 @@ class Summary_Email {
 		add_action(
 			'init',
 			function() {
-				if ( QuillSMTP::instance()->tasks->get_next_timestamp( 'summary_email' ) === false ) {
-					$date = new \DateTime( 'next monday 2pm', self::wp_timezone() );
-					QuillSMTP::instance()->tasks->schedule_recurring(
-						$date->getTimestamp(),
-						WEEK_IN_SECONDS,
-						'summary_email'
-					);
+				if ( ! wp_next_scheduled( 'quillsmtp_summary_email' ) ) {
+					wp_schedule_event( time(), 'weekly', 'quillsmtp_summary_email' );
 				}
 			}
 		);
 
 		// scheduled task callback.
-		QuillSMTP::instance()->tasks->register_callback(
-			'summary_email',
-			array( $this, 'handle_summary_email_task' )
-		);
+		add_action( 'quillsmtp_summary_email', array( $this, 'handle_summary_email_task' ) );
 	}
 
 	/**

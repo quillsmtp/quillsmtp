@@ -18,9 +18,7 @@ use QuillSMTP\Mailers\Mailers;
 use QuillSMTP\PHPMailer\PHPMailer;
 use QuillSMTP\Log_Handlers\Log_Handler_DB;
 use QuillSMTP\Email_Test\Email_Test;
-use QuillSMTP\Tasks;
 use QuillSMTP\Reports\Summary_Email;
-use QuillSMTP\Site\Site;
 
 /**
  * QuillSMTP Main Class.
@@ -29,15 +27,6 @@ use QuillSMTP\Site\Site;
  * @since 1.0.0
  */
 final class QuillSMTP {
-
-	/**
-	 * Tasks
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var Tasks
-	 */
-	public $tasks;
 
 	/**
 	 * Class Instance.
@@ -105,15 +94,12 @@ final class QuillSMTP {
 	 * @since 1.0.0
 	 */
 	public function init_objects() {
-		$this->tasks = new Tasks( 'quillsmtp' );
-
 		Admin_Loader::instance();
 		Admin::instance();
 		REST_API::instance();
 		Mailers::instance();
 		Email_Test::instance();
 		Summary_Email::instance();
-		Site::instance();
 	}
 
 	/**
