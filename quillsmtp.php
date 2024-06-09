@@ -14,6 +14,8 @@
  *
  * Domain Path: /languages
  *
+ * License: GPLv2 or later
+ *
  * @package QuillSMTP
  */
 

@@ -11,12 +11,8 @@
 namespace QuillSMTP\Mailers;
 
 use QuillSMTP\Mailers\SendLayer\SendLayer;
-use QuillSMTP\Mailers\SendInBlue\SendInBlue;
-use QuillSMTP\Mailers\PostMark\PostMark;
 use QuillSMTP\Mailers\Mailgun\Mailgun;
-use QuillSMTP\Mailers\SendGrid\SendGrid;
 use QuillSMTP\Mailers\SMTPcom\SMTPcom;
-use QuillSMTP\Mailers\Gmail\Gmail;
 use QuillSMTP\Mailers\SparkPost\SparkPost;
 use QuillSMTP\Mailers\SMTP\SMTP;
 use QuillSMTP\Mailers\PHPMailer\PHPMailer;
@@ -86,13 +82,9 @@ final class Mailers {
 	 */
 	public static function get_mailers() {
 		$mailers = [
-			'sendinblue'   => SendInBlue::class,
 			'sendlayer'    => SendLayer::class,
-			'postmark'     => PostMark::class,
 			'mailgun'      => Mailgun::class,
-			'sendgrid'     => SendGrid::class,
 			'smtpcom'      => SMTPcom::class,
-			'gmail'        => Gmail::class,
 			'sparkpost'    => SparkPost::class,
 			'smtp'         => SMTP::class,
 			'phpmailer'    => PHPMailer::class,

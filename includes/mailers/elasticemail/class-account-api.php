@@ -104,13 +104,13 @@ class Account_API {
 
 		$body = wp_remote_retrieve_body( $response );
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! isset( $body['success'] ) || ( isset( $body['success'] ) && ! $body['success'] ) ) {
-			return new WP_Error( 'invalid_api_key', __( 'Failed to get account.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'invalid_api_key', __( 'Failed to get account.', 'quillsmtp' ) );
 		}
 
 		return $body;

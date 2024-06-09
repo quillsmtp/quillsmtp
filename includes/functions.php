@@ -43,13 +43,12 @@ function quillsmtp_get_logger() {
 		$logger    = is_object( $class ) ? $class : new $class( null, $threshold );
 	} else {
 		_doing_it_wrong(
-			__FUNCTION__,
+			__METHOD__,
 			sprintf(
-				/* translators: 1: class name 2: quillsmtp_logging_class 3: Logger_Interface */
-				__( 'The class %1$s provided by %2$s filter must implement %3$s.', 'quillsmtp' ),
-				'<code>' . esc_html( is_object( $class ) ? get_class( $class ) : $class ) . '</code>',
-				'<code>quillsmtp_logging_class</code>',
-				'<code>Logger_Interface</code>'
+				/* translators: 1: class name 2: Log_Handler_Interface */
+				'The provided handler <code>%1$s</code> does not implement <code>%2$s</code>.',
+				esc_html( is_object( $class ) ? get_class( $class ) : $class ),
+				'Log_Handler_Interface'
 			),
 			'1.0.0'
 		);

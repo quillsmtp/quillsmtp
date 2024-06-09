@@ -1,0 +1,1406 @@
+# Copyright (C) 2024 QuillSMTP
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Quill SMTP 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/quillsmtp\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-06-09T13:44:45+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: quillsmtp\n"
+
+#. Plugin Name of the plugin
+#: includes/admin/class-admin.php:76
+#: includes/admin/class-admin.php:77
+msgid "Quill SMTP"
+msgstr ""
+
+#. Description of the plugin
+msgid "A plugin to send emails using SMTP instead of the default PHP mail() function."
+msgstr ""
+
+#. Author of the plugin
+#: includes/reports/templates/summary-email.php:53
+msgid "QuillSMTP"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://quillsmtp.com"
+msgstr ""
+
+#: includes/admin/class-admin.php:127
+#: includes/admin/class-admin.php:128
+#: build/client/index.js:116
+msgid "Home"
+msgstr ""
+
+#: includes/admin/class-admin.php:137
+#: includes/admin/class-admin.php:138
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-admin.php:147
+#: includes/admin/class-admin.php:148
+#: build/client/index.js:116
+msgid "Email Test"
+msgstr ""
+
+#: includes/admin/class-admin.php:157
+#: includes/admin/class-admin.php:158
+msgid "Alerts"
+msgstr ""
+
+#: includes/admin/class-admin.php:167
+#: includes/admin/class-admin.php:168
+#: build/client/index.js:173
+msgid "Logs"
+msgstr ""
+
+#: includes/admin/class-admin.php:177
+#: includes/admin/class-admin.php:178
+#: build/client/index.js:113
+#: build/client/index.js:166
+#: build/client/index.js:173
+msgid "Debug"
+msgstr ""
+
+#: includes/admin/class-admin.php:187
+#: includes/admin/class-admin.php:188
+#: build/client/index.js:182
+msgid "License"
+msgstr ""
+
+#: includes/class-store.php:76
+msgid "Default"
+msgstr ""
+
+#: includes/class-store.php:77
+msgid "Use the default WordPress mailer"
+msgstr ""
+
+#: includes/class-store.php:83
+msgid "SendLayer"
+msgstr ""
+
+#: includes/class-store.php:84
+msgid "Send emails using SendLayer SMTP"
+msgstr ""
+
+#: includes/class-store.php:91
+msgid "SendGrid"
+msgstr ""
+
+#: includes/class-store.php:92
+msgid "Send emails using SendGrid SMTP"
+msgstr ""
+
+#: includes/class-store.php:99
+msgid "Mailgun"
+msgstr ""
+
+#: includes/class-store.php:100
+msgid "Send emails using Mailgun SMTP"
+msgstr ""
+
+#: includes/class-store.php:107
+msgid "Sendinblue"
+msgstr ""
+
+#: includes/class-store.php:108
+msgid "Send emails using Sendinblue SMTP"
+msgstr ""
+
+#: includes/class-store.php:115
+msgid "Postmark"
+msgstr ""
+
+#: includes/class-store.php:116
+msgid "Send emails using Postmark SMTP"
+msgstr ""
+
+#: includes/class-store.php:123
+msgid "SMTP.com"
+msgstr ""
+
+#: includes/class-store.php:124
+msgid "Send emails using SMTP.com SMTP"
+msgstr ""
+
+#: includes/class-store.php:130
+msgid "SparkPost"
+msgstr ""
+
+#: includes/class-store.php:131
+msgid "Send emails using SparkPost SMTP"
+msgstr ""
+
+#: includes/class-store.php:138
+msgid "Gmail"
+msgstr ""
+
+#: includes/class-store.php:139
+msgid "Send emails using Gmail SMTP"
+msgstr ""
+
+#: includes/class-store.php:146
+msgid "Other SMTP"
+msgstr ""
+
+#: includes/class-store.php:147
+msgid "Send emails using Other SMTP"
+msgstr ""
+
+#: includes/class-store.php:153
+msgid "Amazon SES"
+msgstr ""
+
+#: includes/class-store.php:154
+msgid "Send emails using Amazon SES SMTP"
+msgstr ""
+
+#: includes/class-store.php:161
+msgid "Elastic Email"
+msgstr ""
+
+#: includes/class-store.php:162
+msgid "Send emails using Elastic Email SMTP"
+msgstr ""
+
+#: includes/class-store.php:169
+msgid "Outlook"
+msgstr ""
+
+#: includes/class-store.php:170
+msgid "Send emails using Outlook SMTP"
+msgstr ""
+
+#: includes/class-store.php:178
+msgid "Zoho"
+msgstr ""
+
+#: includes/class-store.php:179
+msgid "Send emails using Zoho SMTP"
+msgstr ""
+
+#: includes/class-store.php:187
+msgid "SMTP2GO"
+msgstr ""
+
+#: includes/class-store.php:188
+msgid "Send emails using SMTP2GO SMTP"
+msgstr ""
+
+#: includes/class-store.php:196
+msgid "Mailjet"
+msgstr ""
+
+#: includes/class-store.php:197
+msgid "Send emails using Mailjet SMTP"
+msgstr ""
+
+#: includes/class-store.php:205
+msgid "Mandrill"
+msgstr ""
+
+#: includes/class-store.php:206
+msgid "Send emails using Mandrill SMTP"
+msgstr ""
+
+#: includes/class-store.php:214
+msgid "MailerSend"
+msgstr ""
+
+#: includes/class-store.php:215
+msgid "Send emails using MailerSend SMTP"
+msgstr ""
+
+#: includes/class-store.php:223
+msgid "Loops"
+msgstr ""
+
+#: includes/class-store.php:224
+msgid "Send emails using Loops SMTP"
+msgstr ""
+
+#: includes/class-store.php:232
+msgid "SocketLabs"
+msgstr ""
+
+#: includes/class-store.php:233
+msgid "Send emails using SocketLabs SMTP"
+msgstr ""
+
+#: includes/email-log/class-handler-db.php:524
+msgid "Unknown"
+msgstr ""
+
+#: includes/email-log/class-handler-db.php:643
+msgid "WP Core"
+msgstr ""
+
+#: includes/email-test/class-email-test.php:81
+msgid "Please select a connection."
+msgstr ""
+
+#: includes/email-test/class-email-test.php:86
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/email-test/class-email-test.php:93
+msgid "Connection not found."
+msgstr ""
+
+#: includes/email-test/class-email-test.php:106
+#: includes/email-test/templates/html.php:22
+#: includes/reports/class-summary-email.php:90
+#: includes/reports/templates/summary-email.php:47
+msgid "QuillSMTP Test Email"
+msgstr ""
+
+#: includes/email-test/class-email-test.php:112
+#: includes/mailers/phpmailer/class-process.php:152
+#: build/client/index.js:166
+msgid "Email sent successfully."
+msgstr ""
+
+#: includes/email-test/class-email-test.php:114
+msgid "Failed to send email."
+msgstr ""
+
+#: includes/email-test/templates/html.php:29
+msgid "🎉 Congratulations! Your Test Email Was Sent Successfully! 🎉"
+msgstr ""
+
+#: includes/email-test/templates/html.php:34
+msgid "Thank you for choosing QuillSMTP, the best SMTP plugin for WordPress. You've just taken the first step towards ensuring reliable and secure email delivery for your WordPress site."
+msgstr ""
+
+#: includes/email-test/templates/html.php:38
+msgid "Enjoy the power of seamless email delivery with QuillSMTP. Feel free to explore our advanced features and customize your email settings for an enhanced experience."
+msgstr ""
+
+#: includes/email-test/templates/html.php:43
+msgid "This is a test email sent by QuillSMTP. For any assistance or inquiries, visit our website or contact our support team."
+msgstr ""
+
+#: includes/mailer/provider/class-accounts.php:145
+msgid "Cannot find account data"
+msgstr ""
+
+#: includes/mailer/provider/class-accounts.php:154
+msgid "Cannot connect to account api"
+msgstr ""
+
+#: includes/mailer/provider/class-accounts.php:218
+msgid "Account id already exists"
+msgstr ""
+
+#: includes/mailer/provider/class-accounts.php:244
+msgid "Cannot find account to update"
+msgstr ""
+
+#: includes/mailer/provider/rest/traits/class-account-controller-creatable.php:118
+msgid "Cannot save account"
+msgstr ""
+
+#: includes/mailer/rest/class-settings-controller.php:149
+msgid "Cannot update settings"
+msgstr ""
+
+#: includes/mailers/elasticemail/class-account-api.php:68
+#: includes/mailers/elasticemail/class-account-api.php:107
+#: includes/mailers/mailgun/class-account-api.php:87
+#: includes/mailers/sendlayer/class-account-api.php:69
+#: includes/mailers/smtpcom/class-account-api.php:78
+#: includes/mailers/smtpcom/rest/class-account-controller.php:97
+#: includes/mailers/sparkpost/class-account-api.php:86
+msgid "Empty response."
+msgstr ""
+
+#: includes/mailers/elasticemail/class-account-api.php:74
+#: includes/mailers/mailgun/class-account-api.php:93
+#: includes/mailers/sendlayer/class-account-api.php:75
+#: includes/mailers/smtpcom/class-account-api.php:84
+#: includes/mailers/smtpcom/rest/class-account-controller.php:103
+#: includes/mailers/sparkpost/class-account-api.php:92
+msgid "Invalid response."
+msgstr ""
+
+#: includes/mailers/elasticemail/class-account-api.php:78
+msgid "Could not send email."
+msgstr ""
+
+#: includes/mailers/elasticemail/class-account-api.php:113
+msgid "Failed to get account."
+msgstr ""
+
+#: includes/mailers/elasticemail/class-process.php:357
+msgid "ElasticEmail API Error"
+msgstr ""
+
+#: includes/mailers/elasticemail/rest/class-account-controller.php:70
+#: includes/mailers/elasticemail/rest/class-account-controller.php:88
+#: includes/mailers/sendlayer/rest/class-account-controller.php:70
+#: includes/mailers/smtpcom/rest/class-account-controller.php:74
+#: includes/mailers/sparkpost/rest/class-account-controller.php:74
+msgid "Invalid API key."
+msgstr ""
+
+#: includes/mailers/elasticemail/rest/class-settings-controller.php:92
+msgid "ElasticEmail Getting User Profile Error"
+msgstr ""
+
+#: includes/mailers/gmail/class-account-api.php:90
+msgid "Unable to get access token"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:54
+msgid "Cannot find app credentials!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:88
+msgid "Error, There is no authorize code passed!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:105
+msgid "Error, Cannot get account tokens!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:114
+msgid "Error, Cannot get profile details!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:132
+msgid "Error, Cannot update the account!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:138
+msgid "Error, Cannot add the new account!"
+msgstr ""
+
+#: includes/mailers/gmail/class-app.php:154
+msgid "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu."
+msgstr ""
+
+#: includes/mailers/gmail/class-process.php:52
+#: includes/mailers/gmail/class-process.php:153
+msgid "Gmail Send Error"
+msgstr ""
+
+#: includes/mailers/gmail/rest/class-settings-controller.php:121
+msgid "Gmail Getting User Profile Error"
+msgstr ""
+
+#: includes/mailers/mailgun/class-process.php:295
+msgid "Mailgun Send Email Error"
+msgstr ""
+
+#: includes/mailers/mailgun/rest/class-account-controller.php:79
+#: includes/mailers/postmark/rest/class-account-controller.php:74
+#: includes/mailers/sendgrid/rest/class-account-controller.php:74
+#: includes/mailers/sendinblue/rest/class-account-controller.php:76
+msgid "API key is missing."
+msgstr ""
+
+#: includes/mailers/mailgun/rest/class-account-controller.php:83
+msgid "Domain name is missing."
+msgstr ""
+
+#: includes/mailers/mailgun/rest/class-account-controller.php:87
+msgid "Region is missing."
+msgstr ""
+
+#: includes/mailers/phpmailer/class-process.php:152
+msgid "Email failed to send."
+msgstr ""
+
+#: includes/mailers/phpmailer/class-process.php:166
+#: includes/mailers/smtp/class-process.php:175
+msgid "PHPMailer Error"
+msgstr ""
+
+#: includes/mailers/postmark/class-process.php:263
+msgid "Postmark API Error"
+msgstr ""
+
+#: includes/mailers/postmark/rest/class-account-controller.php:85
+#: includes/mailers/sendgrid/rest/class-account-controller.php:86
+#: includes/mailers/sendinblue/rest/class-account-controller.php:90
+msgid "API key is invalid."
+msgstr ""
+
+#: includes/mailers/sendgrid/class-process.php:272
+msgid "SendGrid API Error"
+msgstr ""
+
+#: includes/mailers/sendinblue/class-process.php:288
+msgid "SendInBlue API Error"
+msgstr ""
+
+#: includes/mailers/sendlayer/class-process.php:288
+msgid "SendLayer API Error"
+msgstr ""
+
+#: includes/mailers/smtp/rest/class-account-controller.php:100
+msgid "Invalid SMTP Host."
+msgstr ""
+
+#: includes/mailers/smtp/rest/class-account-controller.php:104
+msgid "Invalid SMTP Port."
+msgstr ""
+
+#: includes/mailers/smtp/rest/class-account-controller.php:108
+msgid "Invalid Encryption."
+msgstr ""
+
+#: includes/mailers/smtp/rest/class-account-controller.php:112
+msgid "Invalid Username."
+msgstr ""
+
+#: includes/mailers/smtp/rest/class-account-controller.php:116
+msgid "Invalid Password."
+msgstr ""
+
+#: includes/mailers/smtpcom/class-process.php:325
+msgid "SMTPcom API Error"
+msgstr ""
+
+#: includes/mailers/sparkpost/class-process.php:265
+msgid "SparkPost API Error"
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:53
+msgid "Weekly Email Report"
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:60
+msgid "Greetings! Here is your weekly summary of emails sent by QuillSMTP."
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:65
+#: build/client/index.js:166
+msgid "Total Emails"
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:79
+msgid "Succeeded"
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:93
+#: build/client/index.js:113
+#: build/client/index.js:166
+msgid "Failed"
+msgstr ""
+
+#: includes/reports/templates/summary-email.php:106
+msgid "Stay informed with QuillSMTP - Your email delivery companion."
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:111
+msgid "No ids provided"
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:116
+#: build/client/index.js:173
+#: build/client/index.js:182
+msgid "No logs found"
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:338
+#: includes/rest-api/controllers/v1/class-rest-log-controller.php:124
+msgid "Cannot find any logs"
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:358
+#: includes/rest-api/controllers/v1/class-rest-log-controller.php:144
+msgid "Unknown export format"
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:369
+#: includes/rest-api/controllers/v1/class-rest-log-controller.php:155
+msgid "Logs export"
+msgstr ""
+
+#: includes/rest-api/controllers/v1/class-rest-email-log-controller.php:444
+#: includes/rest-api/controllers/v1/class-rest-log-controller.php:230
+msgid "Error on deleting log in db!"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Account Name"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Account"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "added successfully!"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Error in adding the "
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Please fill all required fields"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Add"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "%s added successfully!"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Authorize Your %s"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "updated successfully!"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Error in updating  the "
+msgstr ""
+
+#: build/client/index.js:101
+#: build/client/index.js:113
+msgid "Save"
+msgstr ""
+
+#: build/client/index.js:101
+#: build/client/index.js:105
+#: build/client/index.js:116
+#: build/client/index.js:182
+msgid "Cancel"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Select an account"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Edit account"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Delete account"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Connected with"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Are you absolutely certain about deleting the account \"%s\"?"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "This account is used in the following connections:"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Account deleted successfully."
+msgstr ""
+
+#: build/client/index.js:101
+#: build/client/index.js:173
+msgid "Delete"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "Add new account"
+msgstr ""
+
+#: build/client/index.js:101
+msgid "App Settings"
+msgstr ""
+
+#: build/client/index.js:103
+msgid "Edit"
+msgstr ""
+
+#: build/client/index.js:103
+#: build/client/index.js:105
+msgid "Disconnect"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "Error on disconnecting the app!"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "App deleted successfully!"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "Disconnect App"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "Are you sure you want to delete the app settings"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "with all accounts"
+msgstr ""
+
+#: build/client/index.js:105
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "Need help setting up your account?"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "View Documentation"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "This mailer %s is already registered!"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "The \"description\" property must be a string!"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "The \"description\" property is mandatory!"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "The \"title\" property must be a string!"
+msgstr ""
+
+#: build/client/index.js:111
+msgid "The \"title\" property is mandatory!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "We're sorry"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "is"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "only available on PRO plan"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:118
+msgid "Please upgrade your plan to unlock"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:118
+msgid "this feature"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:118
+msgid "Upgrade to PRO!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid " is a PRO feature"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Follow this link to get your API key:"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SendInBlue API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Sending Domain"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Server API Token"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get Postmark API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Message Stream ID"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SendLayer API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Private API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get Mailgun API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Domain Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Follow this link to get your Domain Name:"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get Mailgun Domain Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Region"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "US"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "EU"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SendGrid API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SMTP.com API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Sender Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Follow this link to get your Sender Name:"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SMTP.com Sender Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Redirect URI:"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Client ID"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Client Secret"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Get SparkPost API Key"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Choose the region where your SparkPost account is located."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Learn more"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "SMTP Host"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "SMTP Port"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Encryption"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "None"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "SSL"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "TLS"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Auto TLS"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Enable this option to automatically enable TLS encryption if the server supports it."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Authentication"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "if your SMTP server needs server credentials (username and password), you can enable this option."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Username"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Password"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Elastic Email Account"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "This page id is already registered"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "This path is already registered!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "The \"component\" property must be a valid function!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Component property is mandatory!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "The \"exact\" property must be a boolean!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "The \"path\" property must be a string!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Path property is mandatory!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Error fetching from emails for this account."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "From Email"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "If left blank, the default WordPress from email will be used."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Force From Email"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "If enabled, the from name will be forced to the above name."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "From Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "If left blank, the default WordPress from name will be used."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Force From Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Let's start with the connection name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Connection Name"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Please select your mail provider"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Let's configure your mail provider account settings"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Finally, configure your sender settings"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "All set!"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Go to Dashboard"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Previous"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Error saving settings."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Next"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Connection 1"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Connection #1"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Connections"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Import from WP Mail"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Import from Easy Mail SMTP"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Import from Fluent SMTP"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Connection #%s"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Add Connection"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "General"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Global Network Settings"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Enable this option to use the same settings across all sites on the network."
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:166
+msgid "Default Connection"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "You need to create at least one connection to use QuillSMTP."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Fallback Connection"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "You need to create at least two connections to use fallback connection."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Settings saved successfully."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Failed to save settings."
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Save Settings"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:116
+#: build/client/index.js:182
+msgid "Status"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:166
+msgid "Sent"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Date Time"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Mailer"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:116
+msgid "Subject"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "From"
+msgstr ""
+
+#: build/client/index.js:113
+#: build/client/index.js:116
+#: build/client/index.js:166
+#: build/client/index.js:173
+msgid "To"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Reply To"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "CC"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "BCC"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Email Body"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Headers"
+msgstr ""
+
+#: build/client/index.js:113
+msgid "Server Response"
+msgstr ""
+
+#. translators: %s: Attachment Count
+#: build/client/index.js:116
+msgid "Attachment (%s)"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "No attachments"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Confirm"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "select all logs"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Date"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Actions"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Settings "
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Source"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Level"
+msgstr ""
+
+#: build/client/index.js:116
+msgid "Message"
+msgstr ""
+
+#: build/client/index.js:118
+msgid "We're sorry this page is only available on PRO plan"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Succeeded Emails"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Failed Emails"
+msgstr ""
+
+#: build/client/index.js:166
+#: build/client/index.js:173
+msgid "Start Date"
+msgstr ""
+
+#: build/client/index.js:166
+#: build/client/index.js:173
+msgid "End Date"
+msgstr ""
+
+#: build/client/index.js:166
+#: build/client/index.js:173
+msgid "Filter"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Send Test Email"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Email Address"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "HTML Email"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Send the email as HTML or plain text."
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Error sending email."
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Send"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "All"
+msgstr ""
+
+#: build/client/index.js:166
+msgid "Successfull"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Search…"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Search"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "select log"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Retry"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Resend"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "View"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "View log"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Delete log"
+msgstr ""
+
+#: build/client/index.js:173
+#: build/client/index.js:180
+#: build/client/index.js:182
+msgid "Clear Logs"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Delete Log"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Are you sure you want to delete this log?"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Log deleted successfully."
+msgstr ""
+
+#: build/client/index.js:173
+#: build/client/index.js:182
+msgid "Are you sure you want to clear all logs?"
+msgstr ""
+
+#: build/client/index.js:173
+#: build/client/index.js:182
+msgid "Clear"
+msgstr ""
+
+#: build/client/index.js:173
+#: build/client/index.js:182
+msgid "Logs cleared successfully."
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Delete Selected Logs"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Are you sure you want to delete selected logs?"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Logs deleted successfully."
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Action"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Delete Selected"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Resend Selected"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Apply"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Info"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Emergency"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Alert"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Critical"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Error"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Warning"
+msgstr ""
+
+#: build/client/index.js:173
+msgid "Notice"
+msgstr ""
+
+#: build/client/index.js:180
+msgid "Refresh"
+msgstr ""
+
+#: build/client/index.js:180
+msgid "Export"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Log Details"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Close"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Plan"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Expires"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Last update"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Last check"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "License updated successfully."
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Something went wrong"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Update"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "License deactivated successfully."
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Deactivate"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Upgrades:"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Upgrade to"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "plan"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "License Key"
+msgstr ""
+
+#: build/client/index.js:182
+msgid "License activated successfully."
+msgstr ""
+
+#: build/client/index.js:182
+msgid "Activate"
+msgstr ""

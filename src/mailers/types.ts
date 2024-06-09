@@ -5,7 +5,6 @@ export type MailerModuleSettings = {
 	title: string;
 	description: string;
 	icon: string;
-	is_pro?: boolean;
 	account_settings?:
 		| React.FC<{ connectionId: string }>
 		| JSX.Element

@@ -166,12 +166,14 @@ class Handler_DB {
 			array_keys( $data )
 		);
 
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		$query = $wpdb->prepare(
 			"INSERT INTO $table_name (" . implode( ',', $columns ) . ') VALUES (' . implode( ',', $format ) . ')',
 			array_values( $data )
-		); // @codingStandardsIgnoreLine.
+		);
 
 		return $wpdb->query( $query );
+		// phpcs:enable
 	}
 
 	/**
@@ -216,10 +218,13 @@ class Handler_DB {
 	public static function get_all( $status = false, $offset = 0, $count = 0, $start_date = false, $end_date = false, $search = false ) {
 		global $wpdb;
 
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		$where = '';
+		$params = array();
 
 		if ( $status ) {
-			$where .= 'WHERE status = "' . $status . '" ';
+			$where .= 'WHERE status = %s ';
+			$params[] = $status;
 		}
 
 		if ( $start_date && $end_date ) {
@@ -228,26 +233,26 @@ class Handler_DB {
 			} else {
 				$where .= ' WHERE ';
 			}
-			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
+			$where .= 'timestamp BETWEEN %s AND %s ';
+			array_push($params, $start_date, $end_date);
 		}
 
 		if ( $search ) {
 			if ( ! $where ) {
 				$where .= 'WHERE ';
+			} else {
+				$where .= ' AND ';
 			}
-			$where .= 'AND (subject LIKE "%' . $search . '%" OR body LIKE "%' . $search . '%" OR headers LIKE "%' . $search . '%" OR to LIKE "%' . $search . '%" OR from LIKE "%' . $search . '%" OR recipients LIKE "%' . $search . '%") ';
+			$where .= '(subject LIKE %s OR body LIKE %s OR headers LIKE %s OR to LIKE %s OR from LIKE %s OR recipients LIKE %s) ';
+			$search_wildcard = '%' . $wpdb->esc_like( $search ) . '%';
+			array_push($params, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard);
 		}
 
-		$results = $wpdb->get_results(
-			// @codingStandardsIgnoreStart
-			$wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}quillsmtp_email_log $where ORDER BY timestamp DESC LIMIT %d, %d",
-                $offset,
-                $count
-            ),
-			// @codingStandardsIgnoreEnd
-			ARRAY_A
-		);
+		array_push($params, $offset, $count);
+
+		$query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}quillsmtp_email_log $where ORDER BY timestamp DESC LIMIT %d, %d", $params );
+
+		$results = $wpdb->get_results( $query, ARRAY_A );
 
 		$prepared_results = [];
 
@@ -257,6 +262,7 @@ class Handler_DB {
 		}
 
 		return $prepared_results;
+		// phpcs:enable
 	}
 
 	/**
@@ -346,10 +352,12 @@ class Handler_DB {
 	public static function get_count( $status = false, $start_date = false, $end_date = false, $search = false ) {
 		global $wpdb;
 
-		$where = '';
-
+		$where  = '';
+		$params = array();
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		if ( $status ) {
-			$where .= 'WHERE status = "' . $status . '" ';
+			$where .= 'WHERE status = %s ';
+			$params[] = $status;
 		}
 
 		if ( $start_date && $end_date ) {
@@ -358,17 +366,26 @@ class Handler_DB {
 			} else {
 				$where .= ' WHERE ';
 			}
-			$where .= 'timestamp BETWEEN "' . $start_date . '" AND "' . $end_date . '"';
+			$where .= 'timestamp BETWEEN %s AND %s ';
+			$params[] = $start_date;
+			$params[] = $end_date;
 		}
 
 		if ( $search ) {
 			if ( ! $where ) {
 				$where .= 'WHERE ';
+			} else {
+				$where .= ' AND ';
 			}
-			$where .= 'AND (subject LIKE "%' . $search . '%" OR body LIKE "%' . $search . '%" OR headers LIKE "%' . $search . '%" OR to LIKE "%' . $search . '%" OR from LIKE "%' . $search . '%" OR recipients LIKE "%' . $search . '%") ';
+			$where .= '(subject LIKE %s OR body LIKE %s OR headers LIKE %s OR to LIKE %s OR from LIKE %s OR recipients LIKE %s) ';
+			$search_wildcard = '%' . $wpdb->esc_like( $search ) . '%';
+			array_push($params, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard, $search_wildcard);
 		}
 
-		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_email_log $where" );
+		$query = $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}quillsmtp_email_log $where", $params );
+		
+		return (int) $wpdb->get_var( $query );
+		// phpcs:enable
 	}
 
 	/**
@@ -395,12 +412,14 @@ class Handler_DB {
 	public function clear( $source ) {
 		global $wpdb;
 
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		return $wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->prefix}quillsmtp_email_log WHERE source = %s",
 				$source
 			)
 		);
+		// phpcs:enable
 	}
 
 	/**
@@ -419,9 +438,11 @@ class Handler_DB {
 			$log_ids = array( $log_ids );
 		}
 
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		$format   = array_fill( 0, count( $log_ids ), '%d' );
 		$query_in = '(' . implode( ',', $format ) . ')';
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}quillsmtp_email_log WHERE log_id IN {$query_in}", $log_ids ) ); // @codingStandardsIgnoreLine.
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}quillsmtp_email_log WHERE log_id IN {$query_in}", $log_ids ) );
+		// phpcs:enable
 	}
 
 	/**
@@ -438,12 +459,14 @@ class Handler_DB {
 
 		global $wpdb;
 
+		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->prefix}quillsmtp_email_log WHERE timestamp < %s",
 				gmdate( 'Y-m-d H:i:s', $timestamp )
 			)
 		);
+		// phpcs:enable
 	}
 
 	/**

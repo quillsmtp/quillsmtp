@@ -1,17 +1,5 @@
 {
     "require": {
-        "getbrevo\/brevo-php": "2.0.0",
-        "wildbit\/postmark-php": "^6.0.8",
-        "automattic\/jetpack-constants": "^2.0.3",
-        "sendgrid\/sendgrid": "~8.1.2",
-        "google\/apiclient": "^2.16.0"
-    },
-    "scripts": {
-        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
-    },
-    "extra": {
-        "google\/apiclient-services": [
-            "Gmail"
-        ]
+        "automattic\/jetpack-constants": "^2.0.3"
     }
 }
