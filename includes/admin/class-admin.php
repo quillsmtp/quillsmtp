@@ -180,15 +180,5 @@ class Admin {
 			'quillsmtp&path=debug',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
-
-		// License.
-		add_submenu_page(
-			'quillsmtp',
-			__( 'License', 'quillsmtp' ),
-			__( 'License', 'quillsmtp' ),
-			'manage_options',
-			'quillsmtp&path=license',
-			array( Admin_Loader::class, 'page_wrapper' )
-		);
 	}
 }

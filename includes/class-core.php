@@ -12,7 +12,6 @@ namespace QuillSMTP;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Store;
-use QuillSMTP\Site\License;
 
 /**
  * Core Class
