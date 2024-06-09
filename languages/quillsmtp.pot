@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-09T13:44:45+02:00\n"
+"POT-Creation-Date: 2024-06-09T20:00:30+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: quillsmtp\n"
@@ -92,147 +92,43 @@ msgid "Send emails using SendLayer SMTP"
 msgstr ""
 
 #: includes/class-store.php:91
-msgid "SendGrid"
-msgstr ""
-
-#: includes/class-store.php:92
-msgid "Send emails using SendGrid SMTP"
-msgstr ""
-
-#: includes/class-store.php:99
 msgid "Mailgun"
 msgstr ""
 
-#: includes/class-store.php:100
+#: includes/class-store.php:92
 msgid "Send emails using Mailgun SMTP"
 msgstr ""
 
-#: includes/class-store.php:107
-msgid "Sendinblue"
-msgstr ""
-
-#: includes/class-store.php:108
-msgid "Send emails using Sendinblue SMTP"
-msgstr ""
-
-#: includes/class-store.php:115
-msgid "Postmark"
-msgstr ""
-
-#: includes/class-store.php:116
-msgid "Send emails using Postmark SMTP"
-msgstr ""
-
-#: includes/class-store.php:123
+#: includes/class-store.php:99
 msgid "SMTP.com"
 msgstr ""
 
-#: includes/class-store.php:124
+#: includes/class-store.php:100
 msgid "Send emails using SMTP.com SMTP"
 msgstr ""
 
-#: includes/class-store.php:130
+#: includes/class-store.php:106
 msgid "SparkPost"
 msgstr ""
 
-#: includes/class-store.php:131
+#: includes/class-store.php:107
 msgid "Send emails using SparkPost SMTP"
 msgstr ""
 
-#: includes/class-store.php:138
-msgid "Gmail"
-msgstr ""
-
-#: includes/class-store.php:139
-msgid "Send emails using Gmail SMTP"
-msgstr ""
-
-#: includes/class-store.php:146
+#: includes/class-store.php:114
 msgid "Other SMTP"
 msgstr ""
 
-#: includes/class-store.php:147
+#: includes/class-store.php:115
 msgid "Send emails using Other SMTP"
 msgstr ""
 
-#: includes/class-store.php:153
-msgid "Amazon SES"
-msgstr ""
-
-#: includes/class-store.php:154
-msgid "Send emails using Amazon SES SMTP"
-msgstr ""
-
-#: includes/class-store.php:161
+#: includes/class-store.php:121
 msgid "Elastic Email"
 msgstr ""
 
-#: includes/class-store.php:162
+#: includes/class-store.php:122
 msgid "Send emails using Elastic Email SMTP"
-msgstr ""
-
-#: includes/class-store.php:169
-msgid "Outlook"
-msgstr ""
-
-#: includes/class-store.php:170
-msgid "Send emails using Outlook SMTP"
-msgstr ""
-
-#: includes/class-store.php:178
-msgid "Zoho"
-msgstr ""
-
-#: includes/class-store.php:179
-msgid "Send emails using Zoho SMTP"
-msgstr ""
-
-#: includes/class-store.php:187
-msgid "SMTP2GO"
-msgstr ""
-
-#: includes/class-store.php:188
-msgid "Send emails using SMTP2GO SMTP"
-msgstr ""
-
-#: includes/class-store.php:196
-msgid "Mailjet"
-msgstr ""
-
-#: includes/class-store.php:197
-msgid "Send emails using Mailjet SMTP"
-msgstr ""
-
-#: includes/class-store.php:205
-msgid "Mandrill"
-msgstr ""
-
-#: includes/class-store.php:206
-msgid "Send emails using Mandrill SMTP"
-msgstr ""
-
-#: includes/class-store.php:214
-msgid "MailerSend"
-msgstr ""
-
-#: includes/class-store.php:215
-msgid "Send emails using MailerSend SMTP"
-msgstr ""
-
-#: includes/class-store.php:223
-msgid "Loops"
-msgstr ""
-
-#: includes/class-store.php:224
-msgid "Send emails using Loops SMTP"
-msgstr ""
-
-#: includes/class-store.php:232
-msgid "SocketLabs"
-msgstr ""
-
-#: includes/class-store.php:233
-msgid "Send emails using SocketLabs SMTP"
 msgstr ""
 
 #: includes/email-log/class-handler-db.php:524
@@ -355,55 +251,11 @@ msgstr ""
 msgid "ElasticEmail Getting User Profile Error"
 msgstr ""
 
-#: includes/mailers/gmail/class-account-api.php:90
-msgid "Unable to get access token"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:54
-msgid "Cannot find app credentials!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:88
-msgid "Error, There is no authorize code passed!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:105
-msgid "Error, Cannot get account tokens!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:114
-msgid "Error, Cannot get profile details!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:132
-msgid "Error, Cannot update the account!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:138
-msgid "Error, Cannot add the new account!"
-msgstr ""
-
-#: includes/mailers/gmail/class-app.php:154
-msgid "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu."
-msgstr ""
-
-#: includes/mailers/gmail/class-process.php:52
-#: includes/mailers/gmail/class-process.php:153
-msgid "Gmail Send Error"
-msgstr ""
-
-#: includes/mailers/gmail/rest/class-settings-controller.php:121
-msgid "Gmail Getting User Profile Error"
-msgstr ""
-
 #: includes/mailers/mailgun/class-process.php:295
 msgid "Mailgun Send Email Error"
 msgstr ""
 
 #: includes/mailers/mailgun/rest/class-account-controller.php:79
-#: includes/mailers/postmark/rest/class-account-controller.php:74
-#: includes/mailers/sendgrid/rest/class-account-controller.php:74
-#: includes/mailers/sendinblue/rest/class-account-controller.php:76
 msgid "API key is missing."
 msgstr ""
 
@@ -422,24 +274,6 @@ msgstr ""
 #: includes/mailers/phpmailer/class-process.php:166
 #: includes/mailers/smtp/class-process.php:175
 msgid "PHPMailer Error"
-msgstr ""
-
-#: includes/mailers/postmark/class-process.php:263
-msgid "Postmark API Error"
-msgstr ""
-
-#: includes/mailers/postmark/rest/class-account-controller.php:85
-#: includes/mailers/sendgrid/rest/class-account-controller.php:86
-#: includes/mailers/sendinblue/rest/class-account-controller.php:90
-msgid "API key is invalid."
-msgstr ""
-
-#: includes/mailers/sendgrid/class-process.php:272
-msgid "SendGrid API Error"
-msgstr ""
-
-#: includes/mailers/sendinblue/class-process.php:288
-msgid "SendInBlue API Error"
 msgstr ""
 
 #: includes/mailers/sendlayer/class-process.php:288
@@ -725,26 +559,6 @@ msgid "Follow this link to get your API key:"
 msgstr ""
 
 #: build/client/index.js:113
-msgid "Get SendInBlue API Key"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Sending Domain"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Server API Token"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Get Postmark API Key"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Message Stream ID"
-msgstr ""
-
-#: build/client/index.js:113
 msgid "Get SendLayer API Key"
 msgstr ""
 
@@ -781,10 +595,6 @@ msgid "EU"
 msgstr ""
 
 #: build/client/index.js:113
-msgid "Get SendGrid API Key"
-msgstr ""
-
-#: build/client/index.js:113
 msgid "Get SMTP.com API Key"
 msgstr ""
 
@@ -798,18 +608,6 @@ msgstr ""
 
 #: build/client/index.js:113
 msgid "Get SMTP.com Sender Name"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Redirect URI:"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Client ID"
-msgstr ""
-
-#: build/client/index.js:113
-msgid "Client Secret"
 msgstr ""
 
 #: build/client/index.js:113

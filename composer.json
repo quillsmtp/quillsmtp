@@ -26,6 +26,7 @@
 		}
 	},
 	"scripts": {
+		"make-pot": "wp i18n make-pot . languages/quillsmtp.pot",
 		"post-install-cmd": [
 			"cd dependencies && composer install"
 		],
