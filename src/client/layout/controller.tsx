@@ -23,8 +23,6 @@ import EmailTest from '../pages/email-test';
 import Logs from '../pages/logs';
 import { Notices } from '../components';
 import Debug from '../pages/debug';
-import Alerts from '../pages/alerts';
-import License from '../pages/license';
 
 export const Controller = ({ page, match, location }) => {
 	useEffect(() => {
@@ -60,18 +58,13 @@ export const Controller = ({ page, match, location }) => {
 registerAdminPage('home', {
 	component: Home,
 	path: '/',
-	requiresInitialPayload: true
+	requiresInitialPayload: true,
 });
 
 registerAdminPage('settings', {
 	component: Settings,
 	path: 'settings',
 	requiresInitialPayload: true,
-});
-
-registerAdminPage('alerts', {
-	component: Alerts,
-	path: 'alerts',
 });
 
 registerAdminPage('email-test', {
@@ -88,9 +81,4 @@ registerAdminPage('logs', {
 registerAdminPage('debug', {
 	component: Debug,
 	path: 'debug',
-});
-
-registerAdminPage('license', {
-	component: License,
-	path: 'license',
 });

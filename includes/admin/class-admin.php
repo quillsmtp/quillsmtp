@@ -151,16 +151,6 @@ class Admin {
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 
-		// Alerts.
-		add_submenu_page(
-			'quillsmtp',
-			__( 'Alerts', 'quillsmtp' ),
-			__( 'Alerts', 'quillsmtp' ),
-			'manage_options',
-			'quillsmtp&path=alerts',
-			array( Admin_Loader::class, 'page_wrapper' )
-		);
-
 		// Logs.
 		add_submenu_page(
 			'quillsmtp',
