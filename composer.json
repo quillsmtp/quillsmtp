@@ -17,9 +17,6 @@
 		"platform": {
 			"php": "7.4"
 		},
-		"preferred-install": {
-			"woocommerce/action-scheduler": "dist"
-		},
 		"allow-plugins": {
 			"composer/installers": true,
 			"dealerdirect/phpcodesniffer-composer-installer": true
