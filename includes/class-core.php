@@ -501,9 +501,9 @@ class Core {
 	 * @return string
 	 */
 	public static function wp_mail_smtp_password_decoder( $encrypted ) {
-		if ( apply_filters( 'wp_mail_smtp_helpers_crypto_stop', false ) ) {
-			return $encrypted;
-		}
+		// if ( apply_filters( 'wp_mail_smtp_helpers_crypto_stop', false ) ) {
+		// 	return $encrypted;
+		// }
 
 		// Unpack base64 message.
 		$decoded = base64_decode( $encrypted ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
@@ -566,8 +566,9 @@ class Core {
 			return WPMS_CRYPTO_KEY;
 		}
 
-		$secret_key = apply_filters( 'wp_mail_smtp_helpers_crypto_get_secret_key', get_option( 'wp_mail_smtp_mail_key', false ) );
-
+		// $secret_key = apply_filters( 'wp_mail_smtp_helpers_crypto_get_secret_key', get_option( 'wp_mail_smtp_mail_key', false ) );
+		// get the option from wp mail plugin.
+		$secret_key = get_option( 'wp_mail_smtp_mail_key', false );
 		// If we already have the secret, send it back.
 		if ( false !== $secret_key ) {
 			return base64_decode( $secret_key ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
@@ -874,9 +875,9 @@ class Core {
 	 * @return string
 	 */
 	public static function easy_smtp_password_decoder( $encrypted ) {
-		if ( apply_filters( 'easy_wp_smtp_helpers_crypto_stop', false ) ) {
-			return $encrypted;
-		}
+		// if ( apply_filters( 'easy_wp_smtp_helpers_crypto_stop', false ) ) {
+		// 	return $encrypted;
+		// }
 
 		// Unpack base64 message.
 		$decoded = base64_decode( $encrypted ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
@@ -939,7 +940,9 @@ class Core {
 			return EASY_WP_SMTP_CRYPTO_KEY;
 		}
 
-		$secret_key = apply_filters( 'easy_wp_smtp_helpers_crypto_get_secret_key', get_option( 'easy_wp_smtp_mail_key' ) );
+		// $secret_key = apply_filters( 'easy_wp_smtp_helpers_crypto_get_secret_key', get_option( 'easy_wp_smtp_mail_key' ) );
+		// get the option from easy wp smtp plugin.
+		$secret_key = get_option('easy_wp_smtp_mail_key', false);
 
 		// If we already have the secret, send it back.
 		if ( false !== $secret_key ) {

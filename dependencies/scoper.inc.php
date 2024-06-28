@@ -1,6 +1,7 @@
 <?php
-
 declare(strict_types=1);
+
+if ( ! defined( 'ABSPATH' ) ) exit; 
 
 use Isolated\Symfony\Component\Finder\Finder;
 

@@ -368,9 +368,9 @@ class REST_Email_Log_Controller extends REST_Controller {
 	private function export_json( $rows ) {
 		$filename = esc_html__( 'Logs export', 'quillsmtp' ) . '.json';
 
-		if ( ini_get( 'display_errors' ) ) {
-			ini_set( 'display_errors', '0' );
-		}
+		// if ( ini_get( 'display_errors' ) ) {
+		// 	ini_set( 'display_errors', '0' );
+		// }
 		nocache_headers();
 		header( 'X-Robots-Tag: noindex', true );
 		header( 'Content-Type: application/json' );
