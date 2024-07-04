@@ -110,7 +110,7 @@ class Handler_DB {
 	public static function add( $subject, $body, $headers, $attachments, $from, $recipients, $status, $provider, $connection_id, $account_id, $response, $initiator_name, $initiator_slug, $initiator_type, $context, $resend_count = 0 ) {
 		global $wpdb;
 
-		$table_name =  $wpdb->prefix . 'quillsmtp_email_log';
+		$table_name = $wpdb->prefix . 'quillsmtp_email_log';
 
 		// Serialize arrays before inserting
 		$headers     = serialize( $headers );
@@ -167,37 +167,10 @@ class Handler_DB {
 		);
 
 		// phpcs:disable -- Ignoring this as it's a prepared query and caching is not needed.
-		// $query = $wpdb->prepare(
-		// 	"INSERT INTO $table_name (" . implode( ',', $columns ) . ') VALUES (' . implode( ',', $format ) . ')',
-		// 	array_values( $data )
-		// );
-
 		$query = $wpdb->prepare(
-			"INSERT INTO $table_name ('timestamp', 'subject', 'body', 'headers', 'attachments', 'from', 'recipients', 'status', 'provider', 
-			'connection_id', 'account_id', 'response', 'initiator_name', 'initiator_slug', 'initiator_type', 'context', 'resend_count') VALUES (
-				%s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %s
-				, %d
-			)",
+			"INSERT INTO $table_name (" . implode( ',', $columns ) . ') VALUES (' . implode( ',', $format ) . ')',
 			array_values( $data )
 		);
-
-
-
 
 		return $wpdb->query( $query );
 		// phpcs:enable

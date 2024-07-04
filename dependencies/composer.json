@@ -1,5 +1,15 @@
 {
     "require": {
-        "automattic/jetpack-constants": "^2.0.3"
+        "automattic/jetpack-constants": "^2.0.3",
+        "google/apiclient": "^2.16.0",
+        "sendgrid/sendgrid": "~8.1.2"
+    },
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Gmail"
+        ]
     }
 }

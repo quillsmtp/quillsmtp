@@ -125,6 +125,22 @@ class Store {
 				),
 				'documentation' => QUILLSMTP_SITE_URL . '/docs/elastic-email/',
 			),
+			'sendgrid'     => array(
+				'name'          => __( 'SendGrid', 'quillsmtp' ),
+				'description'   => __( 'Send emails using SendGrid SMTP', 'quillsmtp' ),
+				'assets'        => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/sendgrid/icon.svg',
+				),
+				'documentation' => QUILLSMTP_SITE_URL . '/docs/sendgrid/',
+			),
+			'gmail'        => array(
+				'name'          => __( 'Gmail', 'quillsmtp' ),
+				'description'   => __( 'Send emails using Gmail SMTP', 'quillsmtp' ),
+				'assets'        => array(
+					'icon' => QUILLSMTP_PLUGIN_URL . 'assets/mailers/gmail/icon.svg',
+				),
+				'documentation' => QUILLSMTP_SITE_URL . '/docs/gmail/',
+			),
 		);
 	}
 }

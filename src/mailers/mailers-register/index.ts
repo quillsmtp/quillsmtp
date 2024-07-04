@@ -5,3 +5,5 @@ import './sparkpost';
 import './smtp';
 import './phpmailer';
 import './elasticemail';
+import './sendgrid';
+import './gmail';

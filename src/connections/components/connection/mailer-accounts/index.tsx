@@ -13,6 +13,7 @@ import { isEmpty } from 'lodash';
  */
 import { MailerModuleSettings } from '@quillsmtp/mailers';
 import { Connect, SettingsRender } from '@quillsmtp/mailers';
+import { useEffect } from 'react';
 
 interface Props {
 	connectionId: string;
@@ -27,6 +28,16 @@ const MailerAccounts: React.FC<Props> = ({
 	slug,
 	setStep,
 }) => {
+	useEffect(() => {
+		if (!mailer) {
+			return;
+		}
+
+		if ('phpmailer' === slug && setStep) {
+			setStep(4);
+		}
+	}, [mailer]);
+
 	const Render = () => {
 		const connectParameters = mailer?.connectParameters;
 		if (!connectParameters === null) {

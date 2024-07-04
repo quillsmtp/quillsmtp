@@ -17,6 +17,8 @@ use QuillSMTP\Mailers\SparkPost\SparkPost;
 use QuillSMTP\Mailers\SMTP\SMTP;
 use QuillSMTP\Mailers\PHPMailer\PHPMailer;
 use QuillSMTP\Mailers\ElasticEmail\ElasticEmail;
+use QuillSMTP\Mailers\SendGrid\SendGrid;
+use QuillSMTP\Mailers\Gmail\Gmail;
 
 /**
  * Mailers Class.
@@ -89,6 +91,8 @@ final class Mailers {
 			'smtp'         => SMTP::class,
 			'phpmailer'    => PHPMailer::class,
 			'elasticemail' => ElasticEmail::class,
+			'sendgrid'     => SendGrid::class,
+			'gmail'        => Gmail::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );
