@@ -7,3 +7,5 @@ import './phpmailer';
 import './elasticemail';
 import './sendgrid';
 import './gmail';
+import './postmark';
+import './sendinblue';

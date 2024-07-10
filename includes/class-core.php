@@ -12,6 +12,7 @@ namespace QuillSMTP;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\Store;
+use QuillSMTP\Site\License;
 
 /**
  * Core Class
@@ -43,6 +44,7 @@ class Core {
 			'qsmtp.config.setNonce("' . $nonce . '");' .
 			'qsmtp.config.setIsMultisite("' . ( is_multisite() ? '1' : '0' ) . '");' .
 			'qsmtp.config.setIsMainSite("' . ( is_main_site() ? '1' : '0' ) . '");' .
+			'qsmtp.config.setLicense(' . wp_json_encode( License::instance()->get_license_info() ) . ');' .
 			'qsmtp.config.setWpMailConfig(' . wp_json_encode( self::wp_mail_config() ) . ');' .
 			'qsmtp.config.setEasySMTPConfig(' . wp_json_encode( self::easy_smtp_config() ) . ');' .
 			'qsmtp.config.setFluentSMTPConfig(' . wp_json_encode( self::fluent_smtp_config() ) . ');'
@@ -502,7 +504,7 @@ class Core {
 	 */
 	public static function wp_mail_smtp_password_decoder( $encrypted ) {
 		// if ( apply_filters( 'wp_mail_smtp_helpers_crypto_stop', false ) ) {
-		// 	return $encrypted;
+		// return $encrypted;
 		// }
 
 		// Unpack base64 message.
@@ -876,7 +878,7 @@ class Core {
 	 */
 	public static function easy_smtp_password_decoder( $encrypted ) {
 		// if ( apply_filters( 'easy_wp_smtp_helpers_crypto_stop', false ) ) {
-		// 	return $encrypted;
+		// return $encrypted;
 		// }
 
 		// Unpack base64 message.
@@ -942,7 +944,7 @@ class Core {
 
 		// $secret_key = apply_filters( 'easy_wp_smtp_helpers_crypto_get_secret_key', get_option( 'easy_wp_smtp_mail_key' ) );
 		// get the option from easy wp smtp plugin.
-		$secret_key = get_option('easy_wp_smtp_mail_key', false);
+		$secret_key = get_option( 'easy_wp_smtp_mail_key', false );
 
 		// If we already have the secret, send it back.
 		if ( false !== $secret_key ) {

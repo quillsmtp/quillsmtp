@@ -55,6 +55,10 @@ class ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'B' => 
+        array (
+            'Brevo\\Client\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -139,6 +143,20 @@ class ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'Brevo\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/getbrevo/brevo-php/lib',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Postmark\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/wildbit/postmark-php/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -174,6 +192,7 @@ class ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit9cfd560c655e9ecbbce1b0b0207030ab::$classMap;
 
         }, null, ClassLoader::class);

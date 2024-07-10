@@ -2,7 +2,9 @@
     "require": {
         "automattic\/jetpack-constants": "^2.0.3",
         "google\/apiclient": "^2.16.0",
-        "sendgrid\/sendgrid": "~8.1.2"
+        "sendgrid\/sendgrid": "~8.1.2",
+        "getbrevo\/brevo-php": "2.0.0",
+        "wildbit\/postmark-php": "^4.0.5"
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup"

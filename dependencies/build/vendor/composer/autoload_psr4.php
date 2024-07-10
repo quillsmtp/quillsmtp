@@ -17,6 +17,7 @@ return array(
     'QuillSMTP\\Vendor\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'QuillSMTP\\Vendor\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'QuillSMTP\\Vendor\\Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
+    'QuillSMTP\\Vendor\\Postmark\\' => array($vendorDir . '/wildbit/postmark-php/src/Postmark'),
     'QuillSMTP\\Vendor\\ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'QuillSMTP\\Vendor\\Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'QuillSMTP\\Vendor\\GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
@@ -26,4 +27,5 @@ return array(
     'QuillSMTP\\Vendor\\Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'QuillSMTP\\Vendor\\Google\\' => array($vendorDir . '/google/apiclient/src'),
     'QuillSMTP\\Vendor\\Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'QuillSMTP\\Vendor\\Brevo\\Client\\' => array($vendorDir . '/getbrevo/brevo-php/lib'),
 );

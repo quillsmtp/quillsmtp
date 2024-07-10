@@ -26,4 +26,5 @@ return array(
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Google\\' => array($vendorDir . '/google/apiclient/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'Brevo\\Client\\' => array($vendorDir . '/getbrevo/brevo-php/lib'),
 );

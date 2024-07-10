@@ -19,6 +19,8 @@ use QuillSMTP\Mailers\PHPMailer\PHPMailer;
 use QuillSMTP\Mailers\ElasticEmail\ElasticEmail;
 use QuillSMTP\Mailers\SendGrid\SendGrid;
 use QuillSMTP\Mailers\Gmail\Gmail;
+use QuillSMTP\Mailers\PostMark\PostMark;
+use QuillSMTP\Mailers\SendinBlue\SendinBlue;
 
 /**
  * Mailers Class.
@@ -93,6 +95,8 @@ final class Mailers {
 			'elasticemail' => ElasticEmail::class,
 			'sendgrid'     => SendGrid::class,
 			'gmail'        => Gmail::class,
+			'postmark'     => PostMark::class,
+			'sendinblue'   => SendinBlue::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );

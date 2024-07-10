@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/check-line-alignment */
-import type { ConfigData } from './types/config-data';
+import type { ConfigData, License } from './types/config-data';
 import type { StoreMailers } from './types/store-mailers';
 import { InitialPayload } from './types/initial-payload';
 
@@ -18,6 +18,7 @@ const configData: ConfigData = {
 	nonce: '',
 	isMultisite: false,
 	isMainSite: false,
+	license: false,
 	wpMailConfig: false,
 	easySMTPConfig: false,
 	fluentSMTPConfig: false,
@@ -214,6 +215,29 @@ const getIsMainSite = (data: ConfigData) => (): boolean => {
 	return data.isMainSite == true;
 };
 
+// license
+/**
+ * Set license
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {License | false} license
+ */
+const setLicense = (data: ConfigData) => (value: License | false) => {
+	data.license = value;
+};
+
+/**
+ * Get license
+ *
+ * @param data the json environment configuration to use for getting config values
+ *
+ * @returns {License | false} license
+ */
+const getLicense = (data: ConfigData) => (): License | false => {
+	return data.license;
+};
+
 /**
  * Set wp mail config
  *
@@ -300,6 +324,8 @@ export interface ConfigApi {
 	getIsMultisite: () => boolean;
 	setIsMainSite: (value: boolean) => void;
 	getIsMainSite: () => boolean;
+	setLicense: (value: License | false) => void;
+	getLicense: () => License | false;
 	setWpMailConfig: (value: any) => void;
 	getWpMailConfig: () => any;
 	setEasySMTPConfig: (value: any) => void;
@@ -328,6 +354,8 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.setIsMultisite = setIsMultisite(data);
 	configApi.getIsMainSite = getIsMainSite(data);
 	configApi.setIsMainSite = setIsMainSite(data);
+	configApi.getLicense = getLicense(data);
+	configApi.setLicense = setLicense(data);
 	configApi.setWpMailConfig = setWpMailConfig(data);
 	configApi.getWpMailConfig = getWpMailConfig(data);
 	configApi.setEasySMTPConfig = setEasySMTPConfig(data);

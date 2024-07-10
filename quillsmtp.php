@@ -34,6 +34,7 @@ define( 'QUILLSMTP_SITE_URL', 'https://quillsmtp.com' );
 
 // Require dependencies.
 require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/build/vendor/scoper-autoload.php';
+require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/libraries/load.php';
 
 // Require the autoloader.
 require_once QUILLSMTP_PLUGIN_DIR . 'includes/autoload.php';
