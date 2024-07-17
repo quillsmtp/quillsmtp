@@ -29,10 +29,14 @@
 	"scripts": {
 		"make-pot": "wp i18n make-pot . languages/quillsmtp.pot",
 		"post-install-cmd": [
-			"cd dependencies && composer install"
+			"cd dependencies && composer install",
+			"cd dependencies && php-scoper add-prefix --force",
+			"cd dependencies && composer dump-autoload --working-dir build --classmap-authoritative"
 		],
 		"post-update-cmd": [
-			"cd dependencies && composer update"
+			"cd dependencies && composer update",
+			"cd dependencies && php-scoper add-prefix --force",
+			"cd dependencies && composer dump-autoload --working-dir build --classmap-authoritative"
 		],
 		"format": "phpcbf --standard=phpcs.xml.dist --report-summary --report-source",
 		"lint": "phpcs --standard=phpcs.xml.dist",
