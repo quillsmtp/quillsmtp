@@ -3,7 +3,7 @@ Contributors: quillforms, mdmag
 Requires at least: 4.6
 Tested up to: 6.5.3
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 Donate link: https://www.paypal.com/paypalme/mohamedmagdymohamed
 Tags: quill, smtp, mailer, logs
 License: GPLv2 or later
@@ -19,68 +19,26 @@ Quill SMTP is the only SMTP plugin that integrates with 20+ mailers.
 
 This plugin relies on several third-party services to function properly. Below, you will find a detailed explanation of each service used, the circumstances under which they are used, and the relevant links to their terms of use and privacy policies.
 
-### 1. SMTP.com
-
-This plugin uses SMTP.com for sending emails. The following operations involve contacting the SMTP.com service:
-
-- **Endpoint:** `https://api.smtp.com/v4/messages`
-  - **Method:** POST
-  - **Headers:** Accept: application/json, Content-Type: application/json, Authorization: Bearer [API_KEY]
-  - **Data:** Email content and metadata
-
-- **Endpoint:** `https://api.smtp.com/v4/account`
-  - **Method:** GET
-  - **Headers:** Accept: application/json, Content-Type: application/json, Authorization: Bearer [API_KEY]
-
-**Service Terms:** [SMTP.com Terms of Use](https://www.smtp.com/policies/terms-and-conditions/)  
-**Privacy Policy:** [SMTP.com Privacy Policy](https://www.smtp.com/policies/privacy-policy/)
-
+### 1. Amazon SES 
 ### 2. Elastic Email
-
-This plugin uses Elastic Email for handling email transactions.
-
-- **Endpoint:** `https://api.elasticemail.com/v2/account/load`
-  - **Method:** GET
-  - **Headers:** Accept: application/json, Content-Type: application/json; charset=[Charset], Cache-Control: no-cache
-
-**Service Terms:** [Elastic Email Terms of Use](https://elasticemail.com/resources/usage-policies)  
-**Privacy Policy:** [Elastic Email Privacy Policy](https://elasticemail.com/resources/usage-policies/privacy-policy)
-
-### 3. SendLayer
-
-This plugin utilizes SendLayer for email delivery services.
-
-- **Endpoint:** `https://console.sendlayer.com/api/v1/email`
-  - **Method:** POST
-  - **Headers:** Accept: application/json, Content-Type: application/json, Authorization: Bearer [API_KEY]
-  - **Data:** Email content and metadata
-
-**Service Terms:** [SendLayer Terms of Use](https://sendlayer.com/terms-of-service/)  
-**Privacy Policy:** [SendLayer Privacy Policy](https://sendlayer.com/privacy-policy)
-
-### 4. Mailgun
-
-This plugin uses Mailgun for sending emails.
-
-- **Endpoint:** `https://api.[region].mailgun.net/v3/[DOMAIN]/messages`
-  - **Method:** POST
-  - **Headers:** Accept: application/json, Content-Type: application/json, Authorization: Basic [API_KEY]
-  - **Data:** Email content and metadata
-
-**Service Terms:** [Mailgun Terms of Use](https://www.mailgun.com/legal/terms/)
-**Privacy Policy:** [Mailgun Privacy Policy](https://www.mailgun.com/legal/privacy-policy/)
-
-### 5. SparkPost
-
-This plugin uses SparkPost for sending emails.
-
-- **Endpoint:** `https://api.sparkpost.com/api/v1/transmissions`
-  - **Method:** POST
-  - **Headers:** Accept: application/json, Content-Type: application/json, Authorization: Bearer [API_KEY]
-  - **Data:** Email content and metadata
-
-**Service Terms:** [SparkPost Terms of Use](https://www.sparkpost.com/policies/tos/)
-**Privacy Policy:** [SparkPost Privacy Policy](https://www.sparkpost.com/policies/privacy/)
+### 3. Gmail
+### 4. Loops
+### 5. MailerSend
+### 6. Mailgun
+### 7. Mailjet
+### 8. Mandrill
+### 9. OutLook
+### 10. PHP
+### 11. Postmark
+### 12. SendGrid
+### 13. Sendinblue
+### 14. SendLayer
+### 15. SMTP.com
+### 16. SMTP2GO
+### 17. SocketLas
+### 18. SparkPost
+### 19. Zoho
+### 20. Any Custom SMTP
 
 
 ## Important Notes
@@ -93,6 +51,9 @@ This plugin uses SparkPost for sending emails.
 If you want to contribute, go to our [Quill SMTP GitHub Repository](https://github.com/quillsmtp/quillsmtp) and see where you can help.
 
 == Changelog ==
+
+= 1.1.0 = 
+Feature: Adding all other mailers and fix bugs
 
 = 1.0.0 =
 * Initial release
