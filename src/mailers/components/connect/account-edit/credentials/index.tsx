@@ -64,7 +64,7 @@ const EditCredentials: React.FC<Props> = ({
 }) => {
 	const { mailer } = useSelect((select) => {
 		return {
-			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailer: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 		};
 	});
 
@@ -131,9 +131,9 @@ const EditCredentials: React.FC<Props> = ({
 					message:
 						err.message ??
 						__('Error in updating  the ', 'quillsmtp') +
-							(
-								labels?.singular ?? __('Account', 'quillsmtp')
-							).toLowerCase(),
+						(
+							labels?.singular ?? __('Account', 'quillsmtp')
+						).toLowerCase(),
 				});
 			})
 			.finally(() => {

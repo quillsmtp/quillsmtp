@@ -20,6 +20,8 @@ import {
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
 	SET_INITIAL_ACCOUNT_DATA,
+	UPDATE_TEMP_CONNECTION,
+	REMOVE_ALL_TEMP_CONNECTIONS,
 } from './constants';
 import {
 	CoreActionTypes,
@@ -134,15 +136,19 @@ export const setInitialAccountData = (
  * Add Connection Action.
  * @param {string} id Connection ID.
  * @param {Connection} connection Connection object.
+ * @param {boolean} permenant If Connection is permenant
+ * 
  * @returns {CoreActionTypes} Add Connection Action.
  */
 export const addConnection = (
 	id: string,
-	connection: Connection
+	connection: Connection,
+	permenant = true
 ): CoreActionTypes => ({
 	type: ADD_CONNECTION,
 	id,
 	connection,
+	permenant
 });
 
 /**
@@ -161,6 +167,23 @@ export const updateConnection = (
 	connection,
 });
 
+
+/**
+ * Update Temporary Connection Action.
+ * @param {string} id Connection ID.
+ * @param {Partial<Connection>} connection Connection object.
+ * @param {boolean} recursive Recursive flag.
+ * @returns {CoreActionTypes} Update Connection Action.
+ */
+export const updateTempConnection = (
+	id: string,
+	connection: Partial<Connection>
+): CoreActionTypes => ({
+	type: UPDATE_TEMP_CONNECTION,
+	id,
+	connection,
+});
+
 /**
  * Delete Connection Action.
  * @param {string} id Connection ID.
@@ -169,6 +192,15 @@ export const updateConnection = (
 export const deleteConnection = (id: string): CoreActionTypes => ({
 	type: DELETE_CONNECTION,
 	id,
+});
+
+/**
+ * Remove All Temporaray Connections Action.
+ * 
+ * @returns {CoreActionTypes} Delete Connections Action.
+ */
+export const removeAllTempConnections = (): CoreActionTypes => ({
+	type: REMOVE_ALL_TEMP_CONNECTIONS,
 });
 
 /**

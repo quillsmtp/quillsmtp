@@ -19,12 +19,12 @@ const ForceFromEmail: React.FC<Props> = ({ connectionId }) => {
 	const { force_from_email } = useSelect((select) => {
 		return {
 			force_from_email:
-				select('quillSMTP/core').getConnectionForceFromEmail(
+				select('quillSMTP/core').getTempConnectionForceFromEmail(
 					connectionId
 				),
 		};
 	});
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const { updateTempConnection } = useDispatch('quillSMTP/core');
 
 	return (
 		<FormControl sx={{ mb: 3 }}>
@@ -33,7 +33,7 @@ const ForceFromEmail: React.FC<Props> = ({ connectionId }) => {
 					<Checkbox
 						checked={force_from_email}
 						onChange={() =>
-							updateConnection(connectionId, {
+							updateTempConnection(connectionId, {
 								force_from_email: !force_from_email,
 							})
 						}

@@ -17,10 +17,10 @@ const FromName: React.FC<Props> = ({ connectionId }) => {
 	const { from_name } = useSelect((select) => {
 		return {
 			from_name:
-				select('quillSMTP/core').getConnectionFromName(connectionId),
+				select('quillSMTP/core').getTempConnectionFromName(connectionId),
 		};
 	});
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const { updateTempConnection } = useDispatch('quillSMTP/core');
 
 	return (
 		<TextField
@@ -29,7 +29,7 @@ const FromName: React.FC<Props> = ({ connectionId }) => {
 			label={__('From Name', 'quillsmtp')}
 			value={from_name}
 			onChange={(e) =>
-				updateConnection(connectionId, {
+				updateTempConnection(connectionId, {
 					from_name: e.target.value,
 				})
 			}

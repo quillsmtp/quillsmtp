@@ -9,7 +9,6 @@ import { __, sprintf } from '@wordpress/i18n';
  * External Dependencies
  */
 import Button from '@mui/material/Button';
-import { size } from 'lodash';
 
 /**
  * Internal Dependencies
@@ -17,9 +16,8 @@ import { size } from 'lodash';
 import SetUpWizard from '../../../connections/components/setupwizard';
 import "./style.scss";
 
-const WelcomePage = () => {
+const WelcomePage = ({ setUpWizard, setSetUpWizard }) => {
 
-    const [setUpwizard, setSetUpWizard] = useState(false);
     const [newConnectionId, setNewConnectionId] = useState('');
 
     const { addConnection } = useDispatch('quillSMTP/core')
@@ -48,19 +46,20 @@ const WelcomePage = () => {
                             force_from_email: false,
                             from_name: '',
                             force_from_name: false,
-                        });
+                        }, false);
 
-                        setTimeout(() => {
-                            setSetUpWizard(true);
-                        }, 100);
+                        setSetUpWizard(true);
+
+
+
                     }}>
                     Create Your Default Connection
                 </Button>
 
             </div>
-            {setUpwizard && createPortal(
+            {setUpWizard && createPortal(
                 <SetUpWizard
-                    mode="edit"
+                    mode="add"
                     connectionId={newConnectionId}
                     setSetUpWizard={setSetUpWizard}
                 />,

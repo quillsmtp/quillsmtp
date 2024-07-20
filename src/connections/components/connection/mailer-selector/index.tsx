@@ -25,12 +25,12 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 	const mailerModules = getMailerModules();
 	const { mailerSlug, mailers } = useSelect((select) => {
 		return {
-			mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailerSlug: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 			mailers: select('quillSMTP/core').getMailers(),
 		}
 	});
 
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const { updateTempConnection } = useDispatch('quillSMTP/core');
 
 	const onChange = (key: string) => {
 		let account_id = '';
@@ -43,8 +43,9 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 			}
 		}
 
-		updateConnection(connectionId, { mailer: key, account_id: account_id });
+		updateTempConnection(connectionId, { mailer: key, account_id: account_id });
 	};
+
 	return (
 		<div className="qsmtp-mailers-selector">
 			<Stack direction="row" spacing={2} useFlexGap flexWrap={'wrap'}>

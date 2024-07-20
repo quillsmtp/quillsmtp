@@ -23,7 +23,7 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 	const { connectionMailer, mailers } = useSelect((select) => {
 		return {
 			connectionMailer:
-				select('quillSMTP/core').getConnectionMailer(connectionId),
+				select('quillSMTP/core').getTempConnectionMailer(connectionId),
 			mailers: select('quillSMTP/core').getMailers(),
 		};
 	});

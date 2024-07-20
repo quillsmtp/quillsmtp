@@ -55,7 +55,7 @@ const Credentials: React.FC<Props> = ({
 }) => {
 	const { mailer, initialValues } = useSelect((select) => {
 		return {
-			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailer: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 			initialValues: select('quillSMTP/core').getInitialAccountData(),
 		};
 	});
@@ -137,9 +137,9 @@ const Credentials: React.FC<Props> = ({
 					message:
 						err.message ??
 						__('Error in adding the ', 'quillsmtp') +
-							(
-								labels?.singular ?? __('Account', 'quillsmtp')
-							).toLowerCase(),
+						(
+							labels?.singular ?? __('Account', 'quillsmtp')
+						).toLowerCase(),
 				});
 			})
 			.finally(() => {

@@ -28,18 +28,18 @@ const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 	const { getStoreMailers } = ConfigAPI;
 	const mailers = getStoreMailers();
 	const mailer = mailers[slug];
-	const { getConnectionMailer } = useSelect((select) => ({
-		getConnectionMailer: select('quillSMTP/core').getConnectionMailer,
+	const { getTempConnectionMailer } = useSelect((select) => ({
+		getTempConnectionMailer: select('quillSMTP/core').getTempConnectionMailer,
 	}));
-	const mailerSlug = getConnectionMailer(connectionId);
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const mailerSlug = getTempConnectionMailer(connectionId);
+	const { updateTempConnection } = useDispatch('quillSMTP/core');
 
 	return (
 		<Dialog
 			open={mailerSlug === slug}
 			onClose={() => {
 				setStep(2)
-				updateConnection(connectionId, {
+				updateTempConnection(connectionId, {
 					mailer: '',
 					account_id: '',
 				});
@@ -65,7 +65,7 @@ const SettingsRender: React.FC<{ slug: string; connectionId: string }> = ({
 				<IconButton
 					aria-label="close"
 					onClick={() => {
-						updateConnection(connectionId, {
+						updateTempConnection(connectionId, {
 							mailer: '',
 							account_id: '',
 						});

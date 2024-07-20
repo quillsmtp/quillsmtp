@@ -32,6 +32,8 @@ define( 'QUILLSMTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'QUILLSMTP_PLUGIN_FILE', __FILE__ );
 define( 'QUILLSMTP_SITE_URL', 'https://quillsmtp.com' );
 
+// delete_option('quillsmtp_settings');
+
 // Require dependencies.
 require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/build/vendor/scoper-autoload.php';
 require_once QUILLSMTP_PLUGIN_DIR . 'dependencies/libraries/load.php';

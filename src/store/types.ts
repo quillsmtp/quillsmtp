@@ -21,16 +21,19 @@ import {
 	UPDATE_MAILER_ACCOUNT,
 	ADD_CONNECTION,
 	UPDATE_CONNECTION,
+	UPDATE_TEMP_CONNECTION,
 	DELETE_CONNECTION,
 	DELETE_MAILER_ACCOUNT,
 	ADD_NOTICE,
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
 	SET_INITIAL_ACCOUNT_DATA,
+	REMOVE_ALL_TEMP_CONNECTIONS,
 } from './constants';
 
 export type CorePureState = {
 	connections: Connections;
+	tempConnections: Connections;
 	mailers: Mailers;
 	notices: Notices;
 	initialAccountData: InitialAccountData;
@@ -88,6 +91,7 @@ type addConnection = {
 	type: typeof ADD_CONNECTION;
 	id: string;
 	connection: Connection;
+	permenant: boolean
 };
 
 type updateConnection = {
@@ -96,6 +100,11 @@ type updateConnection = {
 	connection: ConnectionDeepPartial;
 };
 
+type updateTempConnection = {
+	type: typeof UPDATE_TEMP_CONNECTION;
+	id: string;
+	connection: ConnectionDeepPartial;
+};
 type deleteConnection = {
 	type: typeof DELETE_CONNECTION;
 	id: string;
@@ -105,6 +114,11 @@ type deleteConnections = {
 	type: typeof DELETE_CONNECTIONS;
 	ids: string[];
 };
+
+type removeAllTempConnections = {
+	type: typeof REMOVE_ALL_TEMP_CONNECTIONS;
+};
+
 
 export type App = {
 	[x: string]: any;
@@ -174,8 +188,10 @@ export type CoreActionTypes =
 	| setupStoreAction
 	| addConnection
 	| updateConnection
+	| updateTempConnection
 	| deleteConnection
 	| deleteConnections
+	| removeAllTempConnections
 	| setupAccounts
 	| addAccount
 	| updateAccount
@@ -194,8 +210,8 @@ export type CoreActionTypes =
 
 export type SelectFromMap<S extends Record<string, unknown>> = {
 	[selector in FunctionKeys<S>]: S[selector] extends (...args: any[]) => any
-		? (...args: TailParameters<S[selector]>) => ReturnType<S[selector]>
-		: never;
+	? (...args: TailParameters<S[selector]>) => ReturnType<S[selector]>
+	: never;
 };
 
 /**

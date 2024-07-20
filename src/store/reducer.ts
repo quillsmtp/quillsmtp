@@ -22,12 +22,15 @@ import {
 	DELETE_NOTICE,
 	DELETE_CONNECTIONS,
 	SET_INITIAL_ACCOUNT_DATA,
+	UPDATE_TEMP_CONNECTION,
+	REMOVE_ALL_TEMP_CONNECTIONS,
 } from './constants';
 import { CorePureState, CoreActionTypes } from './types';
 
 // Initial State
 const initialState: CorePureState = {
 	connections: {},
+	tempConnections: {},
 	mailers: {},
 	notices: {},
 	initialAccountData: {},
@@ -47,7 +50,6 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 	state = initialState,
 	action
 ) => {
-	console.log('action', action);
 
 	switch (action.type) {
 		case SETUP_STORE: {
@@ -165,16 +167,26 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			};
 		}
 		case ADD_CONNECTION: {
-			const { id, connection } = action;
-			const { connections } = state;
+			const { id, connection, permenant } = action;
+			console.log('permenant', permenant);
+			const { connections, tempConnections } = state;
+			if (permenant)
+				return {
+					...state,
+					connections: {
+						...connections,
+						[id]: connection,
+					},
+				};
 			return {
 				...state,
-				connections: {
-					...connections,
+				tempConnections: {
+					...tempConnections,
 					[id]: connection,
-				},
-			};
+				}
+			}
 		}
+
 		case UPDATE_CONNECTION: {
 			const { id, connection } = action;
 			const { connections } = state;
@@ -187,6 +199,22 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 				connections: {
 					...connections,
 					[id]: updatedConnection,
+				},
+			};
+		}
+
+		case UPDATE_TEMP_CONNECTION: {
+			const { id, connection } = action;
+			const { tempConnections } = state;
+			const updatedTempConnection = {
+				...tempConnections[id],
+				...connection,
+			};
+			return {
+				...state,
+				tempConnections: {
+					...tempConnections,
+					[id]: updatedTempConnection,
 				},
 			};
 		}
@@ -218,6 +246,13 @@ const reducer: Reducer<CorePureState, CoreActionTypes> = (
 			return {
 				...state,
 				connections: updatedConnections,
+			};
+		}
+
+		case REMOVE_ALL_TEMP_CONNECTIONS: {
+			return {
+				...state,
+				tempConnections: {},
 			};
 		}
 		case ADD_NOTICE: {

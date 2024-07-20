@@ -36,27 +36,27 @@ import FromName from '../connection/from-name';
 import ForceFromName from '../connection/force-from-name';
 import Notices from '../../../client/components/notices';
 
-const WizardContent = ({ connectionId }) => {
+const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 	const [step, setStep] = useState(1);
 	const [showNextButton, setShowNextButton] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	// dispatch notices.
-	const { createNotice } = useDispatch('quillSMTP/core');
+	const { createNotice, removeAllTempConnections, addConnection, updateConnection } = useDispatch('quillSMTP/core');
 
 	const mailerModules = getMailerModules();
 	const { mailerSlug, connectionName, accountId, connection } = useSelect(
 		(select) => {
 			return {
 				mailerSlug:
-					select('quillSMTP/core').getConnectionMailer(connectionId),
+					select('quillSMTP/core').getTempConnectionMailer(connectionId),
 				connectionName:
-					select('quillSMTP/core').getConnectionName(connectionId),
+					select('quillSMTP/core').getTempConnectionName(connectionId),
 				accountId:
-					select('quillSMTP/core').getConnectionAccountId(
+					select('quillSMTP/core').getTempConnectionAccountId(
 						connectionId
 					),
 				connection:
-					select('quillSMTP/core').getConnection(connectionId),
+					select('quillSMTP/core').getTempConnection(connectionId),
 			};
 		}
 	);
@@ -84,6 +84,12 @@ const WizardContent = ({ connectionId }) => {
 					},
 				});
 				setStep(step + 1);
+				if (mode === 'add') {
+					addConnection(connectionId, connection);
+				}
+				else {
+					updateConnection(connectionId, connection);
+				}
 			} else {
 				createNotice({
 					type: 'error',
@@ -115,7 +121,7 @@ const WizardContent = ({ connectionId }) => {
 		setShowNextButton(false);
 	}, [step, connectionName, mailerSlug, accountId]);
 
-	const { updateConnection } = useDispatch('quillSMTP/core');
+	const { updateTempConnection } = useDispatch('quillSMTP/core');
 
 	return (
 		<>
@@ -137,16 +143,14 @@ const WizardContent = ({ connectionId }) => {
 							<div className="qsmtp-setup-wizard__sidebar-step-line"></div>
 
 							<div
-								className={`qsmtp-setup-wizard__sidebar-step ${
-									s === step
-										? 'qsmtp-setup-wizard__sidebar-step--active'
-										: ''
-								} 
-                             ${
-									s < step
+								className={`qsmtp-setup-wizard__sidebar-step ${s === step
+									? 'qsmtp-setup-wizard__sidebar-step--active'
+									: ''
+									} 
+                             ${s < step
 										? 'qsmtp-setup-wizard__sidebar-step--checked'
 										: ''
-								}
+									}
                             `}
 								key={s}
 							>
@@ -184,7 +188,7 @@ const WizardContent = ({ connectionId }) => {
 								label={__('Connection Name', 'quillsmtp')}
 								value={connectionName}
 								onChange={(e) => {
-									updateConnection(connectionId, {
+									updateTempConnection(connectionId, {
 										name: e.target.value,
 									});
 								}}
@@ -290,7 +294,8 @@ const WizardContent = ({ connectionId }) => {
 							variant="contained"
 							color="primary"
 							onClick={() => {
-								location.reload();
+								setSetUpWizard(false);
+								removeAllTempConnections();
 							}}
 						>
 							{__('Go to Dashboard', 'quillsmtp')}

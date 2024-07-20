@@ -31,15 +31,16 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [setUpWizard, setSetUpWizard] = useState(false);
     const mailerModules = getMailerModules();
-    const { mailerSlug, name } = useSelect((select) => {
+    const { mailerSlug, name, connection } = useSelect((select) => {
         return {
+            connection: select('quillSMTP/core').getConnection(connectionId),
             mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
             name: select('quillSMTP/core').getConnectionName(connectionId),
         };
     });
 
 
-    const { deleteConnection } =
+    const { addConnection, deleteConnection } =
         useDispatch('quillSMTP/core');
 
     // dispatch notices.
@@ -93,6 +94,7 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
         >
             {mailerSlug && mailerModules[mailerSlug] && mailerModules[mailerSlug].icon && <img src={mailerModules[mailerSlug].icon} alt={mailerSlug} className='qsmtp-connection-card__icon' />}
             <EditIcon className='qsmtp-connection-card__edit-icon' onClick={() => {
+                addConnection(connectionId, connection, false);
                 setSetUpWizard(true);
             }} />
             <div className="qsmtp-connection-card__connection-name">{name}</div>

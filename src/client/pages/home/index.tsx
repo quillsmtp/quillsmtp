@@ -52,6 +52,8 @@ const Home = () => {
         connections: select('quillSMTP/core').getConnections(),
     }));
 
+    const [setUpWizard, setSetUpWizard] = useState<boolean>(false);
+
     const { hasConnectionsFinishedResolution } = useSelect((select) => {
         const { hasFinishedResolution } = select('quillSMTP/core');
 
@@ -102,9 +104,9 @@ const Home = () => {
             });
     }, []);
 
-    if (size(connections) == 0) {
+    if (size(connections) == 0 || setUpWizard) {
         return (
-            <WelcomePage />
+            <WelcomePage setUpWizard={setUpWizard} setSetUpWizard={setSetUpWizard} />
         )
     }
 

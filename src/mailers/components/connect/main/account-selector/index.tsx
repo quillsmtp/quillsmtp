@@ -55,10 +55,10 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	const { mailer, mailerSlug, account_id, getConnectionsIdsByAccountId } =
 		useSelect((select) => {
 			const mailerSlug =
-				select('quillSMTP/core').getConnectionMailer(connectionId);
+				select('quillSMTP/core').getTempConnectionMailer(connectionId);
 			return {
 				account_id:
-					select('quillSMTP/core').getConnectionAccountId(
+					select('quillSMTP/core').getTempConnectionAccountId(
 						connectionId
 					),
 				mailer: select('quillSMTP/core').getMailer(mailerSlug),
@@ -70,12 +70,12 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 
 	// dispatch.
 	const { accounts } = mailer;
-	console.log(accounts)
 	const {
 		addAccount,
 		updateAccount,
 		deleteAccount,
 		updateConnection,
+		updateTempConnection,
 		createNotice,
 		deleteConnections,
 	} = useDispatch('quillSMTP/core');
@@ -95,7 +95,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 
 	useEffect(() => {
 		if (account_id && !accounts[account_id]) {
-			updateConnection(connectionId, {
+			updateTempConnection(connectionId, {
 				account_id: '',
 			});
 		}
@@ -112,7 +112,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 				deleteAccount(mailerSlug, deleteAccountID);
 				// if current connection uses the same account
 				if (deleteAccountID === account_id) {
-					updateConnection(connectionId, {
+					updateTempConnection(connectionId, {
 						account_id: size(accounts) > 0 ? Object.keys(accounts)[0] : '',
 					});
 				}
@@ -142,7 +142,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 
 	// updating connection on changing account selection.
 	const onChange = (value) => {
-		updateConnection(connectionId, {
+		updateTempConnection(connectionId, {
 			account_id: value,
 		});
 	};

@@ -38,7 +38,7 @@ const Setup: React.FC<Props> = ({
 }) => {
 	const { mailer } = useSelect((select) => {
 		return {
-			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailer: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 		};
 	});
 	const [inputs, setInputs] = useState({});

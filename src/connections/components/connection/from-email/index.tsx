@@ -25,14 +25,14 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 	const [fromEmails, setFromEmails] = useState<any>([]);
 	const { mailer, from_email, account_id } = useSelect((select) => {
 		return {
-			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailer: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 			account_id:
-				select('quillSMTP/core').getConnectionAccountId(connectionId),
+				select('quillSMTP/core').getTempConnectionAccountId(connectionId),
 			from_email:
-				select('quillSMTP/core').getConnectionFromEmail(connectionId),
+				select('quillSMTP/core').getTempConnectionFromEmail(connectionId),
 		};
 	});
-	const { updateConnection, createNotice } = useDispatch('quillSMTP/core');
+	const { updateTempConnection, createNotice } = useDispatch('quillSMTP/core');
 
 	const fetchFromEmails = applyFilters(
 		'QuillSMTP.Fetch.FromEmails',
@@ -43,7 +43,7 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 	useEffect(() => {
 		if (fetchFromEmails) {
 			getFromEmails();
-			updateConnection(connectionId, {
+			updateTempConnection(connectionId, {
 				from_email: '',
 			});
 		}
@@ -51,7 +51,7 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 
 	useEffect(() => {
 		if (fetchFromEmails && !from_email) {
-			updateConnection(connectionId, {
+			updateTempConnection(connectionId, {
 				from_email: getFromValue(),
 			});
 		}
@@ -104,7 +104,7 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 							label={__('From Email', 'quillsmtp')}
 							value={from_email}
 							onChange={(e) =>
-								updateConnection(connectionId, {
+								updateTempConnection(connectionId, {
 									from_email: e.target.value,
 								})
 							}
@@ -127,7 +127,7 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 								value={getFromValue()}
 								label={__('From Email', 'quillsmtp')}
 								onChange={(e: SelectChangeEvent) =>
-									updateConnection(connectionId, {
+									updateTempConnection(connectionId, {
 										from_email: e.target.value,
 									})
 								}

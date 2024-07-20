@@ -73,13 +73,13 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 	const [isDeleting, setIsDeleting] = useState(false);
 	const { mailer, account_id, name } = useSelect((select) => {
 		return {
-			mailer: select('quillSMTP/core').getConnectionMailer(connectionId),
+			mailer: select('quillSMTP/core').getTempConnectionMailer(connectionId),
 			account_id:
-				select('quillSMTP/core').getConnectionAccountId(connectionId),
-			name: select('quillSMTP/core').getConnectionName(connectionId),
+				select('quillSMTP/core').getTempConnectionAccountId(connectionId),
+			name: select('quillSMTP/core').getTempConnectionName(connectionId),
 		};
 	});
-	const { updateConnection, deleteConnection } =
+	const { updateConnection, updateTempConnection, deleteConnection } =
 		useDispatch('quillSMTP/core');
 
 	// dispatch notices.
@@ -91,7 +91,7 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 			return;
 		}
 		setIsSaving(true);
-		const connection = select('quillSMTP/core').getConnection(connectionId);
+		const connection = select('quillSMTP/core').getTempConnection(connectionId);
 
 		const updatedConnection = { ...connection };
 		apiFetch({
@@ -218,7 +218,7 @@ const Connection: React.FC<Props> = ({ connectionId, index }) => {
 						label={__('Name', 'quillsmtp')}
 						value={name}
 						onChange={(e) =>
-							updateConnection(connectionId, {
+							updateTempConnection(connectionId, {
 								name: e.target.value,
 							})
 						}

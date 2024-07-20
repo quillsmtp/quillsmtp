@@ -9,7 +9,7 @@ import WizardContent from './content';
 import { useDispatch } from '@wordpress/data';
 
 const SetUpWizard = ({ setSetUpWizard, connectionId, mode }) => {
-    const { deleteConnection } = useDispatch('quillSMTP/core');
+    const { removeAllTempConnections } = useDispatch('quillSMTP/core');
 
     useEffect(() => {
         // add class to the body when this component mounts and remove it when the component unmounts
@@ -33,16 +33,17 @@ const SetUpWizard = ({ setSetUpWizard, connectionId, mode }) => {
                 onClick={() => {
 
                     setSetUpWizard(false);
-                    if (mode === 'add') {
-                        deleteConnection(connectionId);
-                    }
+                    // if (mode === 'add') {
+                    //     deleteConnection(connectionId);
+                    // }
+                    removeAllTempConnections();
                 }
                 }
 
             >
                 <Icon icon={close} />
             </div>
-            <WizardContent connectionId={connectionId} />
+            <WizardContent mode={mode} setSetUpWizard={setSetUpWizard} connectionId={connectionId} />
             <div className="qsmtp-setup-wizard__right-blank-area">
                 <Particles
                 /></div>
