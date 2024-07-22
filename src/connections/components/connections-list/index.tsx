@@ -33,7 +33,7 @@ const ConnectionsList: React.FC = () => {
 	const wpMailConfig = ConfigAPI.getWpMailConfig();
 	const easySMTP = ConfigAPI.getEasySMTPConfig();
 	const fluentSMTP = ConfigAPI.getFluentSMTPConfig();
-	console.log(fluentSMTP)
+	console.log(fluentSMTP);
 	if (!connectionsIds) return null;
 	const { addConnection, setInitialAccountData } =
 		useDispatch('quillSMTP/core');
@@ -148,18 +148,22 @@ const ConnectionsList: React.FC = () => {
 
 								const connectionId = randomId();
 								setNewConnectionId(connectionId);
-								addConnection(connectionId, {
-									name: sprintf(
-										__('Connection #%s', 'quillsmtp'),
-										size(connectionsIds) + 1
-									),
-									mailer: '',
-									account_id: '',
-									from_email: '',
-									force_from_email: false,
-									from_name: '',
-									force_from_name: false,
-								});
+								addConnection(
+									connectionId,
+									{
+										name: sprintf(
+											__('Connection #%s', 'quillsmtp'),
+											size(connectionsIds) + 1
+										),
+										mailer: '',
+										account_id: '',
+										from_email: '',
+										force_from_email: false,
+										from_name: '',
+										force_from_name: false,
+									},
+									false
+								);
 
 								setTimeout(() => {
 									setSetUpWizard(true);

@@ -41,16 +41,25 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 	const [showNextButton, setShowNextButton] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	// dispatch notices.
-	const { createNotice, removeAllTempConnections, addConnection, updateConnection } = useDispatch('quillSMTP/core');
+	const {
+		createNotice,
+		removeAllTempConnections,
+		addConnection,
+		updateConnection,
+	} = useDispatch('quillSMTP/core');
 
 	const mailerModules = getMailerModules();
 	const { mailerSlug, connectionName, accountId, connection } = useSelect(
 		(select) => {
 			return {
 				mailerSlug:
-					select('quillSMTP/core').getTempConnectionMailer(connectionId),
+					select('quillSMTP/core').getTempConnectionMailer(
+						connectionId
+					),
 				connectionName:
-					select('quillSMTP/core').getTempConnectionName(connectionId),
+					select('quillSMTP/core').getTempConnectionName(
+						connectionId
+					),
 				accountId:
 					select('quillSMTP/core').getTempConnectionAccountId(
 						connectionId
@@ -85,9 +94,8 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 				});
 				setStep(step + 1);
 				if (mode === 'add') {
-					addConnection(connectionId, connection);
-				}
-				else {
+					addConnection(connectionId, connection, false);
+				} else {
 					updateConnection(connectionId, connection);
 				}
 			} else {
@@ -143,14 +151,16 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 							<div className="qsmtp-setup-wizard__sidebar-step-line"></div>
 
 							<div
-								className={`qsmtp-setup-wizard__sidebar-step ${s === step
-									? 'qsmtp-setup-wizard__sidebar-step--active'
-									: ''
-									} 
-                             ${s < step
+								className={`qsmtp-setup-wizard__sidebar-step ${
+									s === step
+										? 'qsmtp-setup-wizard__sidebar-step--active'
+										: ''
+								} 
+                             ${
+									s < step
 										? 'qsmtp-setup-wizard__sidebar-step--checked'
 										: ''
-									}
+								}
                             `}
 								key={s}
 							>

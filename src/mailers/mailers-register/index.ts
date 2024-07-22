@@ -9,3 +9,7 @@ import './sendgrid';
 import './gmail';
 import './postmark';
 import './sendinblue';
+import './mailjet';
+import './loops';
+import './smtp2go';
+import './mailersend';

@@ -21,6 +21,10 @@ use QuillSMTP\Mailers\SendGrid\SendGrid;
 use QuillSMTP\Mailers\Gmail\Gmail;
 use QuillSMTP\Mailers\PostMark\PostMark;
 use QuillSMTP\Mailers\SendinBlue\SendinBlue;
+use QuillSMTP\Mailers\Loops\Loops;
+use QuillSMTP\Mailers\MailerSend\MailerSend;
+use QuillSMTP\Mailers\Mailjet\Mailjet;
+use QuillSMTP\Mailers\SMTP2GO\SMTP2GO;
 
 /**
  * Mailers Class.
@@ -97,6 +101,10 @@ final class Mailers {
 			'gmail'        => Gmail::class,
 			'postmark'     => PostMark::class,
 			'sendinblue'   => SendinBlue::class,
+			'loops'        => Loops::class,
+			'mailersend'   => MailerSend::class,
+			'mailjet'      => Mailjet::class,
+			'smtp2go'      => SMTP2GO::class,
 		];
 
 		return apply_filters( 'quillsmtp_mailers', $mailers );
