@@ -148,22 +148,18 @@ const ConnectionsList: React.FC = () => {
 
 								const connectionId = randomId();
 								setNewConnectionId(connectionId);
-								addConnection(
-									connectionId,
-									{
-										name: sprintf(
-											__('Connection #%s', 'quillsmtp'),
-											size(connectionsIds) + 1
-										),
-										mailer: '',
-										account_id: '',
-										from_email: '',
-										force_from_email: false,
-										from_name: '',
-										force_from_name: false,
-									},
-									false
-								);
+								addConnection(connectionId, {
+									name: sprintf(
+										__('Connection #%s', 'quillsmtp'),
+										size(connectionsIds) + 1
+									),
+									mailer: '',
+									account_id: '',
+									from_email: '',
+									force_from_email: false,
+									from_name: '',
+									force_from_name: false,
+								});
 
 								setTimeout(() => {
 									setSetUpWizard(true);

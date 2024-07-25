@@ -136,14 +136,13 @@ class Process extends Abstract_Process {
 	 * @param array $emails
 	 */
 	public function set_reply_to( $emails ) {
-
 		if ( empty( $emails ) ) {
 			return;
 		}
 
 		$this->body['custom_headers'][] = [
 			'header' => 'Reply-To',
-			'value'  => $this->phpmailer->addrFormat( $emails ),
+			'value'  => $this->addrs_format( $emails ),
 		];
 	}
 
