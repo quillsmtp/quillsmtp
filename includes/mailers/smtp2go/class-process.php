@@ -140,9 +140,15 @@ class Process extends Abstract_Process {
 			return;
 		}
 
+		$addresses = $this->addrs_format( $emails );
+
+		if ( empty( $addresses ) ) {
+			return;
+		}
+
 		$this->body['custom_headers'][] = [
 			'header' => 'Reply-To',
-			'value'  => $this->addrs_format( $emails ),
+			'value'  => $addresses,
 		];
 	}
 
