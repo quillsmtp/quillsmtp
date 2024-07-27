@@ -783,7 +783,7 @@ const Logs: React.FC = () => {
 														placement="top"
 													>
 														<Button
-															variant="contained"
+															variant="outlined"
 															onClick={() =>
 																resendLogs([
 																	log.log_id,

@@ -94,7 +94,7 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 				});
 				setStep(step + 1);
 				if (mode === 'add') {
-					addConnection(connectionId, connection, false);
+					addConnection(connectionId, connection);
 				} else {
 					updateConnection(connectionId, connection);
 				}
@@ -151,16 +151,14 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 							<div className="qsmtp-setup-wizard__sidebar-step-line"></div>
 
 							<div
-								className={`qsmtp-setup-wizard__sidebar-step ${
-									s === step
+								className={`qsmtp-setup-wizard__sidebar-step ${s === step
 										? 'qsmtp-setup-wizard__sidebar-step--active'
 										: ''
-								} 
-                             ${
-									s < step
+									} 
+                             ${s < step
 										? 'qsmtp-setup-wizard__sidebar-step--checked'
 										: ''
-								}
+									}
                             `}
 								key={s}
 							>

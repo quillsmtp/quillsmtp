@@ -33,7 +33,6 @@ const ConnectionsList: React.FC = () => {
 	const wpMailConfig = ConfigAPI.getWpMailConfig();
 	const easySMTP = ConfigAPI.getEasySMTPConfig();
 	const fluentSMTP = ConfigAPI.getFluentSMTPConfig();
-	console.log(fluentSMTP);
 	if (!connectionsIds) return null;
 	const { addConnection, setInitialAccountData } =
 		useDispatch('quillSMTP/core');
@@ -78,7 +77,7 @@ const ConnectionsList: React.FC = () => {
 				force_from_email: from_email_force,
 				from_name,
 				force_from_name: from_name_force,
-			});
+			}, false);
 
 			setTimeout(() => {
 				setSetUpWizard(true);

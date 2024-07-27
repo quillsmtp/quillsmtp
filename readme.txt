@@ -3,7 +3,7 @@ Contributors: quillforms, mdmag
 Requires at least: 4.6
 Tested up to: 6.5.3
 Requires PHP: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.2.2
 Donate link: https://www.paypal.com/paypalme/mohamedmagdymohamed
 Tags: quill, smtp, mailer, logs
 License: GPLv2 or later
@@ -19,26 +19,26 @@ Quill SMTP is the only SMTP plugin that integrates with 20+ mailers.
 
 This plugin relies on several third-party services to function properly. Below, you will find a detailed explanation of each service used, the circumstances under which they are used, and the relevant links to their terms of use and privacy policies.
 
-### 1. Amazon SES 
-### 2. Elastic Email
-### 3. Gmail
-### 4. Loops
-### 5. MailerSend
-### 6. Mailgun
-### 7. Mailjet
-### 8. Mandrill
-### 9. OutLook
-### 10. PHP
-### 11. Postmark
-### 12. SendGrid
-### 13. Sendinblue
-### 14. SendLayer
-### 15. SMTP.com
-### 16. SMTP2GO
-### 17. SocketLas
-### 18. SparkPost
-### 19. Zoho
-### 20. Any Custom SMTP
+1. Amazon SES 
+2. Elastic Email
+3. Gmail
+4. Loops
+5. MailerSend
+6. Mailgun
+7. Mailjet
+8. Mandrill
+9. OutLook
+10. PHP
+11. Postmark  
+12. SendGrid
+13. Sendinblue
+14. SendLayer
+15. SMTP.com
+16. SMTP2GO
+17. SocketLabs
+18. SparkPost
+19. Zoho
+20. Any Custom SMTP
 
 
 ## Important Notes
@@ -51,6 +51,15 @@ This plugin relies on several third-party services to function properly. Below, 
 If you want to contribute, go to our [Quill SMTP GitHub Repository](https://github.com/quillsmtp/quillsmtp) and see where you can help.
 
 == Changelog ==
+
+= 1.2.2 = 
+Fix: Fix multiple issues related to saving the connection, logs and SMTP2GO
+
+= 1.2.1 = 
+Fix: Fixing some bugs
+
+= 1.2.0 =
+Feature: Adding SMTP2GO, SocketLabs, MailerSend, Loops
 
 = 1.1.0 = 
 Feature: Adding all other mailers and fix bugs
