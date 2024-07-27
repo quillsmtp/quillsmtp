@@ -191,16 +191,9 @@ class Handler_DB {
 
 		$table_name = $wpdb->prefix . 'quillsmtp_email_log';
 
-		// Serialize arrays before inserting
-		foreach ( $data as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$data[ $key ] = serialize( $value );
-			}
-		}
+		$result = $wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
 
-		$result = $wpdb->prepare( "UPDATE $table_name SET " . implode( ', ', array_map( function ( $v, $k ) { return $k . ' = ' . $v; }, $data, array_keys( $data ) ) ) . " WHERE log_id = %d", $log_id ); // @codingStandardsIgnoreLine.
-
-		return $result;
+		return $wpdb->query( $result );
 	}
 
 	/**
