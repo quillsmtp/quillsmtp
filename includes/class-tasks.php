@@ -164,7 +164,6 @@ class Tasks {
 			"{$this->group}_$hook",
 			function( $meta_id ) use ( $hook, $callback ) {
 				quillsmtp_get_logger()->debug( "Start processing 'as' task '{$this->group}_$hook'" );
-				error_log( "Start processing 'as' task '{$this->group}_$hook'" . ' ' . $meta_id );
 				$meta = $this->get_meta( $meta_id );
 				if ( ! isset( $meta['value'] ) ) {
 					quillsmtp_get_logger()->critical(

@@ -49,7 +49,7 @@ class Summary_Email {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		add_action( 'quillsmtp_loaded', array( $this, 'summary_email_task' ), 100 );
+		add_action( 'quillsmtp_loaded', array( $this, 'summary_email_task' ), 99 );
 	}
 
 	/**
@@ -64,14 +64,22 @@ class Summary_Email {
 		add_action(
 			'init',
 			function() {
-				if ( ! wp_next_scheduled( 'quillsmtp_summary_email' ) ) {
-					wp_schedule_event( time(), 'weekly', 'quillsmtp_summary_email' );
+				if ( QuillSMTP::instance()->tasks->get_next_timestamp( 'summary_email' ) === false ) {
+					$date = new \DateTime( 'next monday 2pm', self::wp_timezone() );
+					QuillSMTP::instance()->tasks->schedule_recurring(
+						$date->getTimestamp(),
+						MINUTE_IN_SECONDS,
+						'summary_email'
+					);
 				}
 			}
 		);
 
 		// scheduled task callback.
-		add_action( 'quillsmtp_summary_email', array( $this, 'handle_summary_email_task' ) );
+		QuillSMTP::instance()->tasks->register_callback(
+			'summary_email',
+			array( $this, 'handle_summary_email_task' )
+		);
 	}
 
 	/**
@@ -79,15 +87,14 @@ class Summary_Email {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $trigger Trigger.
 	 * @return void
 	 */
-	public function handle_summary_email_task( $trigger = 'cron' ) {
+	public function handle_summary_email_task() {
 		$email   = get_option( 'admin_email' );
 		$message = $this->build_email();
 		wp_mail(
 			$email,
-			__( 'QuillSMTP Test Email', 'quillsmtp' ),
+			__( 'QuillSMTP Weekly Summary', 'quillsmtp' ),
 			$message,
 			$this->get_headers()
 		);

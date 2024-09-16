@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
-import { useSelect } from "@wordpress/data";
+import { useSelect } from '@wordpress/data';
 
 /**
  * External Dependencies
@@ -13,22 +13,22 @@ import DateIcon from '@mui/icons-material/DateRange';
 import FilterIcon from '@mui/icons-material/FilterAlt';
 import { keys, map, isEmpty, size } from 'lodash';
 import {
-    Chart as ChartJS,
-    LinearScale,
-    CategoryScale,
-    BarElement,
-    PointElement,
-    LineElement,
-    Legend,
-    Tooltip,
-    LineController,
-    BarController,
+	Chart as ChartJS,
+	LinearScale,
+	CategoryScale,
+	BarElement,
+	PointElement,
+	LineElement,
+	Legend,
+	Tooltip,
+	LineController,
+	BarController,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
 import classnames from 'classnames';
-import Logo from "../../assets/logo.svg";
+import Logo from '../../assets/logo.svg';
 /**
  * Internal Dependencies
  */
@@ -36,102 +36,102 @@ import './style.scss';
 import WelcomePage from '../welcome-page';
 
 ChartJS.register(
-    LinearScale,
-    CategoryScale,
-    BarElement,
-    PointElement,
-    LineElement,
-    Legend,
-    Tooltip,
-    LineController,
-    BarController
+	LinearScale,
+	CategoryScale,
+	BarElement,
+	PointElement,
+	LineElement,
+	Legend,
+	Tooltip,
+	LineController,
+	BarController
 );
 const Home = () => {
+	const { connections } = useSelect((select) => ({
+		connections: select('quillSMTP/core').getConnections(),
+	}));
 
-    const { connections } = useSelect((select) => ({
-        connections: select('quillSMTP/core').getConnections(),
-    }));
+	const [setUpWizard, setSetUpWizard] = useState<boolean>(false);
 
-    const [setUpWizard, setSetUpWizard] = useState<boolean>(false);
+	const { hasConnectionsFinishedResolution } = useSelect((select) => {
+		const { hasFinishedResolution } = select('quillSMTP/core');
 
-    const { hasConnectionsFinishedResolution } = useSelect((select) => {
-        const { hasFinishedResolution } = select('quillSMTP/core');
+		return {
+			hasConnectionsFinishedResolution:
+				hasFinishedResolution('getConnections'),
+		};
+	});
 
-        return {
-            hasConnectionsFinishedResolution:
-                hasFinishedResolution('getConnections'),
-        };
-    });
+	const [logs, setLogs] = useState<Logs>({});
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isFiltering, setIsFiltering] = useState<boolean>(false);
+	const [dateRange, setDateRange] = useState<any>({});
+	const [isResolving, setIsResolving] = useState<boolean>(true);
+	const [openDateRangePicker, setOpenDateRangePicker] =
+		useState<boolean>(false);
 
+	useEffect(() => {
+		if (isResolving) {
+			if (hasConnectionsFinishedResolution) {
+				setIsResolving(false);
+			}
+		}
+	}, [hasConnectionsFinishedResolution]);
 
-    const [logs, setLogs] = useState<Logs>({});
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isFiltering, setIsFiltering] = useState<boolean>(false);
-    const [dateRange, setDateRange] = useState<any>({});
-    const [isResolving, setIsResolving] = useState<boolean>(true);
-    const [openDateRangePicker, setOpenDateRangePicker] =
-        useState<boolean>(false);
+	useEffect(() => {
+		if (isLoading) return;
+		setIsLoading(true);
+		const startDate = new Date();
+		startDate.setDate(startDate.getDate() - 7);
+		const endDate = new Date();
+		endDate.setDate(endDate.getDate());
+		const start = startDate.toLocaleDateString();
+		const end = endDate.toLocaleDateString();
+		let path = `/qsmtp/v1/email-logs/count?start=${start}&end=${end}`;
+		apiFetch({
+			path: path,
+			method: 'GET',
+		})
+			.then((res: any) => {
+				setLogs(res);
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setIsLoading(false);
+			});
+	}, []);
 
+	if (size(connections) == 0 || setUpWizard) {
+		return (
+			<WelcomePage
+				setUpWizard={setUpWizard}
+				setSetUpWizard={setSetUpWizard}
+			/>
+		);
+	}
 
-    useEffect(() => {
-        if (isResolving) {
-            if (hasConnectionsFinishedResolution) {
-                setIsResolving(false);
-            }
-        }
-    }, [hasConnectionsFinishedResolution]);
+	const filterLogsByDate = () => {
+		if (isFiltering || !dateRange.startDate || !dateRange.endDate) return;
+		setIsFiltering(true);
+		const startDate = dateRange.startDate?.toLocaleDateString();
+		const endDate = dateRange.endDate?.toLocaleDateString();
+		let path = `/qsmtp/v1/email-logs/count?start=${startDate}&end=${endDate}`;
+		apiFetch({
+			path: path,
+			method: 'GET',
+		})
+			.then((res: any) => {
+				setLogs(res);
+				setIsFiltering(false);
+			})
+			.catch(() => {
+				setIsFiltering(false);
+			});
+	};
 
-    useEffect(() => {
-        if (isLoading) return;
-        setIsLoading(true);
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 7);
-        const endDate = new Date();
-        endDate.setDate(endDate.getDate());
-        const start = startDate.toLocaleDateString();
-        const end = endDate.toLocaleDateString();
-        let path = `/qsmtp/v1/email-logs/count?start=${start}&end=${end}`;
-        apiFetch({
-            path: path,
-            method: 'GET',
-        })
-            .then((res: any) => {
-                setLogs(res);
-                setIsLoading(false);
-            })
-            .catch(() => {
-                setIsLoading(false);
-            });
-    }, []);
-
-    if (size(connections) == 0 || setUpWizard) {
-        return (
-            <WelcomePage setUpWizard={setUpWizard} setSetUpWizard={setSetUpWizard} />
-        )
-    }
-
-    const filterLogsByDate = () => {
-        if (isFiltering || !dateRange.startDate || !dateRange.endDate) return;
-        setIsFiltering(true);
-        const startDate = dateRange.startDate?.toLocaleDateString();
-        const endDate = dateRange.endDate?.toLocaleDateString();
-        let path = `/qsmtp/v1/email-logs/count?start=${startDate}&end=${endDate}`;
-        apiFetch({
-            path: path,
-            method: 'GET',
-        })
-            .then((res: any) => {
-                setLogs(res);
-                setIsFiltering(false);
-            })
-            .catch(() => {
-                setIsFiltering(false);
-            });
-    };
-
-    return (
-        <div className="qsmtp-wrapper">
-            {/* <div className="qsmtp-left-side">
+	return (
+		<div className="qsmtp-wrapper">
+			{/* <div className="qsmtp-left-side">
                 <svg viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="qsmtp-active">
                     <path d="M197.3 170.7h-160A37.4 37.4 0 010 133.3v-96A37.4 37.4 0 0137.3 0h160a37.4 37.4 0 0137.4 37.3v96a37.4 37.4 0 01-37.4 37.4zM37.3 32c-3 0-5.3 2.4-5.3 5.3v96c0 3 2.4 5.4 5.3 5.4h160c3 0 5.4-2.4 5.4-5.4v-96c0-3-2.4-5.3-5.4-5.3zm0 0M197.3 512h-160A37.4 37.4 0 010 474.7v-224a37.4 37.4 0 0137.3-37.4h160a37.4 37.4 0 0137.4 37.4v224a37.4 37.4 0 01-37.4 37.3zm-160-266.7c-3 0-5.3 2.4-5.3 5.4v224c0 3 2.4 5.3 5.3 5.3h160c3 0 5.4-2.4 5.4-5.3v-224c0-3-2.4-5.4-5.4-5.4zm0 0M474.7 512h-160a37.4 37.4 0 01-37.4-37.3v-96a37.4 37.4 0 0137.4-37.4h160a37.4 37.4 0 0137.3 37.4v96a37.4 37.4 0 01-37.3 37.3zm-160-138.7c-3 0-5.4 2.4-5.4 5.4v96c0 3 2.4 5.3 5.4 5.3h160c3 0 5.3-2.4 5.3-5.3v-96c0-3-2.4-5.4-5.3-5.4zm0 0M474.7 298.7h-160a37.4 37.4 0 01-37.4-37.4v-224A37.4 37.4 0 01314.7 0h160A37.4 37.4 0 01512 37.3v224a37.4 37.4 0 01-37.3 37.4zM314.7 32c-3 0-5.4 2.4-5.4 5.3v224c0 3 2.4 5.4 5.4 5.4h160c3 0 5.3-2.4 5.3-5.4v-224c0-3-2.4-5.3-5.3-5.3zm0 0" /></svg>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -147,19 +147,17 @@ const Home = () => {
                     <path d="M255.2 468.6H63.8a21.3 21.3 0 01-21.3-21.2V64.6c0-11.7 9.6-21.2 21.3-21.2h191.4a21.2 21.2 0 100-42.5H63.8A63.9 63.9 0 000 64.6v382.8A63.9 63.9 0 0063.8 511H255a21.2 21.2 0 100-42.5z" />
                     <path d="M505.7 240.9L376.4 113.3a21.3 21.3 0 10-29.9 30.3l92.4 91.1H191.4a21.2 21.2 0 100 42.6h247.5l-92.4 91.1a21.3 21.3 0 1029.9 30.3l129.3-127.6a21.3 21.3 0 000-30.2z" /></svg>
             </div> */}
-            <div className="qsmtp-main-container">
-
-                <div className='qsmtp-home-page'>
-                    <div
-                        className={classnames(
-                            'qsmtp-home-page__overview',
-                            css`
-								
+			<div className="qsmtp-main-container">
+				<div className="qsmtp-home-page">
+					<div
+						className={classnames(
+							'qsmtp-home-page__overview',
+							css`
 								.qsmtp-home-page__overview__content {
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-top: 50px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									margin-top: 50px;
 								}
 
 								.qsmtp-home-page__overview__content__item {
@@ -188,186 +186,196 @@ const Home = () => {
 									}
 
 									&--total {
-                                        color: #fff;
+										color: #fff;
 									}
 
 									&--succeeded {
-                                        color: #fff;
-										background: radial-gradient(circle, #28a344 0%, #54b250 100%);
+										color: #fff;
+										background: radial-gradient(
+											circle,
+											#28a344 0%,
+											#54b250 100%
+										);
 									}
 
 									&--failed {
-                                        color: #fff;
-										background: radial-gradient(circle, #ff3c44 0%, #ff2828 100%)
+										color: #fff;
+										background: radial-gradient(
+											circle,
+											#ff3c44 0%,
+											#ff2828 100%
+										);
 									}
 								}
 							`
-                        )}
-                    >
-
-                        <div className="qsmtp-home-page__overview__content">
-                            <div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--total">
-                                <h2>
-                                    {__('Total Emails', 'quillsmtp')}
-                                </h2>
-                                <p>{logs.total || 0}</p>
-                            </div>
-                            <div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--succeeded">
-                                <h2>
-                                    {__('Succeeded Emails', 'quillsmtp')}
-                                </h2>
-                                <p>{logs.success || 0}</p>
-                            </div>
-                            <div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--failed">
-                                <h2>
-                                    {__('Failed Emails', 'quillsmtp')}
-                                </h2>
-                                <p>{logs.failed || 0}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {!isLoading && (
-                        <div className="qsmtp-home-page__content">
-                            <div className="qsmtp-home-page__chart-wrap">
-                                <div className="qsmtp-home-page__chart__header">
-                                    <h2 style={{ color: "#fff" }}>{__('Sending Stats', 'quill-smtp')}</h2>
-                                    <div className="qsmtp-home-page__chart-section">
-                                        <div
-                                            className="qsmtp-home-page__chart-date-range"
-                                            onClick={() => setOpenDateRangePicker(true)}
-                                        >
-                                            <div>
-                                                <DateIcon />
-                                                <span className="qsmtp-home-page__chart-date-range-label">
-                                                    {dateRange?.startDate?.toLocaleDateString() ||
-                                                        __('Start Date', 'quillsmtp')}
-                                                </span>
-                                            </div>
-                                            <span>{__('To', 'quillsmtp')}</span>
-                                            <div>
-                                                <DateIcon />
-                                                <span className="qsmtp-home-page__chart-date-range-label">
-                                                    {dateRange?.endDate?.toLocaleDateString() ||
-                                                        __('End Date', 'quillsmtp')}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <LoadingButton
-                                            variant="outlined"
-                                            onClick={filterLogsByDate}
-                                            loading={isFiltering}
-                                            loadingPosition="start"
-                                            startIcon={<FilterIcon />}
-                                            sx={{
-                                                marginLeft: '10px',
-                                            }}
-                                        >
-                                            {__('Filter', 'quillsmtp')}
-                                        </LoadingButton>
-                                        <Popover
-                                            open={openDateRangePicker}
-                                            onClose={() =>
-                                                setOpenDateRangePicker(false)
-                                            }
-                                            anchorReference="anchorPosition"
-                                            anchorPosition={{
-                                                top: 200,
-                                                left: 400,
-                                            }}
-                                        >
-                                            <DateRangePicker
-                                                onChange={(item) => {
-                                                    setDateRange({
-                                                        startDate:
-                                                            item.selection.startDate,
-                                                        endDate: item.selection.endDate,
-                                                    });
-                                                }}
-                                                showSelectionPreview={true}
-                                                moveRangeOnFirstSelection={false}
-                                                months={2}
-                                                ranges={[
-                                                    {
-                                                        startDate:
-                                                            dateRange?.startDate ||
-                                                            new Date(),
-                                                        endDate:
-                                                            dateRange?.endDate ||
-                                                            new Date(),
-                                                        key: 'selection',
-                                                    },
-                                                ]}
-                                            />
-                                        </Popover>
-                                    </div>
-                                </div>
-                                {!isEmpty(logs) && (
-                                    <div
-                                        className="qsmtp-home-page__chart"
-                                        style={{
-                                            padding: '20px',
-                                        }}
-                                    >
-                                        <Chart
-                                            type="bar"
-                                            data={{
-                                                labels: keys(logs.days),
-                                                datasets: [
-                                                    {
-                                                        type: 'line',
-                                                        label: 'byDate',
-                                                        data: map(
-                                                            logs.days,
-                                                            (count) => count
-                                                        ),
-                                                        backgroundColor: '#f44336',
-                                                        borderColor: '#f44336',
-                                                        borderWidth: 1,
-                                                    },
-                                                    {
-                                                        type: 'bar',
-                                                        label: 'Cumulative',
-                                                        data: map(
-                                                            logs.days,
-                                                            (count) => count
-                                                        ),
-                                                        backgroundColor: '#2196f3',
-                                                        borderColor: '#2196f3',
-                                                        borderWidth: 1,
-                                                    },
-                                                ],
-                                            }}
-                                            options={{
-                                                plugins: {
-                                                    title: {
-                                                        display: true,
-                                                        text: 'Chart.js Bar Chart - Stacked',
-                                                    },
-                                                },
-                                                responsive: true,
-                                                interaction: {
-                                                    mode: 'index' as const,
-                                                    intersect: false,
-                                                },
-                                                scales: {
-                                                    x: {
-                                                        stacked: true,
-                                                    },
-                                                    y: {
-                                                        stacked: true,
-                                                    },
-                                                },
-                                            }}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
-}
+						)}
+					>
+						<div className="qsmtp-home-page__overview__content">
+							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--total">
+								<h2>{__('Total Emails', 'quillsmtp')}</h2>
+								<p>{logs.total || 0}</p>
+							</div>
+							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--succeeded">
+								<h2>{__('Succeeded Emails', 'quillsmtp')}</h2>
+								<p>{logs.success || 0}</p>
+							</div>
+							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--failed">
+								<h2>{__('Failed Emails', 'quillsmtp')}</h2>
+								<p>{logs.failed || 0}</p>
+							</div>
+						</div>
+					</div>
+					{!isLoading && (
+						<div className="qsmtp-home-page__content">
+							<div className="qsmtp-home-page__chart-wrap">
+								<div className="qsmtp-home-page__chart__header">
+									<h2 style={{ color: '#fff' }}>
+										{__('Sending Stats', 'quill-smtp')}
+									</h2>
+									<div className="qsmtp-home-page__chart-section">
+										<div
+											className="qsmtp-home-page__chart-date-range"
+											onClick={() =>
+												setOpenDateRangePicker(true)
+											}
+										>
+											<div>
+												<DateIcon />
+												<span className="qsmtp-home-page__chart-date-range-label">
+													{dateRange?.startDate?.toLocaleDateString() ||
+														__(
+															'Start Date',
+															'quillsmtp'
+														)}
+												</span>
+											</div>
+											<span>{__('To', 'quillsmtp')}</span>
+											<div>
+												<DateIcon />
+												<span className="qsmtp-home-page__chart-date-range-label">
+													{dateRange?.endDate?.toLocaleDateString() ||
+														__(
+															'End Date',
+															'quillsmtp'
+														)}
+												</span>
+											</div>
+										</div>
+										<LoadingButton
+											variant="outlined"
+											onClick={filterLogsByDate}
+											loading={isFiltering}
+											loadingPosition="start"
+											startIcon={<FilterIcon />}
+											sx={{
+												marginLeft: '10px',
+											}}
+										>
+											{__('Filter', 'quillsmtp')}
+										</LoadingButton>
+										<Popover
+											open={openDateRangePicker}
+											onClose={() =>
+												setOpenDateRangePicker(false)
+											}
+											anchorReference="anchorPosition"
+											anchorPosition={{
+												top: 200,
+												left: 400,
+											}}
+										>
+											<DateRangePicker
+												onChange={(item) => {
+													setDateRange({
+														startDate:
+															item.selection
+																.startDate,
+														endDate:
+															item.selection
+																.endDate,
+													});
+												}}
+												showSelectionPreview={true}
+												moveRangeOnFirstSelection={
+													false
+												}
+												months={2}
+												ranges={[
+													{
+														startDate:
+															dateRange?.startDate ||
+															new Date(),
+														endDate:
+															dateRange?.endDate ||
+															new Date(),
+														key: 'selection',
+													},
+												]}
+											/>
+										</Popover>
+									</div>
+								</div>
+								{!isEmpty(logs) && (
+									<div
+										className="qsmtp-home-page__chart"
+										style={{
+											padding: '20px',
+										}}
+									>
+										<Chart
+											type="bar"
+											data={{
+												labels: keys(logs.days),
+												datasets: [
+													{
+														type: 'line',
+														label: 'byDate',
+														data: map(
+															logs.days,
+															(count) => count
+														),
+														backgroundColor:
+															'#f44336',
+														borderColor: '#f44336',
+														borderWidth: 1,
+													},
+													{
+														type: 'bar',
+														label: 'Cumulative',
+														data: map(
+															logs.days,
+															(count) => count
+														),
+														backgroundColor:
+															'#2196f3',
+														borderColor: '#2196f3',
+														borderWidth: 1,
+													},
+												],
+											}}
+											options={{
+												plugins: {
+													title: {
+														display: true,
+														text: 'Chart.js Bar Chart - Stacked',
+													},
+												},
+												responsive: true,
+												interaction: {
+													mode: 'index' as const,
+													intersect: false,
+												},
+											}}
+										/>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default Home;

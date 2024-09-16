@@ -66,7 +66,6 @@ class App {
 			],
 			'https://accounts.google.com/o/oauth2/auth'
 		);
-		error_log( $auth_url );
 		wp_redirect( $auth_url );
 		exit;
 	}
