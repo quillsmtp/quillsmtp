@@ -65,10 +65,10 @@ class Summary_Email {
 			'init',
 			function() {
 				if ( QuillSMTP::instance()->tasks->get_next_timestamp( 'summary_email' ) === false ) {
-					$date = new \DateTime( 'next monday 2pm', self::wp_timezone() );
+					$date = new \DateTime( 'next monday 2am', self::wp_timezone() );
 					QuillSMTP::instance()->tasks->schedule_recurring(
 						$date->getTimestamp(),
-						MINUTE_IN_SECONDS,
+						WEEK_IN_SECONDS,
 						'summary_email'
 					);
 				}
