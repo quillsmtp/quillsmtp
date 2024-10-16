@@ -185,6 +185,7 @@ class Admin_Loader {
 				'assetsBuildUrl' => QUILLSMTP_PLUGIN_URL,
 				'submenuPages'   => $submenu['quillsmtp'] ?? [],
 				'adminUrl'       => admin_url(),
+				'license_nonce'  => wp_create_nonce( 'quillsmtp_license' ),
 			)
 		);
 

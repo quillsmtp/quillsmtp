@@ -1,5 +1,5 @@
 /**
- * QuillForms Dependencies
+ * QuillSMTP Dependencies
  */
 import ConfigApi from '@quillsmtp/config';
 

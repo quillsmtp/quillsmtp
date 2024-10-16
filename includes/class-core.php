@@ -47,7 +47,8 @@ class Core {
 			'qsmtp.config.setLicense(' . wp_json_encode( License::instance()->get_license_info() ) . ');' .
 			'qsmtp.config.setWpMailConfig(' . wp_json_encode( self::wp_mail_config() ) . ');' .
 			'qsmtp.config.setEasySMTPConfig(' . wp_json_encode( self::easy_smtp_config() ) . ');' .
-			'qsmtp.config.setFluentSMTPConfig(' . wp_json_encode( self::fluent_smtp_config() ) . ');'
+			'qsmtp.config.setFluentSMTPConfig(' . wp_json_encode( self::fluent_smtp_config() ) . ');' .
+			'qsmtp.config.setProPluginData(' . wp_json_encode( License::instance()->plugin_data ) . ');'
 		);
 	}
 

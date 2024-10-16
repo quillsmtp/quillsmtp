@@ -18,15 +18,19 @@ import SaveIcon from '@mui/icons-material/Save';
  */
 import './style.scss';
 import configApi from '@quillsmtp/config';
-import { TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 
 const License = () => {
 	const license = configApi.getLicense();
+	const pluginData = configApi.getProPluginData();
 	const [count, setCount] = useState(0); // counter used for force update.
 	const [licenseKey, setLicenseKey] = useState('');
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [isDeactivating, setIsDeactivating] = useState(false);
 	const [isActivating, setIsActivating] = useState(false);
+	const [isInstalling, setIsInstalling] = useState(false);
+	const [isActivatingPlugin, setIsActivatingPlugin] = useState(false);
+
 
 	// dispatch notices.
 	const { createNotice } = useDispatch('quillSMTP/core');
@@ -56,6 +60,12 @@ const License = () => {
 							'quillsmtp'
 						),
 					});
+
+					if (!pluginData.is_installed) {
+						installPlugin();
+					} else if (pluginData.is_installed && !pluginData.is_active) {
+						activatePlugin();
+					}
 				} else {
 					createNotice({
 						type: 'error',
@@ -160,6 +170,90 @@ const License = () => {
 			});
 	};
 
+	const installPlugin = () => {
+		if (isDeactivating || isUpdating || isActivating) return;
+		setIsInstalling(true);
+		const data = new FormData();
+		data.append('action', 'quillsmtp_install_pro');
+		data.append('_nonce', window['qsmtpAdmin'].license_nonce);
+
+		fetch(`${window['qsmtpAdmin'].adminUrl}admin-ajax.php`, {
+			method: 'POST',
+			credentials: 'same-origin',
+			body: data,
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.success) {
+					setCount(count + 1);
+					configApi.setProPluginData({
+						...configApi.getProPluginData(),
+						is_installed: true,
+					});
+					activatePlugin();
+				} else {
+					createNotice({
+						type: 'error',
+						message: res.data,
+					});
+				}
+				setIsInstalling(false);
+			})
+			// @ts-ignore
+			.catch((err) => {
+				createNotice({
+					type: 'error',
+					message: __('Something went wrong', 'quillsmtp'),
+				});
+				setIsInstalling(false);
+			});
+	};
+
+	const activatePlugin = () => {
+		if (isDeactivating || isUpdating || isActivating || isInstalling) return;
+		setIsActivatingPlugin(true);
+		const data = new FormData();
+		data.append('action', 'quillsmtp_activate_pro');
+		data.append('_nonce', window['qsmtpAdmin'].license_nonce);
+
+		fetch(`${window['qsmtpAdmin'].adminUrl}admin-ajax.php`, {
+			method: 'POST',
+			credentials: 'same-origin',
+			body: data,
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.success) {
+					setCount(count + 1);
+					createNotice({
+						type: 'success',
+						message: __(
+							'Plugin activated successfully.',
+							'quillsmtp'
+						),
+					});
+					configApi.setProPluginData({
+						...configApi.getProPluginData(),
+						is_active: true,
+					});
+				} else {
+					createNotice({
+						type: 'error',
+						message: res.data,
+					});
+				}
+				setIsActivatingPlugin(false);
+			})
+			// @ts-ignore
+			.catch((err) => {
+				createNotice({
+					type: 'error',
+					message: __('Something went wrong', 'quillsmtp'),
+				});
+				setIsActivatingPlugin(false);
+			});
+	};
+
 	return (
 		<div className="qsmtp-license-page">
 			<Card
@@ -182,8 +276,8 @@ const License = () => {
 											<span
 												className={
 													license.status === 'valid'
-														? 'quillforms-license-valid'
-														: 'quillforms-license-invalid'
+														? 'quillsmtp-license-valid'
+														: 'quillsmtp-license-invalid'
 												}
 											>
 												{license.status_label}
@@ -263,6 +357,56 @@ const License = () => {
 									</ul>
 								</div>
 							)}
+							<div style={{ marginTop: '20px' }}>
+								{!pluginData.is_installed && (
+									<LoadingButton
+										variant="contained"
+										onClick={installPlugin}
+										loading={isInstalling}
+										disabled={
+											isDeactivating ||
+											isUpdating ||
+											isActivating ||
+											isInstalling
+										}
+										loadingPosition="start"
+										startIcon={<SaveIcon />}
+										style={{
+											display: 'flex',
+											marginTop: '20px',
+										}}
+									>
+										{isInstalling ? __('Installing...', 'quillsmtp') : __('Install Plugin', 'quillsmtp')}
+									</LoadingButton>
+								)}
+								{pluginData.is_installed && !pluginData.is_active && (
+									<LoadingButton
+										variant="contained"
+										onClick={activatePlugin}
+										loading={isActivatingPlugin}
+										disabled={
+											isDeactivating ||
+											isUpdating ||
+											isActivating ||
+											isInstalling ||
+											isActivatingPlugin
+										}
+										loadingPosition="start"
+										startIcon={<SaveIcon />}
+										style={{
+											display: 'flex',
+											marginTop: '20px',
+										}}
+									>
+										{isActivatingPlugin ? __('Activating...', 'quillsmtp') : __('Activate Plugin', 'quillsmtp')}
+									</LoadingButton>
+								)}
+								{pluginData.is_installed && pluginData.is_active && (
+									<Alert severity="success">
+										{__('QuillSMTP Pro is active.', 'quillsmtp')}
+									</Alert>
+								)}
+							</div>
 						</div>
 					) : (
 						<>
@@ -287,6 +431,7 @@ const License = () => {
 							>
 								{__('Activate', 'quillsmtp')}
 							</LoadingButton>
+
 						</>
 					)}
 				</CardContent>

@@ -15,6 +15,12 @@ export type ConfigData = Record<string, unknown> & {
 	wpMailConfig: SMTP_Config | false;
 	easySMTPConfig: SMTP_Config | false;
 	fluentSMTPConfig: SMTP_Config | false;
+	proPluginData: ProPluginData;
+};
+
+export type ProPluginData = {
+	is_installed: boolean;
+	is_active: boolean;
 };
 
 export type SMTP_Config = {

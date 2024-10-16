@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/check-line-alignment */
-import type { ConfigData, License } from './types/config-data';
+import type { ConfigData, License, ProPluginData } from './types/config-data';
 import type { StoreMailers } from './types/store-mailers';
 import { InitialPayload } from './types/initial-payload';
 
@@ -9,6 +9,10 @@ const configData: ConfigData = {
 		default_connection: '',
 		fallback_connection: '',
 		mailers: {},
+	},
+	proPluginData: {
+		is_installed: false,
+		is_active: false,
 	},
 	storeMailers: {},
 	adminUrl: '',
@@ -36,12 +40,12 @@ const configData: ConfigData = {
  */
 const config =
 	(data: ConfigData) =>
-	<T>(key: string): T | undefined => {
-		if (key in data) {
-			return data[key] as T;
-		}
-		return undefined;
-	};
+		<T>(key: string): T | undefined => {
+			if (key in data) {
+				return data[key] as T;
+			}
+			return undefined;
+		};
 
 /**
  * set initial builder payload
@@ -304,6 +308,28 @@ const getFluentSMTPConfig = (data: ConfigData) => (): any => {
 	return data.fluentSMTPConfig;
 };
 
+/**
+ * Set pro plugin data
+ * 
+ * @param data the json environment configuration to use for getting config values
+ * 
+ * @returns {ProPluginData} proPluginData
+ */
+const setProPluginData = (data: ConfigData) => (value: ProPluginData) => {
+	data.proPluginData = value;
+};
+
+/**
+ * Get pro plugin data
+ * 
+ * @param data the json environment configuration to use for getting config values
+ * 
+ * @returns {ProPluginData} proPluginData
+ */
+const getProPluginData = (data: ConfigData) => (): ProPluginData => {
+	return data.proPluginData;
+};
+
 export interface ConfigApi {
 	<T>(key: string): T;
 	setInitialPayload: (value: InitialPayload) => void;
@@ -332,6 +358,8 @@ export interface ConfigApi {
 	getEasySMTPConfig: () => any;
 	setFluentSMTPConfig: (value: any) => void;
 	getFluentSMTPConfig: () => any;
+	setProPluginData: (value: ProPluginData) => void;
+	getProPluginData: () => ProPluginData;
 }
 
 const createConfig = (data: ConfigData): ConfigApi => {
@@ -362,6 +390,8 @@ const createConfig = (data: ConfigData): ConfigApi => {
 	configApi.getEasySMTPConfig = getEasySMTPConfig(data);
 	configApi.setFluentSMTPConfig = setFluentSMTPConfig(data);
 	configApi.getFluentSMTPConfig = getFluentSMTPConfig(data);
+	configApi.setProPluginData = setProPluginData(data);
+	configApi.getProPluginData = getProPluginData(data);
 
 	return configApi;
 };

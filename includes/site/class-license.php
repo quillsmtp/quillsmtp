@@ -9,6 +9,8 @@
 namespace QuillSMTP\Site;
 
 use QuillSMTP\QuillSMTP;
+use Automatic_Upgrader_Skin;
+use Plugin_Upgrader;
 
 /**
  * License Class
@@ -25,6 +27,15 @@ class License {
 	 * @var array
 	 */
 	private $plans;
+
+	/**
+	 * Plugin data
+	 *
+	 * @since 1.2.3
+	 *
+	 * @var array
+	 */
+	public $plugin_data;
 
 	/**
 	 * Class instance
@@ -55,6 +66,7 @@ class License {
 	 * @since 1.6.0
 	 */
 	private function __construct() {
+		$this->define_plugin();
 		$this->define_plans();
 
 		add_action( 'quillsmtp_loaded', array( $this, 'license_update_task' ), 100 );
@@ -63,6 +75,251 @@ class License {
 		add_action( 'wp_ajax_quillsmtp_license_activate', array( $this, 'ajax_activate' ) );
 		add_action( 'wp_ajax_quillsmtp_license_update', array( $this, 'ajax_update' ) );
 		add_action( 'wp_ajax_quillsmtp_license_deactivate', array( $this, 'ajax_deactivate' ) );
+		add_action( 'wp_ajax_quillsmtp_install_pro', array( $this, 'ajax_install_pro' ) );
+		add_action( 'wp_ajax_quillsmtp_activate_pro', array( $this, 'ajax_activate_pro' ) );
+	}
+
+	/**
+	 * Ajax install pro
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return void
+	 */
+	public function ajax_install_pro() {
+		$this->check_authorization();
+
+		if ( $this->plugin_data['is_installed'] ) {
+			wp_send_json_error( esc_html__( 'QuillSMTP Pro is already installed', 'quillsmtp' ), 403 );
+			exit;
+		}
+
+		$install = $this->install();
+		if ( $install['success'] ) {
+			wp_send_json_success( $install['message'], 200 );
+		} else {
+			wp_send_json_error( $install['message'] );
+		}
+	}
+
+	/**
+	 * Ajax activate pro
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return void
+	 */
+	public function ajax_activate_pro() {
+		$this->check_authorization();
+
+		if ( ! $this->plugin_data['is_installed'] ) {
+			wp_send_json_error( esc_html__( 'QuillSMTP Pro is not installed', 'quillsmtp' ), 403 );
+			exit;
+		}
+
+		if ( $this->plugin_data['is_active'] ) {
+			wp_send_json_error( esc_html__( 'QuillSMTP Pro is already active', 'quillsmtp' ), 403 );
+			exit;
+		}
+
+		if ( ! function_exists( 'activate_plugin' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		try {
+			$result = activate_plugin( $this->plugin_data['plugin_file'] );
+			if ( is_wp_error( $result ) ) {
+				quillsmtp_get_logger()->error(
+					esc_html__( 'Cannot activate QuillSMTP Pro', 'quillsmtp' ),
+					array(
+						'code'  => 'cannot_activate_pro',
+						'error' => $result,
+					)
+				);
+			}
+			wp_send_json_success( esc_html__( 'QuillSMTP Pro activated successfully', 'quillsmtp' ), 200 );
+		} catch ( \Exception $e ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Cannot activate QuillSMTP Pro', 'quillsmtp' ),
+				array(
+					'code'  => 'cannot_activate_pro',
+					'error' => $e,
+				)
+			);
+			wp_send_json_error( esc_html__( 'Cannot activate QuillSMTP Pro, check log for details', 'quillsmtp' ) );
+		}
+	}
+
+	/**
+	 * Define plugin data
+	 *
+	 * @since 1.2.3
+	 *
+	 * @return void
+	 */
+	private function define_plugin() {
+		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'get_plugin_data' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		// base dir of plugins (with trailing slash) instead of WP_PLUGIN_DIR.
+		$plugins_dir = trailingslashit( dirname( dirname( QUILLSMTP_PLUGIN_FILE ) ) );
+
+		// get plugin data.
+		$plugin_file      = 'quillsmtp-pro/quillsmtp-pro.php';
+		$full_plugin_file = $plugins_dir . $plugin_file;
+		$plugin_exists    = file_exists( $full_plugin_file );
+		$plugin_data      = $plugin_exists ? get_plugin_data( $full_plugin_file ) : array();
+
+		$data                     = [];
+		$data['plugin_file']      = $plugin_file;
+		$data['full_plugin_file'] = $full_plugin_file;
+		$data['is_installed']     = $plugin_exists;
+		$data['is_active']        = is_plugin_active( $plugin_file );
+		$data['version']          = $plugin_data['Version'] ?? null;
+		$data['slug']             = 'quillsmtp-pro';
+
+		$this->plugin_data = $data;
+	}
+
+	/**
+	 * Install plugin
+	 *
+	 * @return array
+	 */
+	public function install() {
+		// check if already installed.
+		if ( $this->plugin_data['is_installed'] ) {
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'QuillSMTP Pro is already installed', 'quillsmtp' ),
+			);
+		}
+
+		// check current license.
+		$license = get_option( 'quillsmtp_license' );
+		if ( ! $license ) {
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'No license found', 'quillsmtp' ),
+			);
+		}
+
+		// get plugin data from the api.
+		$plugin_data = Site::instance()->api_request(
+			array(
+				'edd_action' => 'get_version',
+				'license'    => $license['key'],
+				'item_id'    => 'quillsmtp-pro',
+			)
+		);
+
+		// check download link.
+		$download_link = $plugin_data['data']['download_link'] ?? null;
+		if ( empty( $download_link ) ) {
+			quillsmtp_get_logger()->debug(
+				esc_html__( 'Cannot get plugin info', 'quillsmtp' ),
+				array(
+					'code'        => 'cannot_get_plugin_info',
+					'plugin_slug' => $this->plugin_data['slug'],
+					'response'    => $plugin_data,
+				)
+			);
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'Cannot get plugin info, please check your license', 'quillsmtp' ),
+			);
+		}
+
+		// init plugin upgrader.
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		$installer_skin = new Automatic_Upgrader_Skin();
+		$installer      = new Plugin_Upgrader( $installer_skin );
+
+		// check file system permissions.
+		$filesystem_access = $installer_skin->request_filesystem_credentials();
+		if ( ! $filesystem_access ) {
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin automatically, please download it and install it manually', 'quillsmtp' ),
+			);
+		}
+
+		// install the plugin plugin.
+		$installer->install( $download_link );
+
+		// check wp_error.
+		if ( is_wp_error( $installer_skin->result ) ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quillsmtp' ),
+				array(
+					'code'        => 'cannot_install_plugin_plugin',
+					'plugin_slug' => $plugin_slug,
+					'error'       => array(
+						'code'    => $installer_skin->result->get_error_code(),
+						'message' => $installer_skin->result->get_error_message(),
+						'data'    => $installer_skin->result->get_error_data(),
+					),
+				)
+			);
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+			);
+		}
+
+		// check failed installation.
+		if ( ! $installer_skin->result || ! $installer->plugin_info() ) {
+			quillsmtp_get_logger()->error(
+				esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quillsmtp' ),
+				array(
+					'code'             => 'cannot_install_plugin_plugin',
+					'plugin_slug'      => $plugin_slug,
+					'upgrade_messages' => $installer_skin->get_upgrade_messages(),
+				)
+			);
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+			);
+		}
+
+		// check the installed plugin.
+		if ( $installer->plugin_info() !== $this->plugin_data['plugin_file'] ) {
+			if ( ! function_exists( 'delete_plugins' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+			$removed = delete_plugins( array( $installer->plugin_info() ) );
+			quillsmtp_get_logger()->critical(
+				esc_html__( 'Invalid QuillSMTP Pro plugin installation detected', 'quillsmtp' ),
+				array(
+					'code'                  => 'invalid_plugin_installation',
+					'plugin_slug'           => $plugin_slug,
+					'plugin_file'           => $this->plugin_data['plugin_file'],
+					'installer_plugin_info' => $installer->plugin_info(),
+					'removed'               => $removed,
+					'upgrade_messages'      => $installer_skin->get_upgrade_messages(),
+				)
+			);
+			return array(
+				'success' => false,
+				'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+			);
+		}
+
+		// log successful installation.
+		quillsmtp_get_logger()->info(
+			esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quillsmtp' ),
+			array(
+				'code'             => 'plugin_installed_successfully',
+				'plugin_slug'      => $this->plugin_data['slug'],
+				'upgrade_messages' => $installer_skin->get_upgrade_messages(),
+			)
+		);
+		return array(
+			'success' => true,
+			'message' => esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quillsmtp' ),
+		);
 	}
 
 	/**
@@ -142,28 +399,6 @@ class License {
 			}
 			return $license;
 		}
-	}
-
-	/**
-	 * Is feature plan accessible to user plan
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param string $user_plan User plan.
-	 * @param string $feature_plan Feature plan.
-	 * @return boolean
-	 */
-	public function is_plan_accessible( $user_plan, $feature_plan ) {
-		$plans_keys = array_keys( $this->plans );
-
-		$user_plan_level    = array_search( $user_plan, $plans_keys, true );
-		$feature_plan_level = array_search( $feature_plan, $plans_keys, true );
-
-		if ( false === $user_plan_level || false === $feature_plan_level ) {
-			return false;
-		}
-
-		return $user_plan_level >= $feature_plan_level;
 	}
 
 	/**
@@ -316,9 +551,9 @@ class License {
 			wp_send_json_error( esc_html__( 'Current license must be deactivated first', 'quillsmtp' ), 403 );
 			exit;
 		}
-		
+
 		// posted license key.
-		$license_key = trim(sanitize_text_field( $_POST['license_key'] ?? '' ));
+		$license_key = trim( sanitize_text_field( $_POST['license_key'] ?? '' ) );
 		if ( empty( $license_key ) ) {
 			wp_send_json_error( esc_html__( 'License key is required', 'quillsmtp' ), 400 );
 			exit;
