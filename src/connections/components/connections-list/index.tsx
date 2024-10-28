@@ -158,7 +158,7 @@ const ConnectionsList: React.FC = () => {
 									force_from_email: false,
 									from_name: '',
 									force_from_name: false,
-								});
+								}, false);
 
 								setTimeout(() => {
 									setSetUpWizard(true);

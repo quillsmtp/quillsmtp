@@ -3,7 +3,7 @@ Contributors: quillforms, mdmag
 Requires at least: 4.6
 Tested up to: 6.5.3
 Requires PHP: 7.0
-Stable tag: 1.2.2
+Stable tag: 1.2.1
 Donate link: https://www.paypal.com/paypalme/mohamedmagdymohamed
 Tags: quill, smtp, mailer, logs
 License: GPLv2 or later
@@ -51,9 +51,6 @@ This plugin relies on several third-party services to function properly. Below, 
 If you want to contribute, go to our [Quill SMTP GitHub Repository](https://github.com/quillsmtp/quillsmtp) and see where you can help.
 
 == Changelog ==
-
-= 1.2.2 = 
-Fix: Fix multiple issues related to saving the connection, logs and SMTP2GO
 
 = 1.2.1 = 
 Fix: Fixing some bugs

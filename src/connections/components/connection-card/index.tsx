@@ -15,10 +15,13 @@ import { useState, createPortal } from '@wordpress/element';
 /**
  * External Dependencies
  */
-import { styled } from '@mui/material/styles';
-import { Card } from '@mui/material';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
 import EditIcon from '@mui/icons-material/Edit';
+
+/**
+ * Internal Dependencies
+ */
+import './style.scss';
 import SetUpWizard from '../setupwizard';
 
 
@@ -93,20 +96,25 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
             data-label="Default Connection"
         >
             {mailerSlug && mailerModules[mailerSlug] && mailerModules[mailerSlug].icon && <img src={mailerModules[mailerSlug].icon} alt={mailerSlug} className='qsmtp-connection-card__icon' />}
-            <EditIcon className='qsmtp-connection-card__edit-icon' onClick={() => {
+            <div className='qsmtp-connection-card__edit-icon' onClick={() => {
                 addConnection(connectionId, connection, false);
                 setSetUpWizard(true);
-            }} />
+            }}>
+                <EditIcon />
+                {__('Edit', 'quillsmtp')}
+            </div>
             <div className="qsmtp-connection-card__connection-name">{name}</div>
-            {setUpWizard && createPortal(
-                <SetUpWizard
-                    mode="edit"
-                    connectionId={connectionId}
-                    setSetUpWizard={setSetUpWizard}
-                />,
-                document.body
-            )}
-        </div>
+            {
+                setUpWizard && createPortal(
+                    <SetUpWizard
+                        mode="edit"
+                        connectionId={connectionId}
+                        setSetUpWizard={setSetUpWizard}
+                    />,
+                    document.body
+                )
+            }
+        </div >
     );
 };
 
