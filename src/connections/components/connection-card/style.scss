@@ -1,0 +1,12 @@
+.qsmtp-connection-card__edit-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333 !important;
+
+    svg {
+        margin-bottom: 0 !important;
+        margin:0 5px;
+    }
+}

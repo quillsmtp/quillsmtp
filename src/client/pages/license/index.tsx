@@ -257,10 +257,10 @@ const License = () => {
 	return (
 		<div className="qsmtp-license-page">
 			<Card
-				className="qsmtp-license-settings"
-				sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
+				className="qsmtp-license-settings qsmtp-card"
+				style={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
 			>
-				<div className="qsmtp-license-settings-header">
+				<div className="qsmtp-card-header">
 					<div className="qsmtp-license-settings-header__title">
 						{__('License', 'quillsmtp')}
 					</div>
@@ -414,6 +414,15 @@ const License = () => {
 								label={__('License Key', 'quillsmtp')}
 								value={licenseKey}
 								onChange={(e) => setLicenseKey(e.target.value)}
+								fullWidth
+								sx={{
+									mb: 2, "& .MuiOutlinedInput-notchedOutline": {
+										borderColor: "gray",
+									},
+									"&:hover > .MuiOutlinedInput-notchedOutline": {
+										borderColor: "gray"
+									}
+								}}
 							/>
 							<LoadingButton
 								variant="contained"
