@@ -21,7 +21,6 @@ namespace QuillSMTP\Vendor\Automattic\Jetpack;
  * function tearDown() {
  *     Automattic\Jetpack\Constants::clear_constants();
  * }
- * @internal
  */
 class Constants
 {

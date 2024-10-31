@@ -63,6 +63,7 @@ class App {
 				'redirect_uri'  => urlencode( $this->get_redirect_uri() ),
 				'state'         => 'quillsmtp-gmail',
 				'scope'         => Gmail::MAIL_GOOGLE_COM . ' ' . Gmail::GMAIL_SEND,
+				'prompt'        => 'consent',
 			],
 			'https://accounts.google.com/o/oauth2/auth'
 		);
@@ -110,6 +111,13 @@ class App {
 		$accounts_response = $account_api->get_profile();
 
 		if ( is_wp_error( $accounts_response ) ) {
+			quillsmtp_get_logger()->error(
+				'Cannot get profile details',
+				[
+					'code'  => 'cannot_get_profile',
+					'error' => $accounts_response,
+				]
+			);
 			echo esc_html__( 'Error, Cannot get profile details!', 'quillsmtp' );
 			exit;
 		}
