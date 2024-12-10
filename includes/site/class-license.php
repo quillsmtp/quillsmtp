@@ -169,7 +169,7 @@ class License {
 		$plugin_file      = 'quillsmtp-pro/quillsmtp-pro.php';
 		$full_plugin_file = $plugins_dir . $plugin_file;
 		$plugin_exists    = file_exists( $full_plugin_file );
-		$plugin_data      = $plugin_exists ? get_plugin_data( $full_plugin_file ) : array();
+		$plugin_data      = $plugin_exists ? get_plugin_data( $full_plugin_file, true, false ) : array();
 
 		$data                     = [];
 		$data['plugin_file']      = $plugin_file;
