@@ -134,119 +134,17 @@ class REST_Log_Controller extends REST_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function export_items( $request ) {
-		$download           = $request->get_param( 'download' ) ?? false;
-		$level              = $request->get_param( 'level' ) ?? false;
-		$offset             = intval( $request->get_param( 'offset' ) ?? 0 );
-		$limit              = 100;
-		$max_execution_time = Utils::get_max_execution_time();
-		$start_time         = microtime( true );
-		$file_id            = ! empty( $request->get_param( 'file_id' ) ) ? $request->get_param( 'file_id' ) : time();
-		$file_path          = $this->get_temp_file_path( $file_id );
-
-		if ( is_wp_error( $file_path ) ) {
-			return $file_path;
-		}
-
-		if ( $download ) {
-			$this->export_json( $file_path );
-		}
-
-		$fp = file_exists( $file_path ) ? fopen( $file_path, 'a' ) : fopen( $file_path, 'w' );
-
-		if ( ! $fp ) {
-			return new WP_Error(
-				'quillsmtp_cannot_create_file',
-				esc_html__( 'Cannot create export file', 'quillsmtp' ),
-				[ 'status' => 500 ]
-			);
-		}
-
-		if ( $offset === 0 ) {
-			fwrite( $fp, "[\n" );
-		}
-
-		while ( ( microtime( true ) - $start_time ) < $max_execution_time && ! Utils::is_memory_limit_reached() ) {
-			$logs = Log_Handler_DB::get_all( $level, $offset, $limit );
-
-			if ( empty( $logs ) ) {
-				fseek( $fp, -2, SEEK_END );
-				fwrite( $fp, "\n]\n" );
-				fclose( $fp );
-
-				return new WP_REST_Response(
-					[
-						'status'  => 'done',
-						'file_id' => $file_id,
-					],
-					200
-				);
-			}
-
-			foreach ( $logs as $log ) {
-				fwrite( $fp, json_encode( $log ) . ",\n" );
-				$offset++;
-			}
-		}
-
-		fclose( $fp );
-
-		return new WP_REST_Response(
+		return Utils::export_items(
 			[
-				'status'  => 'continue',
-				'offset'  => $offset,
-				'file_id' => $file_id,
+				'file_id'     => $request->get_param( 'file_id' ),
+				'file_prefix' => 'debug',
+				'download'    => $request->get_param( 'download' ) ?? false,
+				'filter'      => $request->get_param( 'level' ) ?? false,
+				'offset'      => intval( $request->get_param( 'offset' ) ?? 0 ),
+				'limit'       => 100,
 			],
-			200
+			[ Log_Handler_DB::class, 'get_all' ]
 		);
-	}
-
-	/**
-	 * Export rows as JSON file for download.
-	 *
-	 * @param string $file_path File path.
-	 *
-	 * @return void
-	 */
-	private function export_json( $file_path ) {
-		$filename = 'logs_export.json';
-
-		if ( ini_get( 'display_errors' ) ) {
-			ini_set( 'display_errors', '0' );
-		}
-
-		nocache_headers();
-		header( 'X-Robots-Tag: noindex', true );
-		header( 'Content-Type: application/json' );
-		header( 'Content-Description: File Transfer' );
-		header( "Content-Disposition: attachment; filename=\"$filename\";" );
-		header( 'Content-Length: ' . filesize( $file_path ) );
-
-		readfile( $file_path );
-		// Delete temp file.
-		unlink( $file_path );
-		exit;
-	}
-
-	/**
-	 * get temp file path.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $form_id Form ID.
-	 * @param int $file_id File ID.
-	 *
-	 * @return string
-	 */
-	private function get_temp_file_path( $file_id ) {
-		$temp_dir = QuillSMTP::get_upload_dir() . '/temp';
-		if ( ! Security::prepare_upload_dir( $temp_dir ) ) {
-			return new WP_Error( 'quillsmtp_cannot_create_dir', 'Cannot create dir' );
-		}
-
-		$file_name = sanitize_file_name( "quillsmtp-export-logs-{$file_id}.json" );
-		$file_path = "{$temp_dir}/{$file_name}";
-
-		return $file_path;
 	}
 
 	/**
