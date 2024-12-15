@@ -11,7 +11,9 @@ namespace QuillSMTP\REST_API\Controllers\V1;
 
 use QuillSMTP\Abstracts\REST_Controller;
 use QuillSMTP\Log_Handlers\Log_Handler_DB;
-use QuillSMTP\Abstracts\Log_Levels;
+use QuillSMTP\QuillSMTP;
+use QuillSMTP\Security;
+use QuillSMTP\Utils;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -67,6 +69,19 @@ class REST_Log_Controller extends REST_Controller {
 				),
 			)
 		);
+
+		// Export logs.
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/export',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'export_items' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -110,60 +125,128 @@ class REST_Log_Controller extends REST_Controller {
 	}
 
 	/**
-	 * Export items
+	 * Export items with pagination and file creation.
 	 *
-	 * @since 1.7.1
+	 * @since 1.0.0
 	 *
-	 * @param string $format Format.
-	 * @param array  $levels Levels.
-	 * @return void|WP_Error|WP_REST_Response
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
-	private function export_items( $format, $levels ) {
-		$logs = Log_Handler_DB::get_all( $levels );
-		if ( empty( $logs ) ) {
-			return new WP_Error( 'quillsmtp_cannot_find_logs', esc_html__( 'Cannot find any logs', 'quillsmtp' ), array( 'status' => 404 ) );
+	public function export_items( $request ) {
+		$download           = $request->get_param( 'download' ) ?? false;
+		$level              = $request->get_param( 'level' ) ?? false;
+		$offset             = intval( $request->get_param( 'offset' ) ?? 0 );
+		$limit              = 100;
+		$max_execution_time = Utils::get_max_execution_time();
+		$start_time         = microtime( true );
+		$file_id            = ! empty( $request->get_param( 'file_id' ) ) ? $request->get_param( 'file_id' ) : time();
+		$file_path          = $this->get_temp_file_path( $file_id );
+
+		if ( is_wp_error( $file_path ) ) {
+			return $file_path;
 		}
 
-		$rows = array();
-
-		// header row.
-		$header_row = array_keys( $logs[0] );
-		$rows[]     = $header_row;
-
-		// logs rows.
-		foreach ( $logs as $log ) {
-			$log_row = array_values( $log );
-			$rows[]  = $log_row;
+		if ( $download ) {
+			$this->export_json( $file_path );
 		}
 
-		switch ( $format ) {
-			case 'json':
-				$this->export_json( $rows );
-				break;
-			default:
-				return new WP_Error( 'quillsmtp_unknown_logs_export_format', esc_html__( 'Unknown export format', 'quillsmtp' ), array( 'status' => 422 ) );
+		$fp = file_exists( $file_path ) ? fopen( $file_path, 'a' ) : fopen( $file_path, 'w' );
+
+		if ( ! $fp ) {
+			return new WP_Error(
+				'quillsmtp_cannot_create_file',
+				esc_html__( 'Cannot create export file', 'quillsmtp' ),
+				[ 'status' => 500 ]
+			);
 		}
+
+		if ( $offset === 0 ) {
+			fwrite( $fp, "[\n" );
+		}
+
+		while ( ( microtime( true ) - $start_time ) < $max_execution_time && ! Utils::is_memory_limit_reached() ) {
+			$logs = Log_Handler_DB::get_all( $level, $offset, $limit );
+
+			if ( empty( $logs ) ) {
+				fseek( $fp, -2, SEEK_END );
+				fwrite( $fp, "\n]\n" );
+				fclose( $fp );
+
+				return new WP_REST_Response(
+					[
+						'status'  => 'done',
+						'file_id' => $file_id,
+					],
+					200
+				);
+			}
+
+			foreach ( $logs as $log ) {
+				fwrite( $fp, json_encode( $log ) . ",\n" );
+				$offset++;
+			}
+		}
+
+		fclose( $fp );
+
+		return new WP_REST_Response(
+			[
+				'status'  => 'continue',
+				'offset'  => $offset,
+				'file_id' => $file_id,
+			],
+			200
+		);
 	}
 
 	/**
-	 * Export rows as json file
+	 * Export rows as JSON file for download.
 	 *
-	 * @param array $rows File rows.
+	 * @param string $file_path File path.
+	 *
 	 * @return void
 	 */
-	private function export_json( $rows ) {
-		$filename = esc_html__( 'Logs export', 'quillsmtp' ) . '.json';
+	private function export_json( $file_path ) {
+		$filename = 'logs_export.json';
 
-		// if ( ini_get( 'display_errors' ) ) {
-		// 	ini_set( 'display_errors', '0' );
-		// }
+		if ( ini_get( 'display_errors' ) ) {
+			ini_set( 'display_errors', '0' );
+		}
+
 		nocache_headers();
 		header( 'X-Robots-Tag: noindex', true );
 		header( 'Content-Type: application/json' );
 		header( 'Content-Description: File Transfer' );
 		header( "Content-Disposition: attachment; filename=\"$filename\";" );
-		echo wp_json_encode( $rows );
+		header( 'Content-Length: ' . filesize( $file_path ) );
+
+		readfile( $file_path );
+		// Delete temp file.
+		unlink( $file_path );
 		exit;
+	}
+
+	/**
+	 * get temp file path.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $form_id Form ID.
+	 * @param int $file_id File ID.
+	 *
+	 * @return string
+	 */
+	private function get_temp_file_path( $file_id ) {
+		$temp_dir = QuillSMTP::get_upload_dir() . '/temp';
+		if ( ! Security::prepare_upload_dir( $temp_dir ) ) {
+			return new WP_Error( 'quillsmtp_cannot_create_dir', 'Cannot create dir' );
+		}
+
+		$file_name = sanitize_file_name( "quillsmtp-export-logs-{$file_id}.json" );
+		$file_path = "{$temp_dir}/{$file_name}";
+
+		return $file_path;
 	}
 
 	/**

@@ -157,4 +157,13 @@ final class QuillSMTP {
 		$handlers[] = new Log_Handler_DB();
 		return $handlers;
 	}
+
+	/**
+	 * Get plugin uploads full dir
+	 *
+	 * @return string
+	 */
+	public static function get_upload_dir() {
+		return wp_upload_dir()['basedir'] . '/QuillSMTP/Exports/';
+	}
 }

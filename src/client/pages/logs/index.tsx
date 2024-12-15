@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
 import { useDispatch } from '@wordpress/data';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * External Dependencies
@@ -30,7 +31,7 @@ import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/Visibility';
 import MuiChip from '@mui/material/Chip';
-import { Button, Stack } from '@mui/material';
+import { Button, Modal, Stack } from '@mui/material';
 import { css } from '@emotion/css';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import SearchIcon from '@mui/icons-material/Search';
@@ -47,6 +48,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Tooltip from '@mui/material/Tooltip';
 import ResendIcon from '@mui/icons-material/Refresh';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
 /**
  * Internal Dependencies
@@ -306,6 +309,8 @@ const Logs: React.FC = () => {
 		useState<boolean>(false);
 	const [isResending, setIsResending] = useState<boolean>(false);
 	const [refreshLogs, setRefreshLogs] = useState<boolean>(false);
+	const [isPreparingDownload, setIsPreparingDownload] = useState(false);
+	const [progress, setProgress] = useState(0);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -328,6 +333,69 @@ const Logs: React.FC = () => {
 				setIsLoading(false);
 			});
 	}, [page, perPage, currentFilter, refreshLogs]);
+
+	const exportLogs = (offset = 0, file_id = null) => {
+		setIsPreparingDownload(true);
+		apiFetch({
+			path: addQueryArgs(`/qsmtp/v1/email-logs/export`, {
+				offset: offset,
+				file_id: file_id,
+				status: status,
+			}),
+			method: 'GET',
+			parse: false,
+		})
+			.then((res: any) => res.json()).then((res: any) => {
+				const response = res;
+				const { status, offset, file_id, progress: exportProgress } = response;
+
+				if (status === 'continue') {
+					setProgress(exportProgress);
+					exportLogs(offset, file_id);
+				} else if (status === 'done') {
+					donwloadFile(file_id);
+				}
+			}).catch(() => {
+				setIsPreparingDownload(false);
+				setProgress(0);
+				createNotice({
+					type: 'error',
+					message: __('Error while exporting logs.', 'quillsmtp'),
+				});
+			});
+	};
+
+	const donwloadFile = (file_id) => {
+		apiFetch({
+			path: addQueryArgs(`/qsmtp/v1/email-logs/export`, {
+				download: 'json',
+				file_id: file_id,
+			}),
+			method: 'GET',
+			parse: false,
+		}).then((res: any) => res.blob()).then((blob) => {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			const fileName = `quillsmtp-export.json`;
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+			setProgress(100);
+			setTimeout(() => {
+				setIsPreparingDownload(false);
+				setProgress(0);
+			}, 0);
+		}).catch(() => {
+			setIsPreparingDownload(false);
+			setProgress(0);
+			createNotice({
+				type: 'error',
+				message: __('Error while downloading file.', 'quillsmtp'),
+			});
+		});
+	};
 
 	const filterLogsByDate = () => {
 		if (!dateRange?.startDate || !dateRange?.endDate || isLoading) return;
@@ -909,6 +977,51 @@ const Logs: React.FC = () => {
 							</TableFooter>
 						</Table>
 					</TableContainer>
+					<Button
+						variant="outlined"
+						onClick={() => exportLogs()}
+						disabled={isPreparingDownload}
+						color="primary"
+						sx={{
+							position: 'absolute',
+							bottom: '5px',
+							left: '150px',
+						}}
+					>
+						{__('Export Logs', 'quillsmtp')}
+					</Button>
+					{isPreparingDownload && (
+						<Modal
+							open={isPreparingDownload}
+							onClose={() => null}
+							aria-labelledby="modal-modal-title"
+							aria-describedby="modal-modal-description"
+						>
+							<Box
+								sx={{
+									position: 'absolute',
+									top: '50%',
+									left: '50%',
+									transform: 'translate(-50%, -50%)',
+									width: 400,
+									bgcolor: 'background.paper',
+									border: '2px solid #000',
+									boxShadow: 24,
+									p: 4,
+								}}
+							>
+								<Box sx={{ width: '100%', mr: 1 }}>
+									<LinearProgress variant="determinate" value={progress} />
+								</Box>
+								<Box sx={{ minWidth: 35 }}>
+									<Typography
+										variant="body2"
+										sx={{ color: 'text.secondary' }}
+									>{`${Math.round(progress)}%`}</Typography>
+								</Box>
+							</Box>
+						</Modal>
+					)}
 					{logs && logs.length > 0 && (
 						<Button
 							variant="outlined"

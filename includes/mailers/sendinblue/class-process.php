@@ -170,10 +170,15 @@ class Process extends Abstract_Process {
 			return;
 		}
 
-		$this->body['replyTo'] = array(
+		$data = array(
 			'email' => $email,
-			'name'  => ! empty( $name ) ? sanitize_text_field( $name ) : '',
 		);
+
+		if ( ! empty( $name ) ) {
+			$data['name'] = sanitize_text_field( $name );
+		}
+
+		$this->body['replyTo'] = $data;
 	}
 
 	/**
@@ -227,7 +232,7 @@ class Process extends Abstract_Process {
 		 *
 		 * @param array $headers Email headers.
 		 */
-		$headers = apply_filters( 'quillsmtp_sendinblue_mailer_get_headers', $this->body['headers'] );
+		$headers = apply_filters( 'quillsmtp_sendinblue_mailer_get_headers', $this->body['headers'] ?? [] );
 
 		return $headers;
 	}
