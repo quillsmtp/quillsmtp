@@ -1,9 +1,9 @@
 === Quill SMTP | Email Delivery & Transactional Email | The best SMTP Plugin for WordPress that integrates with 20+ SMTP mailers
 Contributors: quillforms, mdmag
 Requires at least: 4.6
-Tested up to: 6.5.3
+Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 Donate link: https://www.paypal.com/paypalme/mohamedmagdymohamed
 Tags: quill, smtp, mailer, logs
 License: GPLv2 or later
@@ -51,6 +51,10 @@ This plugin relies on several third-party services to function properly. Below, 
 If you want to contribute, go to our [Quill SMTP GitHub Repository](https://github.com/quillsmtp/quillsmtp) and see where you can help.
 
 == Changelog ==
+
+= 1.4.0 = 2024-12-24
+Fix: Fix issue with Google SMTP
+Add: Add disable summary email option
 
 = 1.3.0 = 2024-10-28
 Fix: Fix issue with Google SMTP
