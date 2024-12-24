@@ -39,6 +39,7 @@ const GeneralSettings: React.FC = () => {
 	const isMultisite = ConfigAPI.getIsMultisite();
 	const isMainSite = ConfigAPI.getIsMainSite();
 	const [isSaving, setIsSaving] = useState(false);
+
 	const [defaultConnection, setDefaultConnection] = useState(
 		initialPayload.default_connection || ''
 	);
@@ -47,6 +48,9 @@ const GeneralSettings: React.FC = () => {
 	);
 	const [globalSettings, setGlobalSettings] = useState<boolean>(
 		initialPayload.global_network_settings
+	);
+	const [disableSummaryEmail, setDisableSummaryEmail] = useState<boolean>(
+		initialPayload.disable_summary_email
 	);
 	const { connections } = useSelect((select) => {
 		return {
@@ -67,6 +71,7 @@ const GeneralSettings: React.FC = () => {
 				default_connection: defaultConnection,
 				fallback_connection: fallbackConnection,
 				global_network_settings: globalSettings,
+				disable_summary_email: disableSummaryEmail,
 			},
 		}).then((res: any) => {
 			if (res.success) {
@@ -261,6 +266,26 @@ const GeneralSettings: React.FC = () => {
 						)}
 					</Alert>
 				)}
+				<div style={{ margin: '20px 0' }}>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={disableSummaryEmail}
+								name="disable_summary_email"
+								onChange={(event) => {
+									setDisableSummaryEmail(event.target.checked);
+								}}
+							/>
+						}
+						label={__('Disable Summary Email', 'quillsmtp')}
+					/>
+					<FormHelperText sx={{ mb: 2 }}>
+						{__(
+							'Enable this option to disable the summary email that is sent to the site administrator.',
+							'quillsmtp'
+						)}
+					</FormHelperText>
+				</div>
 				<LoadingButton
 					variant="contained"
 					onClick={saveSettings}
@@ -275,7 +300,7 @@ const GeneralSettings: React.FC = () => {
 					{__('Save Settings', 'quillsmtp')}
 				</LoadingButton>
 			</CardContent>
-		</Card >
+		</Card>
 	);
 };
 

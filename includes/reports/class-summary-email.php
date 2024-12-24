@@ -12,6 +12,7 @@ namespace QuillSMTP\Reports;
 defined( 'ABSPATH' ) || exit;
 
 use QuillSMTP\QuillSMTP;
+use QuillSMTP\Settings;
 
 /**
  * Summary Email class.
@@ -90,6 +91,11 @@ class Summary_Email {
 	 * @return void
 	 */
 	public function handle_summary_email_task() {
+		$disabled = Settings::get( 'disable_summary_email', false );
+		if ( $disabled ) {
+			return;
+		}
+
 		$email   = get_option( 'admin_email' );
 		$message = $this->build_email();
 		wp_mail(

@@ -114,12 +114,17 @@ class REST_Settings_Controller extends REST_Controller {
 						),
 					),
 				),
+				'disable_summary_email'   => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
 			),
 			'default'              => array(
 				'global_network_settings' => true,
 				'default_connection'      => '',
 				'fallback_connection'     => '',
 				'connections'             => array(),
+				'disable_summary_email'   => false,
 			),
 		);
 
