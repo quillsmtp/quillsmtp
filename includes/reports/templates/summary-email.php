@@ -9,8 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use QuillSMTP\Log_Handlers\Log_Handler_DB;
-use QuillSMTP\Reports\Summary_Email;
+use QuillSMTP\Email_Log\Handler_DB;
 
 $blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
@@ -18,16 +17,16 @@ $start_date = gmdate( 'Y-m-d H:i:s', strtotime( 'last Saturday' ) );
 $end_date   = gmdate( 'Y-m-d H:i:s' );
 
 // Get the log.
-$total_emails = Log_Handler_DB::get_count( false, $start_date, $end_date );
-$succeeded    = Log_Handler_DB::get_count( array( 'info' ), $start_date, $end_date );
-$failed       = Log_Handler_DB::get_count( array( 'error' ), $start_date, $end_date );
+$total_emails = Handler_DB::get_count( false, $start_date, $end_date );
+$succeeded    = Handler_DB::get_count( 'succeeded', $start_date, $end_date );
+$failed       = Handler_DB::get_count( 'failed', $start_date, $end_date );
 
 $last_weekend_start_date = gmdate( 'Y-m-d H:i:s', strtotime( 'last Saturday - 7 days' ) );
 $last_weekend_end_date   = gmdate( 'Y-m-d H:i:s', strtotime( 'last Saturday - 1 day' ) );
 
-$last_weekend_total_emails = Log_Handler_DB::get_count( false, $last_weekend_start_date, $last_weekend_end_date );
-$last_weekend_succeeded    = Log_Handler_DB::get_count( array( 'info' ), $last_weekend_start_date, $last_weekend_end_date );
-$last_weekend_failed       = Log_Handler_DB::get_count( array( 'error' ), $last_weekend_start_date, $last_weekend_end_date );
+$last_weekend_total_emails = Handler_DB::get_count( false, $last_weekend_start_date, $last_weekend_end_date );
+$last_weekend_succeeded    = Handler_DB::get_count( 'succeeded', $last_weekend_start_date, $last_weekend_end_date );
+$last_weekend_failed       = Handler_DB::get_count( 'failed', $last_weekend_start_date, $last_weekend_end_date );
 
 // Changes from last week plus or minus not percentage.
 $total_emails_change = $total_emails > $last_weekend_total_emails ? '+' . ( $total_emails - $last_weekend_total_emails ) : ( $total_emails - $last_weekend_total_emails );
