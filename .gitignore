@@ -1,8 +1,10 @@
 /build/
+!dependencies/build/
 /languages/*.mo
 /languages/*.json
 /node_modules/
 vendor
+!dependencies/build/vendor
 build-types
 
 # Directories/files that may appear in your environment
