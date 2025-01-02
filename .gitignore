@@ -2,7 +2,7 @@
 /languages/*.mo
 /languages/*.json
 /node_modules/
-/vendor/
+vendor
 build-types
 
 # Directories/files that may appear in your environment
