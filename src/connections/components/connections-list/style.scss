@@ -10,7 +10,9 @@
 }
 .qsmtp-connections-list__add {
 	display: flex;
-	justify-content: center;
+	justify-content: start;
+	overflow-y: auto;
+	flex-wrap: wrap;
 	cursor: pointer;
 
 }
@@ -19,6 +21,7 @@
 	max-height: none !important;
 }
 .qsmtp-connections-list {
+	padding-left: 20px;
 	margin-bottom: 20px;
 	min-height: 400px;
 	display: flex;
@@ -34,6 +37,7 @@
 		margin: 20px 20px 20px 0;
 		background: #fff;
 		border-radius: 10px;
+		border: solid 1px #e0e0e0;
 		color: #333;
 		svg {
 			fill: #333;
@@ -53,11 +57,10 @@
 			text-align: center;
 			font-size: 15px;
 			width: 100%;
-			background: #546bdb;
+			background: #3858E9;
 			border-bottom-left-radius: 10px;
 			border-bottom-right-radius: 10px;
 		}
-		box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
 		.qsmtp-connection-card__icon {
 			margin-bottom: 20px;
 			max-width: 155px;
@@ -70,3 +73,20 @@
 	}
 	
 }
+
+.qsmtp-connection-card-add {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 190px;
+	height: 200px;
+	margin: 20px 20px 20px 0;
+	background: #3858E9;
+	border-radius: 10px;
+	color: white;
+	svg {
+		fill: white;
+		margin-bottom: 10px;
+	}}

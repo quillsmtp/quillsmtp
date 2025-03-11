@@ -2,13 +2,11 @@
  * QuillSMTP Dependencies
  */
 import ConfigAPI from '@quillsmtp/config';
-import { getMailerModules } from '@quillsmtp/mailers';
-
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { select, useSelect, useDispatch } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import { useState, createPortal } from '@wordpress/element';
 
@@ -25,25 +23,19 @@ import { RiDeleteBinLine } from "react-icons/ri";
  */
 import './style.scss';
 import SetUpWizard from '../setupwizard';
-import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-import ConnectionButtons from '../connection-buttons';
 
 
 interface Props {
     connectionId: string;
-    index: number;
 }
 
-const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
+const ConnectionButtons: React.FC<Props> = ({ connectionId }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [setUpWizard, setSetUpWizard] = useState(false);
-    const mailerModules = getMailerModules();
-    const { mailerSlug, name, connection } = useSelect((select) => {
+    const { connection } = useSelect((select) => {
         return {
             connection: select('quillSMTP/core').getConnection(connectionId),
-            mailerSlug: select('quillSMTP/core').getConnectionMailer(connectionId),
-            name: select('quillSMTP/core').getConnectionName(connectionId),
         };
     });
 
@@ -96,28 +88,8 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
 
 
     return (
-        <div
-            className="qsmtp-connection-card"
-            data-label="Default Connection"
-        >
-            {mailerSlug && mailerModules[mailerSlug] && mailerModules[mailerSlug].icon && <img src={mailerModules[mailerSlug].icon} alt={mailerSlug} className='qsmtp-connection-card__icon' />}
-            {/* <div className='qsmtp-connection-card__edit-icon' onClick={() => {
-                addConnection(connectionId, connection, false);
-                setSetUpWizard(true);
-            }}>
-                <EditIcon />
-                {__('Edit', 'quillsmtp')}
-            </div> */}
-            <CardActions
-                sx={{
-                    position: "absolute",
-                    top: 5,
-                    right: 5,
-                    display: "flex",
-                }}
-            >
-                <ConnectionButtons connectionId={connectionId}/>
-                {/* <IconButton sx={{size: "small", padding: "0px"}} onClick={() => {
+        <div className='flex gap-2'>
+                <IconButton sx={{ size: "small", padding: "0px" }} onClick={() => {
                     deleteConnection(connectionId);
                     setSetUpWizard(true);
                 }}>
@@ -128,10 +100,8 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
                     setSetUpWizard(true);
                 }}>
                     <EditIcon color="primary" className='rounded-full border border-[##E5E5E5] text-[#333333] p-1 hover:bg-[#333333] hover:text-white' />
-                </IconButton> */}
-            </CardActions>
-            <div className="qsmtp-connection-card__connection-name">{name}</div>
-            {/* {
+                </IconButton>
+            {
                 setUpWizard && createPortal(
                     <SetUpWizard
                         mode="edit"
@@ -140,9 +110,9 @@ const ConnectionCard: React.FC<Props> = ({ connectionId, index }) => {
                     />,
                     document.body
                 )
-            } */}
+            }
         </div >
     );
 };
 
-export default ConnectionCard;
+export default ConnectionButtons;

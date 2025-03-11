@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 #qsmtp-admin-root {
 	#qsmtp-admin-root__loader-container {
 		> svg {
@@ -12,8 +17,9 @@
 	}
 }
 body.toplevel_page_quillsmtp {
-    background: #0c0b29
+    background: #FBFBFB
 }
+
 
 // body.js.is-fullscreen-mode {
 // 	// @include break-medium {

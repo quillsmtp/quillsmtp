@@ -6,9 +6,10 @@
 		font-weight: bold;
 	}
 	.qsmtp-mailers-selector__mailer {
-		padding: 10px;
+		padding: 25px 40px;
+		position: relative;
 		border-radius: 5px;
-		background-color: rgba(0, 0, 0, 0.03);
+		background-color: transparent;
 		border: 2px solid rgba(0, 0, 0, 0.12);
 		display: inline-flex;
 		align-items: center;
@@ -20,10 +21,10 @@
 			object-fit: contain;
 		}
 		&:hover {
-			border: 2px solid #00a0d2;
+			border: 2px solid #3858E9;
 		}
 		&.qsmtp-mailers-selector__mailer--active {
-			border: 2px solid #00a0d2;
+			border: 2px solid #3858E9;
 		}
 	}
 }

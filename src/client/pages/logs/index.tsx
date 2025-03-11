@@ -31,7 +31,7 @@ import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/Visibility';
 import MuiChip from '@mui/material/Chip';
-import { Button, Modal, Stack } from '@mui/material';
+import { Button, Card, CardContent, InputAdornment, Modal, OutlinedInput, Radio, RadioGroup, Stack, TextField } from '@mui/material';
 import { css } from '@emotion/css';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import SearchIcon from '@mui/icons-material/Search';
@@ -50,6 +50,8 @@ import Tooltip from '@mui/material/Tooltip';
 import ResendIcon from '@mui/icons-material/Refresh';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
+import { PiExportThin } from "react-icons/pi";
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 /**
  * Internal Dependencies
@@ -70,7 +72,7 @@ interface TablePaginationActionsProps {
 }
 
 interface Column {
-	id: 'subject' | 'to' | 'level' | 'datetime' | 'actions';
+	id: 'subject' | 'from' | 'to' | 'provider' | 'level' | 'open' | 'datetime' | 'actions';
 	label: string;
 	minWidth?: number;
 	align?: 'right';
@@ -123,9 +125,10 @@ const Chip = styled(MuiChip)(() => ({
 	height: 22,
 }));
 
-const TablePaginationActions = (props: TablePaginationActionsProps) => {
+const TablePaginationActions = (props: TablePaginationActionsProps & { disabled?: boolean }) => {
 	const theme = useTheme();
-	const { count, page, rowsPerPage, onPageChange } = props;
+	const { count, page, rowsPerPage, onPageChange, disabled } = props;
+	const totalPages = Math.ceil(props.count / props.rowsPerPage);
 
 	const handleFirstPageButtonClick = (
 		event: React.MouseEvent<HTMLButtonElement>
@@ -153,7 +156,17 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 
 	return (
 		<Box sx={{ flexShrink: 0, ml: 2.5 }}>
+			<IconButton onClick={(event) => onPageChange(event, page - 1)} disabled={props.disabled || page === 1} aria-label="previous page">
+				<KeyboardArrowLeft className='bg-[#333333] text-white rounded-full' />
+			</IconButton>
 			<IconButton
+				onClick={(event) => onPageChange(event, page + 1)}
+				disabled={props.disabled || page >= totalPages}
+				aria-label="next page"
+			>
+				<KeyboardArrowRight className='bg-[#333333] text-white rounded-full' />
+			</IconButton>
+			{/* <IconButton
 				onClick={handleFirstPageButtonClick}
 				disabled={page === 0}
 				aria-label="first page"
@@ -196,7 +209,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 				) : (
 					<LastPageIcon />
 				)}
-			</IconButton>
+			</IconButton> */}
 		</Box>
 	);
 };
@@ -221,6 +234,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
 						control={
 							<Checkbox
 								color="primary"
+								className='text-white'
 								indeterminate={
 									numSelected > 0 && numSelected < rowCount
 								}
@@ -256,17 +270,20 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
 
 const columns: readonly Column[] = [
 	{ id: 'subject', label: __('Subject', 'quillsmtp'), minWidth: 100 },
+	{ id: 'from', label: __('From', 'quillsmtp'), minWidth: 100 },
 	{ id: 'to', label: __('To', 'quillsmtp'), minWidth: 100 },
+	{ id: 'provider', label: __('Provider', 'quillsmtp'), minWidth: 100 },
 	{ id: 'level', label: __('Status', 'quillsmtp'), minWidth: 100 },
+	{ id: 'open', label: __('Opened', 'quillsmtp'), minWidth: 100 },
 	{ id: 'datetime', label: __('Date', 'quillsmtp'), minWidth: 100 },
 	{ id: 'actions', label: __('Actions', 'quillsmtp'), minWidth: 100 },
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
-		backgroundColor: '#8640e3',
+		backgroundColor: '#333333',
 		color: theme.palette.common.white,
-		fontWeight: 'bold',
+		fontWeight: '500',
 	},
 }));
 
@@ -300,6 +317,7 @@ const Logs: React.FC = () => {
 		useState<boolean>(false);
 	const [dateRange, setDateRange] = useState<any>({});
 	const [search, setSearch] = useState<string>('');
+	const [selectedValue, setSelectedValue] = useState<string>('email1')
 	const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
 	const { createNotice } = useDispatch('quillSMTP/core');
 	const [deleteAll, setDeleteAll] = useState<boolean>(false);
@@ -311,6 +329,7 @@ const Logs: React.FC = () => {
 	const [refreshLogs, setRefreshLogs] = useState<boolean>(false);
 	const [isPreparingDownload, setIsPreparingDownload] = useState(false);
 	const [progress, setProgress] = useState(0);
+
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -363,6 +382,11 @@ const Logs: React.FC = () => {
 					message: __('Error while exporting logs.', 'quillsmtp'),
 				});
 			});
+	};
+	const totalPages = Math.max(0, Math.ceil(count / perPage));
+
+	const handlePageChange = (event) => {
+		setPage(event.target.value + 1);
 	};
 
 	const donwloadFile = (file_id) => {
@@ -526,14 +550,17 @@ const Logs: React.FC = () => {
 		} else if (selectedAction === 'resend') {
 			resendLogs(selectedLogs);
 		}
+		else if (selectedAction === 'clear') {
+			setDeleteAll(true);
+		}
 	};
 
 	const getLogLevel = (level) => {
 		switch (level) {
 			case 'failed':
-				return <Chip label={__('Failed', 'quillsmtp')} color="error" />;
+				return <span className='font-[400] text-[#E93838] rounded-full bg-[#E93838] bg-opacity-20 py-[8px] px-[25px] border-[0.5px] border-[#E93838]'>Failed</span>;
 			case 'succeeded':
-				return <Chip label={__('Sent', 'quillsmtp')} color="success" />;
+				return <span className='font-[400] text-[#03A32C] rounded-full bg-[#03A32C] bg-opacity-20 py-[8px] px-[28px] border-[0.5px] border-[#03A32C]'>Sent</span>;
 			default:
 				return (
 					<Chip label={__('Debug', 'quillsmtp')} color="default" />
@@ -605,9 +632,15 @@ const Logs: React.FC = () => {
 				setIsResending(false);
 			});
 	};
+	console.log(logs)
 
 	return (
-		<div className="qsmtp-logs">
+		<div className="qsmtp-logs pb-28">
+			<div className="pl-0">
+				<div className="font-roboto font-[500] text-[38px] text-[#333333] pb-3">
+					{__('Logs', 'quillsmtp')}
+				</div>
+			</div>
 			{logs === null && (
 				<div
 					className={css`
@@ -629,355 +662,623 @@ const Logs: React.FC = () => {
 						position: 'relative',
 					}}
 				>
-					<div className="qsmtp-logs__header">
-
-						<div className="qsmtp-logs__header-section">
-							<h2>{__('Logs', 'quillsmtp')}</h2>
-							<div className="qsmtp-logs__header-filters">
-								{statusFilters.map((filter) => (
-									<div
-										className={classnames(
-											'qsmtp-logs__header-filter',
-											{
-												'qsmtp-logs__header-filter--active':
-													filter.value ===
-													currentFilter,
-											}
-										)}
-										key={filter.value}
-										onClick={() =>
-											setCurrentFilter(filter.value)
-										}
-									>
-										{filter.label}
-									</div>
-								))}
-							</div>
-						</div>
-						<div className="qsmtp-logs__header-section">
-							<div
-								className="qsmtp-logs__header-date-range"
-								onClick={() => setOpenDateRangePicker(true)}
-							>
-								<div>
-									<DateIcon />
-									<span className="qsmtp-logs__header-date-range-label">
-										{dateRange?.startDate?.toLocaleDateString() ||
-											__('Start Date', 'quillsmtp')}
-									</span>
-								</div>
-								<span>{__('To', 'quillsmtp')}</span>
-								<div>
-									<DateIcon />
-									<span className="qsmtp-logs__header-date-range-label">
-										{dateRange?.endDate?.toLocaleDateString() ||
-											__('End Date', 'quillsmtp')}
-									</span>
-								</div>
-							</div>
-							<Button
-								sx={{
-									marginLeft: '10px',
-								}}
-								variant="outlined"
-								onClick={() => filterLogsByDate()}
-							>
-								{__('Filter', 'quillsmtp')}
-							</Button>
-							<Popover
-								open={openDateRangePicker}
-								onClose={() => setOpenDateRangePicker(false)}
-								anchorReference="anchorPosition"
-								anchorPosition={{
-									top: 200,
-									left: 400,
-								}}
-							>
-								<DateRangePicker
-									onChange={(item) => {
-										setDateRange({
-											startDate: item.selection.startDate,
-											endDate: item.selection.endDate,
-										});
-									}}
-									showSelectionPreview={true}
-									moveRangeOnFirstSelection={false}
-									months={2}
-									ranges={[
-										{
-											startDate:
-												dateRange?.startDate ||
-												new Date(),
-											endDate:
-												dateRange?.endDate ||
-												new Date(),
-											key: 'selection',
-										},
-									]}
-								/>
-							</Popover>
-						</div>
-						<div className="qsmtp-logs__header-section">
-							<Search>
-								<SearchIconWrapper>
-									<SearchIcon />
-								</SearchIconWrapper>
-								<StyledInputBase
-									placeholder={__('Search…', 'quillsmtp')}
-									inputProps={{
-										'aria-label': 'search',
-									}}
-									value={search}
-									onChange={(e) => setSearch(e.target.value)}
-								/>
-							</Search>
-							<Button
-								sx={{
-									marginLeft: '10px',
-								}}
-								variant="outlined"
-								onClick={() => searchLogs()}
-							>
-								{__('Search', 'quillsmtp')}
-							</Button>
-						</div>
-					</div>
-					<TableContainer component={Paper}>
-						<Table
-							sx={{ minWidth: 500 }}
-							aria-label="custom pagination table"
-							className='qsmtp-table'
+					<div className='flex justify-end'>
+						<Button
+							variant="outlined"
+							onClick={() => exportLogs()}
+							disabled={isPreparingDownload}
+							color="primary"
+							className='bg-[#3858E9] normal-case font-roboto px-8 py-3 mb-4 text-white hover:text-black'
 						>
-							<EnhancedTableHead
-								numSelected={selectedLogs.length}
-								onSelectAllClick={handleSelectAll}
-								rowCount={
-									logs?.length < perPage
-										? logs?.length
-										: perPage
-								}
-							/>
-							<TableBody>
-								{(isLoading || isResending) && (
-									<LoadingRows colSpan={6} count={perPage} />
-								)}
-								{!isLoading &&
-									!isResending &&
-									logs.map((log) => (
-										<TableRow key={log.log_id}>
-											<TableCell
-												component="th"
-												scope="row"
-												padding="checkbox"
+							<PiExportThin className='mr-2 text-[18px]' />
+							{__('Export logs', 'quillsmtp')}
+						</Button>
+					</div>
+					<Card className='mt-3'>
+						<CardContent>
+							<div className="qsmtp-logs__header">
+								<div className="qsmtp-logs__header-section">
+									{/* <div className='flex items-end justify-end filter-selection1'>
+										<select className="filter-selection_content" title='date-filter'>
+											<option className=''>By Email Address</option>
+											<option className=''>By Email Address</option>
+											<option className=''>By Email Address</option>
+										</select>
+									</div> */}
+									<div>
+										<FormControl sx={{ width: "200px"}}>
+											<Select
+												labelId="filter-select"
+												id="filter-select"
+												value={selectedValue}
+												label="By Email Address"
+												input={<OutlinedInput className='text-black'/>}
+												sx={{ color: "black" , height:"40px"}}
+												onChange={(event) => setSelectedValue(event.target.value)}
 											>
-												<FormControlLabel
-													sx={{
-														margin: '0',
-													}}
-													control={
-														<Checkbox
-															color="primary"
-															checked={selectedLogs.includes(
-																log.log_id
-															)}
-															onChange={(e) => {
-																if (
-																	e.target
-																		.checked
-																) {
-																	setSelectedLogs(
-																		[
-																			...selectedLogs,
-																			log.log_id,
-																		]
-																	);
-																} else {
-																	setSelectedLogs(
-																		selectedLogs.filter(
-																			(
-																				id
-																			) =>
-																				id !==
-																				log.log_id
-																		)
-																	);
-																}
-															}}
-															inputProps={{
-																'aria-label':
-																	__(
-																		'select log',
-																		'quillsmtp'
-																	),
-															}}
-														/>
+												<MenuItem value="email1">By Email Address</MenuItem>
+												<MenuItem value="email2">By Email Address</MenuItem>
+												<MenuItem value="email3">By Email Address</MenuItem>
+											</Select>
+										</FormControl>
+									</div>
+									<div className='flex border border-[#9E9E9E] rounded-[3px] ml-2'>
+										<input title='email' placeholder='enter email address' value={search} onChange={(e) => setSearch(e.target.value)} className='border-none outline-none placeholder:font-roboto pr-10 pl-3 py-2' />
+										<Button
+											sx={{
+												backgroundColor: "#333333",
+												color: "white",
+												borderRadius: "0"
+											}}
+											variant="outlined"
+											onClick={() => searchLogs()}
+										>
+											<SearchIcon />
+										</Button>
+										{/* <OutlinedInput
+											placeholder="Enter email address"
+											type="email"
+											fullWidth
+											sx={{
+												maxWidth: 400,
+												bgcolor: "white",
+												borderRadius: 1,
+												"& .MuiOutlinedInput-notchedOutline": { border: "none" }, // Removes extra border
+												boxShadow: 1, // Adds subtle shadow for depth
+											}}
+											endAdornment={
+												<InputAdornment position="end">
+													<IconButton
+														sx={{
+															bgcolor: "black",
+															color: "white",
+															borderRadius: "5px",
+															"&:hover": { bgcolor: "gray" }, // Hover effect
+														}}
+													>
+														<SearchIcon />
+													</IconButton>
+												</InputAdornment>
+											}
+										/>
+										<SearchIconWrapper>
+											<SearchIcon />
+										</SearchIconWrapper>
+										<StyledInputBase
+												placeholder={__('Enter Email Address', 'quillsmtp')}
+												inputProps={{
+													'aria-label': 'search',
+												}}
+												value={search}
+												onChange={(e) => setSearch(e.target.value)}
+												sx={{
+													border: "none"
+												}}
+											/> */}
+									</div>
+								</div>
+								{/* <div className="qsmtp-logs__header-section">
+									<div className="qsmtp-logs__header-filters">
+										{statusFilters.map((filter) => (
+											<div
+												className={classnames(
+													'qsmtp-logs__header-filter',
+													{
+														'qsmtp-logs__header-filter--active':
+															filter.value ===
+															currentFilter,
 													}
-													label={''}
-												/>
-											</TableCell>
-											<TableCell
-												component="th"
-												scope="row"
+												)}
+												key={filter.value}
+												onClick={() =>
+													setCurrentFilter(filter.value)
+												}
 											>
-												{log.subject}
-											</TableCell>
-											<TableCell align="left">
-												{log.recipients.to}
-											</TableCell>
-											<TableCell align="left">
-												{getLogLevel(log.status)}
-											</TableCell>
-											<TableCell align="left">
-												{log.local_datetime}
-											</TableCell>
-											<TableCell align="left">
-												<Stack
-													direction="row"
-													spacing={1}
-												>
-													<Tooltip
-														title={
-															log.status ===
-																'failed'
-																? __(
-																	'Retry',
-																	'quillsmtp'
-																)
-																: __(
-																	'Resend',
-																	'quillsmtp'
-																)
-														}
-														placement="top"
-													>
-														<Button
-															variant="outlined"
-															onClick={() =>
-																resendLogs([
-																	log.log_id,
-																])
-															}
-															disabled={
-																isResending
-															}
-															color={
-																log.status ===
-																	'failed'
-																	? 'error'
-																	: 'info'
-															}
-															startIcon={
-																<ResendIcon />
-															}
-															size="small"
-														>
-															{log?.resend_count
-																? `(${log?.resend_count})`
-																: ''}{' '}
-															{log.status ===
-																'failed'
-																? __(
-																	'Retry',
-																	'quillsmtp'
-																)
-																: __(
-																	'Resend',
-																	'quillsmtp'
-																)}
-														</Button>
-													</Tooltip>
-													<Tooltip
-														title={__(
-															'View',
-															'quillsmtp'
-														)}
-														placement="top"
-													>
-														<IconButton
-															aria-label={__(
-																'View log',
-																'quillsmtp'
-															)}
-															onClick={() =>
-																setModalLogId(
-																	log.log_id
-																)
-															}
-															color="primary"
-														>
-															<ViewIcon />
-														</IconButton>
-													</Tooltip>
-													<Tooltip
-														title={__(
-															'Delete',
-															'quillsmtp'
-														)}
-														placement="top"
-													>
-														<IconButton
-															aria-label={__(
-																'Delete log',
-																'quillsmtp'
-															)}
-															onClick={() =>
-																setDeleteLogId(
-																	log.log_id
-																)
-															}
-															color="error"
-														>
-															<DeleteIcon />
-														</IconButton>
-													</Tooltip>
-												</Stack>
-											</TableCell>
-										</TableRow>
-									))}
-								{!isLoading && logs.length === 0 && (
-									<TableRow>
-										<TableCell colSpan={6} align="center">
-											{__('No logs found', 'quillsmtp')}
-										</TableCell>
-									</TableRow>
-								)}
-							</TableBody>
-							<TableFooter>
-								<TableRow>
-									<TablePagination
-										rowsPerPageOptions={[5, 10, 25, 100]}
-										colSpan={6}
-										count={count}
-										rowsPerPage={perPage}
-										page={page - 1}
-										SelectProps={{
-											inputProps: {
-												'aria-label': 'rows per page',
-											},
-											native: true,
+												{filter.label}
+											</div>
+										))}
+									</div>
+								</div> */}
+								<div className="flex items-center">
+									<div className="">
+										<RadioGroup
+											value={currentFilter}
+											onChange={(e) => setCurrentFilter(e.target.value)}
+											row
+										>
+											{statusFilters.map((filter) => (
+												<FormControlLabel
+													key={filter.value}
+													value={filter.value}
+													control={<Radio />}
+													label={filter.label}
+													className={classnames("qsmtp-logs__header-filter", {
+														"qsmtp-logs__header-filter--active": filter.value === currentFilter,
+													})}
+												/>
+											))}
+										</RadioGroup>
+									</div>
+									<div
+										className="qsmtp-logs__header-date-range"
+										onClick={() => setOpenDateRangePicker(true)}
+									>
+										<div>
+											<DateIcon className='text-[#3858E9]' />
+											{/* <span className="qsmtp-logs__header-date-range-label">
+												{dateRange?.startDate?.toLocaleDateString() ||
+													__('Start Date', 'quillsmtp')}
+											</span> */}
+											<Button
+												sx={{
+													marginLeft: '10px',
+												}}
+												variant="text"
+												onClick={() => filterLogsByDate()}
+												className='text-[#333333] normal-case text-[16px]'
+											>
+												{__('Filter Date', 'quillsmtp')}
+											</Button>
+										</div>
+										{/* <span>{__('To', 'quillsmtp')}</span>
+										<div>
+											<DateIcon />
+											<span className="qsmtp-logs__header-date-range-label">
+												{dateRange?.endDate?.toLocaleDateString() ||
+													__('End Date', 'quillsmtp')}
+											</span>
+										</div> */}
+									</div>
+									<Popover
+										open={openDateRangePicker}
+										onClose={() => setOpenDateRangePicker(false)}
+										anchorReference="anchorPosition"
+										anchorPosition={{
+											top: 200,
+											left: 700,
 										}}
-										onPageChange={(
-											// @ts-ignore
-											event: any,
-											newPage: number
-										) => {
-											setPage(newPage + 1);
+									>
+										<DateRangePicker
+											onChange={(item) => {
+												setDateRange({
+													startDate: item.selection.startDate,
+													endDate: item.selection.endDate,
+												});
+											}}
+											showSelectionPreview={true}
+											moveRangeOnFirstSelection={false}
+											months={2}
+											ranges={[
+												{
+													startDate:
+														dateRange?.startDate ||
+														new Date(),
+													endDate:
+														dateRange?.endDate ||
+														new Date(),
+													key: 'selection',
+												},
+											]}
+										/>
+									</Popover>
+								</div>
+								{/* <Box
+										sx={{
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "space-between", // Keeps spacing balanced
+											gap: 2,
+											padding: "16px",
+											border: "1px solid #E5E5E5", // Light gray border
+											borderRadius: "8px",
+											boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.1)", // Soft shadow
+											width: "100%", // Ensure it adapts to its grid container
+											backgroundColor: "#fff",
 										}}
-										onRowsPerPageChange={(event: any) => {
-											setPerPage(
-												parseInt(event.target.value, 10)
-											);
-											setPage(1);
-										}}
-										ActionsComponent={
-											TablePaginationActions
+									>
+										{/* Clickable Date Range Section 
+										<Box
+											sx={{
+												display: "flex",
+												alignItems: "center",
+												cursor: "pointer",
+											}}
+											onClick={() => setOpenDateRangePicker(true)}
+										>
+											<DateIcon sx={{ fontSize: 40, color: "##3858E9" }} /> {/* Blue Icon 
+											<Button
+												sx={{ marginLeft: "auto", color:"#333333" }}
+												variant="text"
+												onClick={() => filterLogsByDate(dateRange)}
+											>
+												Filter Date
+											</Button>
+										</Box>
+
+										{/* Date Picker Popover 
+										<Popover
+											open={openDateRangePicker}
+											onClose={() => setOpenDateRangePicker(false)}
+											anchorReference="anchorPosition"
+											anchorPosition={{ top: 200, left: 400 }}
+										>
+											<DateRangePicker
+												onChange={(item) =>
+													setDateRange({
+														startDate: item.selection.startDate,
+														endDate: item.selection.endDate,
+													})
+												}
+												showSelectionPreview={true}
+												moveRangeOnFirstSelection={false}
+												months={2}
+												ranges={[
+													{
+														startDate: dateRange?.startDate || new Date(),
+														endDate: dateRange?.endDate || new Date(),
+														key: "selection",
+													},
+												]}
+											/>
+										</Popover>
+									</Box> */}
+							</div>
+							<TableContainer component={Paper}>
+								<Table
+									sx={{ minWidth: 500 }}
+									aria-label="custom pagination table"
+									className='qsmtp-table'
+								>
+									<EnhancedTableHead
+										numSelected={selectedLogs.length}
+										onSelectAllClick={handleSelectAll}
+										rowCount={
+											logs?.length < perPage
+												? logs?.length
+												: perPage
 										}
 									/>
-								</TableRow>
-							</TableFooter>
-						</Table>
-					</TableContainer>
-					<Button
+									<TableBody>
+										{(isLoading || isResending) && (
+											<LoadingRows colSpan={6} count={perPage} />
+										)}
+										{!isLoading &&
+											!isResending &&
+											logs.map((log) => (
+												<TableRow key={log.log_id}>
+													<TableCell
+														component="th"
+														scope="row"
+														padding="checkbox"
+													>
+														<FormControlLabel
+															sx={{
+																margin: '0',
+															}}
+															control={
+																<Checkbox
+																	color="primary"
+																	checked={selectedLogs.includes(
+																		log.log_id
+																	)}
+																	onChange={(e) => {
+																		if (
+																			e.target
+																				.checked
+																		) {
+																			setSelectedLogs(
+																				[
+																					...selectedLogs,
+																					log.log_id,
+																				]
+																			);
+																		} else {
+																			setSelectedLogs(
+																				selectedLogs.filter(
+																					(
+																						id
+																					) =>
+																						id !==
+																						log.log_id
+																				)
+																			);
+																		}
+																	}}
+																	inputProps={{
+																		'aria-label':
+																			__(
+																				'select log',
+																				'quillsmtp'
+																			),
+																	}}
+																/>
+															}
+															label={''}
+														/>
+													</TableCell>
+													<TableCell
+														component="th"
+														scope="row"
+													>
+														{log.subject}
+													</TableCell>
+													<TableCell align="left">
+														{log.from}
+													</TableCell>
+													<TableCell align="left">
+														{log.recipients.to}
+													</TableCell>
+													<TableCell align="left">
+														{log.provider}
+													</TableCell>
+													<TableCell align="left">
+														{getLogLevel(log.status)}
+													</TableCell>
+													<TableCell align="left">
+														<span>{log.status === "failed" ? "No" : log.status === "succeeded" ? "Yes" : ""}</span>
+													</TableCell>
+													<TableCell align="left">
+														{log.local_datetime}
+													</TableCell>
+													<TableCell align="left">
+														<Stack
+															direction="row"
+														>
+															<Tooltip
+																title={
+																	log.status ===
+																		'failed'
+																		? __(
+																			'Retry',
+																			'quillsmtp'
+																		)
+																		: __(
+																			'Resend',
+																			'quillsmtp'
+																		)
+																}
+																placement="top"
+															>
+																{/* <Button
+																	variant="outlined"
+																	onClick={() =>
+																		resendLogs([
+																			log.log_id,
+																		])
+																	}
+																	disabled={
+																		isResending
+																	}
+																	color={
+																		log.status ===
+																			'failed'
+																			? 'error'
+																			: 'info'
+																	}
+																	startIcon={
+																		<ResendIcon className='text-[#3858E9] bg-[#a5b2eb] rounded-full'/>
+																	}
+																	size="small"
+																> */}
+																{/* {log?.resend_count
+																		? `(${log?.resend_count})`
+																		: ''}{' '}
+																	{log.status ===
+																		'failed'
+																		? __(
+																			'Retry',
+																			'quillsmtp'
+																		)
+																		: __(
+																			'Resend',
+																			'quillsmtp'
+																		)} 
+																</Button>*/}
+																<IconButton
+																	aria-label={__(
+																		'Resend log',
+																		'quillsmtp'
+																	)}
+																	onClick={() =>
+																		resendLogs([
+																			log.log_id,
+																		])
+																	}
+																	disabled={
+																		isResending
+																	}
+																	color="primary"
+																>
+																	<ResendIcon className='text-[#3858E9] bg-[#3858E9] bg-opacity-20 rounded-full p-[0.15rem]' fontSize='medium' />
+																</IconButton>
+															</Tooltip>
+															<Tooltip
+																title={__(
+																	'View',
+																	'quillsmtp'
+																)}
+																placement="top"
+															>
+																<IconButton
+																	aria-label={__(
+																		'View log',
+																		'quillsmtp'
+																	)}
+																	onClick={() =>
+																		setModalLogId(
+																			log.log_id
+																		)
+																	}
+																	color="primary"
+																>
+																	<ViewIcon className='text-[#333333] bg-[#333333] bg-opacity-20 rounded-full p-[0.15rem]' fontSize='medium' />
+																</IconButton>
+															</Tooltip>
+															<Tooltip
+																title={__(
+																	'Delete',
+																	'quillsmtp'
+																)}
+																placement="top"
+															>
+																<IconButton
+																	aria-label={__(
+																		'Delete log',
+																		'quillsmtp'
+																	)}
+																	onClick={() =>
+																		setDeleteLogId(
+																			log.log_id
+																		)
+																	}
+																	color="error"
+																>
+																	<DeleteIcon className='text-[#E93838] bg-[#E93838] bg-opacity-20 rounded-full p-[0.15rem]' fontSize='medium' />
+																</IconButton>
+															</Tooltip>
+														</Stack>
+													</TableCell>
+												</TableRow>
+											))}
+										{!isLoading && logs.length === 0 && (
+											<TableRow>
+												<TableCell colSpan={9} align='center'>
+													<div className='flex flex-col items-center'>
+														<DraftsIcon className='text-[#3858E9] opacity-20' sx={{ fontSize: "80px" }} />
+														<span className='opacity-40 text-[16px] font-roboto'>No  Data</span>
+													</div>
+												</TableCell>
+											</TableRow>
+										)}
+									</TableBody>
+									{/* <TableFooter>
+										<TableRow>
+											<TablePagination
+												rowsPerPageOptions={[5, 10, 25, 100]}
+												colSpan={6}
+												count={count}
+												rowsPerPage={perPage}
+												page={page - 1}
+												SelectProps={{
+													inputProps: {
+														'aria-label': 'rows per page',
+													},
+													native: true,
+												}}
+												onPageChange={(
+													// @ts-ignore
+													event: any,
+													newPage: number
+												) => {
+													setPage(newPage + 1);
+												}}
+												onRowsPerPageChange={(event: any) => {
+													setPerPage(
+														parseInt(event.target.value, 10)
+													);
+													setPage(1);
+												}}
+												ActionsComponent={
+													TablePaginationActions
+												}
+											/>
+										</TableRow>
+									</TableFooter> */}
+								</Table>
+							</TableContainer>
+							<div className='pt-8 pb-4 flex items-center justify-between'>
+								<div className="qsmtp-logs__apply-actions-section">
+									<FormControl
+
+										sx={{
+											minWidth: 120,
+											"& .MuiOutlinedInput-notchedOutline": {
+												borderColor: "white",
+											},
+											"&:hover > .MuiOutlinedInput-notchedOutline": {
+												borderColor: "white"
+											}
+										}}
+										size="small"
+									>
+										<div className='flex border'>
+											<div>
+												<InputLabel id="demo-simple-select-label">
+													{__('Bulk Action', 'quillsmtp')}
+												</InputLabel>
+												<Select
+													labelId="demo-simple-select-label"
+													id="qsmtp-logs__apply-actions-select"
+													value={selectedAction}
+													label={__('Bulk Action', 'quillsmtp')}
+													onChange={(event: SelectChangeEvent) =>
+														setSelectedAction(
+															event.target.value
+														)
+													}
+												>
+													<MenuItem value={'delete'}>
+														{__('Delete Selected', 'quillsmtp')}
+													</MenuItem>
+													<MenuItem value={'resend'}>
+														{__('Resend Selected', 'quillsmtp')}
+													</MenuItem>
+													<MenuItem value={'clear'}>
+														{__('Clear All Logs', 'quillsmtp')}
+													</MenuItem>
+												</Select>
+											</div>
+											<Button
+												sx={{
+													marginLeft: '10px',
+													border: "none",
+													color: "white",
+													backgroundColor: "#333333"
+												}}
+												variant="outlined"
+												onClick={() => applyAction()}
+												disabled={isDeleting}
+												color="primary"
+												className='normal-case hover:text-[#333333] hover:bg-white hover:border-[#333333]'
+											>
+												{__('Apply', 'quillsmtp')}
+											</Button>
+										</div>
+									</FormControl>
+								</div>
+								<div className='pt-8 pb-4 flex gap-0 items-center justify-center'>
+									<div className='flex items-center gap-2'>
+										{totalPages > 0 ? (
+											<Select
+												value={page - 1}
+												onChange={handlePageChange}
+												sx={{ width: "fit", height: "25px", color: "white", backgroundColor: "#333333" }}
+											>
+												{Array.from({ length: totalPages }, (_, index) => (
+													<MenuItem key={index} value={index}>
+														{index + 1}
+													</MenuItem>
+												))}
+											</Select>
+										) : null}
+
+										<span className='font-roboto text-[16px]'>
+											{totalPages === 0 ? "0 of 0 pages" : `of ${totalPages} pages`}
+										</span>
+									</div>
+
+									<TablePaginationActions
+										count={count}
+										page={page - 1}
+										rowsPerPage={perPage}
+										onPageChange={(_, newPage) => setPage(newPage + 1)}
+										disabled={totalPages === 0} // Pass disabled prop to disable buttons
+									/>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+					{/* <Button
 						variant="outlined"
 						onClick={() => exportLogs()}
 						disabled={isPreparingDownload}
@@ -989,7 +1290,7 @@ const Logs: React.FC = () => {
 						}}
 					>
 						{__('Export Logs', 'quillsmtp')}
-					</Button>
+					</Button> */}
 					{isPreparingDownload && (
 						<Modal
 							open={isPreparingDownload}
@@ -1022,7 +1323,7 @@ const Logs: React.FC = () => {
 							</Box>
 						</Modal>
 					)}
-					{logs && logs.length > 0 && (
+					{/* {logs && logs.length > 0 && (
 						<Button
 							variant="outlined"
 							onClick={() => setDeleteAll(true)}
@@ -1036,7 +1337,7 @@ const Logs: React.FC = () => {
 						>
 							{__('Clear Logs', 'quillsmtp')}
 						</Button>
-					)}
+					)} */}
 				</div>
 			)}
 			{deleteLogId !== null && (
@@ -1092,7 +1393,7 @@ const Logs: React.FC = () => {
 				/>
 			)}
 
-			{selectedLogs.length > 0 && (
+			{/* {selectedLogs.length > 0 && (
 				<div className="qsmtp-logs__apply-actions-section">
 					<FormControl
 
@@ -1148,7 +1449,7 @@ const Logs: React.FC = () => {
 						{__('Apply', 'quillsmtp')}
 					</Button>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };

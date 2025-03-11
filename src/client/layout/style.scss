@@ -4,26 +4,26 @@
 
 .quillsmtp-layout {
 	margin-left: -20px;
-  background: #0c0b2b;
+  background: #FBFBFB;
 
-  button {
-    background: #e14eca;
-    background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
-    background-size: 210% 210%;
-    background-position: 100% 0;
-    background-color: #e14eca;
-    transition: all .15s ease;
-    border: none;
-    color: #fff;
+  // button {
+  //   background: #e14eca;
+  //   background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
+  //   background-size: 210% 210%;
+  //   background-position: 100% 0;
+  //   background-color: #e14eca;
+  //   transition: all .15s ease;
+  //   border: none;
+  //   color: #fff;
 
-    svg {
-      fill: #fff;
-    }
-    &.is-large {
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  }
+  //   svg {
+  //     fill: #fff;
+  //   }
+  //   &.is-large {
+  //     padding: 10px 20px;
+  //     font-size: 16px;
+  //   }
+  // }
 
 }
 
@@ -35,7 +35,7 @@
 		width: 100%;
 		position: relative;
     padding-top: 40px;
-    background: #0c0b2b;
+    background: #FBFBFB;
 	}
 }
 // Hide all wordpress admin notices
@@ -73,9 +73,9 @@ body {
 }
 
 .qsmtp-wrapper {
-  background-color: #0c0b2b;
+  background-color: #FBFBFB;
   display: flex;
-  margin: 0 auto;
+  margin: 0 auto 60px;
 }
 
 .qsmtp-left-side {
@@ -154,14 +154,15 @@ body {
 }
 
 .qsmtp-header {
-  background: #1e1c48;
-  box-shadow: 0 16px 12px #0e0e23;
+  background: white;
+  border-bottom: solid 1px #C3C3C3;
   width: 100%;
-  padding: 0 30px;
+  padding: 10px 30px;
   -webkit-animation: top 1s both;
           animation: top 1s both;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 15px;
   white-space: nowrap;
   position: sticky;
@@ -175,52 +176,74 @@ body {
   position: absolute;
   top: -25px;
   left: 0;
-  background-color: #0e0e23;
 }
 }
 .qsmtp-header-link {
-    color: #fff !important;
-    padding: 10px 20px;
-    margin:  0 5px;
+    color: black;
+    // padding: 10px 20px;
+    padding-bottom: 10px;
+    margin:  0 20px;
     text-decoration: none;
     display: flex;
     align-items: center;
     transition: 0.3s;
-    border-radius: 20px;
     border-bottom: 3px solid transparent;
   svg {
       width: 20px;
       margin-right: 14px;
   }
   &.active, &.qsmtp-header-link:hover {
-    background: #546bda;
-    border-radius: 20px;
-    color: #fff;
+    color: #546bda;
+    border-bottom: solid 2px #546bda;
+  }
+  &.qsmtp-header-link:focus{
+    box-shadow: none;
   }
 }
 
 .qsmtp-logo {
-  padding: 20px 50px 20px 0;
-  font-size: 16px;
+  padding: 20px 80px 20px 20px;
+  // font-size: 16px;
   color: #e7e8ea;
 }
-.qsmtp-logo-det {
-  background: #4255d4;
-  padding: 8px;
-  margin-left: -2px;
-  border-radius: 50%;
-  font-size: 15px;
+
+.qstmp-header-license{
+  color: white;
+  padding: 0px 20px;
+  margin:  0 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+  border-radius: 16px;
+  border: 3px solid transparent;
+  background-color: #3858E9;
+svg {
+    width: 25px;
+    margin-right: 5px;
 }
+&.active, &.qstmp-header-license:hover {
+  color: black !important; 
+  background-color: white !important;
+  border: 2px solid #3858E9;
+}
+}
+// .qsmtp-logo-det {
+//   background: #4255d4;
+//   padding: 8px;
+//   margin-left: -2px;
+//   border-radius: 50%;
+//   font-size: 15px;
+// }
 
 .qsmtp-card {
-  background: #191644;
   padding: 40px 30px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   max-height: 630px;
-  color: #fff;
+  color: #333333;
   width: 100%;
   label {
     color: #88b7df;
@@ -230,7 +253,7 @@ body {
     background: transparent !important;
   }
   div, p {
-    color: #fff;
+    color: #333333;
   }
   svg {
     fill: #fff;
@@ -253,28 +276,28 @@ body {
 .qsmtp-card-header {
   padding: 20px;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 550;
   margin-bottom: 20px;
 }
-.qsmtp-table {
-  text-align: left;
-  padding: 0;
-  background: #191644;
-  color: #fff;
+// .qsmtp-table {
+//   text-align: left;
+//   padding: 0;
+//   background: #191644;
+//   color: #fff;
 
-  thead th {
-    background: #5a9bf7 !important;
-    vertical-align: middle !important;
-    display: table-cell;
-    height: 100%;
-  }
-  p, td, th {
-    color: #fff;
-    svg {
-      fill: #fff;
-    }
-  }
-}
+//   thead th {
+//     background: #5a9bf7 !important;
+//     vertical-align: middle !important;
+//     display: table-cell;
+//     height: 100%;
+//   }
+//   p, td, th {
+//     color: #fff;
+//     svg {
+//       fill: #fff;
+//     }
+//   }
+// }
 
 
 .qsmtp-table tr, .qsmtp-table td, .qsmtp-table th {

@@ -16,6 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
  */
 import { getMailerModules } from '@quillsmtp/mailers';
 import './style.scss';
+import { BsCheck } from 'react-icons/bs';
 
 interface Props {
 	connectionId: string;
@@ -69,6 +70,13 @@ const MailersSelector: React.FC<Props> = ({ connectionId }) => {
 									onClick={() => onChange(key)}
 								>
 									<img src={mailer.icon} alt={mailer.title} />
+									{mailerSlug === key && (
+										<div
+											className="absolute top-1 right-1 bg-[#3858E9] text-white rounded-full p-1"
+										>
+											<BsCheck className="w-3 h-3" />
+										</div>
+									)}
 								</div>
 							</Tooltip>
 						);

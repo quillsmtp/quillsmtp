@@ -137,32 +137,31 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 
 	return (
 		<div className="mailer-settings-main-app">
-			<b>{__('App Settings', 'quillsmtp')}:</b>
+			<b className='text-[#333333] text-[16px] font-roboto'>{__('App Settings', 'quillsmtp')}:</b>
 			<div className="mailer-settings-main-app__content">
 				<div>
 					{$field && (
-						<>
+						<div className='text-[#333333] text-[16px] font-roboto'>
 							{$field.label}:{' '}
 							<span style={{ wordBreak: 'break-all' }}>
 								{$field.value}
 							</span>
-						</>
+						</div>
 					)}
 				</div>
 				<div
-					className={css`
-						margin-right: 10px;
-					`}
+					className="mr-[10px]"
 				>
 					<Tooltip title={__('Edit', 'quillsmtp')}>
 						<IconButton
 							onClick={() => setEditApp(true)}
 							color={editApp ? 'primary' : 'default'}
+							className='rounded-full bg-[#3858E9] bg-opacity-20 text-[#3858E9]'
 						>
 							{editingApp ? (
-								<CircularProgress size={20} />
+								<CircularProgress size={8} />
 							) : (
-								<EditIcon />
+								<EditIcon className='size-4'/>
 							)}
 						</IconButton>
 					</Tooltip>
@@ -173,8 +172,9 @@ const App: React.FC<Props> = ({ connectionId, setup }) => {
 							onClick={() => setDisconnectModal(true)}
 							disabled={disconnecting}
 							color="error"
+							className='rounded-full bg-[#3858E9] bg-opacity-20'
 						>
-							<DeleteIcon />
+							<DeleteIcon className='size-4'/>
 						</IconButton>
 					</Tooltip>
 				</div>

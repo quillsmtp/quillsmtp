@@ -22,12 +22,15 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MuiChip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ViewIcon from '@mui/icons-material/Visibility';
 
 /**
  * Internal Dependencies
  */
 import { Log } from '../types';
 import './style.scss';
+import { Button, Typography } from '@mui/material';
 
 interface Props {
 	log: Log | null;
@@ -106,162 +109,101 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 			maxWidth="lg"
 			fullWidth
 		>
-			<DialogTitle
-				id="qsmtp-log-dialog-title"
-				sx={{
-					backgroundColor: '#f5f5f5',
-					padding: '10px 20px',
-					border: '1px solid #ddd',
-					marginBottom: '20px',
-					fontWeight: 'lighter',
-				}}
-			>
-				{__('Log Details')}
-			</DialogTitle>
+			<div className='flex'>
+				<DialogTitle
+					id="qsmtp-log-dialog-title"
+					sx={{
+						backgroundColor: 'white',
+						padding: '10px 20px',
+						border: '1px solid #ddd',
+						marginBottom: '20px',
+						width: "100%"
+					}}
+					className='flex justify-between'
+				>
+					<div className='flex gap-2 items-center font-roboto'>
+						<ViewIcon className='text-[white] bg-[#333333] font-roboto rounded-full p-[0.15rem]' fontSize='medium' />
+						{__('Email Log Details')}
+					</div>
+					<DialogActions className='cursor-pointer'>
+						<CancelIcon onClick={onClose} color="primary" className='text-[#333333]' />
+					</DialogActions>
+				</DialogTitle>
+			</div>
 			<DialogContent>
 				<DialogContentText id="qsmtp-log-dialog-description">
 					<Grid container spacing={2}>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Status', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{getLogLevel(log.status)}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Date Time', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.datetime}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Connection Name', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.connection_name}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Mailer', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.provider_name}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Subject', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.subject}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('From', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">{log.from}</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('To', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.recipients.to}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('Reply To', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.recipients.reply_to || '-'}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('CC', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.recipients.cc || '-'}
-							</div>
-						</Stack>
-						<Stack
-							direction="row"
-							spacing={1}
-							component={Grid}
-							item
-							xs={6}
-						>
-							<div className="log-modal__label">
-								{__('BCC', 'quillsmtp')}:
-							</div>
-							<div className="log-modal__value">
-								{log.recipients.bcc || '-'}
-							</div>
-						</Stack>
+						<Grid item xs={12} md={6}>
+							<Stack spacing={0}>
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Status:</Typography>
+									<Chip
+										label={log.status}
+										sx={{
+											backgroundColor: log.status === "succeeded" ? "#03A32C33" : "#E9383833",
+											color: log.status === "succeeded" ? "#03A32C" : "#E93838",
+										}}
+										className='bg-opacity-20 font-roboto capitalize'
+									/>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Opened:</Typography>
+									<Typography className='font-roboto'>{log.status === "succeeded" ? "Yes" : "No"}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Subject:</Typography>
+									<Typography className='font-roboto'>{log.subject}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>To:</Typography>
+									<Typography className='font-roboto'>{log.recipients.to}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>From:</Typography>
+									<Typography className='font-roboto'>{log.from}</Typography>
+								</Stack>
+							</Stack>
+						</Grid>
+						<Grid item xs={12} md={6} sx={{marginBottom:"20px"}}>
+							<Stack spacing={0}>
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Date Time:</Typography>
+									<Typography className='font-roboto'>{log.datetime}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Connection Name:</Typography>
+									<Typography className='font-roboto'>{log.connection_name}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Mailer:</Typography>
+									<Typography className='font-roboto'>{log.provider_name}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>Reply To:</Typography>
+									<Typography className='font-roboto'>{log.recipients.reply_to || "-"}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 bg-[#f8f7f7] text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>BCC:</Typography>
+									<Typography className='font-roboto'>{log.recipients.bcc || "-"}</Typography>
+								</Stack>
+
+								<Stack direction="row" justifyContent="space-between" className='border border-[#d2d1d1] p-3 text-[#333333]'>
+									<Typography fontWeight="bold" className='font-roboto'>CC:</Typography>
+									<Typography className='font-roboto'>{log.recipients.cc || "-"}</Typography>
+								</Stack>
+							</Stack>
+						</Grid>
 					</Grid>
 					<Accordion defaultExpanded={true}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />} className='font-roboto text-[#333333]'>
 							{__('Email Body', 'quillsmtp')}
 						</AccordionSummary>
 						<AccordionDetails>
@@ -275,11 +217,12 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 					<Box
 						mt={2}
 						sx={{
-							borderTop: '1px solid rgba(0, 0, 0, .125)',
+							borderTop: '2px solid rgba(0, 0, 0, .125)',
 							padding: '10px 0',
 						}}
+						className="flex items-center justify-between font-roboto"
 					>
-						<div className="log-modal__label">
+						<div className="log-modal__label text-[#333333]">
 							{__('Headers', 'quillsmtp')}
 						</div>
 						<div className="log-modal__value">
@@ -289,19 +232,23 @@ const LogModal: React.FC<Props> = ({ log, open, onClose }) => {
 					<Box
 						mt={2}
 						sx={{
-							borderTop: '1px solid rgba(0, 0, 0, .125)',
+							borderTop: '2px solid rgba(0, 0, 0, .125)',
 							padding: '10px 0',
 						}}
+						className="flex justify-between items-center font-roboto"
 					>
-						<div className="log-modal__label">
+						<div className="log-modal__label text-[#333333]">
 							{__('Server Response', 'quillsmtp')}
 						</div>
-						<div className="log-modal__value">
+						<div className={`log-model__value ${log?.status === "succeeded"
+							? "text-[#03A32C]"
+							: "text-[#F35A5A]"
+							}`}>
 							<pre>{response}</pre>
 						</div>
 					</Box>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />} className='text-[#333333]'>
 							{sprintf(
 								/* translators: %s: Attachment Count */
 								__('Attachment (%s)', 'quillsmtp'),

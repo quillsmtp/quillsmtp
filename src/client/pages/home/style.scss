@@ -1,10 +1,81 @@
+.qsmtp-home-page__overview {
+	.qsmtp-home-page__overview__content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20px;
+	}
+
+	.qsmtp-home-page__overview__content__item {
+		background: white;
+		padding: 35px 20px;
+		margin-right: 20px;
+		display: flex;
+		align-items: start;
+		justify-content: space-between;
+		width: 100%;
+		border: solid 1px #E5E5E5;
+		border-radius: 8px;
+
+		h2 {
+			color: black;
+			font-size: 18px;
+			font-weight: 500;
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+
+			.icon {
+				margin-right: 10px;
+				font-size: 20px;
+			}
+		}
+
+		p {
+			font-size: 30px;
+			font-weight: 500;
+			color: black;
+		}
+
+		&--total {
+			color: #fff;
+		}
+
+		&--succeeded {
+		}
+
+		&--failed {
+		}
+	}
+}
+
+.filter-selection{
+	appearance: none;
+	display: inline;
+	select{
+		appearance: none;
+		border: none;
+		outline: none;
+		color: #A3A3A3;
+	}
+	&_item:focus{
+		border: none;
+		outline: none;
+		color: #3858E9;
+	}
+	option{
+		color: black;
+	}
+}
+
 .qsmtp-home-page__chart__header {
 	padding: 10px 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
 	h2 {
-		color: #fff;
+		color: black;
 		margin-right: 20px;
 		font-size: 25px;
 		font-weight: 500;
@@ -14,59 +85,69 @@
 .qsmtp-logo {
 	display: flex;
 	align-items: center;
+
 	h2 {
 		color: #fff;
-		margin:  0 10px;
+		margin: 0 10px;
 		font-weight: normal;
 	}
 }
+
 .qsmtp-home-page__chart-wrap {
 	max-width: 900px;
-	background: #191644;
+	background: white;
 	border-radius: 10px;
 	padding: 15px;
-	@media(min-width: 900px){
-		&{ 
+
+	@media(min-width: 900px) {
+		& {
 			min-width: 900px;
 		}
 	}
-	
+
 	margin: auto;
 }
 
 .qsmtp-home-page {
 	margin-bottom: 20px;
+
 	.qsmtp-home-page__content {
 		display: grid;
 		margin-top: 40px;
 		grid-gap: 20px;
 	}
 }
+
 .qsmtp-home-page__chart-section {
 	display: flex;
 	align-items: center;
+
 	.qsmtp-home-page__chart-buttons__group {
 		margin-left: 20px;
 	}
 }
+
 .qsmtp-home-page__chart-filters {
 	display: flex;
 	align-items: center;
+
 	.qsmtp-home-page__chart-filter {
 		padding: 10px 20px;
 		border: 1px solid #dcdfe6;
-		color: #606266;
-		font-weight: bold;
+		color: white;
 		cursor: pointer;
 		transition: all 0.3s ease-in-out;
+
 		&:not(:last-child) {
 			border-right: none;
 		}
+
 		&:hover {
 			background-color: #409eff;
 			border-color: #409eff;
 			color: #fff;
 		}
+
 		&--active {
 			background-color: #409eff;
 			border-color: #409eff;
@@ -74,26 +155,29 @@
 		}
 	}
 }
+
 .qsmtp-home-page__chart-date-range {
 	display: flex;
 	align-items: center;
 	border: 1px solid #dcdfe6;
-	background-color: #f0f0f1;
-	color: #606266;
-	font-weight: bold;
+	background-color: white;
+	color: black;
 	margin-left: 20px;
 	cursor: pointer;
-	border-radius: 5px;
-	> div {
+	border-radius: 12px;
+
+	>div {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		padding: 5px 20px;
-		color: #c0c4cc;
+		color: black;
+
 		.qsmtp-home-page__chart-date-range-label {
 			background-color: transparent;
 			text-align: center;
 		}
+
 		svg {
 			fill: currentColor;
 		}

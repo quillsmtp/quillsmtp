@@ -19,12 +19,13 @@ import {
 	BarElement,
 	PointElement,
 	LineElement,
+	ArcElement,
 	Legend,
 	Tooltip,
 	LineController,
 	BarController,
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import { Chart, Line } from 'react-chartjs-2';
 import { ThreeDots as Loader } from 'react-loader-spinner';
 import { css } from '@emotion/css';
 import classnames from 'classnames';
@@ -34,6 +35,14 @@ import Logo from '../../assets/logo.svg';
  */
 import './style.scss';
 import WelcomePage from '../welcome-page';
+import { GoMail } from "react-icons/go";
+import { FaCheck } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { MdArrowOutward } from "react-icons/md";
+import { SiBrevo } from "react-icons/si";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowRoundUp } from "react-icons/io";
+import { FormControl, MenuItem, Select } from '@mui/material';
 
 ChartJS.register(
 	LinearScale,
@@ -41,11 +50,13 @@ ChartJS.register(
 	BarElement,
 	PointElement,
 	LineElement,
+	ArcElement,
 	Legend,
 	Tooltip,
 	LineController,
 	BarController
 );
+
 const Home = () => {
 	const { connections } = useSelect((select) => ({
 		connections: select('quillSMTP/core').getConnections(),
@@ -63,6 +74,7 @@ const Home = () => {
 	});
 
 	const [logs, setLogs] = useState<Logs>({});
+	const [selectedValue, setSelectedValue] = useState<string>("value1")
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isFiltering, setIsFiltering] = useState<boolean>(false);
 	const [dateRange, setDateRange] = useState<any>({});
@@ -129,6 +141,106 @@ const Home = () => {
 			});
 	};
 
+	// const data = {
+	// 	labels: keys(logs.days),
+	// 	datasets: [
+	// 		{
+	// 			label: logs.total,
+	// 			data: map(
+	// 				logs.days,
+	// 				(count) => count
+	// 			),
+	// 			borderColor: "blue",
+	// 			backgroundColor: "rgba(47, 128, 237, 0.2)",
+	// 			tension: 0.4,
+	// 		},
+	// 		{
+	// 			label: logs.success,
+	// 			data: map(
+	// 				logs.days,
+	// 				(count) => count
+	// 			),
+	// 			borderColor: "green",
+	// 			backgroundColor: "rgba(235, 87, 87, 0.2)",
+	// 			tension: 0.4,
+	// 		},
+	// 		{
+	// 			label: logs.failed,
+	// 			data: map(
+	// 				logs.days,
+	// 				(count) => count
+	// 			),
+	// 			borderColor: "red",
+	// 			backgroundColor: "rgba(39, 174, 96, 0.2)",
+	// 			tension: 0.4,
+	// 		},
+	// 	],
+	// };
+
+	// const options = {
+	// 	responsive: true,
+	// 	interaction: {
+	// 		mode: 'index' as const,
+	// 		intersect: false,
+	// 	},
+	// 	plugins: {
+	// 		legend: { position: "top" },
+	// 		title: { display: true, text: "Total Emails" },
+	// 	},
+	// };
+
+	// console.log("logs.days:", logs.days);
+	// console.log("logs.success:", logs.success);
+
+	const data = [
+		{ date: '2024-03-01', total: 500, sent: 450, failed: 50 },
+		{ date: '2024-03-02', total: 520, sent: 470, failed: 50 },
+		{ date: '2024-03-03', total: 530, sent: 480, failed: 50 },
+		{ date: '2024-03-04', total: 540, sent: 490, failed: 50 },
+		{ date: '2024-03-05', total: 550, sent: 500, failed: 50 },
+		{ date: '2024-03-06', total: 560, sent: 510, failed: 50 },
+		{ date: '2024-03-07', total: 570, sent: 520, failed: 50 },
+		{ date: '2024-03-08', total: 580, sent: 530, failed: 50 },
+		{ date: '2024-03-09', total: 590, sent: 540, failed: 50 },
+		{ date: '2024-03-10', total: 600, sent: 550, failed: 50 },
+		{ date: '2024-03-11', total: 610, sent: 560, failed: 50 },
+		{ date: '2024-03-12', total: 620, sent: 570, failed: 50 },
+		{ date: '2024-03-13', total: 630, sent: 580, failed: 50 },
+		{ date: '2024-03-14', total: 640, sent: 590, failed: 50 },
+		{ date: '2024-03-15', total: 650, sent: 600, failed: 50 }
+	];
+	
+	const chartData = {
+		labels: data.map(d => d.date),
+		datasets: [
+			{
+				label: 'Total Emails',
+				data: data.map(d => d.total),
+				borderColor: 'blue',
+				backgroundColor: 'rgba(0, 0, 255, 0.2)',
+				borderWidth: 2,
+				fill: true,
+			},
+			{
+				label: 'Sent Emails',
+				data: data.map(d => d.sent),
+				borderColor: 'green',
+				backgroundColor: 'rgba(0, 255, 0, 0.2)',
+				borderWidth: 2,
+				fill: true,
+			},
+			{
+				label: 'Failed Emails',
+				data: data.map(d => d.failed),
+				borderColor: 'red',
+				backgroundColor: 'rgba(255, 0, 0, 0.2)',
+				borderWidth: 3,
+				fill: false,
+				tension: 0.4 // Makes the line smoother for better visibility
+			}
+		]
+	};
+
 	return (
 		<div className="qsmtp-wrapper">
 			{/* <div className="qsmtp-left-side">
@@ -150,78 +262,140 @@ const Home = () => {
 			<div className="qsmtp-main-container">
 				<div className="qsmtp-home-page">
 					<div
-						className={classnames(
-							'qsmtp-home-page__overview',
-							css`
-								.qsmtp-home-page__overview__content {
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									margin-top: 50px;
-								}
-
-								.qsmtp-home-page__overview__content__item {
-									background: #536ad9;
-									padding: 20px;
-									display: flex;
-									flex-direction: column;
-									justify-content: center;
-									align-items: center;
-									h2 {
-										color: #fff;
-										font-size: 18px;
-										font-weight: 500;
-										margin-bottom: 10px;
-										display: flex;
-										align-items: center;
-										.icon {
-											margin-right: 10px;
-											font-size: 20px;
-										}
-									}
-									p {
-										font-size: 30px;
-										font-weight: 600;
-										color: #fff;
-									}
-
-									&--total {
-										color: #fff;
-									}
-
-									&--succeeded {
-										color: #fff;
-										background: radial-gradient(
-											circle,
-											#28a344 0%,
-											#54b250 100%
-										);
-									}
-
-									&--failed {
-										color: #fff;
-										background: radial-gradient(
-											circle,
-											#ff3c44 0%,
-											#ff2828 100%
-										);
-									}
-								}
-							`
-						)}
+						className="qsmtp-home-page__overview"
 					>
 						<div className="qsmtp-home-page__overview__content">
-							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--total">
-								<h2>{__('Total Emails', 'quillsmtp')}</h2>
-								<p>{logs.total || 0}</p>
+							<div className="qsmtp-home-page__overview__content__item qsmtp-home-page__overview__content__item--total ml-5">
+								<div className=''>
+									<div className='rounded-full bg-[#e9ecfd] w-fit mb-10'>
+										<GoMail className='text-[#3858E9] size-16 p-4' />
+									</div>
+									<h2 className='font-roboto'>{__('All Emails', 'quillsmtp')}</h2>
+									<p className='font-roboto'>{logs.total || 0}</p>
+								</div>
+								<div className='filter-selection grid gap-[7.3rem]'>
+									<div className='flex justify-end'>
+										<FormControl variant="standard" sx={{ width: "100px" }}>
+											<Select
+												labelId="filter-select"
+												id="filter-select"
+												value={selectedValue}
+												label="By Email Address"
+												sx={{
+													color: "#A3A3A3", height: "20px", "&:hover": {
+														backgroundColor: "white",
+														color: "#3858E9",
+													},
+													"&.Mui-focused": {
+														backgroundColor: "white !important",
+														color: "#3858E9",
+													}, ".MuiSelect-select": {
+														backgroundColor: "transparent !important",
+														color: "#A3A3A3"
+													},
+												}}
+												onChange={(event) => setSelectedValue(event.target.value)}
+											>
+												<MenuItem value="value1">Today</MenuItem>
+												<MenuItem value="value2">Yesterday</MenuItem>
+												<MenuItem value="value3">Last Week</MenuItem>
+												<MenuItem value="value4">Last Month</MenuItem>
+											</Select>
+										</FormControl>
+									</div>
+									<div className='flex items-center gap-1 text-[#03A32C] text-[12px] bg-[#aaf2bc] rounded-full px-[18px] py-[5px]'>
+										<IoIosArrowRoundUp className='text-[26px]' />
+										<span className='font-roboto'>+20% from yesterday</span>
+									</div>
+								</div>
 							</div>
-							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--succeeded">
-								<h2>{__('Succeeded Emails', 'quillsmtp')}</h2>
-								<p>{logs.success || 0}</p>
+							<div className="qsmtp-home-page__overview__content__item qsmtp-home-page__overview__content__item--succeeded">
+								<div>
+									<div className='rounded-full bg-[#d6f6df] w-fit mb-10'>
+										<FaCheck className='text-[#03A32C] size-16 p-4' />
+									</div>
+									<h2 className='font-roboto'>{__('Succeeded Emails', 'quillsmtp')}</h2>
+									<p className='font-roboto'>{logs.success || 0}</p>
+								</div>
+								<div className='filter-selection grid gap-[7.3rem]'>
+									<div className='flex justify-end'>
+										<FormControl variant="standard" sx={{ width: "100px" }}>
+											<Select
+												labelId="filter-select"
+												id="filter-select"
+												value={selectedValue}
+												label="By Email Address"
+												sx={{
+													color: "#A3A3A3", height: "20px", "&:hover": {
+														backgroundColor: "white",
+														color: "#3858E9",
+													},
+													"&.Mui-focused": {
+														backgroundColor: "white !important",
+														color: "#3858E9",
+													}, ".MuiSelect-select": {
+														backgroundColor: "transparent !important",
+														color: "#A3A3A3"
+													},
+												}}
+												onChange={(event) => setSelectedValue(event.target.value)}
+											>
+												<MenuItem value="value1">This Week</MenuItem>
+												<MenuItem value="value2">Yesterday</MenuItem>
+												<MenuItem value="value3">Last Week</MenuItem>
+												<MenuItem value="value4">Last Month</MenuItem>
+											</Select>
+										</FormControl>
+									</div>
+									<div className='flex items-center gap-1 text-[#03A32C] text-[12px] bg-[#aaf2bc] rounded-full px-[18px] py-[5px]'>
+										<IoIosArrowRoundUp className='text-[26px]' />
+										<span className='font-roboto'>+20% from last week</span>
+									</div>
+								</div>
 							</div>
-							<div className="qsmtp-home-page__overview__content__item qsmtp-card qsmtp-home-page__overview__content__item--failed">
-								<h2>{__('Failed Emails', 'quillsmtp')}</h2>
-								<p>{logs.failed || 0}</p>
+							<div className="qsmtp-home-page__overview__content__item qsmtp-home-page__overview__content__item--failed">
+								<div>
+									<div className='rounded-full bg-[#f9d5d5] w-fit mb-10'>
+										<IoClose className='text-[#F35A5A] size-16 p-4' />
+									</div>
+									<h2 className='font-roboto'>{__('Failed Emails', 'quillsmtp')}</h2>
+									<p className='font-roboto'>{logs.failed || 0}</p>
+								</div>
+								<div className='filter-selection grid gap-[7.3rem]'>
+									<div className='flex justify-end'>
+										<FormControl variant="standard" sx={{ width: "110px" }}>
+											<Select
+												labelId="filter-select"
+												id="filter-select"
+												value={selectedValue}
+												label="By Email Address"
+												sx={{
+													color: "#A3A3A3", height: "20px", "&:hover": {
+														backgroundColor: "white",
+														color: "#3858E9",
+													},
+													"&.Mui-focused": {
+														backgroundColor: "white !important",
+														color: "#3858E9",
+													}, ".MuiSelect-select": {
+														backgroundColor: "transparent !important",
+														color: "#A3A3A3"
+													},
+												}}
+												onChange={(event) => setSelectedValue(event.target.value)}
+											>
+												<MenuItem value="value1">This Month</MenuItem>
+												<MenuItem value="value2">Yesterday</MenuItem>
+												<MenuItem value="value3">Last Week</MenuItem>
+												<MenuItem value="value4">Last Month</MenuItem>
+											</Select>
+										</FormControl>
+									</div>
+									<div className='flex items-center gap-1 text-[#03A32C] text-[12px] bg-[#aaf2bc] rounded-full px-[18px] py-[5px]'>
+										<IoIosArrowRoundUp className='text-[26px]' />
+										<span className='font-roboto'>+20% less than last month</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -229,8 +403,8 @@ const Home = () => {
 						<div className="qsmtp-home-page__content">
 							<div className="qsmtp-home-page__chart-wrap">
 								<div className="qsmtp-home-page__chart__header">
-									<h2 style={{ color: '#fff' }}>
-										{__('Sending Stats', 'quill-smtp')}
+									<h2 className='font-roboto font-[700] text-[24px]'>
+										{__('Total Emails', 'quill-smtp')}
 									</h2>
 									<div className="qsmtp-home-page__chart-section">
 										<div
@@ -239,29 +413,29 @@ const Home = () => {
 												setOpenDateRangePicker(true)
 											}
 										>
-											<div>
-												<DateIcon />
-												<span className="qsmtp-home-page__chart-date-range-label">
+											<div className='flex items-center gap-3 border-r'>
+												<span className="qsmtp-home-page__chart-date-range-label font-roboto text-[16px] py-2">
 													{dateRange?.startDate?.toLocaleDateString() ||
 														__(
 															'Start Date',
 															'quillsmtp'
 														)}
 												</span>
+												<DateIcon className='text-[#3858E9]' />
 											</div>
-											<span>{__('To', 'quillsmtp')}</span>
-											<div>
-												<DateIcon />
-												<span className="qsmtp-home-page__chart-date-range-label">
+											<span className='text-[#3858E9] font-roboto text-[20px] px-9'>{__('To', 'quillsmtp')}</span>
+											<div className='flex items-center gap-3 border-l'>
+												<span className="qsmtp-home-page__chart-date-range-label font-roboto text-[16px] py-2">
 													{dateRange?.endDate?.toLocaleDateString() ||
 														__(
 															'End Date',
 															'quillsmtp'
 														)}
 												</span>
+												<DateIcon className='text-[#3858E9]' />
 											</div>
 										</div>
-										<LoadingButton
+										{/* <LoadingButton
 											variant="outlined"
 											onClick={filterLogsByDate}
 											loading={isFiltering}
@@ -272,7 +446,7 @@ const Home = () => {
 											}}
 										>
 											{__('Filter', 'quillsmtp')}
-										</LoadingButton>
+										</LoadingButton> */}
 										<Popover
 											open={openDateRangePicker}
 											onClose={() =>
@@ -322,34 +496,44 @@ const Home = () => {
 											padding: '20px',
 										}}
 									>
-										<Chart
-											type="bar"
+										<Line data={chartData} />
+										{/* <Chart
+											type="line"
 											data={{
 												labels: keys(logs.days),
 												datasets: [
 													{
 														type: 'line',
-														label: 'byDate',
+														label: logs.total,
 														data: map(
 															logs.days,
 															(count) => count
 														),
 														backgroundColor:
-															'#f44336',
-														borderColor: '#f44336',
-														borderWidth: 1,
+															'blue',
+														tension: 0.4,
 													},
 													{
-														type: 'bar',
-														label: 'Cumulative',
+														type: 'line',
+														label: logs.success,
 														data: map(
 															logs.days,
 															(count) => count
 														),
 														backgroundColor:
-															'#2196f3',
-														borderColor: '#2196f3',
-														borderWidth: 1,
+															'green',
+														tension: 0.4,
+													},
+													{
+														type: 'line',
+														label: logs.failed,
+														data: map(
+															logs.days,
+															(count) => count
+														),
+														backgroundColor:
+															'red',
+														tension: 0.4,
 													},
 												],
 											}}
@@ -357,7 +541,7 @@ const Home = () => {
 												plugins: {
 													title: {
 														display: true,
-														text: 'Chart.js Bar Chart - Stacked',
+														text: 'Total Emails',
 													},
 												},
 												responsive: true,
@@ -366,12 +550,82 @@ const Home = () => {
 													intersect: false,
 												},
 											}}
-										/>
+										/> */}
 									</div>
 								)}
 							</div>
 						</div>
 					)}
+					<div className='flex w-100 justify-center gap-8 px-8 pt-8 pb-10'>
+						<div className='border-[1px] rounded-lg border-[#E5E5E5] w-1/3 bg-white'>
+							<div className='flex items-center justify-between py-3 px-4 border-b border-[#E5E5E5]'>
+								<h2 className='text-[20px] font-semibold font-roboto'>Top Sender</h2>
+								<a href="/" className='flex items-center text-[#3858E9] gap-2 text-[15px] font-roboto'>All <MdArrowOutward /></a>
+							</div>
+							<div className=' text-[#333333] mx-3 my-6 bg-[#FAFAFA] py-3 px-4 flex justify-between font-roboto'>
+								<span className='text-[16px]'>Md.Magdy.Sa@Gmail.Com</span>
+								<span className='font-semibold text-[16px]'>490</span>
+
+							</div>
+							<div className=' text-[#333333] mx-3 my-6 bg-[#FAFAFA] py-3 px-4 flex justify-between font-roboto'>
+								<span className='text-[16px]'>Md.Magdy.Sa@Gmail.Com</span>
+								<span className='font-semibold text-[16px]'>490</span>
+
+							</div>
+							<div className=' text-[#333333] mx-3 my-6 bg-[#FAFAFA] py-3 px-4 flex justify-between font-roboto'>
+								<span className='text-[16px]'>Md.Magdy.Sa@Gmail.Com</span>
+								<span className='font-semibold text-[16px]'>490</span>
+
+							</div>
+							<div className=' text-[#333333] mx-3 bg-[#FAFAFA] py-3 px-4 flex justify-between font-roboto'>
+								<span className='text-[16px]'>Md.Magdy.Sa@Gmail.Com</span>
+								<span className='font-semibold text-[16px]'>490</span>
+
+							</div>
+						</div>
+						<div className='border-[1px] rounded-lg border-[#E5E5E5] w-2/3 bg-white'>
+							<div className='flex items-center justify-between py-3 px-4 bg-white'>
+								<h2 className='text-[20px] font-semibold font-roboto'>Recent Logs</h2>
+								<a href="/" className='flex items-center text-[#3858E9] gap-2 text-[15px] font-roboto'>View Logs <MdArrowOutward /></a>
+							</div>
+							<table className='w-full table-fixed text-[16px] font-roboto'>
+								<thead>
+									<tr className='text-white bg-[#333333] border-l-[0.5px] border-r-[0.5px] border-[#333333]'>
+										<th className='font-normal text-start py-5 px-4 w-2/6'>From</th>
+										<th className='font-normal text-start'>Provider</th>
+										<th className='font-normal text-start'>Status</th>
+										<th className='font-normal text-start'>Date</th>
+									</tr>
+								</thead>
+								<tbody className='text-[#333333]'>
+									<tr className='border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] border-[#9E9E9E]'>
+										<td className='py-5 px-4'>Md.Magdy.Sa@Gmail.Com</td>
+										<td className='text-[#25a445] text-[26px]'><SiBrevo /></td>
+										<td><span className='font-[400] text-[#03A32C] rounded-full bg-[#03A32C] bg-opacity-20 py-[8px] px-[28px] border-[0.5px] border-[#03A32C]'>Sent</span></td>
+										<td>2025-02-03 05:07:18</td>
+									</tr>
+									<tr className='border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] border-[#9E9E9E]'>
+										<td className='py-5 px-4'>Md.Magdy.Sa@Gmail.Com</td>
+										<td className='text-[#25a445] text-[26px]'><SiBrevo /></td>
+										<td><span className='font-[400] text-[#03A32C] rounded-full bg-[#03A32C] bg-opacity-20 py-[8px] px-[28px] border-[0.5px] border-[#03A32C]'>Sent</span></td>
+										<td>2025-02-03 05:07:18</td>
+									</tr>
+									<tr className='border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] border-[#9E9E9E]'>
+										<td className='py-5 px-4'>Md.Magdy.Sa@Gmail.Com</td>
+										<td className='text-[#25a445] text-[26px]'><SiBrevo /></td>
+										<td><span className='font-[400] text-[#E93838] rounded-full bg-[#E93838] bg-opacity-20 py-[8px] px-[25px] border-[0.5px] border-[#E93838]'>Failed</span></td>
+										<td>2025-02-03 05:07:18</td>
+									</tr>
+									<tr className='border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] border-[#9E9E9E] rounded-b-lg'>
+										<td className='py-5 px-4 rounded-br-lg'>Md.Magdy.Sa@Gmail.Com</td>
+										<td className='text-[#25a445] text-[26px]'><SiBrevo /></td>
+										<td><span className='font-[400] text-[#03A32C] rounded-full bg-[#03A32C] bg-opacity-20 py-[8px] px-[28px] border-[0.5px] border-[#03A32C]'>Sent</span></td>
+										<td className='rounded-br-lg'>2025-02-03 05:07:18</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 import { useEffect } from '@wordpress/element';
 import { Icon } from '@wordpress/components';
 import { close } from '@wordpress/icons';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { __ } from '@wordpress/i18n';
 import { motion } from "framer-motion"
 import "./style.scss";
@@ -41,12 +42,12 @@ const SetUpWizard = ({ setSetUpWizard, connectionId, mode }) => {
                 }
 
             >
-                <Icon icon={close} />
+                <CancelIcon/>
             </div>
             <WizardContent mode={mode} setSetUpWizard={setSetUpWizard} connectionId={connectionId} />
             <div className="qsmtp-setup-wizard__right-blank-area">
-                <Particles
-                /></div>
+                {/* <Particles/> */}
+                </div> 
 
         </motion.div>
     )

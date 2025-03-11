@@ -35,6 +35,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
 /**
  * Internal Dependencies
@@ -45,6 +46,7 @@ import AccountAuth from '../../account-setup/account-auth';
 import { EditCredentials } from '../../account-edit';
 import { getMailerModule } from '@quillsmtp/mailers';
 import "./style.scss";
+import { AddCircleOutlineOutlined } from '@mui/icons-material';
 interface Props {
 	connectionId: string;
 	main: ConnectMain;
@@ -228,11 +230,11 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 	return (
 		<>
 			<div className="mailer-connect-main__account-selector">
-				<div className="mailer-connect-main__account-selector__list">
+				<div className="mailer-connect-main__account-selector__list w-[82%]">
 					{main.accounts.auth.type === 'credentials' &&
 						size(accounts) > 0 && (
 							<FormControl component="fieldset" fullWidth>
-								<FormLabel component="legend">
+								<FormLabel component="legend" className='text-[#333333] text-[28px] capitalize'>
 									{__('Select an account', 'quillsmtp')}
 								</FormLabel>
 								<RadioGroup
@@ -248,6 +250,7 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 													value={id}
 													control={<Radio />}
 													label={account.name}
+													className='border-[1px] focus:border-[#3858E9] px-3 py-2 font-roboto text-[#333333] flex justify-between items-center'
 												/>
 												{main.accounts.auth.type ===
 													'credentials' && (
@@ -269,13 +272,14 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 																			? 'primary'
 																			: 'default'
 																	}
+																	className='rounded-full bg-[#3858E9] bg-opacity-20 text-[#3858E9]'
 																>
-																	<EditIcon />
+																	<EditIcon className='size-4'/>
 																</IconButton>
 															)}
 															{editingAccount && (
 																<CircularProgress
-																	size={20}
+																	size={8}
 																/>
 															)}
 														</>
@@ -289,8 +293,9 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 														setDeleteAccountID(id)
 													}
 													color="error"
+													className='rounded-full bg-[#3858E9] bg-opacity-20'
 												>
-													<DeleteIcon />
+													<DeleteIcon className='size-4'/>
 												</IconButton>
 											</div>
 											{main.accounts.auth.type ===
@@ -398,31 +403,17 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 						</DialogActions>
 					</Dialog>
 				)}
-				<>
-					{size(accounts) === 0 && (
-						<div className="mailer-connect-main__account-selector__no-accounts">
-							<Icon
-								icon={warning}
-								size={30}
-							/>
-							<p>
-								{__(`Looks like you don\'t have any  ${mailerModule.title} 
-                                    accounts configured. Please add an account to continue.`, 'quillsmtp')}
-							</p>
-						</div>
-
-					)}
-				</>
 				{main.accounts.auth.type === 'credentials' && !isAdding && (
 					<Button
 						component="label"
 						variant="outlined"
-						startIcon={<AddIcon />}
+						startIcon={<AddCircleOutlineOutlined />}
 						onClick={() => {
 							setShowingAddNewAccount(true);
 							setIsAdding(true);
 						}}
 						disabled={addingNewAccount}
+						className='capitalize bg-[#333333] py-4 px-12'
 					>
 						{__('Add new account', 'quillsmtp')}
 					</Button>
@@ -437,6 +428,19 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 				)}
 			</div>
 			<AccountSettings />
+			<>
+				{size(accounts) === 0 && (
+					<div className="mailer-connect-main__account-selector__no-accounts">
+						<ErrorOutlinedIcon className='mr-2' />
+						<p className='font-roboto text-[14px] capitalize'>
+							{__(`Looks like you don\'t have any  ${mailerModule.title} 
+                                    accounts configured. `, 'quillsmtp')}
+							<a href='/' className='text-[#EE5656] capitalize'>Please add an account to continue.</a>
+						</p>
+					</div>
+
+				)}
+			</>
 		</>
 	);
 };

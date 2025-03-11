@@ -12,6 +12,7 @@ import Setup from './setup';
 import Main from './main';
 import App from './account-setup/app';
 import { getMailerModule } from '@quillsmtp/mailers';
+import { MdArrowOutward } from 'react-icons/md';
 
 interface Props {
 	connectionId: string;
@@ -47,22 +48,32 @@ const Connect: React.FC<Props> = ({ connectionId, setup, main }) => {
 
 	return (
 		<div className="mailer-connect">
-			{storeMailer.documentation && (
-				<p
-					className="qsmtp-mailer-accounts__documentation"
-					style={{ marginBottom: '20px' }}
-				>
-					{__('Need help setting up your account?', 'quillsmtp')}{' '}
-					<a
-						href={storeMailer.documentation}
-						target="_blank"
-						rel="noreferrer"
-						className="qsmtp-mailer-accounts__documentation"
-					>
-						{__('View Documentation', 'quillsmtp')}
-					</a>
-				</p>
-			)}
+			<div className='flex items-start justify-between qsmtp-setup-wizard__header'>
+				<div className="">
+					<h2 className="qsmtp-setup-wizard__header-title font-roboto capitalize">
+						{__(
+							"Let's configure your mail provider account settings",
+							'quillsmtp'
+						)}
+					</h2>
+					<p className='font-roboto text-[#6D6D6D] capitalize'>
+						{' '}
+						Configure your mail provider account settings to
+						connect to your mail provider.{' '}
+					</p>
+				</div>
+				{storeMailer.documentation && (
+						<a
+							href={storeMailer.documentation}
+							target="_blank"
+							rel="noreferrer"
+							className='qsmtp-mailer-accounts__documentation flex items-center text-[#3858E9] gap-1 text-[15px] font-roboto font-medium'
+						>
+							{__('View Docs', 'quillsmtp')}
+							<MdArrowOutward className='text-[18px]'/>
+						</a>
+				)}
+			</div>
 			{setup && needSetup ? (
 				<Setup connectionId={connectionId} setup={setup} />
 			) : (

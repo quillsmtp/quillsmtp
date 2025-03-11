@@ -11,7 +11,7 @@ import { applyFilters } from '@wordpress/hooks';
  * External Dependencies
  */
 import TextField from '@mui/material/TextField';
-import { FormControl } from '@mui/material';
+import { FormControl, FormHelperText } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -100,23 +100,28 @@ const FromEmail: React.FC<Props> = ({ connectionId }) => {
 			{mailer && (
 				<>
 					{!fetchFromEmails && (
-						<TextField
-							label={__('From Email', 'quillsmtp')}
-							value={from_email}
-							onChange={(e) =>
-								updateTempConnection(connectionId, {
-									from_email: e.target.value,
-								})
-							}
-							autoComplete='new-password'
-							variant="outlined"
-							fullWidth
-							sx={{ mb: 2 }}
-							helperText={__(
-								'If left blank, the default WordPress from email will be used.',
-								'quillsmtp'
-							)}
-						/>
+						<div className='w-[82%]'>
+							<label className='font-roboto text-[#3858E9] mb-4 text-[18px] font-semibold'>{__('From Email', 'quillsmtp')}</label>
+							<TextField
+								label={__('From Name', 'quillsmtp')}
+								value={from_email}
+								onChange={(e) =>
+									updateTempConnection(connectionId, {
+										from_email: e.target.value,
+									})
+								}
+								autoComplete='new-password'
+								variant="outlined"
+								fullWidth
+								sx={{ my: 1}}
+							/>
+							<FormHelperText sx={{ mb:2 }} className='text-[#333333] text-[14px] font-roboto capitalize'>
+								{__(
+									'If left blank, the default WordPress from email will be used.',
+									'quillsmtp'
+								)}
+							</FormHelperText>
+						</div>
 					)}
 					{fetchFromEmails && (
 						<FormControl sx={{ mb: 3 }} fullWidth required>

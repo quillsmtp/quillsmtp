@@ -1,5 +1,6 @@
 .mailer-setup__body {
 	margin-top: 20px;
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
@@ -9,6 +10,7 @@
 		padding: 4px 0 5px;
 		border: 0;
 		padding: 16.5px 14px;
+
 		&:focus {
 			outline: none;
 			box-shadow: none;
@@ -16,5 +18,18 @@
 	}
 }
 
-.mailer-setup__instructions {
+.mailer-setup__instructions{
+	width: fit-content;
+}
+
+.mailer-setup__instructions p {
+	margin-bottom: 0px;
+	color: #3858E9;
+}
+
+.mailer-setup__instructions code {
+	background-color: transparent;
+	color: #333333;
+	font-weight: normal;
+	margin-bottom: 0px;
 }

@@ -17,6 +17,7 @@ import { useDispatch } from '@wordpress/data';
  */
 import React from 'react';
 import { size, map, keys } from 'lodash';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -29,6 +30,7 @@ import { TextField } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FormHelperText from '@mui/material/FormHelperText';
+import { FaCheck } from "react-icons/fa6";
 
 /**
  * Internal dependencies
@@ -96,14 +98,22 @@ const EmailTest: React.FC = () => {
 	};
 
 	return (
-		<div className="qsmtp-email-test-page">
-			<Card className="qsmtp-email-test-card qsmtp-card" variant="outlined">
-				<div className="qsmtp-card-header">
-					<div className="qsmtp-email-test-header__title">
-						{__('Send Test Email', 'quillsmtp')}
+		<div className="qsmtp-email-test-page grid items-start justify-center">
+			<div className="">
+				<div className="qsmtp-email-test-header__title font-roboto font-[500] text-[38px] text-[#333333] pb-10 pl-0">
+					{__('Email Test', 'quillsmtp')}
+				</div>
+			</div>
+			<Card className="qsmtp-email-test-card bg-white py-9 px-14 mb-20" variant="outlined">
+				<div className="">
+					<div className="font-roboto font-[500] text-[30px] text-[#333333] pb-4 pl-2">
+						{__('Test Your Email Configuration', 'quillsmtp')}
+					</div>
+					<div className='mx-4 pb-5 border-b'>
+						<span className='text-[#919191] text-[14px] font-roboto'>Send A Test Email To Verify Your SMTP Or API Setup And Ensure Smooth Email Delivery</span>
 					</div>
 				</div>
-				<CardContent>
+				<CardContent className='mt-2'>
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
@@ -118,9 +128,7 @@ const EmailTest: React.FC = () => {
 								borderColor: "gray"
 							}
 						}}>
-							<InputLabel id="qsmtp-general-settings-default-connection-label">
-								{__('Default Connection', 'quillsmtp')}
-							</InputLabel>
+							<label className='font-roboto text-[#3858E9] mb-2 text-[16px]'>{__('Default Connection', 'quillsmtp')}</label>
 							<Select
 								labelId="qsmtp-general-settings-default-connection-label"
 								id="qsmtp-general-settings-default-connection"
@@ -135,6 +143,7 @@ const EmailTest: React.FC = () => {
 								onChange={(event: SelectChangeEvent) => {
 									setConnection(event.target.value);
 								}}
+								input={<OutlinedInput />}
 							>
 								{map(keys(connections), (key) => {
 									return (
@@ -157,8 +166,8 @@ const EmailTest: React.FC = () => {
 								})}
 							</Select>
 						</FormControl>
+						<label className='font-roboto text-[#3858E9] text-[16px]'>{__('Email Address', 'quillsmtp')}</label>
 						<TextField
-							label={__('Email Address', 'quillsmtp')}
 							value={email}
 							onChange={(event) => {
 								setEmail(event.target.value);
@@ -173,8 +182,9 @@ const EmailTest: React.FC = () => {
 								}
 							}}
 							type="email"
+							className='mt-2'
 						/>
-						<FormControlLabel
+						{/* <FormControlLabel
 							control={
 								<Switch
 									checked={isHTML}
@@ -186,11 +196,23 @@ const EmailTest: React.FC = () => {
 							label={__('HTML Email', 'quillsmtp')}
 							sx={{
 								display: 'block',
+								"& .MuiTypography-root": {
+									fontSize: "16px",
+									fontWeight: "bold",
+									color: "#3858E9",
+								},
 							}}
-						/>
-						<FormHelperText sx={{ mb: 3 }}>
+							className='font-roboto'
+						/> */}
+						<div className="switch-container">
+							<div className={`switch ${isHTML ? "checked" : ""}`} onClick={() => setIsHTML((prev) => !prev)}>
+								<div className="circle">{isHTML ? <FaCheck className='text-[#3858E9]'/> : ""}</div>
+							</div>
+							<span className="font-roboto">HTML Email</span>
+						</div>
+						<FormHelperText sx={{ my: 2 }} className='text-[#333333] text-[16px] font-roboto pb-2 border-b'>
 							{__(
-								'Send the email as HTML or plain text.',
+								'Send The Email As HTML Or Plain Text.',
 								'quillsmtp'
 							)}
 						</FormHelperText>
@@ -205,8 +227,9 @@ const EmailTest: React.FC = () => {
 							onClick={() => {
 								sendEmail();
 							}}
+							className='bg-[#333333] px-8 py-3 mt-2 normal-case font-roboto'
 						>
-							{__('Send', 'quillsmtp')}
+							{__('Test My Email', 'quillsmtp')}
 						</LoadingButton>
 					</form>
 				</CardContent>

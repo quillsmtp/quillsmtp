@@ -1,114 +1,161 @@
 body.qsmtp-setup-wizard-active #wpwrap {
     display: none !important;
 }
+
 .qsmtp-setup-wizard {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 100vh;
+    //height: 100vh;
     bottom: 0;
     box-sizing: border-box;
     right: 0;
-    left:0;
-    background: #ececec;
+    left: 0;
+    background: white;
     overflow: auto;
     display: flex;
 
     * {
         box-sizing: border-box;
     }
+
     .qsmtp-setup-wizard__right-blank-area {
-        background: rgb(13, 71, 161);
+        background: #0E2179;
         width: 100%;
         height: 100%;
         position: relative;
         overflow: hidden;
         z-index: 0;
     }
-    .qsmtp-setup-wizard__sidebar {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 70px;
-        background: #062053;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 11;
 
-      
+    .qsmtp-setup-wizard__sidebar {
+        // position: relative;
+        // left: 0;
+        // top: 0;
+        // bottom: 0;
+        width: 70px;
+        padding-left: 90px;
+        display: flex;
+        align-items: center;
+        //z-index: 11;
+
+
         .qsmtp-setup-wizard__sidebar-steps {
-            margin-top: 100px;
+            margin-top: 50px;
             display: flex;
-            gap: 60px;
-            flex-direction: column;
+            gap: 120px;
             justify-content: space-between;
 
             .qsmtp-setup-wizard__sidebar-step-wrapper {
                 position: relative;
 
-                &:last-child .qsmtp-setup-wizard__sidebar-step-line {
-                    display: none
-                }
+                // &:last-child .qsmtp-setup-wizard__sidebar-step-line-inner {
+                //     display: none
+                // }
             }
+
             .qsmtp-setup-wizard__sidebar-step-line {
                 position: absolute;
-                left: 14.5px;
-                width: 1px;
-                top: 100%;
-                height: 60px;
-                background: #959090;
-                margin: 0 auto;
+                left: 45px;
+                // width: 3px;
+                top: 12.1%;
+                // height: 60px;
+                // background: #959090;
+                // margin: 0 auto;
+                display: block;
+                width: 90px;
+                height: 4px;
+                border-radius: 10px;
+                background-color: #EFF0F6;
+                margin: 10px auto;
+                display: block;
+
+                &.qsmtp-setup-wizard__sidebar-step-line--checked {
+                    background-color: #3858E9 !important;
+                    /* Checked green */
+                }
+
+                .qsmtp-setup-wizard__sidebar-step-line-inner {
+                    position: absolute;
+                    left: 0px;
+                    top: -10px;
+                    width: 25px;
+                    /* Half-length */
+                    height: 4px;
+                    border-radius: 10px;
+                    background-color: #EFF0F6;
+                    /* Active step blue */
+                    margin: 10px auto;
+                    transition: width 0.3s ease-in-out;
+                    &.qsmtp-setup-wizard__sidebar-step-line-inner--checked{
+                        background-color: #3858E9;
+                    }
+                }
             }
+
             .qsmtp-setup-wizard__sidebar-step {
-                 width: 30px;
+                width: 30px;
                 height: 30px;
-                background: transparent;
-                border: 1px solid #959090;                
-                color: #959090;
+                font-weight: bold;
+                background: #d2d3d9;
+                border: 1px solid #EFF0F6;
+                color: white;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
 
-                &.qsmtp-setup-wizard__sidebar-step--active,  &.qsmtp-setup-wizard__sidebar-step--checked {
+                &.qsmtp-setup-wizard__sidebar-step--checked {
                     color: #fff;
                     border-color: transparent;
-                  
-                    background: #d058c5;
-                 
+
+                    background: #3858E9;
+
                 }
-    
+
+                &.qsmtp-setup-wizard__sidebar-step--active {
+                    color: #fff;
+                    border-color: transparent;
+
+                    background: #8EA2FB;
+                }
+
                 &.qsmtp-setup-wizard__sidebar-step--checked svg {
                     fill: #fff;
                     width: 25px;
                     height: 25px;
                 }
-                
+
             }
         }
     }
-    .qsmtp-setup-wizard__sidebar .qsmtp-setup-wizard__sidebar-logo {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 70px;
-        height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #020038;
 
-        img {
-            width: 50px;
-            height: 50px;
-        }   
-    }
+    // .qsmtp-setup-wizard__sidebar .qsmtp-setup-wizard__sidebar-logo {
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     width: 70px;
+    //     height: 70px;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     background: #020038;
+
+    //     img {
+    //         width: 50px;
+    //         height: 50px;
+    //     }
+    // }
+
     .qsmtp-setup-wizard__buttons {
+        //position: fixed;
+        //bottom: 40px;
+        //width: 65%;
+        padding-top: 20px;
         margin-top: 30px;
         display: flex;
         justify-content: space-between;
+        border-top: 1px solid #D9D9D9;
 
         button {
             background-size: 210% 210%;
@@ -118,33 +165,36 @@ body.qsmtp-setup-wizard-active #wpwrap {
             box-shadow: none !important;
             color: #fff;
             cursor: pointer;
-            padding: 8px 14px;
             font-size: 16px;
+            text-transform: none;
 
             &.qsmtp-setup-wizard__next-button {
-                background: #e14eca;
-                background-color: #e14eca;
+                background: #3858E9;
+                background-color: #3858E9;
                 color: #fff;
+                padding: 8px 55px;
 
                 svg {
                     fill: #fff;
                 }
-    
+
             }
+
             &.qsmtp-setup-wizard__prev-button {
-                border: 1px solid #e14eca;
                 background: transparent;
-                color: #e14eca;
+                color: #333333;
+                padding: 8px 0;
             }
         }
-        
+
     }
 
     input {
         color: #333 !important;
         background: transparent !important;
-        height: 48px;
+        height: 60px;
         border: none !important;
+        padding-left: 20px;
     }
 
     input::placeholder {
@@ -152,41 +202,50 @@ body.qsmtp-setup-wizard-active #wpwrap {
     }
 
     input:focus {
-       box-shadow: none !important;
-       border: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 
-       
+
     .qsmtp-setup-wizard__close {
         position: absolute;
         top: 10px;
         right: 10px;
         z-index: 1111;
         cursor: pointer;
+
         svg {
             fill: #fff;
         }
     }
 
     .qsmtp-setup-wizard__content {
-        min-width: 600px;
-        max-width: 900px;
-        padding:  60px 80px 60px 120px;
-        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 1110px;
+        max-width: 100%;
+        padding: 50px 60px 20px 60px;
+        height: 100%;
         overflow: auto;
-        z-index: 2;
-        background: #ececec;
+        //z-index: 2;
+        background: white;
         transition: width 0.3s ease;
         -webkit-transition: width 0.3s ease;
     }
+
     .qsmtp-setup-wizard__header {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        padding-bottom: 25px;
+        border-bottom: solid 1px #D9D9D9;
+
         .qsmtp-setup-wizard__header-title {
             font-size: 30px;
-            font-family: Roboto, sans-serif;
-            font-weight: 300;
-            color: #333;
+            //font-family: Roboto, sans-serif;
+            font-weight: 500;
+            color: #333333;
             line-height: 1.2;
+            padding-bottom: 10px;
         }
     }
 
@@ -195,3 +254,4 @@ body.qsmtp-setup-wizard-active #wpwrap {
         cursor: not-allowed !important;
     }
 }
+

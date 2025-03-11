@@ -28,11 +28,14 @@ import SaveIcon from '@mui/icons-material/Save';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FormHelperText from '@mui/material/FormHelperText';
+import { FaCheck } from "react-icons/fa6";
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
+
 
 const GeneralSettings: React.FC = () => {
 	const initialPayload = ConfigAPI.getInitialPayload();
@@ -96,11 +99,11 @@ const GeneralSettings: React.FC = () => {
 
 	return (
 		<Card
-			className="qsmtp-general-settings qsmtp-card"
+			className="qsmtp-general-settings border border-[#E0E0E0]"
 			sx={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
 		>
-			<div className="qsmtp-card-header">
-				<div className="qsmtp-general-settings-header__title">
+			<div className="px-[20px] py-3 text-[24px] border-b mb-2 border-[#E0E0E0]">
+				<div className="text-[#333333] font-[500] font-roboto">
 					{__('General', 'quillsmtp')}
 				</div>
 			</div>
@@ -136,9 +139,7 @@ const GeneralSettings: React.FC = () => {
 							borderColor: "gray"
 						}
 					}}>
-						<InputLabel id="qsmtp-general-settings-default-connection-label">
-							{__('Default Connection', 'quillsmtp')}
-						</InputLabel>
+						<label className='font-roboto text-[#3858E9] mb-2 text-[16px] font-[500]'>{__('Default Connection', 'quillsmtp')}</label>
 						<Select
 							labelId="qsmtp-general-settings-default-connection-label"
 							id="qsmtp-general-settings-default-connection"
@@ -151,6 +152,7 @@ const GeneralSettings: React.FC = () => {
 							onChange={(event: SelectChangeEvent) => {
 								setDefaultConnection(event.target.value);
 							}}
+							input={<OutlinedInput />}
 						>
 							{map(keys(connections), (key) => {
 								return (
@@ -198,9 +200,9 @@ const GeneralSettings: React.FC = () => {
 							borderColor: "gray"
 						}
 					}} >
-						<InputLabel id="qsmtp-general-settings-connections-label">
+						<label className='font-roboto text-[#3858E9] mb-2 text-[16px] font-[500]'>
 							{__('Fallback Connection', 'quillsmtp')}
-						</InputLabel>
+						</label>
 						<Select
 							labelId="qsmtp-general-settings-connections-label"
 							id="qsmtp-general-settings-connections"
@@ -213,6 +215,7 @@ const GeneralSettings: React.FC = () => {
 							onChange={(event: SelectChangeEvent) => {
 								setFallbackConnection(event.target.value);
 							}}
+							input={<OutlinedInput />}
 
 						>
 							{/* None Menu Item */}
@@ -267,21 +270,15 @@ const GeneralSettings: React.FC = () => {
 					</Alert>
 				)}
 				<div style={{ margin: '20px 0' }}>
-					<FormControlLabel
-						control={
-							<Switch
-								checked={disableSummaryEmail}
-								name="disable_summary_email"
-								onChange={(event) => {
-									setDisableSummaryEmail(event.target.checked);
-								}}
-							/>
-						}
-						label={__('Disable Summary Email', 'quillsmtp')}
-					/>
-					<FormHelperText sx={{ mb: 2 }}>
+					<div className="switch-container">
+						<div className={`switch ${disableSummaryEmail ? "checked" : ""}`} onClick={() => setDisableSummaryEmail((prev) => !prev)}>
+							<div className="circle">{disableSummaryEmail ? <FaCheck className='text-[#3858E9]' /> : ""}</div>
+						</div>
+						<span className="font-roboto text-[#333333]">Disable Summary Email</span>
+					</div>
+					<FormHelperText sx={{ mb: 2 }} className='pt-3 text-[#333333] text-[16px] font-roboto leading-[20px]'>
 						{__(
-							'Enable this option to disable the summary email that is sent to the site administrator.',
+							'Enable This Option To Disable The Summary Email That Is Sent To The Site Administrator.',
 							'quillsmtp'
 						)}
 					</FormHelperText>
@@ -291,11 +288,12 @@ const GeneralSettings: React.FC = () => {
 					onClick={saveSettings}
 					size='large'
 					sx={{
-						mt: 5
+						mt: 7
 					}}
 					loading={isSaving}
 					loadingPosition="start"
 					startIcon={<SaveIcon />}
+					className='bg-[#333333] px-8 py-3 normal-case font-roboto font-[300]'
 				>
 					{__('Save Settings', 'quillsmtp')}
 				</LoadingButton>

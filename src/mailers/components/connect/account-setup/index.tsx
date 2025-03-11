@@ -20,6 +20,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
  */
 import type { SetupFields } from '../../types';
 import './style.scss';
+import { OutlinedInput } from '@mui/material';
 
 interface Props {
 	connectionId: string;
@@ -70,9 +71,9 @@ const Setup: React.FC<Props> = ({
 	};
 
 	return (
-		<div className="mailer-setup">
+		<div className="mailer-setup w-[82%]">
 			<div className="mailer-setup__body">
-				<div className="mailer-setup__instructions">
+				<div className="mailer-setup__instructions className='text-[14px] font-roboto text-[#333333] ml-0 mt-3 mb-[2.5rem] bg-[#E6EAFF] px-[1rem] pt-[10px] pb-[0.02px] capitalize w-fit'">
 					<Instructions />
 				</div>
 
@@ -81,27 +82,34 @@ const Setup: React.FC<Props> = ({
 						case 'text':
 						case 'password':
 							return (
-								<TextField
-									key={key}
-									label={field.label}
-									value={inputs[key] ?? ''}
-									onChange={(e) =>
-										setInputs({
-											...inputs,
-											[key]: e.target.value,
-										})
-									}
-									variant="outlined"
-									fullWidth
-									sx={{ mb: 2 }}
-									helperText={field?.help}
-									type={field.type}
-								/>
+								<div key={key}>
+									<label className='font-roboto text-[#333333] mb-4 text-[18px] font-[500]'>{field.label}<span className='text-[18px] text-pink-600 pl-1'>*</span></label>
+									<TextField
+										key={key}
+										label={field.label}
+										value={inputs[key] ?? ''}
+										onChange={(e) =>
+											setInputs({
+												...inputs,
+												[key]: e.target.value,
+											})
+										}
+										variant="outlined"
+										fullWidth
+										sx={{ mb: 3, mt: 2 }}
+										type={field.type}
+									/>
+									{field?.help && (
+										<FormHelperText className="text-[14px] font-roboto text-[#333333] ml-0 mb-3 mt-0 bg-[#E6EAFF] p-1 capitalize w-fit help-text">
+											{field?.help}
+										</FormHelperText>
+									)}
+								</div>
 							);
 						case 'select':
 							return (
 								<FormControl key={key} fullWidth sx={{ mb: 2 }}>
-									<InputLabel>{field.label}</InputLabel>
+									<label className='font-roboto text-[#333333] mb-2 text-[18px] font-[500]'>{field.label}<span className='text-[18px] text-pink-600 pl-1'>*</span></label>
 									<Select
 										value={inputs[key] ?? ''}
 										label={field.label}
@@ -111,6 +119,7 @@ const Setup: React.FC<Props> = ({
 												[key]: e.target.value,
 											})
 										}
+										input={<OutlinedInput />}
 									>
 										{field.options &&
 											field.options.map((option) => (
@@ -123,7 +132,7 @@ const Setup: React.FC<Props> = ({
 											))}
 									</Select>
 									{field?.help && (
-										<FormHelperText>
+										<FormHelperText className="text-[14px] font-roboto text-[#333333] ml-0 mb-3 mt-0 bg-[#E6EAFF] p-1 capitalize w-fit help-text">
 											{field?.help}
 										</FormHelperText>
 									)}

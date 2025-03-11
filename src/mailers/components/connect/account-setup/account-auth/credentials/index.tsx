@@ -16,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import { keys, isFunction } from 'lodash';
 
 /**
@@ -35,6 +36,9 @@ import {
 	AccountsAuthField,
 } from '../../../../types';
 import './style.scss';
+import { OutlinedInput } from '@mui/material';
+import { SaveOutlined } from '@mui/icons-material';
+import { FaCheck } from 'react-icons/fa';
 
 interface Props {
 	connectionId: string;
@@ -235,7 +239,8 @@ const Credentials: React.FC<Props> = ({
 	};
 
 	return (
-		<div className="mailer-auth-credentials">
+		<div className="mailer-auth-credentials w-[82%]">
+			<label className='font-roboto text-[#3858E9] mb-4 text-[18px] font-[500]'>{__('Account Name ', 'quillsmtp')}<span className='text-[18px] text-pink-600'>*</span></label>
 			<TextField
 				label={__('Account Name', 'quillsmtp')}
 				value={inputs['name'] ?? initialValues?.name ?? ''}
@@ -250,7 +255,7 @@ const Credentials: React.FC<Props> = ({
 				disabled={submitting}
 				variant="outlined"
 				fullWidth
-				sx={{ mb: 2 }}
+				sx={{ mb: 2, mt: 1 }}
 			/>
 			{Object.entries(fields).map(([key, field]) => {
 				if (!getFieldVisibility(field)) return null;
@@ -261,25 +266,32 @@ const Credentials: React.FC<Props> = ({
 					case 'number':
 					case 'password':
 						return (
-							<TextField
-								autoComplete="new-password"
-								key={key}
-								label={field.label}
-								value={inputValue}
-								onChange={(e) =>
-									setInputs({
-										...inputs,
-										[key]: e.target.value,
-									})
-								}
-								required={field.required}
-								disabled={submitting}
-								variant="outlined"
-								fullWidth
-								sx={{ mb: 2 }}
-								helperText={<Help field={field} />}
-								type={field.type}
-							/>
+							<div key={key}>
+								<label className='font-roboto text-[#333333] mb-4 text-[18px] font-[500]'>{field.label}<span className='text-[18px] text-pink-600 pl-1'>*</span></label>
+								<TextField
+									autoComplete="new-password"
+									key={key}
+									label={field.label}
+									value={inputValue}
+									onChange={(e) =>
+										setInputs({
+											...inputs,
+											[key]: e.target.value,
+										})
+									}
+									required={field.required}
+									disabled={submitting}
+									variant="outlined"
+									fullWidth
+									sx={{ mb: 2, mt: 1 }}
+									type={field.type}
+								/>
+								{field?.help && (
+									<FormHelperText className="text-[14px] font-roboto text-[#333333] ml-0 mb-3 mt-0 bg-[#E6EAFF] p-1 capitalize w-fit help-text">
+										<Help field={field} />
+									</FormHelperText>
+								)}
+							</div>
 						);
 					case 'select':
 						return (
@@ -289,7 +301,7 @@ const Credentials: React.FC<Props> = ({
 								sx={{ mb: 2 }}
 								required={field.required}
 							>
-								<InputLabel>{field.label}</InputLabel>
+								<label className='font-roboto text-[#333333] mb-2 text-[18px] font-[500]'>{field.label}<span className='text-[18px] text-pink-600 pl-1'>*</span></label>
 								<Select
 									value={inputValue}
 									label={field.label}
@@ -301,6 +313,7 @@ const Credentials: React.FC<Props> = ({
 									}
 									required={field.required}
 									disabled={submitting}
+									input={<OutlinedInput />}
 								>
 									{field.options &&
 										field.options.map((option) => (
@@ -313,7 +326,7 @@ const Credentials: React.FC<Props> = ({
 										))}
 								</Select>
 								{field?.help && (
-									<FormHelperText>
+									<FormHelperText className='text-[14px] font-roboto text-[#333333] ml-0 my-3 bg-[#E6EAFF] p-1 capitalize w-fit'>
 										{<Help field={field} />}
 									</FormHelperText>
 								)}
@@ -329,7 +342,24 @@ const Credentials: React.FC<Props> = ({
 									display: 'block',
 								}}
 							>
-								<FormControlLabel
+								<div className="switch-container">
+									<div
+										className={`switch ${inputValue ? "checked" : ""}`}
+										onClick={() =>
+											setInputs({
+												...inputs,
+												[key]: !inputValue, // ✅ Toggle boolean value
+											})
+										}
+									>
+										<div className="circle">
+											{inputValue ? <FaCheck className="text-[#3858E9]" /> : null}
+											{/* ✅ Use null instead of "" */}
+										</div>
+									</div>
+									<span className="font-roboto font-[500] text-[#333333]">{field.label}</span>
+								</div>
+								{/* <FormControlLabel
 									control={
 										<Switch
 											checked={inputValue || false}
@@ -342,9 +372,9 @@ const Credentials: React.FC<Props> = ({
 										/>
 									}
 									label={field.label}
-								/>
+								/> */}
 								{field?.help && (
-									<FormHelperText>
+									<FormHelperText className='text-[14px] font-roboto text-[#333333] ml-0 my-3 bg-[#E6EAFF] p-1 capitalize w-fit'>
 										{<Help field={field} />}
 									</FormHelperText>
 								)}
@@ -357,12 +387,13 @@ const Credentials: React.FC<Props> = ({
 			<LoadingButton
 				variant="contained"
 				color="primary"
-				startIcon={<AddIcon />}
+				startIcon={<SaveOutlined />}
 				loading={submitting}
 				disabled={!inputsFilled || submitting}
 				onClick={submit}
+				className='py-3 px-12 bg-[#333333] text-white font-roboto normal-case'
 			>
-				{__('Add', 'quillsmtp')}
+				{__('Save', 'quillsmtp')}
 			</LoadingButton>
 			{Instructions && (
 				<div className="mailer-auth-instructions">

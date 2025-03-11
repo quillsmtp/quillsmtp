@@ -62,6 +62,7 @@ const Oauth: React.FC<Props> = ({
 				onClick={authorize}
 				variant="contained"
 				startIcon={<AdminPanelSettingsIcon />}
+				className='bg-[#3858E9] my-4 normal-case'
 			>
 				{sprintf(
 					__('Authorize Your %s', 'quillsmtp'),

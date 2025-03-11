@@ -35,6 +35,7 @@ import ForceFromEmail from '../connection/force-from-email';
 import FromName from '../connection/from-name';
 import ForceFromName from '../connection/force-from-name';
 import Notices from '../../../client/components/notices';
+import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 
 const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 	const [step, setStep] = useState(1);
@@ -133,233 +134,272 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 
 	return (
 		<>
-			<div className="qsmtp-setup-wizard__sidebar">
-				<div className="qsmtp-setup-wizard__sidebar-logo">
+			<div className='flex flex-col'>
+				<div>
+					<div className="qsmtp-setup-wizard__sidebar">
+						{/* <div className="qsmtp-setup-wizard__sidebar-logo">
 					<img
 						width="40"
 						src={qsmtpAdmin?.assetsBuildUrl + 'assets/logo.svg'}
 						alt="logo"
 					/>{' '}
-				</div>
+				</div> */}
 
-				<div className="qsmtp-setup-wizard__sidebar-steps">
-					{[1, 2, 3, 4].map((s) => (
-						<div
-							className={`qsmtp-setup-wizard__sidebar-step-wrapper`}
-							key={s}
-						>
-							<div className="qsmtp-setup-wizard__sidebar-step-line"></div>
+						<div className="qsmtp-setup-wizard__sidebar-steps">
+							{[1, 2, 3, 4].map((s, index) => (
+								<div
+									className={`qsmtp-setup-wizard__sidebar-step-wrapper`}
+									key={s}
+								>
+									{index > 0 && (
+										<div
+											className={`qsmtp-setup-wizard__sidebar-step-line ${s <= step ? 'qsmtp-setup-wizard__sidebar-step-line--checked' : ''}`}
+										>
+											{s !== 4 && (
+												<div className={`qsmtp-setup-wizard__sidebar-step-line-inner ${s <= step ? 'qsmtp-setup-wizard__sidebar-step-line-inner--checked' : ''}`}></div>
+											)}
+										</div>
+									)}
 
-							<div
-								className={`qsmtp-setup-wizard__sidebar-step ${s === step
-										? 'qsmtp-setup-wizard__sidebar-step--active'
-										: ''
-									} 
+									<div
+										className={`qsmtp-setup-wizard__sidebar-step ${s === step
+											? 'qsmtp-setup-wizard__sidebar-step--active'
+											: ''
+											} 
                              ${s < step
-										? 'qsmtp-setup-wizard__sidebar-step--checked'
-										: ''
-									}
+												? 'qsmtp-setup-wizard__sidebar-step--checked'
+												: ''
+											}
                             `}
-								key={s}
-							>
-								<div className="qsmtp-setup-wizard__sidebar-step-number">
-									{s < step ? <Icon icon={check} /> : s}
+										key={s}
+									>
+										<div className="qsmtp-setup-wizard__sidebar-step-number">
+											{s}
+										</div>
+									</div>
+									{s !== 4 && <div className={`qsmtp-setup-wizard__sidebar-step-line ${s < step ? 'qsmtp-setup-wizard__sidebar-step-line--checked' : ''}`}>
+										<div className={`qsmtp-setup-wizard__sidebar-step-line-inner ${s <= step ? 'qsmtp-setup-wizard__sidebar-step-line-inner--checked' : ''}`}></div>
+									</div>}
 								</div>
-							</div>
+							))}
+							{/* <div className="qsmtp-setup-wizard__sidebar-step-wrapper">
+								<div className={`qsmtp-setup-wizard__sidebar-step-line ${4 < step ? 'qsmtp-setup-wizard__sidebar-step-line--checked' : ''}`}>
+								<div className={`qsmtp-setup-wizard__sidebar-step-line-inner ${4 <= step ? 'qsmtp-setup-wizard__sidebar-step-line-inner--checked' : ''}`}></div>
+								</div>
+							</div> */}
 						</div>
-					))}
-				</div>
-			</div>
-			<div className="qsmtp-setup-wizard__content">
-				{step === 1 && (
-					<>
-						<div className="qsmtp-setup-wizard__header">
-							<h2 className="qsmtp-setup-wizard__header-title">
-								{__(
-									"Let's start with the connection name",
-									'quillsmtp'
-								)}
-							</h2>
-							<p>
-								The connection name is used to identify the
-								connection in the connection list.
-							</p>
-						</div>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 0.5 }}
-							className="qsmtp-setup-wizard__first-step"
-						>
-							<TextField
-								autoComplete="new-password"
-								label={__('Connection Name', 'quillsmtp')}
-								value={connectionName}
-								onChange={(e) => {
-									updateTempConnection(connectionId, {
-										name: e.target.value,
-									});
-								}}
-								variant="outlined"
-								color="primary"
-								fullWidth
-								sx={{ mb: 2 }}
-							/>
-						</motion.div>
-					</>
-				)}
-				{step === 2 && (
-					<>
-						<div className="qsmtp-setup-wizard__header">
-							<h2 className="qsmtp-setup-wizard__header-title">
-								{__(
-									'Please select your mail provider',
-									'quillsmtp'
-								)}
-							</h2>
-							<p>
-								{' '}
-								Select the mail provider you want to connect to.
-								If you don't see your provider, please select
-								the "Other" option.{' '}
-							</p>
-						</div>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 0.5 }}
-							className="qsmtp-setup-wizard__second-step"
-						>
-							<MailersSelector connectionId={connectionId} />
-						</motion.div>
-					</>
-				)}
-
-				{step == 3 && (
-					<>
-						<div className="qsmtp-setup-wizard__header">
-							<h2 className="qsmtp-setup-wizard__header-title">
-								{__(
-									"Let's configure your mail provider account settings",
-									'quillsmtp'
-								)}
-							</h2>
-							<p>
-								{' '}
-								Configure your mail provider account settings to
-								connect to your mail provider.{' '}
-							</p>
-						</div>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 0.5 }}
-							className="qsmtp-setup-wizard__second-step"
-						>
-							<MailerAccounts
-								connectionId={connectionId}
-								mailer={mailerModules[mailerSlug]}
-								slug={mailerSlug}
-								setStep={setStep}
-							/>
-						</motion.div>
-					</>
-				)}
-
-				{step === 4 && (
-					<>
-						<div className="qsmtp-setup-wizard__header">
-							<h2 className="qsmtp-setup-wizard__header-title">
-								{__(
-									'Finally, configure your sender settings',
-									'quillsmtp'
-								)}
-							</h2>
-						</div>
-						<>
-							<FromEmail connectionId={connectionId} />
-							<ForceFromEmail connectionId={connectionId} />
-							<FromName connectionId={connectionId} />
-							<ForceFromName connectionId={connectionId} />
-						</>
-					</>
-				)}
-
-				{step === 5 && (
-					<>
-						<div className="qsmtp-setup-wizard__header">
-							<h2 className="qsmtp-setup-wizard__header-title">
-								{__('All set!', 'quillsmtp')}
-							</h2>
-							<p>
-								{' '}
-								You have successfully configured your
-								connection.{' '}
-							</p>
-						</div>
-						<Button
-							className="qsmtp-setup-wizard__dashboard-button"
-							variant="contained"
-							color="primary"
-							onClick={() => {
-								setSetUpWizard(false);
-								removeAllTempConnections();
-							}}
-						>
-							{__('Go to Dashboard', 'quillsmtp')}
-						</Button>
-					</>
-				)}
-				{step !== 5 && (
-					<div className="qsmtp-setup-wizard__buttons">
-						<Button
-							className="qsmtp-setup-wizard__prev-button"
-							variant="contained"
-							color="primary"
-							onClick={() => {
-								if (step > 1) {
-									setStep(step - 1);
-									setIsSaving(false);
-								}
-
-								if ('phpmailer' === mailerSlug && step === 4) {
-									setStep(2);
-								}
-							}}
-						>
-							{__('Previous', 'quillsmtp')}
-						</Button>
-						<Button
-							className={classNames(
-								'qsmtp-setup-wizard__next-button',
-								{
-									'qsmtp-setup-wizard__next-button--disabled':
-										!showNextButton,
-								}
-							)}
-							variant="contained"
-							color="primary"
-							onClick={() => {
-								if (showNextButton === false || isSaving)
-									return;
-								if (step === 4) {
-									save();
-									return;
-								}
-								if (step < 4) {
-									setStep(step + 1);
-								}
-							}}
-						>
-							{step === 4
-								? __('Save', 'quillsmtp')
-								: __('Next', 'quillsmtp')}
-						</Button>
 					</div>
-				)}
-			</div>
+				</div>
+				<div className="qsmtp-setup-wizard__content">
+					{step === 1 && (
+						<>
+							<div>
+								<div className="qsmtp-setup-wizard__header">
+									<h2 className="qsmtp-setup-wizard__header-title font-roboto">
+										{__(
+											"Let's Start With The Connection Name",
+											'quillsmtp'
+										)}
+									</h2>
+									<p className='font-roboto text-[#6D6D6D] capitalize'>
+										The connection name is used to identify the
+										connection in the connection list.
+									</p>
+								</div>
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									transition={{ duration: 0.5 }}
+									className="qsmtp-setup-wizard__first-step w-[82%]"
+								>
+									<label className='font-roboto text-[#3858E9] mb-4 text-[20px]'>{__('Connection Name', 'quillsmtp')}</label>
+									<TextField
+										autoComplete="new-password"
+										label={__('Connection Name', 'quillsmtp')}
+										value={connectionName}
+										onChange={(e) => {
+											updateTempConnection(connectionId, {
+												name: e.target.value,
+											});
+										}}
+										variant="outlined"
+										color="primary"
+										fullWidth
+										sx={{ mb: 2, mt: 2 }}
+									/>
+								</motion.div>
+							</div>
+						</>
+					)}
+					{step === 2 && (
+						<>
+							<div>
+								<div className="qsmtp-setup-wizard__header">
+									<h2 className="qsmtp-setup-wizard__header-title font-roboto">
+										{__(
+											'Select Your Mail Provider',
+											'quillsmtp'
+										)}
+									</h2>
+									<p className='font-roboto text-[#6D6D6D] capitalize'>
+										{' '}
+										Select the mail provider you want to connect to.
+										If you don't see your provider, please select
+										the "Other" option.{' '}
+									</p>
+								</div>
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									transition={{ duration: 0.5 }}
+									className="qsmtp-setup-wizard__second-step"
+								>
+									<MailersSelector connectionId={connectionId} />
+								</motion.div>
+							</div>
+						</>
+					)}
 
-			<Notices />
+					{step == 3 && (
+						<>
+							<div>
+								{/* <div className="qsmtp-setup-wizard__header">
+									<h2 className="qsmtp-setup-wizard__header-title font-roboto capitalize">
+										{__(
+											"Let's configure your mail provider account settings",
+											'quillsmtp'
+										)}
+									</h2>
+									<p className='font-roboto text-[#6D6D6D] capitalize'>
+										{' '}
+										Configure your mail provider account settings to
+										connect to your mail provider.{' '}
+									</p>
+								</div> */}
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									transition={{ duration: 0.5 }}
+									className="qsmtp-setup-wizard__second-step"
+								>
+									<MailerAccounts
+										connectionId={connectionId}
+										mailer={mailerModules[mailerSlug]}
+										slug={mailerSlug}
+										setStep={setStep}
+									/>
+								</motion.div>
+							</div>
+						</>
+					)}
+
+					{step === 4 && (
+						<>
+							<div>
+								<div className="qsmtp-setup-wizard__header">
+									<h2 className="qsmtp-setup-wizard__header-title font-roboto capitalize">
+										{__(
+											'Finally, configure your sender settings',
+											'quillsmtp'
+										)}
+									</h2>
+								</div>
+								<>
+									<FromEmail connectionId={connectionId} />
+									<ForceFromEmail connectionId={connectionId} />
+									<FromName connectionId={connectionId} />
+									<ForceFromName connectionId={connectionId} />
+								</>
+							</div>
+						</>
+					)}
+
+					{step === 5 && (
+						<>
+							<div>
+								<div className="qsmtp-setup-wizard__header">
+									<h2 className="qsmtp-setup-wizard__header-title font-roboto capitalize">
+										{__('All set!', 'quillsmtp')}
+									</h2>
+									<p className='font-roboto text-[#6D6D6D] capitalize'>
+										{' '}
+										You have successfully configured your
+										connection.{' '}
+									</p>
+								</div>
+								<Button
+									className="qsmtp-setup-wizard__dashboard-button bg-[#3858E9]"
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										setSetUpWizard(false);
+										removeAllTempConnections();
+									}}
+								>
+									{__('Go to Dashboard', 'quillsmtp')}
+								</Button>
+							</div>
+						</>
+					)}
+					{step !== 5 && (
+						<div className="qsmtp-setup-wizard__buttons">
+							{step > 1 && ( // Hide "Previous" when step === 1
+								<Button
+									className="qsmtp-setup-wizard__prev-button font-roboto"
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										if (step > 1) {
+											setStep(step - 1);
+											setIsSaving(false);
+										}
+										if ('phpmailer' === mailerSlug && step === 4) {
+											setStep(2);
+										}
+									}}
+								>
+									<BsArrowLeft className="text-[#333333] mr-2" />
+									{__('Previous', 'quillsmtp')}
+								</Button>
+							)}
+							<Button
+								className={classNames(
+									'qsmtp-setup-wizard__next-button font-roboto ml-auto',
+									{
+										'qsmtp-setup-wizard__next-button--disabled':
+											!showNextButton,
+									}
+								)}
+								variant="contained"
+								color="primary"
+								onClick={() => {
+									if (showNextButton === false || isSaving)
+										return;
+									if (step === 4) {
+										save();
+										return;
+									}
+									if (step < 4) {
+										setStep(step + 1);
+									}
+								}}
+							>
+								{step === 4 ? (
+									__('Finish', 'quillsmtp')
+								) : (
+									<>
+										{__('Next', 'quillsmtp')}
+										<BsArrowRight className='text-white ml-2' />
+									</>
+								)}
+							</Button>
+						</div>
+					)}
+				</div>
+
+
+				<Notices />
+			</div>
 		</>
 	);
 };

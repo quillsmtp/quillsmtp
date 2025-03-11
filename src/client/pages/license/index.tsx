@@ -256,15 +256,15 @@ const License = () => {
 
 	return (
 		<div className="qsmtp-license-page">
-			<Card
-				className="qsmtp-license-settings qsmtp-card"
-				style={{ width: '800px', maxWidth: '100%', margin: '0 auto' }}
-			>
-				<div className="qsmtp-card-header">
-					<div className="qsmtp-license-settings-header__title">
-						{__('License', 'quillsmtp')}
-					</div>
+			<div className="qsmtp-card-header pl-28">
+				<div className="qsmtp-license-settings-header__title font-roboto font-[500] text-[38px] text-[#333333] pb-3">
+					{__('License', 'quillsmtp')}
 				</div>
+			</div>
+			<Card
+				className="qsmtp-license-settings"
+			>
+
 				<CardContent>
 					{license ? (
 						<div>
@@ -410,19 +410,21 @@ const License = () => {
 						</div>
 					) : (
 						<>
+							<label className='font-roboto text-[#3858E9] mb-2 text-[18px]'>{__('License Key', 'quillsmtp')}</label>
 							<TextField
-								label={__('License Key', 'quillsmtp')}
+								// label={__('License Key', 'quillsmtp')}
 								value={licenseKey}
 								onChange={(e) => setLicenseKey(e.target.value)}
 								fullWidth
 								sx={{
 									mb: 2, "& .MuiOutlinedInput-notchedOutline": {
-										borderColor: "gray",
+										borderColor: "#9E9E9E",
 									},
 									"&:hover > .MuiOutlinedInput-notchedOutline": {
-										borderColor: "gray"
-									}
+										borderColor: "#9E9E9E"
+									},
 								}}
+								className='mt-2'
 							/>
 							<LoadingButton
 								variant="contained"
@@ -432,11 +434,8 @@ const License = () => {
 									isDeactivating || isUpdating || isActivating
 								}
 								loadingPosition="start"
-								startIcon={<SaveIcon />}
-								style={{
-									display: 'flex',
-									marginTop: '20px',
-								}}
+								startIcon={}
+								className='bg-[#3858E9] flex mt-[20px] py-[15px] px-[65px]'
 							>
 								{__('Activate', 'quillsmtp')}
 							</LoadingButton>
