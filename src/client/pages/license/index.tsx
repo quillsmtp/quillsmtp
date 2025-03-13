@@ -12,13 +12,15 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { GoSortAsc } from "react-icons/go";
+
 
 /**
  * Internal dependencies
  */
 import './style.scss';
 import configApi from '@quillsmtp/config';
-import { Alert, TextField } from '@mui/material';
+import { Alert, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 
 const License = () => {
 	const license = configApi.getLicense();
@@ -255,161 +257,177 @@ const License = () => {
 	};
 
 	return (
-		<div className="qsmtp-license-page">
-			<div className="qsmtp-card-header pl-28">
-				<div className="qsmtp-license-settings-header__title font-roboto font-[500] text-[38px] text-[#333333] pb-3">
+		<div className="qsmtp-license-page pb-32">
+			<div className="qsmtp-card-header pl-20">
+				<div className="qsmtp-license-settings-header__title font-roboto font-[500] text-[38px] text-[#333333] pb-2">
 					{__('License', 'quillsmtp')}
 				</div>
 			</div>
+			{license && !!Object.values(license.upgrades).length &&(
+			<div className='flex justify-end pr-20 pb-3'>
+				<Button className=''>
+					<a //key={index}
+						//href={upgrade.url}
+						target="_blank" className='flex items-center gap-1 bg-[#3858E9] text-white font-roboto capitalize py-3 px-5 font-[500]'><GoSortAsc className='text-[16px]' /> Upgrade My Plan</a>
+				</Button>
+			</div>)}
 			<Card
-				className="qsmtp-license-settings"
+				className="qsmtp-license-settings mx-20"
 			>
 
 				<CardContent>
 					{license ? (
-						<div>
-							<table>
-								<tbody>
-									<tr>
-										<td>{__('Status', 'quillsmtp')}</td>
-										<td>
-											<span
+						<div className='border border-[#E5E5E5] w-full'>
+							<div className='px-[2rem] pt-[2.5rem] pb-14 flex items-center justify-between'>
+								<div className='flex gap-5 items-center'>
+									<p className='bg-[#993F7B] rounded-full py-5 px-7 text-white text-[20px]'>M</p>
+									<div className='text-[#333333]'>
+										<h5 className='font-roboto text-[18px] font-semibold pb-1'>Mohamed Haridy</h5>
+										<span className='font-roboto text-[14px]'>Md.Magdy.Sa@gmail.com</span>
+									</div>
+								</div>
+								<div>
+									<LoadingButton
+										onClick={update}
+										loading={isUpdating}
+										disabled={
+											isDeactivating || isUpdating || isActivating
+										}
+										className='capitalize font-roboto bg-[#333333] px-9 py-3 text-white hover:text-[#333333]'
+									>
+										{__('Update Plugin', 'quillsmtp')}
+									</LoadingButton>
+									<LoadingButton
+										onClick={deactivate}
+										disabled={
+											isDeactivating || isUpdating || isActivating
+										}
+										loading={isDeactivating}
+										variant="contained"
+										color="secondary"
+										className='capitalize font-roboto bg-transparent px-2 py-3 text-[#333333] ml-[10px] shadow-none hover:bg-[#333333] hover:text-white'
+									>
+										{__('Deactivate', 'quillsmtp')}
+									</LoadingButton>
+								</div>
+							</div>
+							<TableContainer>
+								<Table className='font-roboto'>
+									<TableHead className='bg-[#333333]'>
+										<TableRow className=''>
+											<TableCell className='text-white pl-[2.5rem]'>Status</TableCell>
+											<TableCell className='text-white pl-[2.5rem]'>Plan</TableCell>
+											<TableCell className='text-white pl-[2.5rem]'>Expires</TableCell>
+											<TableCell className='text-white pl-[2.5rem]'>Last Update</TableCell>
+											<TableCell className='text-white pl-[2.5rem]'>Last Check</TableCell>
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										<TableRow>
+											<TableCell
 												className={
 													license.status === 'valid'
-														? 'quillsmtp-license-valid'
-														: 'quillsmtp-license-invalid'
+														? 'quillsmtp-license-valid pl-[2.5rem]'
+														: 'quillsmtp-license-invalid pl-[2.5rem]'
 												}
 											>
 												{license.status_label}
-											</span>
-										</td>
-									</tr>
-									<tr>
-										<td>{__('Plan', 'quillsmtp')}</td>
-										<td>{license.plan_label}</td>
-									</tr>
-									<tr>
-										<td>{__('Expires', 'quillsmtp')}</td>
-										<td>{license.expires}</td>
-									</tr>
-									<tr>
-										<td>
-											{__('Last update', 'quillsmtp')}
-										</td>
-										<td>{license.last_update}</td>
-									</tr>
-									<tr>
-										<td>{__('Last check', 'quillsmtp')}</td>
-										<td>{license.last_check}</td>
-									</tr>
-								</tbody>
-							</table>
-							<LoadingButton
-								onClick={update}
-								loading={isUpdating}
-								disabled={
-									isDeactivating || isUpdating || isActivating
-								}
-							>
-								{__('Update', 'quillsmtp')}
-							</LoadingButton>
-							<LoadingButton
-								onClick={deactivate}
-								disabled={
-									isDeactivating || isUpdating || isActivating
-								}
-								loading={isDeactivating}
-								variant="contained"
-								color="secondary"
-								style={{
-									marginLeft: '10px',
-								}}
-							>
-								{__('Deactivate', 'quillsmtp')}
-							</LoadingButton>
-							{!!Object.values(license.upgrades).length && (
-								<div>
-									<h3>{__('Upgrades:', 'quillsmtp')}</h3>
-									<ul>
-										{Object.values(license.upgrades).map(
-											(upgrade, index) => {
-												return (
-													<li key={index}>
-														<a
-															key={index}
-															href={upgrade.url}
-															target="_blank"
-														>
-															{__(
-																'Upgrade to',
-																'quillsmtp'
-															)}{' '}
-															{upgrade.plan_label}{' '}
-															{__(
-																'plan',
-																'quillsmtp'
-															)}{' '}
-														</a>
-													</li>
-												);
+											</TableCell>
+											<TableCell className='pl-[2.5rem]'>{license.plan_label}</TableCell>
+											<TableCell className='pl-[2.5rem]'>{license.expires}</TableCell>
+											<TableCell className='pl-[2.5rem]'>{license.last_update}</TableCell>
+											<TableCell className='pl-[2.5rem]'>{license.last_check}</TableCell>
+										</TableRow>
+									</TableBody>
+								</Table>
+							</TableContainer>
+
+							{/* { && ( */}
+							{/* <div>
+							<h3>{__('Upgrades:', 'quillsmtp')}</h3>
+							<ul>
+								{Object.values(license.upgrades).map(
+											(upgrade, index) => { 
+								 return ( 
+								<li
+								key={index}
+								>
+									<a
+										key={index}
+										href={upgrade.url}
+										target="_blank"
+									>
+										{__(
+											'Upgrade to',
+											'quillsmtp'
+										)}{' '}
+										upgrade.plan_label{' '}
+										{__(
+											'plan',
+											'quillsmtp'
+										)}{' '}
+									</a>
+								</li>
+								);
 											}
-										)}
-									</ul>
-								</div>
+										)} 
+							</ul>
+						</div> 
+						 )} */}
+							{/* <div style={{ marginTop: '20px' }}>
+							{!pluginData.is_installed && (
+								<LoadingButton
+									variant="contained"
+									onClick={installPlugin}
+									loading={isInstalling}
+									disabled={
+										isDeactivating ||
+										isUpdating ||
+										isActivating ||
+										isInstalling
+									}
+									loadingPosition="start"
+									startIcon={<SaveIcon />}
+									style={{
+										display: 'flex',
+										marginTop: '20px',
+									}}
+								>
+									{isInstalling ? __('Installing...', 'quillsmtp') : __('Install Plugin', 'quillsmtp')}
+								</LoadingButton>
 							)}
-							<div style={{ marginTop: '20px' }}>
-								{!pluginData.is_installed && (
-									<LoadingButton
-										variant="contained"
-										onClick={installPlugin}
-										loading={isInstalling}
-										disabled={
-											isDeactivating ||
-											isUpdating ||
-											isActivating ||
-											isInstalling
-										}
-										loadingPosition="start"
-										startIcon={<SaveIcon />}
-										style={{
-											display: 'flex',
-											marginTop: '20px',
-										}}
-									>
-										{isInstalling ? __('Installing...', 'quillsmtp') : __('Install Plugin', 'quillsmtp')}
-									</LoadingButton>
-								)}
-								{pluginData.is_installed && !pluginData.is_active && (
-									<LoadingButton
-										variant="contained"
-										onClick={activatePlugin}
-										loading={isActivatingPlugin}
-										disabled={
-											isDeactivating ||
-											isUpdating ||
-											isActivating ||
-											isInstalling ||
-											isActivatingPlugin
-										}
-										loadingPosition="start"
-										startIcon={<SaveIcon />}
-										style={{
-											display: 'flex',
-											marginTop: '20px',
-										}}
-									>
-										{isActivatingPlugin ? __('Activating...', 'quillsmtp') : __('Activate Plugin', 'quillsmtp')}
-									</LoadingButton>
-								)}
-								{pluginData.is_installed && pluginData.is_active && (
-									<Alert severity="success">
-										{__('QuillSMTP Pro is active.', 'quillsmtp')}
-									</Alert>
-								)}
-							</div>
+							{pluginData.is_installed && !pluginData.is_active && (
+								<LoadingButton
+									variant="contained"
+									onClick={activatePlugin}
+									loading={isActivatingPlugin}
+									disabled={
+										isDeactivating ||
+										isUpdating ||
+										isActivating ||
+										isInstalling ||
+										isActivatingPlugin
+									}
+									loadingPosition="start"
+									startIcon={<SaveIcon />}
+									style={{
+										display: 'flex',
+										marginTop: '20px',
+									}}
+								>
+									{isActivatingPlugin ? __('Activating...', 'quillsmtp') : __('Activate Plugin', 'quillsmtp')}
+								</LoadingButton>
+							)}
+							{pluginData.is_installed && pluginData.is_active && (
+								<Alert severity="success">
+									{__('QuillSMTP Pro is active.', 'quillsmtp')}
+								</Alert>
+							)}
+						</div>*/}
 						</div>
 					) : (
 						<>
+						<div className='px-36'>
 							<label className='font-roboto text-[#3858E9] mb-2 text-[18px]'>{__('License Key', 'quillsmtp')}</label>
 							<TextField
 								// label={__('License Key', 'quillsmtp')}
@@ -434,12 +452,12 @@ const License = () => {
 									isDeactivating || isUpdating || isActivating
 								}
 								loadingPosition="start"
-								startIcon={}
+								startIcon={ }
 								className='bg-[#3858E9] flex mt-[20px] py-[15px] px-[65px]'
 							>
 								{__('Activate', 'quillsmtp')}
 							</LoadingButton>
-
+							</div>
 						</>
 					)}
 				</CardContent>
