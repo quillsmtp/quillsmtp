@@ -44,7 +44,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     /**
      * {@inheritDoc}
      */
-    public function isHandling(array $record) : bool
+    public function isHandling(array $record): bool
     {
         foreach ($this->handlers as $handler) {
             if ($handler->isHandling($record)) {
@@ -56,7 +56,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     /**
      * {@inheritDoc}
      */
-    public function handle(array $record) : bool
+    public function handle(array $record): bool
     {
         if ($this->processors) {
             /** @var Record $record */
@@ -70,7 +70,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     /**
      * {@inheritDoc}
      */
-    public function handleBatch(array $records) : void
+    public function handleBatch(array $records): void
     {
         if ($this->processors) {
             $processed = [];
@@ -93,7 +93,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
             }
         }
     }
-    public function close() : void
+    public function close(): void
     {
         parent::close();
         foreach ($this->handlers as $handler) {
@@ -103,7 +103,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     /**
      * {@inheritDoc}
      */
-    public function setFormatter(FormatterInterface $formatter) : HandlerInterface
+    public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
         foreach ($this->handlers as $handler) {
             if ($handler instanceof FormattableHandlerInterface) {

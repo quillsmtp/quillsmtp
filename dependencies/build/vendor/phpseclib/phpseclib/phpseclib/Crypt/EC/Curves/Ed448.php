@@ -79,7 +79,7 @@ class Ed448 extends TwistedEdwards
      */
     public function extractSecret($str)
     {
-        if (\strlen($str) != 57) {
+        if (strlen($str) != 57) {
             throw new \LengthException('Private Key should be 57-bytes long');
         }
         // 1.  Hash the 57-byte private key using SHAKE256(x, 114), storing the
@@ -87,14 +87,14 @@ class Ed448 extends TwistedEdwards
         //     bytes are used for generating the public key.
         $hash = new Hash('shake256-912');
         $h = $hash->hash($str);
-        $h = \substr($h, 0, 57);
+        $h = substr($h, 0, 57);
         // 2.  Prune the buffer: The two least significant bits of the first
         //     octet are cleared, all eight bits the last octet are cleared, and
         //     the highest bit of the second to last octet is set.
-        $h[0] = $h[0] & \chr(0xfc);
-        $h = \strrev($h);
+        $h[0] = $h[0] & chr(0xfc);
+        $h = strrev($h);
         $h[0] = "\x00";
-        $h[1] = $h[1] | \chr(0x80);
+        $h[1] = $h[1] | chr(0x80);
         // 3.  Interpret the buffer as the little-endian integer, forming a
         //     secret scalar s.
         $dA = new BigInteger($h, 256);
@@ -113,9 +113,9 @@ class Ed448 extends TwistedEdwards
         list($x, $y) = $point;
         $y = "\x00" . $y->toBytes();
         if ($x->isOdd()) {
-            $y[0] = $y[0] | \chr(0x80);
+            $y[0] = $y[0] | chr(0x80);
         }
-        $y = \strrev($y);
+        $y = strrev($y);
         return $y;
     }
     /**
@@ -158,7 +158,7 @@ class Ed448 extends TwistedEdwards
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p)) {
+        if (!count($p)) {
             return [];
         }
         if (!isset($p[2])) {
@@ -188,11 +188,11 @@ class Ed448 extends TwistedEdwards
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
-            if (\count($q)) {
+        if (!count($p) || !count($q)) {
+            if (count($q)) {
                 return $q;
             }
-            if (\count($p)) {
+            if (count($p)) {
                 return $p;
             }
             return [];

@@ -45,23 +45,23 @@ class UrlSource implements ExternalAccountCredentialSourceInterface
     public function __construct(string $url, string $format = null, string $subjectTokenFieldName = null, array $headers = null)
     {
         $this->url = $url;
-        if ($format === 'json' && \is_null($subjectTokenFieldName)) {
+        if ($format === 'json' && is_null($subjectTokenFieldName)) {
             throw new InvalidArgumentException('subject_token_field_name must be set when format is JSON');
         }
         $this->format = $format;
         $this->subjectTokenFieldName = $subjectTokenFieldName;
         $this->headers = $headers;
     }
-    public function fetchSubjectToken(callable $httpHandler = null) : string
+    public function fetchSubjectToken(callable $httpHandler = null): string
     {
-        if (\is_null($httpHandler)) {
+        if (is_null($httpHandler)) {
             $httpHandler = HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         }
         $request = new Request('GET', $this->url, $this->headers ?: []);
         $response = $httpHandler($request);
         $body = (string) $response->getBody();
         if ($this->format === 'json') {
-            if (!($json = \json_decode((string) $body, \true))) {
+            if (!$json = json_decode((string) $body, \true)) {
                 throw new UnexpectedValueException('Unable to decode JSON response');
             }
             if (!isset($json[$this->subjectTokenFieldName])) {

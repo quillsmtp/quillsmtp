@@ -148,17 +148,17 @@ class ApplicationDefaultCredentials
         $jsonKey = CredentialsLoader::fromEnv() ?: CredentialsLoader::fromWellKnownFile();
         $anyScope = $scope ?: $defaultScope;
         if (!$httpHandler) {
-            if (!($client = HttpClientCache::getHttpClient())) {
+            if (!$client = HttpClientCache::getHttpClient()) {
                 $client = new Client();
                 HttpClientCache::setHttpClient($client);
             }
             $httpHandler = HttpHandlerFactory::build($client);
         }
-        if (\is_null($quotaProject)) {
+        if (is_null($quotaProject)) {
             // if a quota project isn't specified, try to get one from the env var
             $quotaProject = CredentialsLoader::quotaProjectFromEnv();
         }
-        if (!\is_null($jsonKey)) {
+        if (!is_null($jsonKey)) {
             if ($quotaProject) {
                 $jsonKey['quota_project_id'] = $quotaProject;
             }
@@ -173,10 +173,10 @@ class ApplicationDefaultCredentials
             $creds->setIsOnGce(\true);
             // save the credentials a trip to the metadata server
         }
-        if (\is_null($creds)) {
+        if (is_null($creds)) {
             throw new DomainException(self::notFound());
         }
-        if (!\is_null($cache)) {
+        if (!is_null($cache)) {
             $creds = new FetchAuthTokenCache($creds, $cacheConfig, $cache);
         }
         return $creds;
@@ -242,14 +242,14 @@ class ApplicationDefaultCredentials
         $creds = null;
         $jsonKey = CredentialsLoader::fromEnv() ?: CredentialsLoader::fromWellKnownFile();
         if (!$httpHandler) {
-            if (!($client = HttpClientCache::getHttpClient())) {
+            if (!$client = HttpClientCache::getHttpClient()) {
                 $client = new Client();
                 HttpClientCache::setHttpClient($client);
             }
             $httpHandler = HttpHandlerFactory::build($client);
         }
-        if (!\is_null($jsonKey)) {
-            if (!\array_key_exists('type', $jsonKey)) {
+        if (!is_null($jsonKey)) {
+            if (!array_key_exists('type', $jsonKey)) {
                 throw new \InvalidArgumentException('json key is missing the type field');
             }
             if ($jsonKey['type'] == 'authorized_user') {
@@ -264,10 +264,10 @@ class ApplicationDefaultCredentials
             $creds->setIsOnGce(\true);
             // save the credentials a trip to the metadata server
         }
-        if (\is_null($creds)) {
+        if (is_null($creds)) {
             throw new DomainException(self::notFound());
         }
-        if (!\is_null($cache)) {
+        if (!is_null($cache)) {
             $creds = new FetchAuthTokenCache($creds, $cacheConfig, $cache);
         }
         return $creds;

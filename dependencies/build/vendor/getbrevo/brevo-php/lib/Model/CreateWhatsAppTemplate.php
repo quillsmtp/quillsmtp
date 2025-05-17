@@ -194,15 +194,15 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'category' can't be null";
         }
         $allowedValues = $this->getCategoryAllowableValues();
-        if (!\is_null($this->container['category']) && !\in_array($this->container['category'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'category', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'category', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['bodyText'] === null) {
             $invalidProperties[] = "'bodyText' can't be null";
         }
         $allowedValues = $this->getSourceAllowableValues();
-        if (!\is_null($this->container['source']) && !\in_array($this->container['source'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'source', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['source']) && !in_array($this->container['source'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'source', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -214,7 +214,7 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets name
@@ -277,8 +277,8 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
     public function setCategory($category)
     {
         $allowedValues = $this->getCategoryAllowableValues();
-        if (!\in_array($category, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'category', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($category, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'category', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['category'] = $category;
         return $this;
@@ -365,8 +365,8 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
     public function setSource($source)
     {
         $allowedValues = $this->getSourceAllowableValues();
-        if (!\is_null($source) && !\in_array($source, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'source', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($source) && !in_array($source, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'source', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['source'] = $source;
         return $this;
@@ -406,7 +406,7 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -431,10 +431,10 @@ class CreateWhatsAppTemplate implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -85,7 +85,7 @@ abstract class AsymmetricKey
      * @param string $type
      * @return array|string
      */
-    public abstract function toString($type, array $options = []);
+    abstract public function toString($type, array $options = []);
     /**
      * The constructor
      */
@@ -125,7 +125,7 @@ abstract class AsymmetricKey
         }
         $components = \false;
         foreach (self::$plugins[static::ALGORITHM]['Keys'] as $format) {
-            if (isset(self::$invisiblePlugins[static::ALGORITHM]) && \in_array($format, self::$invisiblePlugins[static::ALGORITHM])) {
+            if (isset(self::$invisiblePlugins[static::ALGORITHM]) && in_array($format, self::$invisiblePlugins[static::ALGORITHM])) {
                 continue;
             }
             try {
@@ -203,7 +203,7 @@ abstract class AsymmetricKey
     {
         self::initialize_static_variables();
         $components = \false;
-        $format = \strtolower($type);
+        $format = strtolower($type);
         if (isset(self::$plugins[static::ALGORITHM]['Keys'][$format])) {
             $format = self::$plugins[static::ALGORITHM]['Keys'][$format];
             $components = $format::load($key, $password);
@@ -273,12 +273,12 @@ abstract class AsymmetricKey
      */
     protected static function validatePlugin($format, $type, $method = null)
     {
-        $type = \strtolower($type);
+        $type = strtolower($type);
         if (!isset(self::$plugins[static::ALGORITHM][$format][$type])) {
             throw new UnsupportedFormatException("{$type} is not a supported format");
         }
         $type = self::$plugins[static::ALGORITHM][$format][$type];
-        if (isset($method) && !\method_exists($type, $method)) {
+        if (isset($method) && !method_exists($type, $method)) {
             throw new UnsupportedFormatException("{$type} does not implement {$method}");
         }
         return $type;
@@ -300,12 +300,12 @@ abstract class AsymmetricKey
                 if ($name[0] == '.') {
                     continue;
                 }
-                $type = 'phpseclib3\\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
+                $type = 'phpseclib3\Crypt\\' . static::ALGORITHM . '\Formats\\' . $format . '\\' . $name;
                 $reflect = new \ReflectionClass($type);
                 if ($reflect->isTrait()) {
                     continue;
                 }
-                self::$plugins[static::ALGORITHM][$format][\strtolower($name)] = $type;
+                self::$plugins[static::ALGORITHM][$format][strtolower($name)] = $type;
                 if ($reflect->hasConstant('IS_INVISIBLE')) {
                     self::$invisiblePlugins[static::ALGORITHM][] = $type;
                 }
@@ -335,12 +335,12 @@ abstract class AsymmetricKey
     public static function addFileFormat($fullname)
     {
         self::initialize_static_variables();
-        if (\class_exists($fullname)) {
+        if (class_exists($fullname)) {
             $meta = new \ReflectionClass($fullname);
             $shortname = $meta->getShortName();
-            self::$plugins[static::ALGORITHM]['Keys'][\strtolower($shortname)] = $fullname;
+            self::$plugins[static::ALGORITHM]['Keys'][strtolower($shortname)] = $fullname;
             if ($meta->hasConstant('IS_INVISIBLE')) {
-                self::$invisiblePlugins[static::ALGORITHM][] = \strtolower($shortname);
+                self::$invisiblePlugins[static::ALGORITHM][] = strtolower($shortname);
             }
         }
     }
@@ -380,11 +380,11 @@ abstract class AsymmetricKey
     {
         static::$engines = [
             'PHP' => \true,
-            'OpenSSL' => \extension_loaded('openssl'),
+            'OpenSSL' => extension_loaded('openssl'),
             // this test can be satisfied by either of the following:
             // http://php.net/manual/en/book.sodium.php
             // https://github.com/paragonie/sodium_compat
-            'libsodium' => \function_exists('sodium_crypto_sign_keypair'),
+            'libsodium' => function_exists('sodium_crypto_sign_keypair'),
         ];
         return static::$engines;
     }
@@ -434,8 +434,8 @@ abstract class AsymmetricKey
      */
     protected function computek($h1)
     {
-        $v = \str_repeat("\x01", \strlen($h1));
-        $k = \str_repeat("\x00", \strlen($h1));
+        $v = str_repeat("\x01", strlen($h1));
+        $k = str_repeat("\x00", strlen($h1));
         $x = $this->int2octets($this->x);
         $h1 = $this->bits2octets($h1);
         $this->hmac->setKey($k);
@@ -448,7 +448,7 @@ abstract class AsymmetricKey
         $qlen = $this->q->getLengthInBytes();
         while (\true) {
             $t = '';
-            while (\strlen($t) < $qlen) {
+            while (strlen($t) < $qlen) {
                 $v = $this->hmac->hash($v);
                 $t = $t . $v;
             }
@@ -472,10 +472,10 @@ abstract class AsymmetricKey
     {
         $out = $v->toBytes();
         $rolen = $this->q->getLengthInBytes();
-        if (\strlen($out) < $rolen) {
-            return \str_pad($out, $rolen, "\x00", \STR_PAD_LEFT);
-        } elseif (\strlen($out) > $rolen) {
-            return \substr($out, -$rolen);
+        if (strlen($out) < $rolen) {
+            return str_pad($out, $rolen, "\x00", \STR_PAD_LEFT);
+        } elseif (strlen($out) > $rolen) {
+            return substr($out, -$rolen);
         } else {
             return $out;
         }
@@ -489,7 +489,7 @@ abstract class AsymmetricKey
     protected function bits2int($in)
     {
         $v = new BigInteger($in, 256);
-        $vlen = \strlen($in) << 3;
+        $vlen = strlen($in) << 3;
         $qlen = $this->q->getLength();
         if ($vlen > $qlen) {
             return $v->bitwise_rightShift($vlen - $qlen);

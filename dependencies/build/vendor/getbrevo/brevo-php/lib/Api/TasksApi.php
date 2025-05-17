@@ -129,7 +129,7 @@ class TasksApi
      */
     public function crmTasksGetWithHttpInfo($filterType = null, $filterStatus = null, $filterDate = null, $filterAssignTo = null, $filterContacts = null, $filterDeals = null, $filterCompanies = null, $dateFrom = null, $dateTo = null, $offset = null, $limit = '50', $sort = null, $sortBy = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskList';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\TaskList';
         $request = $this->crmTasksGetRequest($filterType, $filterStatus, $filterDate, $filterAssignTo, $filterContacts, $filterDeals, $filterCompanies, $dateFrom, $dateTo, $offset, $limit, $sort, $sortBy);
         try {
             $options = $this->createHttpClientOption();
@@ -140,27 +140,27 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskList', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\TaskList', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -219,24 +219,24 @@ class TasksApi
      */
     public function crmTasksGetAsyncWithHttpInfo($filterType = null, $filterStatus = null, $filterDate = null, $filterAssignTo = null, $filterContacts = null, $filterDeals = null, $filterCompanies = null, $dateFrom = null, $dateTo = null, $offset = null, $limit = '50', $sort = null, $sortBy = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskList';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\TaskList';
         $request = $this->crmTasksGetRequest($filterType, $filterStatus, $filterDate, $filterAssignTo, $filterContacts, $filterDeals, $filterCompanies, $dateFrom, $dateTo, $offset, $limit, $sort, $sortBy);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -336,11 +336,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -369,7 +369,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -412,17 +412,17 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -459,12 +459,12 @@ class TasksApi
     {
         $returnType = '';
         $request = $this->crmTasksIdDeleteRequest($id);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -478,7 +478,7 @@ class TasksApi
     protected function crmTasksIdDeleteRequest($id)
     {
         // verify the required parameter 'id' is set
-        if ($id === null || \is_array($id) && \count($id) === 0) {
+        if ($id === null || is_array($id) && count($id) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling crmTasksIdDelete');
         }
         $resourcePath = '/crm/tasks/{id}';
@@ -489,7 +489,7 @@ class TasksApi
         $multipart = \false;
         // path params
         if ($id !== null) {
-            $resourcePath = \str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -508,11 +508,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -541,7 +541,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -574,7 +574,7 @@ class TasksApi
      */
     public function crmTasksIdGetWithHttpInfo($id)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Task';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\Task';
         $request = $this->crmTasksIdGetRequest($id);
         try {
             $options = $this->createHttpClientOption();
@@ -585,31 +585,31 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Task', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\Task', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -644,24 +644,24 @@ class TasksApi
      */
     public function crmTasksIdGetAsyncWithHttpInfo($id)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\Task';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\Task';
         $request = $this->crmTasksIdGetRequest($id);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -675,7 +675,7 @@ class TasksApi
     protected function crmTasksIdGetRequest($id)
     {
         // verify the required parameter 'id' is set
-        if ($id === null || \is_array($id) && \count($id) === 0) {
+        if ($id === null || is_array($id) && count($id) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling crmTasksIdGet');
         }
         $resourcePath = '/crm/tasks/{id}';
@@ -686,7 +686,7 @@ class TasksApi
         $multipart = \false;
         // path params
         if ($id !== null) {
-            $resourcePath = \str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -705,11 +705,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -738,7 +738,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -783,17 +783,17 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -832,12 +832,12 @@ class TasksApi
     {
         $returnType = '';
         $request = $this->crmTasksIdPatchRequest($id, $body);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -852,11 +852,11 @@ class TasksApi
     protected function crmTasksIdPatchRequest($id, $body)
     {
         // verify the required parameter 'id' is set
-        if ($id === null || \is_array($id) && \count($id) === 0) {
+        if ($id === null || is_array($id) && count($id) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling crmTasksIdPatch');
         }
         // verify the required parameter 'body' is set
-        if ($body === null || \is_array($body) && \count($body) === 0) {
+        if ($body === null || is_array($body) && count($body) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling crmTasksIdPatch');
         }
         $resourcePath = '/crm/tasks/{id}';
@@ -867,7 +867,7 @@ class TasksApi
         $multipart = \false;
         // path params
         if ($id !== null) {
-            $resourcePath = \str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -889,11 +889,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -922,7 +922,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PATCH', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -955,7 +955,7 @@ class TasksApi
      */
     public function crmTasksPostWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\InlineResponse2012';
         $request = $this->crmTasksPostRequest($body);
         try {
             $options = $this->createHttpClientOption();
@@ -966,23 +966,23 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\InlineResponse2012', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1017,24 +1017,24 @@ class TasksApi
      */
     public function crmTasksPostAsyncWithHttpInfo($body)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\InlineResponse2012';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\InlineResponse2012';
         $request = $this->crmTasksPostRequest($body);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1048,7 +1048,7 @@ class TasksApi
     protected function crmTasksPostRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null || \is_array($body) && \count($body) === 0) {
+        if ($body === null || is_array($body) && count($body) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling crmTasksPost');
         }
         $resourcePath = '/crm/tasks';
@@ -1077,11 +1077,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1110,7 +1110,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1141,7 +1141,7 @@ class TasksApi
      */
     public function crmTasktypesGetWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskTypes';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\TaskTypes';
         $request = $this->crmTasktypesGetRequest();
         try {
             $options = $this->createHttpClientOption();
@@ -1152,23 +1152,23 @@ class TasksApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskTypes', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\TaskTypes', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1201,24 +1201,24 @@ class TasksApi
      */
     public function crmTasktypesGetAsyncWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskTypes';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\TaskTypes';
         $request = $this->crmTasktypesGetRequest();
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1253,11 +1253,11 @@ class TasksApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1286,7 +1286,7 @@ class TasksApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1300,7 +1300,7 @@ class TasksApi
     {
         $options = [];
         if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = \fopen($this->config->getDebugFile(), 'a');
+            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
                 throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }

@@ -186,8 +186,8 @@ class ErrorModel implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'code' can't be null";
         }
         $allowedValues = $this->getCodeAllowableValues();
-        if (!\is_null($this->container['code']) && !\in_array($this->container['code'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'code', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'code', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['message'] === null) {
             $invalidProperties[] = "'message' can't be null";
@@ -202,7 +202,7 @@ class ErrorModel implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets code
@@ -223,8 +223,8 @@ class ErrorModel implements ModelInterface, ArrayAccess
     public function setCode($code)
     {
         $allowedValues = $this->getCodeAllowableValues();
-        if (!\in_array($code, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'code', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($code, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'code', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['code'] = $code;
         return $this;
@@ -285,7 +285,7 @@ class ErrorModel implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -310,10 +310,10 @@ class ErrorModel implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -25,14 +25,14 @@ class NoopHandler extends Handler
     /**
      * {@inheritDoc}
      */
-    public function isHandling(array $record) : bool
+    public function isHandling(array $record): bool
     {
         return \true;
     }
     /**
      * {@inheritDoc}
      */
-    public function handle(array $record) : bool
+    public function handle(array $record): bool
     {
         return \false;
     }

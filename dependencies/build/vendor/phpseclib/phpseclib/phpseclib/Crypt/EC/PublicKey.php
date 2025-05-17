@@ -53,35 +53,35 @@ final class PublicKey extends EC implements Common\PublicKey
                 list(, $signature) = Strings::unpackSSH2('ss', $signature);
             }
             if ($this->curve instanceof Ed25519 && self::$engines['libsodium'] && !isset($this->context)) {
-                return \sodium_crypto_sign_verify_detached($signature, $message, $this->toString('libsodium'));
+                return sodium_crypto_sign_verify_detached($signature, $message, $this->toString('libsodium'));
             }
             $curve = $this->curve;
-            if (\strlen($signature) != 2 * $curve::SIZE) {
+            if (strlen($signature) != 2 * $curve::SIZE) {
                 return \false;
             }
-            $R = \substr($signature, 0, $curve::SIZE);
-            $S = \substr($signature, $curve::SIZE);
+            $R = substr($signature, 0, $curve::SIZE);
+            $S = substr($signature, $curve::SIZE);
             try {
                 $R = PKCS1::extractPoint($R, $curve);
                 $R = $this->curve->convertToInternal($R);
             } catch (\Exception $e) {
                 return \false;
             }
-            $S = \strrev($S);
+            $S = strrev($S);
             $S = new BigInteger($S, 256);
             if ($S->compare($order) >= 0) {
                 return \false;
             }
             $A = $curve->encodePoint($this->QA);
             if ($curve instanceof Ed25519) {
-                $dom2 = !isset($this->context) ? '' : 'SigEd25519 no Ed25519 collisions' . "\x00" . \chr(\strlen($this->context)) . $this->context;
+                $dom2 = !isset($this->context) ? '' : 'SigEd25519 no Ed25519 collisions' . "\x00" . chr(strlen($this->context)) . $this->context;
             } else {
                 $context = isset($this->context) ? $this->context : '';
-                $dom2 = 'SigEd448' . "\x00" . \chr(\strlen($context)) . $context;
+                $dom2 = 'SigEd448' . "\x00" . chr(strlen($context)) . $context;
             }
             $hash = new Hash($curve::HASH);
-            $k = $hash->hash($dom2 . \substr($signature, 0, $curve::SIZE) . $A . $message);
-            $k = \strrev($k);
+            $k = $hash->hash($dom2 . substr($signature, 0, $curve::SIZE) . $A . $message);
+            $k = strrev($k);
             $k = new BigInteger($k, 256);
             list(, $k) = $k->divide($order);
             $qa = $curve->convertToInternal($this->QA);
@@ -92,13 +92,13 @@ final class PublicKey extends EC implements Common\PublicKey
             return $lhs[0]->equals($rhs[0]) && $lhs[1]->equals($rhs[1]);
         }
         $params = $format::load($signature);
-        if ($params === \false || \count($params) != 2) {
+        if ($params === \false || count($params) != 2) {
             return \false;
         }
-        \extract($params);
-        if (self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods())) {
+        extract($params);
+        if (self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods())) {
             $sig = $format != 'ASN1' ? ASN1Signature::save($r, $s) : $signature;
-            $result = \openssl_verify($message, $sig, $this->toString('PKCS8', ['namedCurve' => \false]), $this->hash->getHash());
+            $result = openssl_verify($message, $sig, $this->toString('PKCS8', ['namedCurve' => \false]), $this->hash->getHash());
             if ($result != -1) {
                 return (bool) $result;
             }

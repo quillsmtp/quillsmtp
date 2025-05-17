@@ -121,7 +121,7 @@ class Personalization implements \JsonSerializable
     public function setSubject($subject)
     {
         if (!$subject instanceof Subject) {
-            Assert::string($subject, 'subject', '"$subject" must be an instance of SendGrid\\Mail\\Subject or a string');
+            Assert::string($subject, 'subject', '"$subject" must be an instance of SendGrid\Mail\Subject or a string');
             $subject = new Subject($subject);
         }
         $this->subject = $subject;
@@ -280,7 +280,7 @@ class Personalization implements \JsonSerializable
             $substitutions = $this->getSubstitutions();
             $dynamic_substitutions = null;
         }
-        return \array_filter(['to' => $this->getTos(), 'from' => $this->getFrom(), 'cc' => $this->getCcs(), 'bcc' => $this->getBccs(), 'subject' => $this->getSubject(), 'headers' => $this->getHeaders(), 'substitutions' => $substitutions, 'dynamic_template_data' => $dynamic_substitutions, 'custom_args' => $this->getCustomArgs(), 'send_at' => $this->getSendAt()], static function ($value) {
+        return array_filter(['to' => $this->getTos(), 'from' => $this->getFrom(), 'cc' => $this->getCcs(), 'bcc' => $this->getBccs(), 'subject' => $this->getSubject(), 'headers' => $this->getHeaders(), 'substitutions' => $substitutions, 'dynamic_template_data' => $dynamic_substitutions, 'custom_args' => $this->getCustomArgs(), 'send_at' => $this->getSendAt()], static function ($value) {
             return $value !== null;
         }) ?: null;
     }

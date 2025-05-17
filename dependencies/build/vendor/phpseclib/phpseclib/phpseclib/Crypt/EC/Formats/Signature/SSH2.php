@@ -31,7 +31,7 @@ abstract class SSH2
      */
     public static function load($sig)
     {
-        if (!\is_string($sig)) {
+        if (!is_string($sig)) {
             return \false;
         }
         $result = Strings::unpackSSH2('ss', $sig);

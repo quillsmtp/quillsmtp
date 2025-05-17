@@ -45,7 +45,7 @@ abstract class MontgomeryPrivate
      */
     public static function load($key, $password = '')
     {
-        switch (\strlen($key)) {
+        switch (strlen($key)) {
             case 32:
                 $curve = new Curve25519();
                 break;
@@ -71,7 +71,7 @@ abstract class MontgomeryPrivate
      */
     public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
     {
-        return \strrev($publicKey[0]->toBytes());
+        return strrev($publicKey[0]->toBytes());
     }
     /**
      * Convert a private key to the appropriate format.
@@ -85,7 +85,7 @@ abstract class MontgomeryPrivate
      */
     public static function savePrivateKey(BigInteger $privateKey, MontgomeryCurve $curve, array $publicKey, $secret = null, $password = '')
     {
-        if (!empty($password) && \is_string($password)) {
+        if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('MontgomeryPrivate private keys do not support encryption');
         }
         return $privateKey->toBytes();

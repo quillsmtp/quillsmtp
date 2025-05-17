@@ -40,4 +40,4 @@ class BatchDeleteMessagesRequest extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(BatchDeleteMessagesRequest::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_BatchDeleteMessagesRequest');
+class_alias(BatchDeleteMessagesRequest::class, 'QuillSMTP\Vendor\Google_Service_Gmail_BatchDeleteMessagesRequest');

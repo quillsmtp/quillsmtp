@@ -58,7 +58,7 @@ class Asm implements \JsonSerializable
         if ($group_id instanceof GroupId) {
             $this->group_id = $group_id->getGroupId();
         } else {
-            Assert::integer($group_id, 'group_id', 'Value "$group_id" must be an instance of SendGrid\\Mail\\GroupId or an integer.');
+            Assert::integer($group_id, 'group_id', 'Value "$group_id" must be an instance of SendGrid\Mail\GroupId or an integer.');
             $this->group_id = new GroupId($group_id);
         }
     }
@@ -92,7 +92,7 @@ class Asm implements \JsonSerializable
         if ($groups_to_display instanceof GroupsToDisplay) {
             $this->groups_to_display = $groups_to_display->getGroupsToDisplay();
         } else {
-            Assert::isArray($groups_to_display, 'groups_to_display', 'Value "$groups_to_display" must be an instance of SendGrid\\Mail\\GroupsToDisplay or an array.');
+            Assert::isArray($groups_to_display, 'groups_to_display', 'Value "$groups_to_display" must be an instance of SendGrid\Mail\GroupsToDisplay or an array.');
             Assert::maxItems($groups_to_display, 'groups_to_display', 25);
             $this->groups_to_display = new GroupsToDisplay($groups_to_display);
         }
@@ -114,7 +114,7 @@ class Asm implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['group_id' => $this->getGroupId(), 'groups_to_display' => $this->getGroupsToDisplay()], function ($value) {
+        return array_filter(['group_id' => $this->getGroupId(), 'groups_to_display' => $this->getGroupsToDisplay()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

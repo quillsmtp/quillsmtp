@@ -92,8 +92,8 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        $this->a = $this->factory->newInteger(\pack('H*', $a));
-        $this->b = $this->factory->newInteger(\pack('H*', $b));
+        $this->a = $this->factory->newInteger(pack('H*', $a));
+        $this->b = $this->factory->newInteger(pack('H*', $b));
     }
     /**
      * Set x and y coordinates for the base point
@@ -104,15 +104,15 @@ class Binary extends Base
     public function setBasePoint($x, $y)
     {
         switch (\true) {
-            case !\is_string($x) && !$x instanceof BinaryInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 1 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\\Integer');
-            case !\is_string($y) && !$y instanceof BinaryInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 2 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\\Integer');
+            case !is_string($x) && !$x instanceof BinaryInteger:
+                throw new \UnexpectedValueException('Argument 1 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\Integer');
+            case !is_string($y) && !$y instanceof BinaryInteger:
+                throw new \UnexpectedValueException('Argument 2 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\Integer');
         }
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        $this->p = [\is_string($x) ? $this->factory->newInteger(\pack('H*', $x)) : $x, \is_string($y) ? $this->factory->newInteger(\pack('H*', $y)) : $y];
+        $this->p = [is_string($x) ? $this->factory->newInteger(pack('H*', $x)) : $x, is_string($y) ? $this->factory->newInteger(pack('H*', $y)) : $y];
     }
     /**
      * Retrieve the base point as an array
@@ -141,11 +141,11 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
-            if (\count($q)) {
+        if (!count($p) || !count($q)) {
+            if (count($q)) {
                 return $q;
             }
-            if (\count($p)) {
+            if (count($p)) {
                 return $p;
             }
             return [];
@@ -203,7 +203,7 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p)) {
+        if (!count($p)) {
             return [];
         }
         if (!isset($p[2])) {

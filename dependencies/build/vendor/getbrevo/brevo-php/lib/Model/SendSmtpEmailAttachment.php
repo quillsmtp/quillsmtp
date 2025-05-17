@@ -158,7 +158,7 @@ class SendSmtpEmailAttachment implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if (!\is_null($this->container['content']) && !\preg_match("/^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/", $this->container['content'])) {
+        if (!is_null($this->container['content']) && !preg_match("/^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/", $this->container['content'])) {
             $invalidProperties[] = "invalid value for 'content', must be conform to the pattern /^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/.";
         }
         return $invalidProperties;
@@ -171,7 +171,7 @@ class SendSmtpEmailAttachment implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets url
@@ -212,7 +212,7 @@ class SendSmtpEmailAttachment implements ModelInterface, ArrayAccess
      */
     public function setContent($content)
     {
-        if (!\is_null($content) && !\preg_match("/^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/", $content)) {
+        if (!is_null($content) && !preg_match("/^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/", $content)) {
             throw new \InvalidArgumentException("invalid value for {$content} when calling SendSmtpEmailAttachment., must conform to the pattern /^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?\$/.");
         }
         $this->container['content'] = $content;
@@ -274,7 +274,7 @@ class SendSmtpEmailAttachment implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -299,10 +299,10 @@ class SendSmtpEmailAttachment implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

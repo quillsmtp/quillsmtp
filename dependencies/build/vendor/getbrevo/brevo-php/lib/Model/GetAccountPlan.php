@@ -51,7 +51,7 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['type' => 'string', 'creditsType' => 'string', 'credits' => 'float', 'startDate' => '\\DateTime', 'endDate' => '\\DateTime', 'userLimit' => 'int'];
+    protected static $swaggerTypes = ['type' => 'string', 'creditsType' => 'string', 'credits' => 'float', 'startDate' => '\DateTime', 'endDate' => '\DateTime', 'userLimit' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -189,15 +189,15 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'type' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['creditsType'] === null) {
             $invalidProperties[] = "'creditsType' can't be null";
         }
         $allowedValues = $this->getCreditsTypeAllowableValues();
-        if (!\is_null($this->container['creditsType']) && !\in_array($this->container['creditsType'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'creditsType', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['creditsType']) && !in_array($this->container['creditsType'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'creditsType', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['credits'] === null) {
             $invalidProperties[] = "'credits' can't be null";
@@ -212,7 +212,7 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets type
@@ -233,8 +233,8 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -258,8 +258,8 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
     public function setCreditsType($creditsType)
     {
         $allowedValues = $this->getCreditsTypeAllowableValues();
-        if (!\in_array($creditsType, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'creditsType', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($creditsType, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'creditsType', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['creditsType'] = $creditsType;
         return $this;
@@ -383,7 +383,7 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -408,10 +408,10 @@ class GetAccountPlan implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

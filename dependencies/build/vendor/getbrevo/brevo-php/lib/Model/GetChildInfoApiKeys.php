@@ -52,7 +52,7 @@ class GetChildInfoApiKeys implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['v2' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeysV2[]', 'v3' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeysV3[]'];
+    protected static $swaggerTypes = ['v2' => '\Brevo\Client\Model\GetChildInfoApiKeysV2[]', 'v3' => '\Brevo\Client\Model\GetChildInfoApiKeysV3[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -171,7 +171,7 @@ class GetChildInfoApiKeys implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets v2
@@ -250,7 +250,7 @@ class GetChildInfoApiKeys implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -275,10 +275,10 @@ class GetChildInfoApiKeys implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

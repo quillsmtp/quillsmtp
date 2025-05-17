@@ -32,16 +32,16 @@ abstract class IEEE
      */
     public static function load($sig)
     {
-        if (!\is_string($sig)) {
+        if (!is_string($sig)) {
             return \false;
         }
-        $len = \strlen($sig);
+        $len = strlen($sig);
         if ($len & 1) {
             return \false;
         }
-        $r = new BigInteger(\substr($sig, 0, $len >> 1), 256);
-        $s = new BigInteger(\substr($sig, $len >> 1), 256);
-        return \compact('r', 's');
+        $r = new BigInteger(substr($sig, 0, $len >> 1), 256);
+        $s = new BigInteger(substr($sig, $len >> 1), 256);
+        return compact('r', 's');
     }
     /**
      * Returns a signature in the appropriate format
@@ -54,7 +54,7 @@ abstract class IEEE
     {
         $r = $r->toBytes();
         $s = $s->toBytes();
-        $len = \max(\strlen($r), \strlen($s));
-        return \str_pad($r, $len, "\x00", \STR_PAD_LEFT) . \str_pad($s, $len, "\x00", \STR_PAD_LEFT);
+        $len = max(strlen($r), strlen($s));
+        return str_pad($r, $len, "\x00", \STR_PAD_LEFT) . str_pad($s, $len, "\x00", \STR_PAD_LEFT);
     }
 }

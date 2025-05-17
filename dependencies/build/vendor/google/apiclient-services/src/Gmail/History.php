@@ -120,4 +120,4 @@ class History extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(History::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_History');
+class_alias(History::class, 'QuillSMTP\Vendor\Google_Service_Gmail_History');

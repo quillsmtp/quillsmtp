@@ -49,10 +49,10 @@ abstract class Montgomery extends Base
         }
         // if it's not, it's even
         // find the lowest set bit (eg. the max pow of 2 that divides $n)
-        for ($i = 0; $i < \count($n->value); ++$i) {
+        for ($i = 0; $i < count($n->value); ++$i) {
             if ($n->value[$i]) {
-                $temp = \decbin($n->value[$i]);
-                $j = \strlen($temp) - \strrpos($temp, '1') - 1;
+                $temp = decbin($n->value[$i]);
+                $j = strlen($temp) - strrpos($temp, '1') - 1;
                 $j += $class::BASE * $i;
                 break;
             }

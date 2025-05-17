@@ -85,6 +85,32 @@ class REST_Email_Log_Controller extends REST_Controller {
 			)
 		);
 
+		// Get all dashboard data in a single request
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/dashboard',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_dashboard_data' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			)
+		);
+
+		// Get metrics data.
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/metrics',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_metrics_data' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			)
+		);
+
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<log_id>[\d]+)',
@@ -259,8 +285,8 @@ class REST_Email_Log_Controller extends REST_Controller {
 
 		if ( $from_date && $to_date ) {
 			// Days between two dates.
-			$from_date = $this->get_date( $from_date );
-			$to_date   = $this->get_date( $to_date, '23:59:59' );
+			$from_date = Handler_DB::format_date( $from_date );
+			$to_date   = Handler_DB::format_date( $to_date, '23:59:59' );
 			$from_date = new \DateTime( $from_date );
 			$to_date   = new \DateTime( $to_date );
 			$interval  = new \DateInterval( 'P1D' );
@@ -306,8 +332,8 @@ class REST_Email_Log_Controller extends REST_Controller {
 		$search      = $request->get_param( 'search' );
 
 		if ( $start_date && $end_date ) {
-			$start_date  = $this->get_date( $start_date );
-			$end_date    = $this->get_date( $end_date, '23:59:59' );
+			$start_date  = Handler_DB::format_date( $start_date );
+			$end_date    = Handler_DB::format_date( $end_date, '23:59:59' );
 			$logs        = Handler_DB::get_all( $status, $offset, $per_page, $start_date, $end_date );
 			$total_items = Handler_DB::get_count( $status, $start_date, $end_date );
 		} elseif ( $search ) {
@@ -437,21 +463,37 @@ class REST_Email_Log_Controller extends REST_Controller {
 	}
 
 	/**
-	 * Get valid date
+	 * Get all dashboard data in a single request
 	 *
-	 * @param string $date date.
-	 * @param string $time time.
+	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function get_date( $date, $time = '00:00:00' ) {
-		list($month, $day, $year) = explode( '/', $date );
-		$value                    = "$year-$month-$day";
-		if ( $time ) {
-			$value .= " $time";
-		}
+	public function get_dashboard_data( $request ) {
+		$start_date = $request->get_param( 'start' );
+		$end_date   = $request->get_param( 'end' );
 
-		return $value;
+		$result = Handler_DB::get_dashboard_data( $start_date, $end_date );
+
+		return new WP_REST_Response( $result, 200 );
 	}
 
+	/**
+	 * Get metrics data.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function get_metrics_data( $request ) {
+		$total   = $request->get_param( 'total' );
+		$success = $request->get_param( 'success' );
+		$failed  = $request->get_param( 'failed' );
+
+		$result = Handler_DB::get_metrics_data( $total, $success, $failed );
+
+		return new WP_REST_Response( $result, 200 );
+	}
 }

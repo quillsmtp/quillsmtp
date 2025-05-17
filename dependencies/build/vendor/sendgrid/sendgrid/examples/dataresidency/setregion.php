@@ -43,7 +43,7 @@ try {
 } catch (\Exception $e) {
     echo $exceptionMessage, $e->getMessage(), "\n";
 }
-function buildHelloEmail() : Mail
+function buildHelloEmail(): Mail
 {
     $email = new Mail();
     $email->setFrom("test@example.com", "test");
@@ -57,7 +57,7 @@ function buildHelloEmail() : Mail
     $email->addPersonalization($objPersonalization);
     return $email;
 }
-function buildSendgridObject($region) : SendGrid
+function buildSendgridObject($region): SendGrid
 {
     $sendgrid = new \QuillSMTP\Vendor\SendGrid(\getenv('SENDGRID_API_KEY'));
     $sendgrid->setDataResidency($region);

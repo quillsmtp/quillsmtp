@@ -36,7 +36,7 @@ class Key
      *
      * @return string
      */
-    public function getAlgorithm() : string
+    public function getAlgorithm(): string
     {
         return $this->algorithm;
     }

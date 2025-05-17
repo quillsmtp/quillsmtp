@@ -30,14 +30,14 @@ abstract class JWK
     public static function load($key, $password = '')
     {
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
-        $key = \preg_replace('#\\s#', '', $key);
+        $key = preg_replace('#\s#', '', $key);
         // remove whitespace
         if (\PHP_VERSION_ID >= 73000) {
-            $key = \json_decode($key, null, 512, \JSON_THROW_ON_ERROR);
+            $key = json_decode($key, null, 512, \JSON_THROW_ON_ERROR);
         } else {
-            $key = \json_decode($key);
+            $key = json_decode($key);
             if (!$key) {
                 throw new \RuntimeException('Unable to decode JSON');
             }
@@ -45,7 +45,7 @@ abstract class JWK
         if (isset($key->kty)) {
             return $key;
         }
-        if (\count($key->keys) != 1) {
+        if (count($key->keys) != 1) {
             throw new \RuntimeException('Although the JWK key format supports multiple keys phpseclib does not');
         }
         return $key->keys[0];
@@ -57,6 +57,6 @@ abstract class JWK
      */
     protected static function wrapKey(array $key, array $options)
     {
-        return \json_encode(['keys' => [$key + $options]]);
+        return json_encode(['keys' => [$key + $options]]);
     }
 }

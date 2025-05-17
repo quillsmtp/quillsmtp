@@ -55,7 +55,7 @@ class Constants
      */
     public static function is_defined($name)
     {
-        return \array_key_exists($name, self::$set_constants) ? \true : \defined($name);
+        return array_key_exists($name, self::$set_constants) ? \true : defined($name);
     }
     /**
      * Attempts to retrieve the "constant" from constants Manager, and if it hasn't been set,
@@ -68,11 +68,11 @@ class Constants
      */
     public static function get_constant($name)
     {
-        if (\array_key_exists($name, self::$set_constants)) {
+        if (array_key_exists($name, self::$set_constants)) {
             return self::$set_constants[$name];
         }
-        if (\defined($name)) {
-            return \constant($name);
+        if (defined($name)) {
+            return constant($name);
         }
         /**
          * Filters the value of the constant.
@@ -103,7 +103,7 @@ class Constants
      */
     public static function clear_single_constant($name)
     {
-        if (!\array_key_exists($name, self::$set_constants)) {
+        if (!array_key_exists($name, self::$set_constants)) {
             return \false;
         }
         unset(self::$set_constants[$name]);

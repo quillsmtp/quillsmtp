@@ -116,6 +116,101 @@
 		margin-top: 40px;
 		grid-gap: 20px;
 	}
+
+	&__overview {
+		background-color: #F5F5F5;
+		padding: 40px 0;
+
+		&__content {
+			display: flex;
+			margin: 0 auto;
+			width: 80%;
+			gap: 30px;
+
+			&__item {
+				background-color: #ffffff;
+				border-radius: 8px;
+				padding: 20px 25px;
+				flex: 1;
+				display: flex;
+				justify-content: space-between;
+				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+
+				h2 {
+					font-size: 16px;
+					font-weight: 500;
+					margin-bottom: 5px;
+					margin-top: 0;
+				}
+
+				p {
+					font-size: 32px;
+					font-weight: 600;
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	&__chart-wrap {
+		background-color: #ffffff;
+		border-radius: 8px;
+		margin-top: 30px;
+		box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	&__chart {
+		min-height: 300px;
+		&-section {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		&-date-range {
+			border: 1px solid #E5E5E5;
+			border-radius: 4px;
+			padding: 4px 16px;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			min-width: 340px;
+			justify-content: space-between;
+
+			&-label {
+				margin-right: 8px;
+			}
+		}
+
+		&__header {
+			padding: 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 20px;
+			border-bottom: 1px solid #E5E5E5;
+
+			h2 {
+				margin: 0;
+			}
+		}
+	}
+
+	&__chart-loading {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 300px;
+		
+		p {
+			margin-top: 15px;
+			color: #666;
+			font-size: 16px;
+		}
+	}
 }
 
 .qsmtp-home-page__chart-section {
@@ -181,5 +276,39 @@
 		svg {
 			fill: currentColor;
 		}
+	}
+}
+
+.qsmtp-date-picker-container {
+	display: flex;
+	flex-direction: column;
+	
+	.qsmtp-date-filter-actions {
+		padding: 15px;
+		display: flex;
+		justify-content: flex-end;
+		border-top: 1px solid #E5E5E5;
+		
+		.qsmtp-filter-button {
+			background-color: #3858E9;
+			color: white;
+			padding: 8px 16px;
+			
+			&:hover {
+				background-color: #2b44bb;
+			}
+		}
+	}
+}
+
+.qsmtp-no-data-message {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 300px;
+	
+	p {
+		color: #666;
+		font-size: 16px;
 	}
 }

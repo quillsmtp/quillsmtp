@@ -57,4 +57,4 @@ class Delegate extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(Delegate::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Delegate');
+class_alias(Delegate::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Delegate');

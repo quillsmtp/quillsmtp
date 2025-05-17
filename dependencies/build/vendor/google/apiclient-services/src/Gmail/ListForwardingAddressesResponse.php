@@ -38,4 +38,4 @@ class ListForwardingAddressesResponse extends \QuillSMTP\Vendor\Google\Collectio
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(ListForwardingAddressesResponse::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_ListForwardingAddressesResponse');
+class_alias(ListForwardingAddressesResponse::class, 'QuillSMTP\Vendor\Google_Service_Gmail_ListForwardingAddressesResponse');

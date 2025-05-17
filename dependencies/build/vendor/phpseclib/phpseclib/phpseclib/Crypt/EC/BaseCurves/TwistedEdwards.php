@@ -106,9 +106,9 @@ class TwistedEdwards extends Base
     {
         switch (\true) {
             case !$x instanceof BigInteger && !$x instanceof PrimeInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
             case !$y instanceof BigInteger && !$y instanceof PrimeInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
         }
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');

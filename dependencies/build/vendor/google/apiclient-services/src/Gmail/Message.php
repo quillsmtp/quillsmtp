@@ -182,4 +182,4 @@ class Message extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(Message::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Message');
+class_alias(Message::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Message');

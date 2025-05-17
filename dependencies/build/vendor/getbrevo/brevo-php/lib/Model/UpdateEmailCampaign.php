@@ -51,7 +51,7 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateEmailCampaignSender', 'name' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'scheduledAt' => 'string', 'subject' => 'string', 'previewText' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'recipients' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateEmailCampaignRecipients', 'attachmentUrl' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'footer' => 'string', 'header' => 'string', 'utmCampaign' => 'string', 'params' => 'object', 'sendAtBestTime' => 'bool', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'ipWarmupEnable' => 'bool', 'initialQuota' => 'int', 'increaseRate' => 'int', 'unsubscriptionPageId' => 'string', 'updateFormId' => 'string'];
+    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\Vendor\Brevo\Client\Model\UpdateEmailCampaignSender', 'name' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'scheduledAt' => 'string', 'subject' => 'string', 'previewText' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'recipients' => 'QuillSMTP\Vendor\Brevo\Client\Model\UpdateEmailCampaignRecipients', 'attachmentUrl' => 'string', 'inlineImageActivation' => 'bool', 'mirrorActive' => 'bool', 'recurring' => 'bool', 'footer' => 'string', 'header' => 'string', 'utmCampaign' => 'string', 'params' => 'object', 'sendAtBestTime' => 'bool', 'abTesting' => 'bool', 'subjectA' => 'string', 'subjectB' => 'string', 'splitRule' => 'int', 'winnerCriteria' => 'string', 'winnerDelay' => 'int', 'ipWarmupEnable' => 'bool', 'initialQuota' => 'int', 'increaseRate' => 'int', 'unsubscriptionPageId' => 'string', 'updateFormId' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -197,26 +197,26 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if (!\is_null($this->container['splitRule']) && $this->container['splitRule'] > 50) {
+        if (!is_null($this->container['splitRule']) && $this->container['splitRule'] > 50) {
             $invalidProperties[] = "invalid value for 'splitRule', must be smaller than or equal to 50.";
         }
-        if (!\is_null($this->container['splitRule']) && $this->container['splitRule'] < 1) {
+        if (!is_null($this->container['splitRule']) && $this->container['splitRule'] < 1) {
             $invalidProperties[] = "invalid value for 'splitRule', must be bigger than or equal to 1.";
         }
         $allowedValues = $this->getWinnerCriteriaAllowableValues();
-        if (!\is_null($this->container['winnerCriteria']) && !\in_array($this->container['winnerCriteria'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'winnerCriteria', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['winnerCriteria']) && !in_array($this->container['winnerCriteria'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'winnerCriteria', must be one of '%s'", implode("', '", $allowedValues));
         }
-        if (!\is_null($this->container['winnerDelay']) && $this->container['winnerDelay'] > 168) {
+        if (!is_null($this->container['winnerDelay']) && $this->container['winnerDelay'] > 168) {
             $invalidProperties[] = "invalid value for 'winnerDelay', must be smaller than or equal to 168.";
         }
-        if (!\is_null($this->container['winnerDelay']) && $this->container['winnerDelay'] < 1) {
+        if (!is_null($this->container['winnerDelay']) && $this->container['winnerDelay'] < 1) {
             $invalidProperties[] = "invalid value for 'winnerDelay', must be bigger than or equal to 1.";
         }
-        if (!\is_null($this->container['increaseRate']) && $this->container['increaseRate'] > 100) {
+        if (!is_null($this->container['increaseRate']) && $this->container['increaseRate'] > 100) {
             $invalidProperties[] = "invalid value for 'increaseRate', must be smaller than or equal to 100.";
         }
-        if (!\is_null($this->container['increaseRate']) && $this->container['increaseRate'] < 0) {
+        if (!is_null($this->container['increaseRate']) && $this->container['increaseRate'] < 0) {
             $invalidProperties[] = "invalid value for 'increaseRate', must be bigger than or equal to 0.";
         }
         return $invalidProperties;
@@ -229,7 +229,7 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets tag
@@ -732,10 +732,10 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      */
     public function setSplitRule($splitRule)
     {
-        if (!\is_null($splitRule) && $splitRule > 50) {
+        if (!is_null($splitRule) && $splitRule > 50) {
             throw new \InvalidArgumentException('invalid value for $splitRule when calling UpdateEmailCampaign., must be smaller than or equal to 50.');
         }
-        if (!\is_null($splitRule) && $splitRule < 1) {
+        if (!is_null($splitRule) && $splitRule < 1) {
             throw new \InvalidArgumentException('invalid value for $splitRule when calling UpdateEmailCampaign., must be bigger than or equal to 1.');
         }
         $this->container['splitRule'] = $splitRule;
@@ -760,8 +760,8 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
     public function setWinnerCriteria($winnerCriteria)
     {
         $allowedValues = $this->getWinnerCriteriaAllowableValues();
-        if (!\is_null($winnerCriteria) && !\in_array($winnerCriteria, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'winnerCriteria', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($winnerCriteria) && !in_array($winnerCriteria, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'winnerCriteria', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['winnerCriteria'] = $winnerCriteria;
         return $this;
@@ -784,10 +784,10 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      */
     public function setWinnerDelay($winnerDelay)
     {
-        if (!\is_null($winnerDelay) && $winnerDelay > 168) {
+        if (!is_null($winnerDelay) && $winnerDelay > 168) {
             throw new \InvalidArgumentException('invalid value for $winnerDelay when calling UpdateEmailCampaign., must be smaller than or equal to 168.');
         }
-        if (!\is_null($winnerDelay) && $winnerDelay < 1) {
+        if (!is_null($winnerDelay) && $winnerDelay < 1) {
             throw new \InvalidArgumentException('invalid value for $winnerDelay when calling UpdateEmailCampaign., must be bigger than or equal to 1.');
         }
         $this->container['winnerDelay'] = $winnerDelay;
@@ -853,10 +853,10 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      */
     public function setIncreaseRate($increaseRate)
     {
-        if (!\is_null($increaseRate) && $increaseRate > 100) {
+        if (!is_null($increaseRate) && $increaseRate > 100) {
             throw new \InvalidArgumentException('invalid value for $increaseRate when calling UpdateEmailCampaign., must be smaller than or equal to 100.');
         }
-        if (!\is_null($increaseRate) && $increaseRate < 0) {
+        if (!is_null($increaseRate) && $increaseRate < 0) {
             throw new \InvalidArgumentException('invalid value for $increaseRate when calling UpdateEmailCampaign., must be bigger than or equal to 0.');
         }
         $this->container['increaseRate'] = $increaseRate;
@@ -939,7 +939,7 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -964,10 +964,10 @@ class UpdateEmailCampaign implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

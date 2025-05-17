@@ -42,7 +42,7 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function create($userId, Label $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], Label::class);
     }
     /**
@@ -58,7 +58,7 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -74,7 +74,7 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], Label::class);
     }
     /**
@@ -89,7 +89,7 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersLabels($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListLabelsResponse::class);
     }
     /**
@@ -106,7 +106,7 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function patch($userId, $id, Label $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('patch', [$params], Label::class);
     }
     /**
@@ -123,9 +123,9 @@ class UsersLabels extends \QuillSMTP\Vendor\Google\Service\Resource
     public function update($userId, $id, Label $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('update', [$params], Label::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersLabels::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersLabels');
+class_alias(UsersLabels::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersLabels');

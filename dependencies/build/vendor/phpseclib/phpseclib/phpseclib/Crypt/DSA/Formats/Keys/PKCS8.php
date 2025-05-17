@@ -67,7 +67,7 @@ abstract class PKCS8 extends Progenitor
             throw new \RuntimeException('Unable to decode BER of parameters');
         }
         $components = ASN1::asn1map($decoded[0], Maps\DSAParams::MAP);
-        if (!\is_array($components)) {
+        if (!is_array($components)) {
             throw new \RuntimeException('Unable to perform ASN1 mapping on parameters');
         }
         $decoded = ASN1::decodeBER($key[$type]);

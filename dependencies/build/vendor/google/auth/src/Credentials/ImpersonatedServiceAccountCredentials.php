@@ -42,19 +42,19 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
      */
     public function __construct($scope, $jsonKey)
     {
-        if (\is_string($jsonKey)) {
-            if (!\file_exists($jsonKey)) {
+        if (is_string($jsonKey)) {
+            if (!file_exists($jsonKey)) {
                 throw new \InvalidArgumentException('file does not exist');
             }
-            $json = \file_get_contents($jsonKey);
-            if (!($jsonKey = \json_decode((string) $json, \true))) {
+            $json = file_get_contents($jsonKey);
+            if (!$jsonKey = json_decode((string) $json, \true)) {
                 throw new \LogicException('invalid json for auth config');
             }
         }
-        if (!\array_key_exists('service_account_impersonation_url', $jsonKey)) {
+        if (!array_key_exists('service_account_impersonation_url', $jsonKey)) {
             throw new \LogicException('json key is missing the service_account_impersonation_url field');
         }
-        if (!\array_key_exists('source_credentials', $jsonKey)) {
+        if (!array_key_exists('source_credentials', $jsonKey)) {
             throw new \LogicException('json key is missing the source_credentials field');
         }
         $this->impersonatedServiceAccountName = $this->getImpersonatedServiceAccountNameFromUrl($jsonKey['service_account_impersonation_url']);
@@ -67,11 +67,11 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
      * @param $serviceAccountImpersonationUrl string URL from "service_account_impersonation_url"
      * @return string Service account email or ID.
      */
-    private function getImpersonatedServiceAccountNameFromUrl(string $serviceAccountImpersonationUrl) : string
+    private function getImpersonatedServiceAccountNameFromUrl(string $serviceAccountImpersonationUrl): string
     {
-        $fields = \explode('/', $serviceAccountImpersonationUrl);
-        $lastField = \end($fields);
-        $splitter = \explode(':', $lastField);
+        $fields = explode('/', $serviceAccountImpersonationUrl);
+        $lastField = end($fields);
+        $splitter = explode(':', $lastField);
         return $splitter[0];
     }
     /**

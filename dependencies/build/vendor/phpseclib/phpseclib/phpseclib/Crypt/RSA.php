@@ -283,7 +283,7 @@ abstract class RSA extends AsymmetricKey
         $regSize = $bits >> 1;
         // divide by two to see how many bits P and Q would be
         if ($regSize > self::$smallestPrime) {
-            $num_primes = \floor($bits / self::$smallestPrime);
+            $num_primes = floor($bits / self::$smallestPrime);
             $regSize = self::$smallestPrime;
         } else {
             $num_primes = 2;
@@ -298,11 +298,11 @@ abstract class RSA extends AsymmetricKey
                 if (self::$configFile) {
                     $config['config'] = self::$configFile;
                 }
-                $rsa = \openssl_pkey_new(['private_key_bits' => $bits] + $config);
-                \openssl_pkey_export($rsa, $privatekeystr, null, $config);
+                $rsa = openssl_pkey_new(['private_key_bits' => $bits] + $config);
+                openssl_pkey_export($rsa, $privatekeystr, null, $config);
                 // clear the buffer of error strings stemming from a minimalistic openssl.cnf
                 // https://github.com/php/php-src/issues/11054 talks about other errors this'll pick up
-                while (\openssl_error_string() !== \false) {
+                while (openssl_error_string() !== \false) {
                 }
                 return RSA::load($privatekeystr);
             }
@@ -319,7 +319,7 @@ abstract class RSA extends AsymmetricKey
                 if ($i != $num_primes) {
                     $primes[$i] = BigInteger::randomPrime($regSize);
                 } else {
-                    \extract(BigInteger::minMaxBits($bits));
+                    extract(BigInteger::minMaxBits($bits));
                     /** @var BigInteger $min
                      *  @var BigInteger $max
                      */
@@ -428,7 +428,7 @@ abstract class RSA extends AsymmetricKey
     protected static function initialize_static_variables()
     {
         if (!isset(self::$configFile)) {
-            self::$configFile = \dirname(__FILE__) . '/../openssl.cnf';
+            self::$configFile = dirname(__FILE__) . '/../openssl.cnf';
         }
         parent::initialize_static_variables();
     }
@@ -459,10 +459,10 @@ abstract class RSA extends AsymmetricKey
             return \false;
         }
         $x = $x->toBytes();
-        if (\strlen($x) > $xLen) {
+        if (strlen($x) > $xLen) {
             throw new \OutOfRangeException('Resultant string length out of range');
         }
-        return \str_pad($x, $xLen, \chr(0), \STR_PAD_LEFT);
+        return str_pad($x, $xLen, chr(0), \STR_PAD_LEFT);
     }
     /**
      * Octet-String-to-Integer primitive
@@ -520,11 +520,11 @@ abstract class RSA extends AsymmetricKey
                 $t = "010\r\x06\t`\x86H\x01e\x03\x04\x02\x06\x05\x00\x04 ";
         }
         $t .= $h;
-        $tLen = \strlen($t);
+        $tLen = strlen($t);
         if ($emLen < $tLen + 11) {
             throw new \LengthException('Intended encoded message length too short');
         }
-        $ps = \str_repeat(\chr(0xff), $emLen - $tLen - 3);
+        $ps = str_repeat(chr(0xff), $emLen - $tLen - 3);
         $em = "\x00\x01{$ps}\x00{$t}";
         return $em;
     }
@@ -573,11 +573,11 @@ abstract class RSA extends AsymmetricKey
                 throw new UnsupportedAlgorithmException('md2 and md5 require NULLs');
         }
         $t .= $h;
-        $tLen = \strlen($t);
+        $tLen = strlen($t);
         if ($emLen < $tLen + 11) {
             throw new \LengthException('Intended encoded message length too short');
         }
-        $ps = \str_repeat(\chr(0xff), $emLen - $tLen - 3);
+        $ps = str_repeat(chr(0xff), $emLen - $tLen - 3);
         $em = "\x00\x01{$ps}\x00{$t}";
         return $em;
     }
@@ -594,12 +594,12 @@ abstract class RSA extends AsymmetricKey
     {
         // if $maskLen would yield strings larger than 4GB, PKCS#1 suggests a "Mask too long" error be output.
         $t = '';
-        $count = \ceil($maskLen / $this->mgfHLen);
+        $count = ceil($maskLen / $this->mgfHLen);
         for ($i = 0; $i < $count; $i++) {
-            $c = \pack('N', $i);
+            $c = pack('N', $i);
             $t .= $this->mgfHash->hash($mgfSeed . $c);
         }
-        return \substr($t, 0, $maskLen);
+        return substr($t, 0, $maskLen);
     }
     /**
      * Returns the key size
@@ -624,7 +624,7 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // \phpseclib3\Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        switch (strtolower($hash)) {
             case 'md2':
             case 'md5':
             case 'sha1':
@@ -654,7 +654,7 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // \phpseclib3\Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        switch (strtolower($hash)) {
             case 'md2':
             case 'md5':
             case 'sha1':

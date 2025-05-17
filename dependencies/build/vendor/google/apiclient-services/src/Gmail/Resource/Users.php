@@ -44,7 +44,7 @@ class Users extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getProfile($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getProfile', [$params], Profile::class);
     }
     /**
@@ -58,7 +58,7 @@ class Users extends \QuillSMTP\Vendor\Google\Service\Resource
     public function stop($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('stop', [$params]);
     }
     /**
@@ -75,9 +75,9 @@ class Users extends \QuillSMTP\Vendor\Google\Service\Resource
     public function watch($userId, WatchRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('watch', [$params], WatchResponse::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(Users::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_Users');
+class_alias(Users::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_Users');

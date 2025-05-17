@@ -105,7 +105,7 @@ class FoldersApi
      */
     public function createFolderWithHttpInfo($createFolder)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createFolderRequest($createFolder);
         try {
             $options = $this->createHttpClientOption();
@@ -116,27 +116,27 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -171,24 +171,24 @@ class FoldersApi
      */
     public function createFolderAsyncWithHttpInfo($createFolder)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createFolderRequest($createFolder);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -202,7 +202,7 @@ class FoldersApi
     protected function createFolderRequest($createFolder)
     {
         // verify the required parameter 'createFolder' is set
-        if ($createFolder === null || \is_array($createFolder) && \count($createFolder) === 0) {
+        if ($createFolder === null || is_array($createFolder) && count($createFolder) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createFolder when calling createFolder');
         }
         $resourcePath = '/contacts/folders';
@@ -231,11 +231,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -264,7 +264,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -307,17 +307,17 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -354,12 +354,12 @@ class FoldersApi
     {
         $returnType = '';
         $request = $this->deleteFolderRequest($folderId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -373,7 +373,7 @@ class FoldersApi
     protected function deleteFolderRequest($folderId)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling deleteFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -384,7 +384,7 @@ class FoldersApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -403,11 +403,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -436,7 +436,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -469,7 +469,7 @@ class FoldersApi
      */
     public function getFolderWithHttpInfo($folderId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder';
         $request = $this->getFolderRequest($folderId);
         try {
             $options = $this->createHttpClientOption();
@@ -480,31 +480,31 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -539,24 +539,24 @@ class FoldersApi
      */
     public function getFolderAsyncWithHttpInfo($folderId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder';
         $request = $this->getFolderRequest($folderId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -570,7 +570,7 @@ class FoldersApi
     protected function getFolderRequest($folderId)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling getFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -581,7 +581,7 @@ class FoldersApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -600,11 +600,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -633,7 +633,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -672,7 +672,7 @@ class FoldersApi
      */
     public function getFolderListsWithHttpInfo($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists';
         $request = $this->getFolderListsRequest($folderId, $limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -683,31 +683,31 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -748,24 +748,24 @@ class FoldersApi
      */
     public function getFolderListsAsyncWithHttpInfo($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists';
         $request = $this->getFolderListsRequest($folderId, $limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -782,7 +782,7 @@ class FoldersApi
     protected function getFolderListsRequest($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling getFolderLists');
         }
         if ($limit !== null && $limit > 50) {
@@ -808,7 +808,7 @@ class FoldersApi
         }
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -827,11 +827,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -860,7 +860,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -897,7 +897,7 @@ class FoldersApi
      */
     public function getFoldersWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders';
         $request = $this->getFoldersRequest($limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -908,27 +908,27 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -967,24 +967,24 @@ class FoldersApi
      */
     public function getFoldersAsyncWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders';
         $request = $this->getFoldersRequest($limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1000,14 +1000,14 @@ class FoldersApi
     protected function getFoldersRequest($limit, $offset, $sort = 'desc')
     {
         // verify the required parameter 'limit' is set
-        if ($limit === null || \is_array($limit) && \count($limit) === 0) {
+        if ($limit === null || is_array($limit) && count($limit) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $limit when calling getFolders');
         }
         if ($limit > 50) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling FoldersApi.getFolders, must be smaller than or equal to 50.');
         }
         // verify the required parameter 'offset' is set
-        if ($offset === null || \is_array($offset) && \count($offset) === 0) {
+        if ($offset === null || is_array($offset) && count($offset) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $offset when calling getFolders');
         }
         $resourcePath = '/contacts/folders';
@@ -1045,11 +1045,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1078,7 +1078,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1123,17 +1123,17 @@ class FoldersApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1172,12 +1172,12 @@ class FoldersApi
     {
         $returnType = '';
         $request = $this->updateFolderRequest($folderId, $updateFolder);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1192,11 +1192,11 @@ class FoldersApi
     protected function updateFolderRequest($folderId, $updateFolder)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling updateFolder');
         }
         // verify the required parameter 'updateFolder' is set
-        if ($updateFolder === null || \is_array($updateFolder) && \count($updateFolder) === 0) {
+        if ($updateFolder === null || is_array($updateFolder) && count($updateFolder) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateFolder when calling updateFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -1207,7 +1207,7 @@ class FoldersApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1229,11 +1229,11 @@ class FoldersApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1262,7 +1262,7 @@ class FoldersApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1276,7 +1276,7 @@ class FoldersApi
     {
         $options = [];
         if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = \fopen($this->config->getDebugFile(), 'a');
+            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
                 throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }

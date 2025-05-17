@@ -14,7 +14,7 @@ class Signature
     }
     function toBase64()
     {
-        return \base64_encode($this->der);
+        return base64_encode($this->der);
     }
     static function fromDer($str)
     {
@@ -22,6 +22,6 @@ class Signature
     }
     static function fromBase64($str)
     {
-        return new Signature(\base64_decode($str));
+        return new Signature(base64_decode($str));
     }
 }

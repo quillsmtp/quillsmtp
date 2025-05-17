@@ -31,7 +31,7 @@ abstract class Raw
     public static function load($sig)
     {
         switch (\true) {
-            case !\is_array($sig):
+            case !is_array($sig):
             case !isset($sig['r']) || !isset($sig['s']):
             case !$sig['r'] instanceof BigInteger:
             case !$sig['s'] instanceof BigInteger:
@@ -48,6 +48,6 @@ abstract class Raw
      */
     public static function save(BigInteger $r, BigInteger $s)
     {
-        return \compact('r', 's');
+        return compact('r', 's');
     }
 }

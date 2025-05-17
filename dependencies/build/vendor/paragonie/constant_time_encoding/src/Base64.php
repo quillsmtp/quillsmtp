@@ -46,7 +46,7 @@ abstract class Base64 implements EncoderInterface
      *
      * @throws TypeError
      */
-    public static function encode(#[\SensitiveParameter] string $binString) : string
+    public static function encode(#[\SensitiveParameter] string $binString): string
     {
         return static::doEncode($binString, \true);
     }
@@ -60,7 +60,7 @@ abstract class Base64 implements EncoderInterface
      *
      * @throws TypeError
      */
-    public static function encodeUnpadded(#[\SensitiveParameter] string $src) : string
+    public static function encodeUnpadded(#[\SensitiveParameter] string $src): string
     {
         return static::doEncode($src, \false);
     }
@@ -71,7 +71,7 @@ abstract class Base64 implements EncoderInterface
      *
      * @throws TypeError
      */
-    protected static function doEncode(#[\SensitiveParameter] string $src, bool $pad = \true) : string
+    protected static function doEncode(#[\SensitiveParameter] string $src, bool $pad = \true): string
     {
         $dest = '';
         $srcLen = Binary::safeStrlen($src);
@@ -116,7 +116,7 @@ abstract class Base64 implements EncoderInterface
      * @throws RangeException
      * @throws TypeError
      */
-    public static function decode(#[\SensitiveParameter] string $encodedString, bool $strictPadding = \false) : string
+    public static function decode(#[\SensitiveParameter] string $encodedString, bool $strictPadding = \false): string
     {
         // Remove padding
         $srcLen = Binary::safeStrlen($encodedString);
@@ -189,7 +189,7 @@ abstract class Base64 implements EncoderInterface
      * @param string $encodedString
      * @return string
      */
-    public static function decodeNoPadding(#[\SensitiveParameter] string $encodedString) : string
+    public static function decodeNoPadding(#[\SensitiveParameter] string $encodedString): string
     {
         $srcLen = Binary::safeStrlen($encodedString);
         if ($srcLen === 0) {
@@ -214,7 +214,7 @@ abstract class Base64 implements EncoderInterface
      * @param int $src
      * @return int
      */
-    protected static function decode6Bits(int $src) : int
+    protected static function decode6Bits(int $src): int
     {
         $ret = -1;
         // if ($src > 0x40 && $src < 0x5b) $ret += $src - 0x41 + 1; // -64
@@ -236,7 +236,7 @@ abstract class Base64 implements EncoderInterface
      * @param int $src
      * @return string
      */
-    protected static function encode6Bits(int $src) : string
+    protected static function encode6Bits(int $src): string
     {
         $diff = 0x41;
         // if ($src > 25) $diff += 0x61 - 0x41 - 26; // 6

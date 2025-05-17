@@ -204,16 +204,16 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
     {
         $invalidProperties = [];
         $allowedValues = $this->getActionForContactsAllowableValues();
-        if (!\is_null($this->container['actionForContacts']) && !\in_array($this->container['actionForContacts'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'actionForContacts', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['actionForContacts']) && !in_array($this->container['actionForContacts'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'actionForContacts', must be one of '%s'", implode("', '", $allowedValues));
         }
         $allowedValues = $this->getActionForEmailCampaignsAllowableValues();
-        if (!\is_null($this->container['actionForEmailCampaigns']) && !\in_array($this->container['actionForEmailCampaigns'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'actionForEmailCampaigns', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['actionForEmailCampaigns']) && !in_array($this->container['actionForEmailCampaigns'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'actionForEmailCampaigns', must be one of '%s'", implode("', '", $allowedValues));
         }
         $allowedValues = $this->getActionForSmsCampaignsAllowableValues();
-        if (!\is_null($this->container['actionForSmsCampaigns']) && !\in_array($this->container['actionForSmsCampaigns'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'actionForSmsCampaigns', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['actionForSmsCampaigns']) && !in_array($this->container['actionForSmsCampaigns'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'actionForSmsCampaigns', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -225,7 +225,7 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets actionForContacts
@@ -246,8 +246,8 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
     public function setActionForContacts($actionForContacts)
     {
         $allowedValues = $this->getActionForContactsAllowableValues();
-        if (!\is_null($actionForContacts) && !\in_array($actionForContacts, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'actionForContacts', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($actionForContacts) && !in_array($actionForContacts, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'actionForContacts', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['actionForContacts'] = $actionForContacts;
         return $this;
@@ -271,8 +271,8 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
     public function setActionForEmailCampaigns($actionForEmailCampaigns)
     {
         $allowedValues = $this->getActionForEmailCampaignsAllowableValues();
-        if (!\is_null($actionForEmailCampaigns) && !\in_array($actionForEmailCampaigns, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'actionForEmailCampaigns', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($actionForEmailCampaigns) && !in_array($actionForEmailCampaigns, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'actionForEmailCampaigns', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['actionForEmailCampaigns'] = $actionForEmailCampaigns;
         return $this;
@@ -296,8 +296,8 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
     public function setActionForSmsCampaigns($actionForSmsCampaigns)
     {
         $allowedValues = $this->getActionForSmsCampaignsAllowableValues();
-        if (!\is_null($actionForSmsCampaigns) && !\in_array($actionForSmsCampaigns, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'actionForSmsCampaigns', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($actionForSmsCampaigns) && !in_array($actionForSmsCampaigns, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'actionForSmsCampaigns', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['actionForSmsCampaigns'] = $actionForSmsCampaigns;
         return $this;
@@ -400,7 +400,7 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -425,10 +425,10 @@ class RequestContactExportCustomContactFilter implements ModelInterface, ArrayAc
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

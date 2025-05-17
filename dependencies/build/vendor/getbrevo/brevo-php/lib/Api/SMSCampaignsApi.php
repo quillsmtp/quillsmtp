@@ -105,7 +105,7 @@ class SMSCampaignsApi
      */
     public function createSmsCampaignWithHttpInfo($createSmsCampaign)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createSmsCampaignRequest($createSmsCampaign);
         try {
             $options = $this->createHttpClientOption();
@@ -116,27 +116,27 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -171,24 +171,24 @@ class SMSCampaignsApi
      */
     public function createSmsCampaignAsyncWithHttpInfo($createSmsCampaign)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createSmsCampaignRequest($createSmsCampaign);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -202,7 +202,7 @@ class SMSCampaignsApi
     protected function createSmsCampaignRequest($createSmsCampaign)
     {
         // verify the required parameter 'createSmsCampaign' is set
-        if ($createSmsCampaign === null || \is_array($createSmsCampaign) && \count($createSmsCampaign) === 0) {
+        if ($createSmsCampaign === null || is_array($createSmsCampaign) && count($createSmsCampaign) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createSmsCampaign when calling createSmsCampaign');
         }
         $resourcePath = '/smsCampaigns';
@@ -231,11 +231,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -264,7 +264,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -307,17 +307,17 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -354,12 +354,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->deleteSmsCampaignRequest($campaignId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -373,7 +373,7 @@ class SMSCampaignsApi
     protected function deleteSmsCampaignRequest($campaignId)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling deleteSmsCampaign');
         }
         $resourcePath = '/smsCampaigns/{campaignId}';
@@ -384,7 +384,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -403,11 +403,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -436,7 +436,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -469,7 +469,7 @@ class SMSCampaignsApi
      */
     public function getSmsCampaignWithHttpInfo($campaignId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaign';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaign';
         $request = $this->getSmsCampaignRequest($campaignId);
         try {
             $options = $this->createHttpClientOption();
@@ -480,31 +480,31 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaign', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaign', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -539,24 +539,24 @@ class SMSCampaignsApi
      */
     public function getSmsCampaignAsyncWithHttpInfo($campaignId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaign';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaign';
         $request = $this->getSmsCampaignRequest($campaignId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -570,7 +570,7 @@ class SMSCampaignsApi
     protected function getSmsCampaignRequest($campaignId)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling getSmsCampaign');
         }
         $resourcePath = '/smsCampaigns/{campaignId}';
@@ -581,7 +581,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -600,11 +600,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -633,7 +633,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -676,7 +676,7 @@ class SMSCampaignsApi
      */
     public function getSmsCampaignsWithHttpInfo($status = null, $startDate = null, $endDate = null, $limit = '500', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaigns';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaigns';
         $request = $this->getSmsCampaignsRequest($status, $startDate, $endDate, $limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -687,27 +687,27 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaigns', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaigns', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -752,24 +752,24 @@ class SMSCampaignsApi
      */
     public function getSmsCampaignsAsyncWithHttpInfo($status = null, $startDate = null, $endDate = null, $limit = '500', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSmsCampaigns';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSmsCampaigns';
         $request = $this->getSmsCampaignsRequest($status, $startDate, $endDate, $limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -840,11 +840,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -873,7 +873,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -908,7 +908,7 @@ class SMSCampaignsApi
      */
     public function requestSmsRecipientExportWithHttpInfo($campaignId, $recipientExport = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->requestSmsRecipientExportRequest($campaignId, $recipientExport);
         try {
             $options = $this->createHttpClientOption();
@@ -919,31 +919,31 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 202:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -980,24 +980,24 @@ class SMSCampaignsApi
      */
     public function requestSmsRecipientExportAsyncWithHttpInfo($campaignId, $recipientExport = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->requestSmsRecipientExportRequest($campaignId, $recipientExport);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1012,7 +1012,7 @@ class SMSCampaignsApi
     protected function requestSmsRecipientExportRequest($campaignId, $recipientExport = null)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling requestSmsRecipientExport');
         }
         $resourcePath = '/smsCampaigns/{campaignId}/exportRecipients';
@@ -1023,7 +1023,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1045,11 +1045,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1078,7 +1078,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1121,21 +1121,21 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 402:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1172,12 +1172,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->sendSmsCampaignNowRequest($campaignId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1191,7 +1191,7 @@ class SMSCampaignsApi
     protected function sendSmsCampaignNowRequest($campaignId)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling sendSmsCampaignNow');
         }
         $resourcePath = '/smsCampaigns/{campaignId}/sendNow';
@@ -1202,7 +1202,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1221,11 +1221,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1254,7 +1254,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1299,17 +1299,17 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1348,12 +1348,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->sendSmsReportRequest($campaignId, $sendReport);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1368,11 +1368,11 @@ class SMSCampaignsApi
     protected function sendSmsReportRequest($campaignId, $sendReport)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling sendSmsReport');
         }
         // verify the required parameter 'sendReport' is set
-        if ($sendReport === null || \is_array($sendReport) && \count($sendReport) === 0) {
+        if ($sendReport === null || is_array($sendReport) && count($sendReport) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $sendReport when calling sendSmsReport');
         }
         $resourcePath = '/smsCampaigns/{campaignId}/sendReport';
@@ -1383,7 +1383,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1405,11 +1405,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1438,7 +1438,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1483,17 +1483,17 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostSendSmsTestFailed', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\PostSendSmsTestFailed', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1532,12 +1532,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->sendTestSmsRequest($campaignId, $phoneNumber);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1552,11 +1552,11 @@ class SMSCampaignsApi
     protected function sendTestSmsRequest($campaignId, $phoneNumber)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling sendTestSms');
         }
         // verify the required parameter 'phoneNumber' is set
-        if ($phoneNumber === null || \is_array($phoneNumber) && \count($phoneNumber) === 0) {
+        if ($phoneNumber === null || is_array($phoneNumber) && count($phoneNumber) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $phoneNumber when calling sendTestSms');
         }
         $resourcePath = '/smsCampaigns/{campaignId}/sendTest';
@@ -1567,7 +1567,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1589,11 +1589,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1622,7 +1622,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1667,17 +1667,17 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1716,12 +1716,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->updateSmsCampaignRequest($campaignId, $updateSmsCampaign);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1736,11 +1736,11 @@ class SMSCampaignsApi
     protected function updateSmsCampaignRequest($campaignId, $updateSmsCampaign)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling updateSmsCampaign');
         }
         // verify the required parameter 'updateSmsCampaign' is set
-        if ($updateSmsCampaign === null || \is_array($updateSmsCampaign) && \count($updateSmsCampaign) === 0) {
+        if ($updateSmsCampaign === null || is_array($updateSmsCampaign) && count($updateSmsCampaign) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateSmsCampaign when calling updateSmsCampaign');
         }
         $resourcePath = '/smsCampaigns/{campaignId}';
@@ -1751,7 +1751,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1773,11 +1773,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1806,7 +1806,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1851,17 +1851,17 @@ class SMSCampaignsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1900,12 +1900,12 @@ class SMSCampaignsApi
     {
         $returnType = '';
         $request = $this->updateSmsCampaignStatusRequest($campaignId, $status);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1920,11 +1920,11 @@ class SMSCampaignsApi
     protected function updateSmsCampaignStatusRequest($campaignId, $status)
     {
         // verify the required parameter 'campaignId' is set
-        if ($campaignId === null || \is_array($campaignId) && \count($campaignId) === 0) {
+        if ($campaignId === null || is_array($campaignId) && count($campaignId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling updateSmsCampaignStatus');
         }
         // verify the required parameter 'status' is set
-        if ($status === null || \is_array($status) && \count($status) === 0) {
+        if ($status === null || is_array($status) && count($status) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $status when calling updateSmsCampaignStatus');
         }
         $resourcePath = '/smsCampaigns/{campaignId}/status';
@@ -1935,7 +1935,7 @@ class SMSCampaignsApi
         $multipart = \false;
         // path params
         if ($campaignId !== null) {
-            $resourcePath = \str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
+            $resourcePath = str_replace('{' . 'campaignId' . '}', ObjectSerializer::toPathValue($campaignId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1957,11 +1957,11 @@ class SMSCampaignsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1990,7 +1990,7 @@ class SMSCampaignsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -2004,7 +2004,7 @@ class SMSCampaignsApi
     {
         $options = [];
         if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = \fopen($this->config->getDebugFile(), 'a');
+            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
                 throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }

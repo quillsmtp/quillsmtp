@@ -77,7 +77,7 @@ class Content implements \JsonSerializable
     public function setValue($value)
     {
         Assert::minLength($value, 'value', 1);
-        $this->value = \mb_convert_encoding((string) $value, 'UTF-8', 'UTF-8');
+        $this->value = mb_convert_encoding((string) $value, 'UTF-8', 'UTF-8');
     }
     /**
      * Retrieve the content value to a Content object
@@ -96,7 +96,7 @@ class Content implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['type' => $this->getType(), 'value' => $this->getValue()], function ($value) {
+        return array_filter(['type' => $this->getType(), 'value' => $this->getValue()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

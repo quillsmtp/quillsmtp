@@ -110,7 +110,7 @@ class AccessToken
         // Check signature against each available cert.
         $certs = $this->getCerts($certsLocation, $cacheKey, $options);
         $alg = $this->determineAlg($certs);
-        if (!\in_array($alg, ['RS256', 'ES256'])) {
+        if (!in_array($alg, ['RS256', 'ES256'])) {
             throw new InvalidArgumentException('unrecognized "alg" in certs, expected ES256 or RS256');
         }
         try {
@@ -217,14 +217,14 @@ class AccessToken
         }
         $payload = $this->callJwtStatic('decode', [$token, $keys]);
         if ($audience) {
-            if (!\property_exists($payload, 'aud') || $payload->aud != $audience) {
+            if (!property_exists($payload, 'aud') || $payload->aud != $audience) {
                 throw new UnexpectedValueException('Audience does not match');
             }
         }
         // support HTTP and HTTPS issuers
         // @see https://developers.google.com/identity/sign-in/web/backend-auth
         $issuers = $issuer ? [$issuer] : [self::OAUTH2_ISSUER, self::OAUTH2_ISSUER_HTTPS];
-        if (!isset($payload->iss) || !\in_array($payload->iss, $issuers)) {
+        if (!isset($payload->iss) || !in_array($payload->iss, $issuers)) {
             throw new UnexpectedValueException('Issuer does not match');
         }
         return (array) $payload;
@@ -239,14 +239,14 @@ class AccessToken
      */
     public function revoke($token, array $options = [])
     {
-        if (\is_array($token)) {
+        if (is_array($token)) {
             if (isset($token['refresh_token'])) {
                 $token = $token['refresh_token'];
             } else {
                 $token = $token['access_token'];
             }
         }
-        $body = Utils::streamFor(\http_build_query(['token' => $token]));
+        $body = Utils::streamFor(http_build_query(['token' => $token]));
         $request = new Request('POST', self::OAUTH2_REVOKE_URI, ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
         $httpHandler = $this->httpHandler;
         $response = $httpHandler($request, $options);
@@ -299,33 +299,33 @@ class AccessToken
     {
         // If we're retrieving a local file, just grab it.
         $expireTime = '+1 hour';
-        if (\strpos($url, 'http') !== 0) {
-            if (!\file_exists($url)) {
-                throw new InvalidArgumentException(\sprintf('Failed to retrieve verification certificates from path: %s.', $url));
+        if (strpos($url, 'http') !== 0) {
+            if (!file_exists($url)) {
+                throw new InvalidArgumentException(sprintf('Failed to retrieve verification certificates from path: %s.', $url));
             }
-            return [\json_decode((string) \file_get_contents($url), \true), $expireTime];
+            return [json_decode((string) file_get_contents($url), \true), $expireTime];
         }
         $httpHandler = $this->httpHandler;
         $response = $httpHandler(new Request('GET', $url), $options);
         if ($response->getStatusCode() == 200) {
             if ($cacheControl = $response->getHeaderLine('Cache-Control')) {
-                \array_map(function ($value) use(&$expireTime) {
-                    list($key, $value) = \explode('=', $value) + [null, null];
-                    if (\trim($key) == 'max-age') {
+                array_map(function ($value) use (&$expireTime) {
+                    list($key, $value) = explode('=', $value) + [null, null];
+                    if (trim($key) == 'max-age') {
                         $expireTime = '+' . $value . ' seconds';
                     }
-                }, \explode(',', $cacheControl));
+                }, explode(',', $cacheControl));
             }
-            return [\json_decode((string) $response->getBody(), \true), $expireTime];
+            return [json_decode((string) $response->getBody(), \true), $expireTime];
         }
-        throw new RuntimeException(\sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
+        throw new RuntimeException(sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
     }
     /**
      * @return void
      */
     private function checkAndInitializePhpsec()
     {
-        if (!\class_exists(RSA::class)) {
+        if (!class_exists(RSA::class)) {
             throw new RuntimeException('Please require phpseclib/phpseclib v3 to use this utility.');
         }
     }
@@ -333,11 +333,11 @@ class AccessToken
      * @return string
      * @throws TypeError If the key cannot be initialized to a string.
      */
-    private function loadPhpsecPublicKey(string $modulus, string $exponent) : string
+    private function loadPhpsecPublicKey(string $modulus, string $exponent): string
     {
         $key = PublicKeyLoader::load(['n' => new BigInteger($this->callJwtStatic('urlsafeB64Decode', [$modulus]), 256), 'e' => new BigInteger($this->callJwtStatic('urlsafeB64Decode', [$exponent]), 256)]);
         $formattedPublicKey = $key->toString('PKCS8');
-        if (!\is_string($formattedPublicKey)) {
+        if (!is_string($formattedPublicKey)) {
             throw new TypeError('Failed to initialize the key');
         }
         return $formattedPublicKey;
@@ -348,7 +348,7 @@ class AccessToken
     private function checkSimpleJwt()
     {
         // @codeCoverageIgnoreStart
-        if (!\class_exists(SimpleJwt::class)) {
+        if (!class_exists(SimpleJwt::class)) {
             throw new RuntimeException('Please require kelvinmo/simplejwt ^0.2 to use this utility.');
         }
         // @codeCoverageIgnoreEnd
@@ -362,7 +362,7 @@ class AccessToken
      */
     protected function callJwtStatic($method, array $args = [])
     {
-        return \call_user_func_array([JWT::class, $method], $args);
+        return call_user_func_array([JWT::class, $method], $args);
         // @phpstan-ignore-line
     }
     /**
@@ -373,7 +373,7 @@ class AccessToken
      */
     protected function callSimpleJwtDecode(array $args = [])
     {
-        return \call_user_func_array([SimpleJwt::class, 'decode'], $args);
+        return call_user_func_array([SimpleJwt::class, 'decode'], $args);
     }
     /**
      * Generate a cache key based on the cert location using sha1 with the
@@ -384,7 +384,7 @@ class AccessToken
      */
     private function getCacheKeyFromCertLocation($certsLocation)
     {
-        $key = $certsLocation === self::FEDERATED_SIGNON_CERT_URL ? 'federated_signon_certs_v3' : \sha1($certsLocation);
+        $key = $certsLocation === self::FEDERATED_SIGNON_CERT_URL ? 'federated_signon_certs_v3' : sha1($certsLocation);
         return 'google_auth_certs_cache|' . $key;
     }
 }

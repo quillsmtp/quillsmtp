@@ -107,7 +107,7 @@ class ContactsApi
      */
     public function addContactToListWithHttpInfo($listId, $contactEmails)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo';
         $request = $this->addContactToListRequest($listId, $contactEmails);
         try {
             $options = $this->createHttpClientOption();
@@ -118,31 +118,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -179,24 +179,24 @@ class ContactsApi
      */
     public function addContactToListAsyncWithHttpInfo($listId, $contactEmails)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo';
         $request = $this->addContactToListRequest($listId, $contactEmails);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -211,11 +211,11 @@ class ContactsApi
     protected function addContactToListRequest($listId, $contactEmails)
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling addContactToList');
         }
         // verify the required parameter 'contactEmails' is set
-        if ($contactEmails === null || \is_array($contactEmails) && \count($contactEmails) === 0) {
+        if ($contactEmails === null || is_array($contactEmails) && count($contactEmails) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $contactEmails when calling addContactToList');
         }
         $resourcePath = '/contacts/lists/{listId}/contacts/add';
@@ -226,7 +226,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -248,11 +248,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -281,7 +281,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -328,13 +328,13 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -375,12 +375,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->createAttributeRequest($attributeCategory, $attributeName, $createAttribute);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -396,15 +396,15 @@ class ContactsApi
     protected function createAttributeRequest($attributeCategory, $attributeName, $createAttribute)
     {
         // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null || \is_array($attributeCategory) && \count($attributeCategory) === 0) {
+        if ($attributeCategory === null || is_array($attributeCategory) && count($attributeCategory) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling createAttribute');
         }
         // verify the required parameter 'attributeName' is set
-        if ($attributeName === null || \is_array($attributeName) && \count($attributeName) === 0) {
+        if ($attributeName === null || is_array($attributeName) && count($attributeName) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling createAttribute');
         }
         // verify the required parameter 'createAttribute' is set
-        if ($createAttribute === null || \is_array($createAttribute) && \count($createAttribute) === 0) {
+        if ($createAttribute === null || is_array($createAttribute) && count($createAttribute) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createAttribute when calling createAttribute');
         }
         $resourcePath = '/contacts/attributes/{attributeCategory}/{attributeName}';
@@ -415,11 +415,11 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($attributeCategory !== null) {
-            $resourcePath = \str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
         }
         // path params
         if ($attributeName !== null) {
-            $resourcePath = \str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -441,11 +441,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -474,7 +474,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -507,7 +507,7 @@ class ContactsApi
      */
     public function createContactWithHttpInfo($createContact)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateContactModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateUpdateContactModel';
         $request = $this->createContactRequest($createContact);
         try {
             $options = $this->createHttpClientOption();
@@ -518,27 +518,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateContactModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreateUpdateContactModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -573,24 +573,24 @@ class ContactsApi
      */
     public function createContactAsyncWithHttpInfo($createContact)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateContactModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateUpdateContactModel';
         $request = $this->createContactRequest($createContact);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -604,7 +604,7 @@ class ContactsApi
     protected function createContactRequest($createContact)
     {
         // verify the required parameter 'createContact' is set
-        if ($createContact === null || \is_array($createContact) && \count($createContact) === 0) {
+        if ($createContact === null || is_array($createContact) && count($createContact) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createContact when calling createContact');
         }
         $resourcePath = '/contacts';
@@ -633,11 +633,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -666,7 +666,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -709,13 +709,13 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -752,12 +752,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->createDoiContactRequest($createDoiContact);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -771,7 +771,7 @@ class ContactsApi
     protected function createDoiContactRequest($createDoiContact)
     {
         // verify the required parameter 'createDoiContact' is set
-        if ($createDoiContact === null || \is_array($createDoiContact) && \count($createDoiContact) === 0) {
+        if ($createDoiContact === null || is_array($createDoiContact) && count($createDoiContact) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createDoiContact when calling createDoiContact');
         }
         $resourcePath = '/contacts/doubleOptinConfirmation';
@@ -800,11 +800,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -833,7 +833,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -866,7 +866,7 @@ class ContactsApi
      */
     public function createFolderWithHttpInfo($createFolder)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createFolderRequest($createFolder);
         try {
             $options = $this->createHttpClientOption();
@@ -877,27 +877,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -932,24 +932,24 @@ class ContactsApi
      */
     public function createFolderAsyncWithHttpInfo($createFolder)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createFolderRequest($createFolder);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -963,7 +963,7 @@ class ContactsApi
     protected function createFolderRequest($createFolder)
     {
         // verify the required parameter 'createFolder' is set
-        if ($createFolder === null || \is_array($createFolder) && \count($createFolder) === 0) {
+        if ($createFolder === null || is_array($createFolder) && count($createFolder) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createFolder when calling createFolder');
         }
         $resourcePath = '/contacts/folders';
@@ -992,11 +992,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1025,7 +1025,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1058,7 +1058,7 @@ class ContactsApi
      */
     public function createListWithHttpInfo($createList)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createListRequest($createList);
         try {
             $options = $this->createHttpClientOption();
@@ -1069,27 +1069,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1124,24 +1124,24 @@ class ContactsApi
      */
     public function createListAsyncWithHttpInfo($createList)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateModel';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreateModel';
         $request = $this->createListRequest($createList);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1155,7 +1155,7 @@ class ContactsApi
     protected function createListRequest($createList)
     {
         // verify the required parameter 'createList' is set
-        if ($createList === null || \is_array($createList) && \count($createList) === 0) {
+        if ($createList === null || is_array($createList) && count($createList) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $createList when calling createList');
         }
         $resourcePath = '/contacts/lists';
@@ -1184,11 +1184,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1217,7 +1217,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1262,17 +1262,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1311,12 +1311,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->deleteAttributeRequest($attributeCategory, $attributeName);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1331,11 +1331,11 @@ class ContactsApi
     protected function deleteAttributeRequest($attributeCategory, $attributeName)
     {
         // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null || \is_array($attributeCategory) && \count($attributeCategory) === 0) {
+        if ($attributeCategory === null || is_array($attributeCategory) && count($attributeCategory) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling deleteAttribute');
         }
         // verify the required parameter 'attributeName' is set
-        if ($attributeName === null || \is_array($attributeName) && \count($attributeName) === 0) {
+        if ($attributeName === null || is_array($attributeName) && count($attributeName) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling deleteAttribute');
         }
         $resourcePath = '/contacts/attributes/{attributeCategory}/{attributeName}';
@@ -1346,11 +1346,11 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($attributeCategory !== null) {
-            $resourcePath = \str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
         }
         // path params
         if ($attributeName !== null) {
-            $resourcePath = \str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1369,11 +1369,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1402,7 +1402,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1445,21 +1445,21 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 405:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1496,12 +1496,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->deleteContactRequest($identifier);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1515,7 +1515,7 @@ class ContactsApi
     protected function deleteContactRequest($identifier)
     {
         // verify the required parameter 'identifier' is set
-        if ($identifier === null || \is_array($identifier) && \count($identifier) === 0) {
+        if ($identifier === null || is_array($identifier) && count($identifier) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $identifier when calling deleteContact');
         }
         $resourcePath = '/contacts/{identifier}';
@@ -1526,7 +1526,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($identifier !== null) {
-            $resourcePath = \str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
+            $resourcePath = str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1545,11 +1545,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1578,7 +1578,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1621,17 +1621,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1668,12 +1668,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->deleteFolderRequest($folderId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1687,7 +1687,7 @@ class ContactsApi
     protected function deleteFolderRequest($folderId)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling deleteFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -1698,7 +1698,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1717,11 +1717,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1750,7 +1750,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1793,17 +1793,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -1840,12 +1840,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->deleteListRequest($listId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -1859,7 +1859,7 @@ class ContactsApi
     protected function deleteListRequest($listId)
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling deleteList');
         }
         $resourcePath = '/contacts/lists/{listId}';
@@ -1870,7 +1870,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -1889,11 +1889,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1922,7 +1922,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('DELETE', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -1953,7 +1953,7 @@ class ContactsApi
      */
     public function getAttributesWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAttributes';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetAttributes';
         $request = $this->getAttributesRequest();
         try {
             $options = $this->createHttpClientOption();
@@ -1964,23 +1964,23 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAttributes', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetAttributes', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -2013,24 +2013,24 @@ class ContactsApi
      */
     public function getAttributesAsyncWithHttpInfo()
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAttributes';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetAttributes';
         $request = $this->getAttributesRequest();
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -2065,11 +2065,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2098,7 +2098,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -2135,7 +2135,7 @@ class ContactsApi
      */
     public function getContactInfoWithHttpInfo($identifier, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetails';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedContactDetails';
         $request = $this->getContactInfoRequest($identifier, $startDate, $endDate);
         try {
             $options = $this->createHttpClientOption();
@@ -2146,31 +2146,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetails', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedContactDetails', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -2209,24 +2209,24 @@ class ContactsApi
      */
     public function getContactInfoAsyncWithHttpInfo($identifier, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetails';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedContactDetails';
         $request = $this->getContactInfoRequest($identifier, $startDate, $endDate);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -2242,7 +2242,7 @@ class ContactsApi
     protected function getContactInfoRequest($identifier, $startDate = null, $endDate = null)
     {
         // verify the required parameter 'identifier' is set
-        if ($identifier === null || \is_array($identifier) && \count($identifier) === 0) {
+        if ($identifier === null || is_array($identifier) && count($identifier) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $identifier when calling getContactInfo');
         }
         $resourcePath = '/contacts/{identifier}';
@@ -2261,7 +2261,7 @@ class ContactsApi
         }
         // path params
         if ($identifier !== null) {
-            $resourcePath = \str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
+            $resourcePath = str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -2280,11 +2280,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2313,7 +2313,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -2350,7 +2350,7 @@ class ContactsApi
      */
     public function getContactStatsWithHttpInfo($identifier, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContactCampaignStats';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContactCampaignStats';
         $request = $this->getContactStatsRequest($identifier, $startDate, $endDate);
         try {
             $options = $this->createHttpClientOption();
@@ -2361,31 +2361,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContactCampaignStats', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetContactCampaignStats', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -2424,24 +2424,24 @@ class ContactsApi
      */
     public function getContactStatsAsyncWithHttpInfo($identifier, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContactCampaignStats';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContactCampaignStats';
         $request = $this->getContactStatsRequest($identifier, $startDate, $endDate);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -2457,7 +2457,7 @@ class ContactsApi
     protected function getContactStatsRequest($identifier, $startDate = null, $endDate = null)
     {
         // verify the required parameter 'identifier' is set
-        if ($identifier === null || \is_array($identifier) && \count($identifier) === 0) {
+        if ($identifier === null || is_array($identifier) && count($identifier) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $identifier when calling getContactStats');
         }
         $resourcePath = '/contacts/{identifier}/campaignStats';
@@ -2476,7 +2476,7 @@ class ContactsApi
         }
         // path params
         if ($identifier !== null) {
-            $resourcePath = \str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
+            $resourcePath = str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -2495,11 +2495,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2528,7 +2528,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -2573,7 +2573,7 @@ class ContactsApi
      */
     public function getContactsWithHttpInfo($limit = '50', $offset = '0', $modifiedSince = null, $createdSince = null, $sort = 'desc', $segmentId = null, $listIds = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts';
         $request = $this->getContactsRequest($limit, $offset, $modifiedSince, $createdSince, $sort, $segmentId, $listIds);
         try {
             $options = $this->createHttpClientOption();
@@ -2584,27 +2584,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -2651,24 +2651,24 @@ class ContactsApi
      */
     public function getContactsAsyncWithHttpInfo($limit = '50', $offset = '0', $modifiedSince = null, $createdSince = null, $sort = 'desc', $segmentId = null, $listIds = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts';
         $request = $this->getContactsRequest($limit, $offset, $modifiedSince, $createdSince, $sort, $segmentId, $listIds);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -2724,12 +2724,10 @@ class ContactsApi
             $queryParams['segmentId'] = ObjectSerializer::toQueryValue($segmentId);
         }
         // query params
-        if (\is_array($listIds)) {
+        if (is_array($listIds)) {
             $queryParams['listIds'] = $listIds;
-        } else {
-            if ($listIds !== null) {
-                $queryParams['listIds'] = ObjectSerializer::toQueryValue($listIds);
-            }
+        } else if ($listIds !== null) {
+            $queryParams['listIds'] = ObjectSerializer::toQueryValue($listIds);
         }
         // body params
         $_tempBody = null;
@@ -2748,11 +2746,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2781,7 +2779,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -2822,7 +2820,7 @@ class ContactsApi
      */
     public function getContactsFromListWithHttpInfo($listId, $modifiedSince = null, $limit = '50', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts';
         $request = $this->getContactsFromListRequest($listId, $modifiedSince, $limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -2833,31 +2831,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -2900,24 +2898,24 @@ class ContactsApi
      */
     public function getContactsFromListAsyncWithHttpInfo($listId, $modifiedSince = null, $limit = '50', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetContacts';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetContacts';
         $request = $this->getContactsFromListRequest($listId, $modifiedSince, $limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -2935,7 +2933,7 @@ class ContactsApi
     protected function getContactsFromListRequest($listId, $modifiedSince = null, $limit = '50', $offset = '0', $sort = 'desc')
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling getContactsFromList');
         }
         if ($limit !== null && $limit > 500) {
@@ -2968,7 +2966,7 @@ class ContactsApi
         }
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -2987,11 +2985,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3020,7 +3018,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -3053,7 +3051,7 @@ class ContactsApi
      */
     public function getFolderWithHttpInfo($folderId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder';
         $request = $this->getFolderRequest($folderId);
         try {
             $options = $this->createHttpClientOption();
@@ -3064,31 +3062,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -3123,24 +3121,24 @@ class ContactsApi
      */
     public function getFolderAsyncWithHttpInfo($folderId)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolder';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolder';
         $request = $this->getFolderRequest($folderId);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -3154,7 +3152,7 @@ class ContactsApi
     protected function getFolderRequest($folderId)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling getFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -3165,7 +3163,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -3184,11 +3182,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3217,7 +3215,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -3256,7 +3254,7 @@ class ContactsApi
      */
     public function getFolderListsWithHttpInfo($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists';
         $request = $this->getFolderListsRequest($folderId, $limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -3267,31 +3265,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -3332,24 +3330,24 @@ class ContactsApi
      */
     public function getFolderListsAsyncWithHttpInfo($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolderLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolderLists';
         $request = $this->getFolderListsRequest($folderId, $limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -3366,7 +3364,7 @@ class ContactsApi
     protected function getFolderListsRequest($folderId, $limit = '10', $offset = '0', $sort = 'desc')
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling getFolderLists');
         }
         if ($limit !== null && $limit > 50) {
@@ -3395,7 +3393,7 @@ class ContactsApi
         }
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -3414,11 +3412,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3447,7 +3445,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -3484,7 +3482,7 @@ class ContactsApi
      */
     public function getFoldersWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders';
         $request = $this->getFoldersRequest($limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -3495,27 +3493,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -3554,24 +3552,24 @@ class ContactsApi
      */
     public function getFoldersAsyncWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetFolders';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetFolders';
         $request = $this->getFoldersRequest($limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -3587,7 +3585,7 @@ class ContactsApi
     protected function getFoldersRequest($limit, $offset, $sort = 'desc')
     {
         // verify the required parameter 'limit' is set
-        if ($limit === null || \is_array($limit) && \count($limit) === 0) {
+        if ($limit === null || is_array($limit) && count($limit) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $limit when calling getFolders');
         }
         if ($limit > 50) {
@@ -3597,7 +3595,7 @@ class ContactsApi
             throw new \InvalidArgumentException('invalid value for "$limit" when calling ContactsApi.getFolders, must be bigger than or equal to 0.');
         }
         // verify the required parameter 'offset' is set
-        if ($offset === null || \is_array($offset) && \count($offset) === 0) {
+        if ($offset === null || is_array($offset) && count($offset) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $offset when calling getFolders');
         }
         $resourcePath = '/contacts/folders';
@@ -3635,11 +3633,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3668,7 +3666,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -3705,7 +3703,7 @@ class ContactsApi
      */
     public function getListWithHttpInfo($listId, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedList';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedList';
         $request = $this->getListRequest($listId, $startDate, $endDate);
         try {
             $options = $this->createHttpClientOption();
@@ -3716,31 +3714,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedList', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedList', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -3779,24 +3777,24 @@ class ContactsApi
      */
     public function getListAsyncWithHttpInfo($listId, $startDate = null, $endDate = null)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedList';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedList';
         $request = $this->getListRequest($listId, $startDate, $endDate);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -3812,7 +3810,7 @@ class ContactsApi
     protected function getListRequest($listId, $startDate = null, $endDate = null)
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling getList');
         }
         $resourcePath = '/contacts/lists/{listId}';
@@ -3831,7 +3829,7 @@ class ContactsApi
         }
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -3850,11 +3848,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3883,7 +3881,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -3920,7 +3918,7 @@ class ContactsApi
      */
     public function getListsWithHttpInfo($limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetLists';
         $request = $this->getListsRequest($limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -3931,27 +3929,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetLists', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetLists', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -3990,24 +3988,24 @@ class ContactsApi
      */
     public function getListsAsyncWithHttpInfo($limit = '10', $offset = '0', $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetLists';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetLists';
         $request = $this->getListsRequest($limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -4063,11 +4061,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -4096,7 +4094,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -4133,7 +4131,7 @@ class ContactsApi
      */
     public function getSegmentsWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSegments';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSegments';
         $request = $this->getSegmentsRequest($limit, $offset, $sort);
         try {
             $options = $this->createHttpClientOption();
@@ -4144,27 +4142,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSegments', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\GetSegments', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -4203,24 +4201,24 @@ class ContactsApi
      */
     public function getSegmentsAsyncWithHttpInfo($limit, $offset, $sort = 'desc')
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetSegments';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\GetSegments';
         $request = $this->getSegmentsRequest($limit, $offset, $sort);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -4236,7 +4234,7 @@ class ContactsApi
     protected function getSegmentsRequest($limit, $offset, $sort = 'desc')
     {
         // verify the required parameter 'limit' is set
-        if ($limit === null || \is_array($limit) && \count($limit) === 0) {
+        if ($limit === null || is_array($limit) && count($limit) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $limit when calling getSegments');
         }
         if ($limit > 50) {
@@ -4246,7 +4244,7 @@ class ContactsApi
             throw new \InvalidArgumentException('invalid value for "$limit" when calling ContactsApi.getSegments, must be bigger than or equal to 0.');
         }
         // verify the required parameter 'offset' is set
-        if ($offset === null || \is_array($offset) && \count($offset) === 0) {
+        if ($offset === null || is_array($offset) && count($offset) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $offset when calling getSegments');
         }
         $resourcePath = '/contacts/segments';
@@ -4284,11 +4282,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -4317,7 +4315,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('GET', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -4350,7 +4348,7 @@ class ContactsApi
      */
     public function importContactsWithHttpInfo($requestContactImport)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->importContactsRequest($requestContactImport);
         try {
             $options = $this->createHttpClientOption();
@@ -4361,27 +4359,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 202:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -4416,24 +4414,24 @@ class ContactsApi
      */
     public function importContactsAsyncWithHttpInfo($requestContactImport)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->importContactsRequest($requestContactImport);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -4447,7 +4445,7 @@ class ContactsApi
     protected function importContactsRequest($requestContactImport)
     {
         // verify the required parameter 'requestContactImport' is set
-        if ($requestContactImport === null || \is_array($requestContactImport) && \count($requestContactImport) === 0) {
+        if ($requestContactImport === null || is_array($requestContactImport) && count($requestContactImport) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $requestContactImport when calling importContacts');
         }
         $resourcePath = '/contacts/import';
@@ -4476,11 +4474,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -4509,7 +4507,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -4544,7 +4542,7 @@ class ContactsApi
      */
     public function removeContactFromListWithHttpInfo($listId, $contactEmails)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo';
         $request = $this->removeContactFromListRequest($listId, $contactEmails);
         try {
             $options = $this->createHttpClientOption();
@@ -4555,31 +4553,31 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -4616,24 +4614,24 @@ class ContactsApi
      */
     public function removeContactFromListAsyncWithHttpInfo($listId, $contactEmails)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\PostContactInfo';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\PostContactInfo';
         $request = $this->removeContactFromListRequest($listId, $contactEmails);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -4648,11 +4646,11 @@ class ContactsApi
     protected function removeContactFromListRequest($listId, $contactEmails)
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling removeContactFromList');
         }
         // verify the required parameter 'contactEmails' is set
-        if ($contactEmails === null || \is_array($contactEmails) && \count($contactEmails) === 0) {
+        if ($contactEmails === null || is_array($contactEmails) && count($contactEmails) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $contactEmails when calling removeContactFromList');
         }
         $resourcePath = '/contacts/lists/{listId}/contacts/remove';
@@ -4663,7 +4661,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -4685,11 +4683,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -4718,7 +4716,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -4751,7 +4749,7 @@ class ContactsApi
      */
     public function requestContactExportWithHttpInfo($requestContactExport)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->requestContactExportRequest($requestContactExport);
         try {
             $options = $this->createHttpClientOption();
@@ -4762,27 +4760,27 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 202:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -4817,24 +4815,24 @@ class ContactsApi
      */
     public function requestContactExportAsyncWithHttpInfo($requestContactExport)
     {
-        $returnType = 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreatedProcessId';
+        $returnType = 'QuillSMTP\Vendor\Brevo\Client\Model\CreatedProcessId';
         $request = $this->requestContactExportRequest($requestContactExport);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
-            if ($returnType === '\\SplFileObject') {
+            if ($returnType === '\SplFileObject') {
                 $content = $responseBody;
                 //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if ($returnType !== 'string') {
-                    $content = \json_decode($content);
+                    $content = json_decode($content);
                 }
             }
             return [ObjectSerializer::deserialize($content, $returnType, []), $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -4848,7 +4846,7 @@ class ContactsApi
     protected function requestContactExportRequest($requestContactExport)
     {
         // verify the required parameter 'requestContactExport' is set
-        if ($requestContactExport === null || \is_array($requestContactExport) && \count($requestContactExport) === 0) {
+        if ($requestContactExport === null || is_array($requestContactExport) && count($requestContactExport) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $requestContactExport when calling requestContactExport');
         }
         $resourcePath = '/contacts/export';
@@ -4877,11 +4875,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -4910,7 +4908,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -4957,17 +4955,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -5008,12 +5006,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->updateAttributeRequest($attributeCategory, $attributeName, $updateAttribute);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -5029,15 +5027,15 @@ class ContactsApi
     protected function updateAttributeRequest($attributeCategory, $attributeName, $updateAttribute)
     {
         // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null || \is_array($attributeCategory) && \count($attributeCategory) === 0) {
+        if ($attributeCategory === null || is_array($attributeCategory) && count($attributeCategory) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling updateAttribute');
         }
         // verify the required parameter 'attributeName' is set
-        if ($attributeName === null || \is_array($attributeName) && \count($attributeName) === 0) {
+        if ($attributeName === null || is_array($attributeName) && count($attributeName) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling updateAttribute');
         }
         // verify the required parameter 'updateAttribute' is set
-        if ($updateAttribute === null || \is_array($updateAttribute) && \count($updateAttribute) === 0) {
+        if ($updateAttribute === null || is_array($updateAttribute) && count($updateAttribute) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateAttribute when calling updateAttribute');
         }
         $resourcePath = '/contacts/attributes/{attributeCategory}/{attributeName}';
@@ -5048,11 +5046,11 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($attributeCategory !== null) {
-            $resourcePath = \str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeCategory' . '}', ObjectSerializer::toPathValue($attributeCategory), $resourcePath);
         }
         // path params
         if ($attributeName !== null) {
-            $resourcePath = \str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
+            $resourcePath = str_replace('{' . 'attributeName' . '}', ObjectSerializer::toPathValue($attributeName), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -5074,11 +5072,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -5107,7 +5105,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -5150,13 +5148,13 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -5193,12 +5191,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->updateBatchContactsRequest($updateBatchContacts);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -5212,7 +5210,7 @@ class ContactsApi
     protected function updateBatchContactsRequest($updateBatchContacts)
     {
         // verify the required parameter 'updateBatchContacts' is set
-        if ($updateBatchContacts === null || \is_array($updateBatchContacts) && \count($updateBatchContacts) === 0) {
+        if ($updateBatchContacts === null || is_array($updateBatchContacts) && count($updateBatchContacts) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateBatchContacts when calling updateBatchContacts');
         }
         $resourcePath = '/contacts/batch';
@@ -5241,11 +5239,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -5274,7 +5272,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('POST', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -5319,17 +5317,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -5368,12 +5366,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->updateContactRequest($identifier, $updateContact);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -5388,11 +5386,11 @@ class ContactsApi
     protected function updateContactRequest($identifier, $updateContact)
     {
         // verify the required parameter 'identifier' is set
-        if ($identifier === null || \is_array($identifier) && \count($identifier) === 0) {
+        if ($identifier === null || is_array($identifier) && count($identifier) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $identifier when calling updateContact');
         }
         // verify the required parameter 'updateContact' is set
-        if ($updateContact === null || \is_array($updateContact) && \count($updateContact) === 0) {
+        if ($updateContact === null || is_array($updateContact) && count($updateContact) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateContact when calling updateContact');
         }
         $resourcePath = '/contacts/{identifier}';
@@ -5403,7 +5401,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($identifier !== null) {
-            $resourcePath = \str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
+            $resourcePath = str_replace('{' . 'identifier' . '}', ObjectSerializer::toPathValue($identifier), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -5425,11 +5423,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -5458,7 +5456,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -5503,17 +5501,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -5552,12 +5550,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->updateFolderRequest($folderId, $updateFolder);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -5572,11 +5570,11 @@ class ContactsApi
     protected function updateFolderRequest($folderId, $updateFolder)
     {
         // verify the required parameter 'folderId' is set
-        if ($folderId === null || \is_array($folderId) && \count($folderId) === 0) {
+        if ($folderId === null || is_array($folderId) && count($folderId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling updateFolder');
         }
         // verify the required parameter 'updateFolder' is set
-        if ($updateFolder === null || \is_array($updateFolder) && \count($updateFolder) === 0) {
+        if ($updateFolder === null || is_array($updateFolder) && count($updateFolder) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateFolder when calling updateFolder');
         }
         $resourcePath = '/contacts/folders/{folderId}';
@@ -5587,7 +5585,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($folderId !== null) {
-            $resourcePath = \str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
+            $resourcePath = str_replace('{' . 'folderId' . '}', ObjectSerializer::toPathValue($folderId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -5609,11 +5607,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -5642,7 +5640,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -5687,17 +5685,17 @@ class ContactsApi
             }
             $statusCode = $response->getStatusCode();
             if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
             return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 404:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ErrorModel', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'QuillSMTP\Vendor\Brevo\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
@@ -5736,12 +5734,12 @@ class ContactsApi
     {
         $returnType = '';
         $request = $this->updateListRequest($listId, $updateList);
-        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use($returnType) {
+        return $this->client->sendAsync($request, $this->createHttpClientOption())->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
         }, function ($exception) {
             $response = $exception->getResponse();
             $statusCode = $response->getStatusCode();
-            throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
         });
     }
     /**
@@ -5756,11 +5754,11 @@ class ContactsApi
     protected function updateListRequest($listId, $updateList)
     {
         // verify the required parameter 'listId' is set
-        if ($listId === null || \is_array($listId) && \count($listId) === 0) {
+        if ($listId === null || is_array($listId) && count($listId) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling updateList');
         }
         // verify the required parameter 'updateList' is set
-        if ($updateList === null || \is_array($updateList) && \count($updateList) === 0) {
+        if ($updateList === null || is_array($updateList) && count($updateList) === 0) {
             throw new \InvalidArgumentException('Missing the required parameter $updateList when calling updateList');
         }
         $resourcePath = '/contacts/lists/{listId}';
@@ -5771,7 +5769,7 @@ class ContactsApi
         $multipart = \false;
         // path params
         if ($listId !== null) {
-            $resourcePath = \str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
+            $resourcePath = str_replace('{' . 'listId' . '}', ObjectSerializer::toPathValue($listId), $resourcePath);
         }
         // body params
         $_tempBody = null;
@@ -5793,11 +5791,11 @@ class ContactsApi
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode($httpBody);
                 }
                 // array has no __toString(), so we should encode it manually
-                if (\is_array($httpBody)) {
+                if (is_array($httpBody)) {
                     $httpBody = \QuillSMTP\Vendor\GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($httpBody));
                 }
             }
-        } elseif (\count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -5826,7 +5824,7 @@ class ContactsApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
-        $headers = \array_merge($defaultHeaders, $headerParams, $headers);
+        $headers = array_merge($defaultHeaders, $headerParams, $headers);
         $query = \QuillSMTP\Vendor\GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request('PUT', $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''), $headers, $httpBody);
     }
@@ -5840,7 +5838,7 @@ class ContactsApi
     {
         $options = [];
         if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = \fopen($this->config->getDebugFile(), 'a');
+            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
                 throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }

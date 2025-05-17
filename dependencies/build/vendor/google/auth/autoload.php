@@ -32,4 +32,4 @@ function oauth2client_php_autoload($className)
         require_once $filePath;
     }
 }
-\spl_autoload_register('oauth2client_php_autoload');
+\spl_autoload_register('QuillSMTP\Vendor\oauth2client_php_autoload');

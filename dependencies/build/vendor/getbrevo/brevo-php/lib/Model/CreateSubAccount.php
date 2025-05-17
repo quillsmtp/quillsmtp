@@ -181,8 +181,8 @@ class CreateSubAccount implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'email' can't be null";
         }
         $allowedValues = $this->getLanguageAllowableValues();
-        if (!\is_null($this->container['language']) && !\in_array($this->container['language'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'language', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['language']) && !in_array($this->container['language'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'language', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -194,7 +194,7 @@ class CreateSubAccount implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets companyName
@@ -257,8 +257,8 @@ class CreateSubAccount implements ModelInterface, ArrayAccess
     public function setLanguage($language)
     {
         $allowedValues = $this->getLanguageAllowableValues();
-        if (!\is_null($language) && !\in_array($language, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'language', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($language) && !in_array($language, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'language', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['language'] = $language;
         return $this;
@@ -319,7 +319,7 @@ class CreateSubAccount implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -344,10 +344,10 @@ class CreateSubAccount implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

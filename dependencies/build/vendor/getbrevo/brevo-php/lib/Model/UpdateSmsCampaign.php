@@ -51,7 +51,7 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'sender' => 'string', 'content' => 'string', 'recipients' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateSmsCampaignRecipients', 'scheduledAt' => 'string', 'unicodeEnabled' => 'bool', 'organisationPrefix' => 'string', 'unsubscribeInstruction' => 'string'];
+    protected static $swaggerTypes = ['name' => 'string', 'sender' => 'string', 'content' => 'string', 'recipients' => 'QuillSMTP\Vendor\Brevo\Client\Model\CreateSmsCampaignRecipients', 'scheduledAt' => 'string', 'unicodeEnabled' => 'bool', 'organisationPrefix' => 'string', 'unsubscribeInstruction' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -163,7 +163,7 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if (!\is_null($this->container['sender']) && \mb_strlen($this->container['sender']) > 15) {
+        if (!is_null($this->container['sender']) && mb_strlen($this->container['sender']) > 15) {
             $invalidProperties[] = "invalid value for 'sender', the character length must be smaller than or equal to 15.";
         }
         return $invalidProperties;
@@ -176,7 +176,7 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets name
@@ -217,7 +217,7 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
      */
     public function setSender($sender)
     {
-        if (!\is_null($sender) && \mb_strlen($sender) > 15) {
+        if (!is_null($sender) && mb_strlen($sender) > 15) {
             throw new \InvalidArgumentException('invalid length for $sender when calling UpdateSmsCampaign., must be smaller than or equal to 15.');
         }
         $this->container['sender'] = $sender;
@@ -384,7 +384,7 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -409,10 +409,10 @@ class UpdateSmsCampaign implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

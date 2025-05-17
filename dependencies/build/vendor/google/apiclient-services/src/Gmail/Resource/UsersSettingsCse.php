@@ -29,4 +29,4 @@ class UsersSettingsCse extends \QuillSMTP\Vendor\Google\Service\Resource
 {
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsCse::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsCse');
+class_alias(UsersSettingsCse::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsCse');

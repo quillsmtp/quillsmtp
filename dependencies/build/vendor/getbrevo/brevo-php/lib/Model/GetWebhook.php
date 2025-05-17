@@ -51,7 +51,7 @@ class GetWebhook implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['url' => 'string', 'id' => 'int', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookAuth', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookHeaders[]'];
+    protected static $swaggerTypes = ['url' => 'string', 'id' => 'int', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'createdAt' => 'string', 'modifiedAt' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetWebhookAuth', 'headers' => '\Brevo\Client\Model\GetWebhookHeaders[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -192,8 +192,8 @@ class GetWebhook implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'type' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['createdAt'] === null) {
             $invalidProperties[] = "'createdAt' can't be null";
@@ -211,7 +211,7 @@ class GetWebhook implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets url
@@ -316,8 +316,8 @@ class GetWebhook implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -462,7 +462,7 @@ class GetWebhook implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -487,10 +487,10 @@ class GetWebhook implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

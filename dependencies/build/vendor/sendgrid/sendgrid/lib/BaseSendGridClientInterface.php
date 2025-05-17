@@ -61,7 +61,7 @@ abstract class BaseSendGridClientInterface
      * EU region means the message should be sent through:
      * HTTP: api.eu.sendgrid.com
      */
-    public function setDataResidency($region) : void
+    public function setDataResidency($region): void
     {
         if (\array_key_exists($region, $this->allowedRegionsHostMap)) {
             $this->client->setHost($this->allowedRegionsHostMap[$region]);
@@ -70,3 +70,9 @@ abstract class BaseSendGridClientInterface
         }
     }
 }
+/**
+ * This class is the base interface to the Twilio SendGrid Web API.
+ *
+ * @package SendGrid\Mail
+ */
+\class_alias('QuillSMTP\Vendor\BaseSendGridClientInterface', 'BaseSendGridClientInterface', \false);

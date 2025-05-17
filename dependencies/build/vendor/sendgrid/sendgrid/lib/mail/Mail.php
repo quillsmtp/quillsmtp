@@ -143,7 +143,7 @@ class Mail implements \JsonSerializable
     private function addRecipientEmail($emailType, $email, $name = null, $substitutions = null, $personalizationIndex = null, $personalization = null)
     {
         $personalizationFunctionCall = 'add' . $emailType;
-        $emailTypeClass = '\\QuillSMTP\\Vendor\\SendGrid\\Mail\\' . $emailType;
+        $emailTypeClass = '\SendGrid\Mail\\' . $emailType;
         if (!$email instanceof $emailTypeClass) {
             $email = new $emailTypeClass($email, $name, $substitutions);
         }
@@ -236,7 +236,7 @@ class Mail implements \JsonSerializable
                 $this->addPersonalization(new Personalization());
             }
             //  Return last added Personalization instance
-            return \end($this->personalization);
+            return end($this->personalization);
         }
         //  Existing personalizationIndex in personalization?
         if (isset($this->personalization[$personalizationIndex])) {
@@ -709,7 +709,7 @@ class Mail implements \JsonSerializable
         if ($email instanceof From) {
             $this->from = $email;
         } else {
-            Assert::email($email, 'email', '"$email" must be an instance of SendGrid\\Mail\\From or a valid email address');
+            Assert::email($email, 'email', '"$email" must be an instance of SendGrid\Mail\From or a valid email address');
             $this->from = new From($email, $name);
         }
     }
@@ -834,7 +834,7 @@ class Mail implements \JsonSerializable
                     }
                 }
                 if (isset($plain_content)) {
-                    \array_unshift($this->contents, $plain_content);
+                    array_unshift($this->contents, $plain_content);
                 }
             }
         }
@@ -859,10 +859,8 @@ class Mail implements \JsonSerializable
     {
         if (\is_array($attachment)) {
             $attachment = new Attachment($attachment[0], $attachment[1], $attachment[2], $attachment[3], $attachment[4]);
-        } else {
-            if (!$attachment instanceof Attachment) {
-                $attachment = new Attachment($attachment, $type, $filename, $disposition, $content_id);
-            }
+        } else if (!$attachment instanceof Attachment) {
+            $attachment = new Attachment($attachment, $type, $filename, $disposition, $content_id);
         }
         $this->attachments[] = $attachment;
     }
@@ -1623,12 +1621,12 @@ class Mail implements \JsonSerializable
     public function jsonSerialize()
     {
         // Detect if we are using the new dynamic templates
-        if ($this->getTemplateId() !== null && \strpos($this->getTemplateId()->getTemplateId(), 'd-') === 0) {
+        if ($this->getTemplateId() !== null && strpos($this->getTemplateId()->getTemplateId(), 'd-') === 0) {
             foreach ($this->personalization as $personalization) {
                 $personalization->setHasDynamicTemplate(\true);
             }
         }
-        return \array_filter(['personalizations' => \array_values(\array_filter($this->getPersonalizations(), static function ($value) {
+        return array_filter(['personalizations' => array_values(array_filter($this->getPersonalizations(), static function ($value) {
             return null !== $value && null !== $value->jsonSerialize();
         })), 'from' => $this->getFrom(), 'reply_to' => $this->getReplyTo(), 'subject' => $this->getGlobalSubject(), 'content' => $this->getContents(), 'attachments' => $this->getAttachments(), 'template_id' => $this->getTemplateId(), 'sections' => $this->getSections(), 'headers' => $this->getGlobalHeaders(), 'categories' => $this->getCategories(), 'custom_args' => $this->getGlobalCustomArgs(), 'send_at' => $this->getGlobalSendAt(), 'batch_id' => $this->getBatchId(), 'asm' => $this->getASM(), 'ip_pool_name' => $this->getIpPoolName(), 'substitutions' => $this->getGlobalSubstitutions(), 'mail_settings' => $this->getMailSettings(), 'tracking_settings' => $this->getTrackingSettings()], static function ($value) {
             return $value !== null;

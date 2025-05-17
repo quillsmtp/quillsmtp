@@ -19,5 +19,5 @@ namespace QuillSMTP\Vendor\Google\Auth;
 
 interface ExternalAccountCredentialSourceInterface
 {
-    public function fetchSubjectToken(callable $httpHandler = null) : string;
+    public function fetchSubjectToken(callable $httpHandler = null): string;
 }

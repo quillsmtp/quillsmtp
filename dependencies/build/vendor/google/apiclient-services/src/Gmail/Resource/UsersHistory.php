@@ -60,9 +60,9 @@ class UsersHistory extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersHistory($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListHistoryResponse::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersHistory::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersHistory');
+class_alias(UsersHistory::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersHistory');

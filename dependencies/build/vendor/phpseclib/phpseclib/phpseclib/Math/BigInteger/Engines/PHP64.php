@@ -51,7 +51,7 @@ class PHP64 extends PHP
         $val = $this->value;
         $this->value = [];
         $vals =& $this->value;
-        $i = \strlen($val);
+        $i = strlen($val);
         if (!$i) {
             return;
         }
@@ -61,15 +61,15 @@ class PHP64 extends PHP
                 if ($i == -4) {
                     break;
                 }
-                $val = \substr($val, 0, 4 + $i);
-                $val = \str_pad($val, 4, "\x00", \STR_PAD_LEFT);
+                $val = substr($val, 0, 4 + $i);
+                $val = str_pad($val, 4, "\x00", \STR_PAD_LEFT);
                 if ($val == "\x00\x00\x00\x00") {
                     break;
                 }
                 $i = 0;
             }
-            list(, $digit) = \unpack('N', \substr($val, $i, 4));
-            $step = \count($vals) & 7;
+            list(, $digit) = unpack('N', substr($val, $i, 4));
+            $step = count($vals) & 7;
             if (!$step) {
                 $digit &= static::MAX_DIGIT;
                 $i++;
@@ -78,15 +78,15 @@ class PHP64 extends PHP
                 $digit >>= $shift;
                 $shift = 32 - $shift;
                 $digit &= (1 << $shift) - 1;
-                $temp = $i > 0 ? \ord($val[$i - 1]) : 0;
+                $temp = $i > 0 ? ord($val[$i - 1]) : 0;
                 $digit |= $temp << $shift & 0x7f000000;
             }
             $vals[] = $digit;
         }
-        while (\end($vals) === 0) {
-            \array_pop($vals);
+        while (end($vals) === 0) {
+            array_pop($vals);
         }
-        \reset($vals);
+        reset($vals);
     }
     /**
      * Test for engine validity

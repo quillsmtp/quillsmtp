@@ -56,4 +56,4 @@ class ListCseKeyPairsResponse extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(ListCseKeyPairsResponse::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_ListCseKeyPairsResponse');
+class_alias(ListCseKeyPairsResponse::class, 'QuillSMTP\Vendor\Google_Service_Gmail_ListCseKeyPairsResponse');

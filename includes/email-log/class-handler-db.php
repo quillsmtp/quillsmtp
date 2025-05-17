@@ -24,6 +24,13 @@ use QuillSMTP\Mailers\Mailers;
 class Handler_DB {
 
 	/**
+	 * Table name without the prefix
+	 *
+	 * @var string
+	 */
+	const TABLE = 'quillsmtp_email_log';
+
+	/**
 	 * Instance of the class.
 	 *
 	 * @since 1.0.0
@@ -653,5 +660,318 @@ class Handler_DB {
 			$filename = substr( $filename, strlen( ABSPATH ) );
 		}
 		return $filename;
+	}
+
+	/**
+	 * Get top senders efficiently
+	 *
+	 * @param int         $limit Number of top senders to return
+	 * @param string|bool $start_date Start date in Y-m-d H:i:s format
+	 * @param string|bool $end_date End date in Y-m-d H:i:s format
+	 * @return array Array of top senders
+	 */
+	public static function get_top_senders( $limit = 4, $start_date = false, $end_date = false ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . self::TABLE;
+
+		$where_clauses = [];
+		$where_values  = [];
+
+		if ( $start_date ) {
+			$where_clauses[] = 'timestamp >= %s';
+			$where_values[]  = $start_date;
+		}
+
+		if ( $end_date ) {
+			$where_clauses[] = 'timestamp <= %s';
+			$where_values[]  = $end_date;
+		}
+
+		$where_sql = '';
+		if ( ! empty( $where_clauses ) ) {
+			$where_sql = 'WHERE ' . implode( ' AND ', $where_clauses );
+		}
+
+		try {
+			$prepared_values = array_merge( $where_values, [ $limit ] );
+			$sql             = $wpdb->prepare(
+				"SELECT `from`, COUNT(*) as count 
+				FROM $table_name 
+				$where_sql
+				GROUP BY `from` 
+				ORDER BY count DESC 
+				LIMIT %d",
+				$prepared_values
+			);
+
+			$results = $wpdb->get_results( $sql, ARRAY_A );
+
+			if ( ! is_array( $results ) ) {
+				// Return empty array if query failed
+				return [];
+			}
+
+			return array_map(
+				function( $row ) {
+					return [
+						'from'  => $row['from'],
+						'count' => (int) $row['count'],
+					];
+				},
+				$results
+			);
+		} catch ( \Exception $e ) {
+			return [];
+		}
+	}
+
+	/**
+	 * Get data for a specific period
+	 *
+	 * @param string|bool $start_date Start date in Y-m-d H:i:s format
+	 * @param string|bool $end_date End date in Y-m-d H:i:s format
+	 * @return array
+	 */
+	public static function get_period_data( $start_date = false, $end_date = false ) {
+		$logs_for_each_day = [];
+
+		// If we have valid dates, get data for each day
+		if ( $start_date && $end_date ) {
+			$start = new \DateTime( $start_date );
+			$end   = new \DateTime( $end_date );
+
+			$interval = new \DateInterval( 'P1D' );
+			$period   = new \DatePeriod( $start, $interval, $end );
+
+			foreach ( $period as $date ) {
+				$date_str                       = $date->format( 'Y-m-d' );
+				$logs_for_each_day[ $date_str ] = self::get_count(
+					false,
+					$date_str . ' 00:00:00',
+					$date_str . ' 23:59:59'
+				);
+			}
+		}
+
+		// Get counts with the date range
+		$success_logs = self::get_count( 'succeeded', $start_date, $end_date );
+		$error_logs   = self::get_count( 'failed', $start_date, $end_date );
+		$total_logs   = self::get_count( false, $start_date, $end_date );
+
+		return [
+			'total'   => $total_logs,
+			'success' => $success_logs,
+			'failed'  => $error_logs,
+			'days'    => $logs_for_each_day,
+		];
+	}
+
+	/**
+	 * Calculate percentage change between two values
+	 *
+	 * @param int $current Current value
+	 * @param int $previous Previous value
+	 * @return int
+	 */
+	public static function calculate_percentage_change( $current, $previous ) {
+		if ( $previous == 0 ) {
+			return $current > 0 ? 100 : 0;
+		}
+
+		return round( ( ( $current - $previous ) / $previous ) * 100 );
+	}
+
+	/**
+	 * Get all dashboard data for the home page
+	 *
+	 * @param string|bool $from_date Start date in MM/DD/YYYY format
+	 * @param string|bool $to_date End date in MM/DD/YYYY format
+	 * @return array All dashboard data
+	 */
+	public static function get_dashboard_data( $from_date = false, $to_date = false ) {
+		if ( ! $from_date && ! $to_date ) {
+			$now       = new \DateTime();
+			$last_week = clone $now;
+			$last_week->modify( '-7 days' );
+
+			$from_date = $last_week->format( 'm/d/Y' );
+			$to_date   = $now->format( 'm/d/Y' );
+		}
+		$formatted_from_date = $from_date ? self::format_date( $from_date ) : null;
+		$formatted_to_date   = $to_date ? self::format_date( $to_date, '23:59:59' ) : null;
+		$current_period_data = self::get_period_data(
+			$formatted_from_date,
+			$formatted_to_date
+		);
+		$periods             = self::get_periods_data();
+
+		$metrics = [];
+		foreach ( $periods as $period_key => $period ) {
+			$current_data  = self::get_period_data( $period['start'], $period['end'] );
+			$previous_data = self::get_period_data( $period['previous_start'], $period['previous_end'] );
+
+			$metrics[ $period_key ] = [
+				'current'           => $current_data,
+				'previous'          => $previous_data,
+				'percentage_change' => [
+					'total'   => self::calculate_percentage_change(
+						$current_data['total'],
+						$previous_data['total']
+					),
+					'success' => self::calculate_percentage_change(
+						$current_data['success'],
+						$previous_data['success']
+					),
+					'failed'  => self::calculate_percentage_change(
+						$current_data['failed'],
+						$previous_data['failed']
+					),
+				],
+			];
+		}
+
+		$top_senders = self::get_top_senders( 4, $formatted_from_date, $formatted_to_date );
+		$recent_logs = self::get_all( false, 0, 4, $formatted_from_date, $formatted_to_date );
+
+		return [
+			'chart_data'  => $current_period_data,
+			'metrics'     => $metrics,
+			'top_senders' => $top_senders,
+			'recent_logs' => $recent_logs,
+		];
+	}
+
+	/**
+	 * Get metrics data
+	 *
+	 * @param string $total 'today', 'yesterday', 'thisWeek', 'lastMonth'
+	 * @param string $success 'today', 'yesterday', 'thisWeek', 'lastMonth'
+	 * @param string $failed 'today', 'yesterday', 'thisWeek', 'lastMonth'
+	 * @return array Metrics data
+	 */
+	public static function get_metrics_data( $total = '', $success = '', $failed = '' ) {
+		$periods = self::get_periods_data();
+
+		if ( ! isset( $periods[ $total ] ) || ! isset( $periods[ $success ] ) || ! isset( $periods[ $failed ] ) ) {
+			return [
+				'metrics' => [],
+				'current' => [
+					'total'   => 0,
+					'success' => 0,
+					'failed'  => 0,
+				],
+			];
+		}
+
+		$total_period   = $periods[ $total ];
+		$success_period = $periods[ $success ];
+		$failed_period  = $periods[ $failed ];
+
+		$total_current   = self::get_count( false, $total_period['start'], $total_period['end'] );
+		$success_current = self::get_count( 'succeeded', $success_period['start'], $success_period['end'] );
+		$failed_current  = self::get_count( 'failed', $failed_period['start'], $failed_period['end'] );
+
+		$total_previous   = self::get_count( false, $total_period['previous_start'], $total_period['previous_end'] );
+		$success_previous = self::get_count( 'succeeded', $success_period['previous_start'], $success_period['previous_end'] );
+		$failed_previous  = self::get_count( 'failed', $failed_period['previous_start'], $failed_period['previous_end'] );
+
+		$metrics = [];
+
+		// Create metrics structure that matches dashboard_data format
+		$metrics[ $total ] = [
+			'current'           => [
+				'total' => $total_current,
+			],
+			'previous'          => [
+				'total' => $total_previous,
+			],
+			'percentage_change' => [
+				'total' => self::calculate_percentage_change( $total_current, $total_previous ),
+			],
+		];
+
+		$metrics[ $success ] = [
+			'current'           => [
+				'success' => $success_current,
+			],
+			'previous'          => [
+				'success' => $success_previous,
+			],
+			'percentage_change' => [
+				'success' => self::calculate_percentage_change( $success_current, $success_previous ),
+			],
+		];
+
+		$metrics[ $failed ] = [
+			'current'           => [
+				'failed' => $failed_current,
+			],
+			'previous'          => [
+				'failed' => $failed_previous,
+			],
+			'percentage_change' => [
+				'failed' => self::calculate_percentage_change( $failed_current, $failed_previous ),
+			],
+		];
+
+		return [
+			'metrics' => $metrics,
+			'current' => [
+				'total'   => $total_current,
+				'success' => $success_current,
+				'failed'  => $failed_current,
+			],
+		];
+	}
+
+	/**
+	 * Get periods data
+	 *
+	 * @return array
+	 */
+	public static function get_periods_data() {
+		return [
+			'today'     => [
+				'start'          => date( 'Y-m-d 00:00:00' ),
+				'end'            => date( 'Y-m-d 23:59:59' ),
+				'previous_start' => date( 'Y-m-d 00:00:00', strtotime( '-1 day' ) ),
+				'previous_end'   => date( 'Y-m-d 23:59:59', strtotime( '-1 day' ) ),
+			],
+			'yesterday' => [
+				'start'          => date( 'Y-m-d 00:00:00', strtotime( '-1 day' ) ),
+				'end'            => date( 'Y-m-d 23:59:59', strtotime( '-1 day' ) ),
+				'previous_start' => date( 'Y-m-d 00:00:00', strtotime( '-2 days' ) ),
+				'previous_end'   => date( 'Y-m-d 23:59:59', strtotime( '-2 days' ) ),
+			],
+			'thisWeek'  => [
+				'start'          => date( 'Y-m-d 00:00:00', strtotime( '-7 days' ) ),
+				'end'            => date( 'Y-m-d 23:59:59' ),
+				'previous_start' => date( 'Y-m-d 00:00:00', strtotime( '-14 days' ) ),
+				'previous_end'   => date( 'Y-m-d 23:59:59', strtotime( '-7 days' ) ),
+			],
+			'lastMonth' => [
+				'start'          => date( 'Y-m-d 00:00:00', strtotime( '-1 month' ) ),
+				'end'            => date( 'Y-m-d 23:59:59' ),
+				'previous_start' => date( 'Y-m-d 00:00:00', strtotime( '-2 months' ) ),
+				'previous_end'   => date( 'Y-m-d 23:59:59', strtotime( '-1 month' ) ),
+			],
+		];
+	}
+
+	/**
+	 * Format date from MM/DD/YYYY to Y-m-d H:i:s
+	 *
+	 * @param string $date Date in MM/DD/YYYY format
+	 * @param string $time Time to append (default 00:00:00)
+	 * @return string Formatted date in Y-m-d H:i:s format
+	 */
+	public static function format_date( $date, $time = '00:00:00' ) {
+		list( $month, $day, $year ) = explode( '/', $date );
+		$value                      = "$year-$month-$day";
+		if ( $time ) {
+			$value .= " $time";
+		}
+
+		return $value;
 	}
 }

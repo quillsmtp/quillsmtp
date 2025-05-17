@@ -45,7 +45,7 @@ class GCECache
     public function __construct(array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $this->cache = $cache;
-        $this->cacheConfig = \array_merge(['lifetime' => 1500, 'prefix' => ''], (array) $cacheConfig);
+        $this->cacheConfig = array_merge(['lifetime' => 1500, 'prefix' => ''], (array) $cacheConfig);
     }
     /**
      * Caches the result of onGce so the metadata server is not called multiple
@@ -56,12 +56,12 @@ class GCECache
      */
     public function onGce(callable $httpHandler = null)
     {
-        if (\is_null($this->cache)) {
+        if (is_null($this->cache)) {
             return GCECredentials::onGce($httpHandler);
         }
         $cacheKey = self::GCE_CACHE_KEY;
         $onGce = $this->getCachedValue($cacheKey);
-        if (\is_null($onGce)) {
+        if (is_null($onGce)) {
             $onGce = GCECredentials::onGce($httpHandler);
             $this->setCachedValue($cacheKey, $onGce);
         }

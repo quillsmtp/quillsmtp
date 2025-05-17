@@ -134,10 +134,10 @@ abstract class EC extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        $curve = \strtolower($curve);
-        if (self::$engines['libsodium'] && $curve == 'ed25519' && \function_exists('sodium_crypto_sign_keypair')) {
-            $kp = \sodium_crypto_sign_keypair();
-            $privatekey = EC::loadFormat('libsodium', \sodium_crypto_sign_secretkey($kp));
+        $curve = strtolower($curve);
+        if (self::$engines['libsodium'] && $curve == 'ed25519' && function_exists('sodium_crypto_sign_keypair')) {
+            $kp = sodium_crypto_sign_keypair();
+            $privatekey = EC::loadFormat('libsodium', sodium_crypto_sign_secretkey($kp));
             //$publickey = EC::loadFormat('libsodium', sodium_crypto_sign_publickey($kp));
             $privatekey->curveName = 'Ed25519';
             //$publickey->curveName = $curve;
@@ -145,13 +145,13 @@ abstract class EC extends AsymmetricKey
         }
         $privatekey = new PrivateKey();
         $curveName = $curve;
-        if (\preg_match('#(?:^curve|^ed)\\d+$#', $curveName)) {
-            $curveName = \ucfirst($curveName);
-        } elseif (\substr($curveName, 0, 10) == 'brainpoolp') {
-            $curveName = 'brainpoolP' . \substr($curveName, 10);
+        if (preg_match('#(?:^curve|^ed)\d+$#', $curveName)) {
+            $curveName = ucfirst($curveName);
+        } elseif (substr($curveName, 0, 10) == 'brainpoolp') {
+            $curveName = 'brainpoolP' . substr($curveName, 10);
         }
-        $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
-        if (!\class_exists($curve)) {
+        $curve = '\phpseclib3\Crypt\EC\Curves\\' . $curveName;
+        if (!class_exists($curve)) {
             throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported');
         }
         $reflect = new \ReflectionClass($curve);
@@ -167,8 +167,8 @@ abstract class EC extends AsymmetricKey
         if ($curve instanceof Curve25519 && self::$engines['libsodium']) {
             //$r = pack('H*', '0900000000000000000000000000000000000000000000000000000000000000');
             //$QA = sodium_crypto_scalarmult($dA->toBytes(), $r);
-            $QA = \sodium_crypto_box_publickey_from_secretkey($dA->toBytes());
-            $privatekey->QA = [$curve->convertInteger(new BigInteger(\strrev($QA), 256))];
+            $QA = sodium_crypto_box_publickey_from_secretkey($dA->toBytes());
+            $privatekey->QA = [$curve->convertInteger(new BigInteger(strrev($QA), 256))];
         } else {
             $privatekey->QA = $curve->multiplyPoint($curve->getBasePoint(), $dA);
         }
@@ -288,7 +288,7 @@ abstract class EC extends AsymmetricKey
         if ($this->curve instanceof TwistedEdwardsCurve) {
             return $this->curve instanceof Ed25519 && self::$engines['libsodium'] && !isset($this->context) ? 'libsodium' : 'PHP';
         }
-        return self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
+        return self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
     }
     /**
      * Returns the public key coordinates as a string
@@ -300,7 +300,7 @@ abstract class EC extends AsymmetricKey
     public function getEncodedCoordinates()
     {
         if ($this->curve instanceof MontgomeryCurve) {
-            return \strrev($this->QA[0]->toBytes(\true));
+            return strrev($this->QA[0]->toBytes(\true));
         }
         if ($this->curve instanceof TwistedEdwardsCurve) {
             return $this->curve->encodePoint($this->QA);
@@ -364,10 +364,10 @@ abstract class EC extends AsymmetricKey
             $new->context = null;
             return $new;
         }
-        if (!\is_string($context)) {
+        if (!is_string($context)) {
             throw new \InvalidArgumentException('setContext expects a string');
         }
-        if (\strlen($context) > 255) {
+        if (strlen($context) > 255) {
             throw new \LengthException('The context is supposed to be, at most, 255 bytes long');
         }
         $new->context = $context;

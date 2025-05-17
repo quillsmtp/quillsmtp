@@ -76,13 +76,13 @@ class Response
      */
     private function prettifyHeaders(array $headers)
     {
-        return \array_reduce(\array_filter($headers), static function ($result, $header) {
-            if (\mb_strpos($header, ':') === \false) {
-                $result['Status'] = \trim($header);
+        return array_reduce(array_filter($headers), static function ($result, $header) {
+            if (mb_strpos($header, ':') === \false) {
+                $result['Status'] = trim($header);
                 return $result;
             }
-            list($key, $value) = \explode(':', $header, 2);
-            $result[\trim($key)] = \trim($value);
+            list($key, $value) = explode(':', $header, 2);
+            $result[trim($key)] = trim($value);
             return $result;
         }, []);
     }

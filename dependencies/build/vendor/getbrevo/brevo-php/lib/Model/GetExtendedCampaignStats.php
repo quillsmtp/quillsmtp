@@ -51,7 +51,7 @@ class GetExtendedCampaignStats implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['globalStats' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedCampaignStatsGlobalStats', 'campaignStats' => 'object[]', 'mirrorClick' => 'int', 'remaining' => 'int', 'linksStats' => 'object', 'statsByDomain' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByDomain', 'statsByDevice' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByDevice', 'statsByBrowser' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetStatsByBrowser'];
+    protected static $swaggerTypes = ['globalStats' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedCampaignStatsGlobalStats', 'campaignStats' => 'object[]', 'mirrorClick' => 'int', 'remaining' => 'int', 'linksStats' => 'object', 'statsByDomain' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetStatsByDomain', 'statsByDevice' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetStatsByDevice', 'statsByBrowser' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetStatsByBrowser'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -197,7 +197,7 @@ class GetExtendedCampaignStats implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets globalStats
@@ -402,7 +402,7 @@ class GetExtendedCampaignStats implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -427,10 +427,10 @@ class GetExtendedCampaignStats implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

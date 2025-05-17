@@ -44,7 +44,7 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -65,7 +65,7 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], Thread::class);
     }
     /**
@@ -94,7 +94,7 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersThreads($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListThreadsResponse::class);
     }
     /**
@@ -112,7 +112,7 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function modify($userId, $id, ModifyThreadRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('modify', [$params], Thread::class);
     }
     /**
@@ -129,7 +129,7 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function trash($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('trash', [$params], Thread::class);
     }
     /**
@@ -146,9 +146,9 @@ class UsersThreads extends \QuillSMTP\Vendor\Google\Service\Resource
     public function untrash($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('untrash', [$params], Thread::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersThreads::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersThreads');
+class_alias(UsersThreads::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersThreads');

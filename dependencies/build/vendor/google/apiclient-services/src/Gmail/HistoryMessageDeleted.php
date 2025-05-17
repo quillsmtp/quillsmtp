@@ -37,4 +37,4 @@ class HistoryMessageDeleted extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(HistoryMessageDeleted::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_HistoryMessageDeleted');
+class_alias(HistoryMessageDeleted::class, 'QuillSMTP\Vendor\Google_Service_Gmail_HistoryMessageDeleted');

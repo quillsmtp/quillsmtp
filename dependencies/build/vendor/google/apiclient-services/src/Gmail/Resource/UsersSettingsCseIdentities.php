@@ -45,7 +45,7 @@ class UsersSettingsCseIdentities extends \QuillSMTP\Vendor\Google\Service\Resour
     public function create($userId, CseIdentity $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], CseIdentity::class);
     }
     /**
@@ -64,7 +64,7 @@ class UsersSettingsCseIdentities extends \QuillSMTP\Vendor\Google\Service\Resour
     public function delete($userId, $cseEmailAddress, $optParams = [])
     {
         $params = ['userId' => $userId, 'cseEmailAddress' => $cseEmailAddress];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -81,7 +81,7 @@ class UsersSettingsCseIdentities extends \QuillSMTP\Vendor\Google\Service\Resour
     public function get($userId, $cseEmailAddress, $optParams = [])
     {
         $params = ['userId' => $userId, 'cseEmailAddress' => $cseEmailAddress];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], CseIdentity::class);
     }
     /**
@@ -103,7 +103,7 @@ class UsersSettingsCseIdentities extends \QuillSMTP\Vendor\Google\Service\Resour
     public function listUsersSettingsCseIdentities($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListCseIdentitiesResponse::class);
     }
     /**
@@ -124,9 +124,9 @@ class UsersSettingsCseIdentities extends \QuillSMTP\Vendor\Google\Service\Resour
     public function patch($userId, $emailAddress, CseIdentity $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'emailAddress' => $emailAddress, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('patch', [$params], CseIdentity::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsCseIdentities::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsCseIdentities');
+class_alias(UsersSettingsCseIdentities::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsCseIdentities');

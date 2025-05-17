@@ -36,17 +36,17 @@ trait ServiceAccountSignerTrait
     {
         $privateKey = $this->auth->getSigningKey();
         $signedString = '';
-        if (\class_exists(phpseclib3\Crypt\RSA::class) && !$forceOpenssl) {
+        if (class_exists(phpseclib3\Crypt\RSA::class) && !$forceOpenssl) {
             $key = PublicKeyLoader::load($privateKey);
             $rsa = $key->withHash('sha256')->withPadding(RSA::SIGNATURE_PKCS1);
             $signedString = $rsa->sign($stringToSign);
-        } elseif (\extension_loaded('openssl')) {
-            \openssl_sign($stringToSign, $signedString, $privateKey, 'sha256WithRSAEncryption');
+        } elseif (extension_loaded('openssl')) {
+            openssl_sign($stringToSign, $signedString, $privateKey, 'sha256WithRSAEncryption');
         } else {
             // @codeCoverageIgnoreStart
             throw new \RuntimeException('OpenSSL is not installed.');
         }
         // @codeCoverageIgnoreEnd
-        return \base64_encode($signedString);
+        return base64_encode($signedString);
     }
 }

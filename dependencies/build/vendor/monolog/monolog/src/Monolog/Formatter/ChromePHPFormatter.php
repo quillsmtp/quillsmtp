@@ -43,8 +43,8 @@ class ChromePHPFormatter implements FormatterInterface
         if ($record['extra']) {
             $message['extra'] = $record['extra'];
         }
-        if (\count($message) === 1) {
-            $message = \reset($message);
+        if (count($message) === 1) {
+            $message = reset($message);
         }
         return [$record['channel'], $message, $backtrace, $this->logLevels[$record['level']]];
     }

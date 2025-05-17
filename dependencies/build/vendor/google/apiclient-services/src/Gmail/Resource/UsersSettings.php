@@ -45,7 +45,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getAutoForwarding($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getAutoForwarding', [$params], AutoForwarding::class);
     }
     /**
@@ -60,7 +60,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getImap($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getImap', [$params], ImapSettings::class);
     }
     /**
@@ -75,7 +75,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getLanguage($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getLanguage', [$params], LanguageSettings::class);
     }
     /**
@@ -90,7 +90,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getPop($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getPop', [$params], PopSettings::class);
     }
     /**
@@ -105,7 +105,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function getVacation($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('getVacation', [$params], VacationSettings::class);
     }
     /**
@@ -124,7 +124,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function updateAutoForwarding($userId, AutoForwarding $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('updateAutoForwarding', [$params], AutoForwarding::class);
     }
     /**
@@ -140,7 +140,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function updateImap($userId, ImapSettings $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('updateImap', [$params], ImapSettings::class);
     }
     /**
@@ -161,7 +161,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function updateLanguage($userId, LanguageSettings $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('updateLanguage', [$params], LanguageSettings::class);
     }
     /**
@@ -177,7 +177,7 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function updatePop($userId, PopSettings $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('updatePop', [$params], PopSettings::class);
     }
     /**
@@ -193,9 +193,9 @@ class UsersSettings extends \QuillSMTP\Vendor\Google\Service\Resource
     public function updateVacation($userId, VacationSettings $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('updateVacation', [$params], VacationSettings::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettings::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettings');
+class_alias(UsersSettings::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettings');

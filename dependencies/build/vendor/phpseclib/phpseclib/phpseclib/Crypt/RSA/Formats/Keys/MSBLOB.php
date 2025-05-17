@@ -71,25 +71,25 @@ abstract class MSBLOB
     public static function load($key, $password = '')
     {
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
         $key = Strings::base64_decode($key);
-        if (!\is_string($key)) {
+        if (!is_string($key)) {
             throw new \UnexpectedValueException('Base64 decoding produced an error');
         }
-        if (\strlen($key) < 20) {
+        if (strlen($key) < 20) {
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
         // PUBLICKEYSTRUC  publickeystruc
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa387453(v=vs.85).aspx
-        \extract(\unpack('atype/aversion/vreserved/Valgo', Strings::shift($key, 8)));
+        extract(unpack('atype/aversion/vreserved/Valgo', Strings::shift($key, 8)));
         /**
          * @var string $type
          * @var string $version
          * @var integer $reserved
          * @var integer $algo
          */
-        switch (\ord($type)) {
+        switch (ord($type)) {
             case self::PUBLICKEYBLOB:
             case self::PUBLICKEYBLOBEX:
                 $publickey = \true;
@@ -112,7 +112,7 @@ abstract class MSBLOB
         // RSAPUBKEY rsapubkey
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa387685(v=vs.85).aspx
         // could do V for pubexp but that's unsigned 32-bit whereas some PHP installs only do signed 32-bit
-        \extract(\unpack('Vmagic/Vbitlen/a4pubexp', Strings::shift($key, 12)));
+        extract(unpack('Vmagic/Vbitlen/a4pubexp', Strings::shift($key, 12)));
         /**
          * @var integer $magic
          * @var integer $bitlen
@@ -128,31 +128,31 @@ abstract class MSBLOB
                 throw new \UnexpectedValueException('Key appears to be malformed');
         }
         $baseLength = $bitlen / 16;
-        if (\strlen($key) != 2 * $baseLength && \strlen($key) != 9 * $baseLength) {
+        if (strlen($key) != 2 * $baseLength && strlen($key) != 9 * $baseLength) {
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
-        $components[$components['isPublicKey'] ? 'publicExponent' : 'privateExponent'] = new BigInteger(\strrev($pubexp), 256);
+        $components[$components['isPublicKey'] ? 'publicExponent' : 'privateExponent'] = new BigInteger(strrev($pubexp), 256);
         // BYTE modulus[rsapubkey.bitlen/8]
-        $components['modulus'] = new BigInteger(\strrev(Strings::shift($key, $bitlen / 8)), 256);
+        $components['modulus'] = new BigInteger(strrev(Strings::shift($key, $bitlen / 8)), 256);
         if ($publickey) {
             return $components;
         }
         $components['isPublicKey'] = \false;
         // BYTE prime1[rsapubkey.bitlen/16]
-        $components['primes'] = [1 => new BigInteger(\strrev(Strings::shift($key, $bitlen / 16)), 256)];
+        $components['primes'] = [1 => new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256)];
         // BYTE prime2[rsapubkey.bitlen/16]
-        $components['primes'][] = new BigInteger(\strrev(Strings::shift($key, $bitlen / 16)), 256);
+        $components['primes'][] = new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256);
         // BYTE exponent1[rsapubkey.bitlen/16]
-        $components['exponents'] = [1 => new BigInteger(\strrev(Strings::shift($key, $bitlen / 16)), 256)];
+        $components['exponents'] = [1 => new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256)];
         // BYTE exponent2[rsapubkey.bitlen/16]
-        $components['exponents'][] = new BigInteger(\strrev(Strings::shift($key, $bitlen / 16)), 256);
+        $components['exponents'][] = new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256);
         // BYTE coefficient[rsapubkey.bitlen/16]
-        $components['coefficients'] = [2 => new BigInteger(\strrev(Strings::shift($key, $bitlen / 16)), 256)];
+        $components['coefficients'] = [2 => new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256)];
         if (isset($components['privateExponent'])) {
             $components['publicExponent'] = $components['privateExponent'];
         }
         // BYTE privateExponent[rsapubkey.bitlen/8]
-        $components['privateExponent'] = new BigInteger(\strrev(Strings::shift($key, $bitlen / 8)), 256);
+        $components['privateExponent'] = new BigInteger(strrev(Strings::shift($key, $bitlen / 8)), 256);
         return $components;
     }
     /**
@@ -169,23 +169,23 @@ abstract class MSBLOB
      */
     public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '')
     {
-        if (\count($primes) != 2) {
+        if (count($primes) != 2) {
             throw new \InvalidArgumentException('MSBLOB does not support multi-prime RSA keys');
         }
-        if (!empty($password) && \is_string($password)) {
+        if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('MSBLOB private keys do not support encryption');
         }
-        $n = \strrev($n->toBytes());
-        $e = \str_pad(\strrev($e->toBytes()), 4, "\x00");
-        $key = \pack('aavV', \chr(self::PRIVATEKEYBLOB), \chr(2), 0, self::CALG_RSA_KEYX);
-        $key .= \pack('VVa*', self::RSA2, 8 * \strlen($n), $e);
+        $n = strrev($n->toBytes());
+        $e = str_pad(strrev($e->toBytes()), 4, "\x00");
+        $key = pack('aavV', chr(self::PRIVATEKEYBLOB), chr(2), 0, self::CALG_RSA_KEYX);
+        $key .= pack('VVa*', self::RSA2, 8 * strlen($n), $e);
         $key .= $n;
-        $key .= \strrev($primes[1]->toBytes());
-        $key .= \strrev($primes[2]->toBytes());
-        $key .= \strrev($exponents[1]->toBytes());
-        $key .= \strrev($exponents[2]->toBytes());
-        $key .= \strrev($coefficients[2]->toBytes());
-        $key .= \strrev($d->toBytes());
+        $key .= strrev($primes[1]->toBytes());
+        $key .= strrev($primes[2]->toBytes());
+        $key .= strrev($exponents[1]->toBytes());
+        $key .= strrev($exponents[2]->toBytes());
+        $key .= strrev($coefficients[2]->toBytes());
+        $key .= strrev($d->toBytes());
         return Strings::base64_encode($key);
     }
     /**
@@ -197,10 +197,10 @@ abstract class MSBLOB
      */
     public static function savePublicKey(BigInteger $n, BigInteger $e)
     {
-        $n = \strrev($n->toBytes());
-        $e = \str_pad(\strrev($e->toBytes()), 4, "\x00");
-        $key = \pack('aavV', \chr(self::PUBLICKEYBLOB), \chr(2), 0, self::CALG_RSA_KEYX);
-        $key .= \pack('VVa*', self::RSA1, 8 * \strlen($n), $e);
+        $n = strrev($n->toBytes());
+        $e = str_pad(strrev($e->toBytes()), 4, "\x00");
+        $key = pack('aavV', chr(self::PUBLICKEYBLOB), chr(2), 0, self::CALG_RSA_KEYX);
+        $key .= pack('VVa*', self::RSA1, 8 * strlen($n), $e);
         $key .= $n;
         return Strings::base64_encode($key);
     }

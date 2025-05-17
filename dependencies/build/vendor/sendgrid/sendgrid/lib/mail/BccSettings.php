@@ -85,7 +85,7 @@ class BccSettings implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['enable' => $this->getEnable(), 'email' => $this->getEmail()], static function ($value) {
+        return array_filter(['enable' => $this->getEnable(), 'email' => $this->getEmail()], static function ($value) {
             return $value !== null;
         }) ?: null;
     }

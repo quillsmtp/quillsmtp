@@ -178,8 +178,8 @@ class EmailExportRecipients implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'recipientsType' can't be null";
         }
         $allowedValues = $this->getRecipientsTypeAllowableValues();
-        if (!\is_null($this->container['recipientsType']) && !\in_array($this->container['recipientsType'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'recipientsType', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['recipientsType']) && !in_array($this->container['recipientsType'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'recipientsType', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -191,7 +191,7 @@ class EmailExportRecipients implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets notifyURL
@@ -233,8 +233,8 @@ class EmailExportRecipients implements ModelInterface, ArrayAccess
     public function setRecipientsType($recipientsType)
     {
         $allowedValues = $this->getRecipientsTypeAllowableValues();
-        if (!\in_array($recipientsType, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'recipientsType', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($recipientsType, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'recipientsType', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['recipientsType'] = $recipientsType;
         return $this;
@@ -274,7 +274,7 @@ class EmailExportRecipients implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -299,10 +299,10 @@ class EmailExportRecipients implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

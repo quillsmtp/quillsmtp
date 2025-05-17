@@ -51,7 +51,7 @@ class GetContactCampaignStatsUnsubscriptions implements ModelInterface, ArrayAcc
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['userUnsubscription' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsUserUnsubscription[]', 'adminUnsubscription' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptionsAdminUnsubscription[]'];
+    protected static $swaggerTypes = ['userUnsubscription' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsUnsubscriptionsUserUnsubscription[]', 'adminUnsubscription' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsUnsubscriptionsAdminUnsubscription[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -173,7 +173,7 @@ class GetContactCampaignStatsUnsubscriptions implements ModelInterface, ArrayAcc
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets userUnsubscription
@@ -252,7 +252,7 @@ class GetContactCampaignStatsUnsubscriptions implements ModelInterface, ArrayAcc
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -277,10 +277,10 @@ class GetContactCampaignStatsUnsubscriptions implements ModelInterface, ArrayAcc
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -51,7 +51,7 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool'];
+    protected static $swaggerTypes = ['name' => 'string', 'url' => 'string', 'authType' => 'string', 'username' => 'string', 'password' => 'string', 'token' => 'string', 'headers' => '\Brevo\Client\Model\GetExternalFeedByUUIDHeaders[]', 'maxRetries' => 'int', 'cache' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -183,13 +183,13 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'url' can't be null";
         }
         $allowedValues = $this->getAuthTypeAllowableValues();
-        if (!\is_null($this->container['authType']) && !\in_array($this->container['authType'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'authType', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['authType']) && !in_array($this->container['authType'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'authType', must be one of '%s'", implode("', '", $allowedValues));
         }
-        if (!\is_null($this->container['maxRetries']) && $this->container['maxRetries'] > 5) {
+        if (!is_null($this->container['maxRetries']) && $this->container['maxRetries'] > 5) {
             $invalidProperties[] = "invalid value for 'maxRetries', must be smaller than or equal to 5.";
         }
-        if (!\is_null($this->container['maxRetries']) && $this->container['maxRetries'] < 0) {
+        if (!is_null($this->container['maxRetries']) && $this->container['maxRetries'] < 0) {
             $invalidProperties[] = "invalid value for 'maxRetries', must be bigger than or equal to 0.";
         }
         return $invalidProperties;
@@ -202,7 +202,7 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets name
@@ -265,8 +265,8 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
     public function setAuthType($authType)
     {
         $allowedValues = $this->getAuthTypeAllowableValues();
-        if (!\is_null($authType) && !\in_array($authType, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'authType', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($authType) && !in_array($authType, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'authType', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['authType'] = $authType;
         return $this;
@@ -373,10 +373,10 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
      */
     public function setMaxRetries($maxRetries)
     {
-        if (!\is_null($maxRetries) && $maxRetries > 5) {
+        if (!is_null($maxRetries) && $maxRetries > 5) {
             throw new \InvalidArgumentException('invalid value for $maxRetries when calling CreateExternalFeed., must be smaller than or equal to 5.');
         }
-        if (!\is_null($maxRetries) && $maxRetries < 0) {
+        if (!is_null($maxRetries) && $maxRetries < 0) {
             throw new \InvalidArgumentException('invalid value for $maxRetries when calling CreateExternalFeed., must be bigger than or equal to 0.');
         }
         $this->container['maxRetries'] = $maxRetries;
@@ -438,7 +438,7 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -463,10 +463,10 @@ class CreateExternalFeed implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

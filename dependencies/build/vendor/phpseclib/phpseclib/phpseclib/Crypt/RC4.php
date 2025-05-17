@@ -104,7 +104,7 @@ class RC4 extends StreamCipher
             // quoting https://www.openssl.org/news/openssl-3.0-notes.html, OpenSSL 3.0.1
             // "Moved all variations of the EVP ciphers CAST5, BF, IDEA, SEED, RC2, RC4, RC5, and DES to the legacy provider"
             // in theory openssl_get_cipher_methods() should catch this but, on GitHub Actions, at least, it does not
-            if (\defined('OPENSSL_VERSION_TEXT') && \version_compare(\preg_replace('#OpenSSL (\\d+\\.\\d+\\.\\d+) .*#', '$1', \OPENSSL_VERSION_TEXT), '3.0.1', '>=')) {
+            if (defined('OPENSSL_VERSION_TEXT') && version_compare(preg_replace('#OpenSSL (\d+\.\d+\.\d+) .*#', '$1', \OPENSSL_VERSION_TEXT), '3.0.1', '>=')) {
                 return \false;
             }
             $this->cipher_name_openssl = 'rc4-40';
@@ -136,7 +136,7 @@ class RC4 extends StreamCipher
      */
     public function setKey($key)
     {
-        $length = \strlen($key);
+        $length = strlen($key);
         if ($length < 1 || $length > 256) {
             throw new \LengthException('Key size of ' . $length . ' bytes is not supported by RC4. Keys must be between 1 and 256 bytes long');
         }
@@ -201,11 +201,11 @@ class RC4 extends StreamCipher
     protected function setupKey()
     {
         $key = $this->key;
-        $keyLength = \strlen($key);
-        $keyStream = \range(0, 255);
+        $keyLength = strlen($key);
+        $keyStream = range(0, 255);
         $j = 0;
         for ($i = 0; $i < 256; $i++) {
-            $j = $j + $keyStream[$i] + \ord($key[$i % $keyLength]) & 255;
+            $j = $j + $keyStream[$i] + ord($key[$i % $keyLength]) & 255;
             $temp = $keyStream[$i];
             $keyStream[$i] = $keyStream[$j];
             $keyStream[$j] = $temp;
@@ -243,7 +243,7 @@ class RC4 extends StreamCipher
             $j = $stream[1];
             $keyStream = $stream[2];
         }
-        $len = \strlen($text);
+        $len = strlen($text);
         for ($k = 0; $k < $len; ++$k) {
             $i = $i + 1 & 255;
             $ksi = $keyStream[$i];
@@ -251,7 +251,7 @@ class RC4 extends StreamCipher
             $ksj = $keyStream[$j];
             $keyStream[$i] = $ksj;
             $keyStream[$j] = $ksi;
-            $text[$k] = $text[$k] ^ \chr($keyStream[$ksj + $ksi & 255]);
+            $text[$k] = $text[$k] ^ chr($keyStream[$ksj + $ksi & 255]);
         }
         return $text;
     }

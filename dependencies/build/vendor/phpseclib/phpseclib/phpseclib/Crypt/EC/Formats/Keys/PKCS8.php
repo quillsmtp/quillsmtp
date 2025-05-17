@@ -80,7 +80,7 @@ abstract class PKCS8 extends Progenitor
         }
         $params = ASN1::asn1map($decoded[0], Maps\ECParameters::MAP);
         if (!$params) {
-            throw new \RuntimeException('QuillSMTP\\Vendor\\Unable to decode the parameters using Maps\\ECParameters');
+            throw new \RuntimeException('Unable to decode the parameters using Maps\ECParameters');
         }
         $components = [];
         $components['curve'] = self::loadCurveByParam($params);
@@ -111,11 +111,11 @@ abstract class PKCS8 extends Progenitor
         $components = [];
         if (isset($key['privateKey'])) {
             $components['curve'] = $key['privateKeyAlgorithm']['algorithm'] == 'id-Ed25519' ? new Ed25519() : new Ed448();
-            $expected = \chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($components['curve']::SIZE);
-            if (\substr($key['privateKey'], 0, 2) != $expected) {
-                throw new \RuntimeException('The first two bytes of the ' . $key['privateKeyAlgorithm']['algorithm'] . ' private key field should be 0x' . \bin2hex($expected));
+            $expected = chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($components['curve']::SIZE);
+            if (substr($key['privateKey'], 0, 2) != $expected) {
+                throw new \RuntimeException('The first two bytes of the ' . $key['privateKeyAlgorithm']['algorithm'] . ' private key field should be 0x' . bin2hex($expected));
             }
-            $arr = $components['curve']->extractSecret(\substr($key['privateKey'], 2));
+            $arr = $components['curve']->extractSecret(substr($key['privateKey'], 2));
             $components['dA'] = $arr['dA'];
             $components['secret'] = $arr['secret'];
         }
@@ -169,7 +169,7 @@ abstract class PKCS8 extends Progenitor
             throw new UnsupportedCurveException('Montgomery Curves are not supported');
         }
         if ($curve instanceof TwistedEdwardsCurve) {
-            return self::wrapPrivateKey(\chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($curve::SIZE) . $secret, [], null, $password, $curve instanceof Ed25519 ? 'id-Ed25519' : 'id-Ed448');
+            return self::wrapPrivateKey(chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($curve::SIZE) . $secret, [], null, $password, $curve instanceof Ed25519 ? 'id-Ed25519' : 'id-Ed448');
         }
         $publicKey = "\x04" . $publicKey[0]->toBytes() . $publicKey[1]->toBytes();
         $params = new ASN1\Element(self::encodeParameters($curve, \false, $options));

@@ -44,7 +44,7 @@ class UsersSettingsSendAsSmimeInfo extends \QuillSMTP\Vendor\Google\Service\Reso
     public function delete($userId, $sendAsEmail, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -63,7 +63,7 @@ class UsersSettingsSendAsSmimeInfo extends \QuillSMTP\Vendor\Google\Service\Reso
     public function get($userId, $sendAsEmail, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], SmimeInfo::class);
     }
     /**
@@ -82,7 +82,7 @@ class UsersSettingsSendAsSmimeInfo extends \QuillSMTP\Vendor\Google\Service\Reso
     public function insert($userId, $sendAsEmail, SmimeInfo $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('insert', [$params], SmimeInfo::class);
     }
     /**
@@ -100,7 +100,7 @@ class UsersSettingsSendAsSmimeInfo extends \QuillSMTP\Vendor\Google\Service\Reso
     public function listUsersSettingsSendAsSmimeInfo($userId, $sendAsEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListSmimeInfoResponse::class);
     }
     /**
@@ -118,9 +118,9 @@ class UsersSettingsSendAsSmimeInfo extends \QuillSMTP\Vendor\Google\Service\Reso
     public function setDefault($userId, $sendAsEmail, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('setDefault', [$params]);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsSendAsSmimeInfo::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsSendAsSmimeInfo');
+class_alias(UsersSettingsSendAsSmimeInfo::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsSendAsSmimeInfo');

@@ -219,8 +219,8 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
         $allowedValues = $this->getFeatureAllowableValues();
-        if (!\is_null($this->container['feature']) && !\in_array($this->container['feature'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'feature', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['feature']) && !in_array($this->container['feature'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'feature', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -232,7 +232,7 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets feature
@@ -253,8 +253,8 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
     public function setFeature($feature)
     {
         $allowedValues = $this->getFeatureAllowableValues();
-        if (!\is_null($feature) && !\in_array($feature, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'feature', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($feature) && !in_array($feature, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'feature', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['feature'] = $feature;
         return $this;
@@ -278,8 +278,8 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
     public function setPermissions($permissions)
     {
         $allowedValues = $this->getPermissionsAllowableValues();
-        if (!\is_null($permissions) && \array_diff($permissions, $allowedValues)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'permissions', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($permissions) && array_diff($permissions, $allowedValues)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'permissions', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['permissions'] = $permissions;
         return $this;
@@ -319,7 +319,7 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -344,10 +344,10 @@ class InviteuserPrivileges implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

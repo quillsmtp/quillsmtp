@@ -51,7 +51,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['filename' => 'string', 'size' => 'int', 'isImage' => 'bool', 'url' => 'string', 'imageInfo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ConversationsMessageFileImageInfo'];
+    protected static $swaggerTypes = ['filename' => 'string', 'size' => 'int', 'isImage' => 'bool', 'url' => 'string', 'imageInfo' => 'QuillSMTP\Vendor\Brevo\Client\Model\ConversationsMessageFileImageInfo'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -160,7 +160,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if (!\is_null($this->container['size']) && $this->container['size'] < 0) {
+        if (!is_null($this->container['size']) && $this->container['size'] < 0) {
             $invalidProperties[] = "invalid value for 'size', must be bigger than or equal to 0.";
         }
         return $invalidProperties;
@@ -173,7 +173,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets filename
@@ -214,7 +214,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
      */
     public function setSize($size)
     {
-        if (!\is_null($size) && $size < 0) {
+        if (!is_null($size) && $size < 0) {
             throw new \InvalidArgumentException('invalid value for $size when calling ConversationsMessageFile., must be bigger than or equal to 0.');
         }
         $this->container['size'] = $size;
@@ -318,7 +318,7 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -343,10 +343,10 @@ class ConversationsMessageFile implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

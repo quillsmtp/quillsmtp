@@ -38,13 +38,13 @@ class SqsHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record) : void
+    protected function write(array $record): void
     {
-        if (!isset($record['formatted']) || 'string' !== \gettype($record['formatted'])) {
+        if (!isset($record['formatted']) || 'string' !== gettype($record['formatted'])) {
             throw new \InvalidArgumentException('SqsHandler accepts only formatted records as a string' . Utils::getRecordMessageForException($record));
         }
         $messageBody = $record['formatted'];
-        if (\strlen($messageBody) >= static::MAX_MESSAGE_SIZE) {
+        if (strlen($messageBody) >= static::MAX_MESSAGE_SIZE) {
             $messageBody = Utils::substr($messageBody, 0, static::HEAD_MESSAGE_SIZE);
         }
         $this->client->sendMessage(['QueueUrl' => $this->queueUrl, 'MessageBody' => $messageBody]);

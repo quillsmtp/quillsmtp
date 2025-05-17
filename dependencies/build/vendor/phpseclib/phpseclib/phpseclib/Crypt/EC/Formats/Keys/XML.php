@@ -56,12 +56,12 @@ abstract class XML
     {
         self::initialize_static_variables();
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
-        if (!\class_exists('DOMDocument')) {
+        if (!class_exists('DOMDocument')) {
             throw new BadConfigurationException('The dom extension is not setup correctly on this system');
         }
-        $use_errors = \libxml_use_internal_errors(\true);
+        $use_errors = libxml_use_internal_errors(\true);
         $temp = self::isolateNamespace($key, 'http://www.w3.org/2009/xmldsig11#');
         if ($temp) {
             $key = $temp;
@@ -71,20 +71,20 @@ abstract class XML
             $key = $temp;
         }
         $dom = new \DOMDocument();
-        if (\substr($key, 0, 5) != '<?xml') {
+        if (substr($key, 0, 5) != '<?xml') {
             $key = '<xml>' . $key . '</xml>';
         }
         if (!$dom->loadXML($key)) {
-            \libxml_use_internal_errors($use_errors);
+            libxml_use_internal_errors($use_errors);
             throw new \UnexpectedValueException('Key does not appear to contain XML');
         }
         $xpath = new \DOMXPath($dom);
-        \libxml_use_internal_errors($use_errors);
+        libxml_use_internal_errors($use_errors);
         $curve = self::loadCurveByParam($xpath);
         $pubkey = self::query($xpath, 'publickey', 'Public Key is not present');
         $QA = self::query($xpath, 'ecdsakeyvalue')->length ? self::extractPointRFC4050($xpath, $curve) : self::extractPoint("\x00" . $pubkey, $curve);
-        \libxml_use_internal_errors($use_errors);
-        return \compact('curve', 'QA');
+        libxml_use_internal_errors($use_errors);
+        return compact('curve', 'QA');
     }
     /**
      * Case-insensitive xpath query
@@ -98,7 +98,7 @@ abstract class XML
     private static function query(\DOMXPath $xpath, $name, $error = null, $decode = \true)
     {
         $query = '/';
-        $names = \explode('/', $name);
+        $names = explode('/', $name);
         foreach ($names as $name) {
             $query .= "/*[translate(local-name(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='{$name}']";
         }
@@ -142,7 +142,7 @@ abstract class XML
      */
     private static function decodeValue($value)
     {
-        return Strings::base64_decode(\str_replace(["\r", "\n", ' ', "\t"], '', $value));
+        return Strings::base64_decode(str_replace(["\r", "\n", ' ', "\t"], '', $value));
     }
     /**
      * Extract points from an XML document
@@ -179,13 +179,13 @@ abstract class XML
         $namedCurve = self::query($xpath, 'namedcurve');
         if ($namedCurve->length == 1) {
             $oid = $namedCurve->item(0)->getAttribute('URN');
-            $oid = \preg_replace('#[^\\d.]#', '', $oid);
-            $name = \array_search($oid, self::$curveOIDs);
+            $oid = preg_replace('#[^\d.]#', '', $oid);
+            $name = array_search($oid, self::$curveOIDs);
             if ($name === \false) {
                 throw new UnsupportedCurveException('Curve with OID of ' . $oid . ' is not supported');
             }
-            $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $name;
-            if (!\class_exists($curve)) {
+            $curve = '\phpseclib3\Crypt\EC\Curves\\' . $name;
+            if (!class_exists($curve)) {
                 throw new UnsupportedCurveException('Named Curve of ' . $name . ' is not supported');
             }
             return new $curve();
@@ -205,7 +205,7 @@ abstract class XML
                 if (!$result->length) {
                     continue 2;
                 }
-                $param = \preg_replace('#.*/#', '', $query);
+                $param = preg_replace('#.*/#', '', $query);
                 ${$param} = self::decodeValue($result->item(0)->textContent);
             }
             break;
@@ -246,7 +246,7 @@ abstract class XML
                 if (!$result->length) {
                     continue 2;
                 }
-                $param = \preg_replace('#.*/#', '', $query);
+                $param = preg_replace('#.*/#', '', $query);
                 ${$param} = $result->item(0)->textContent;
             }
             break;
@@ -259,15 +259,15 @@ abstract class XML
         switch ($type) {
             case 'prime-field':
                 $curve = new PrimeCurve();
-                $p = \str_replace(["\r", "\n", ' ', "\t"], '', $p);
+                $p = str_replace(["\r", "\n", ' ', "\t"], '', $p);
                 $curve->setModulo(new BigInteger($p));
-                $a = \str_replace(["\r", "\n", ' ', "\t"], '', $a);
-                $b = \str_replace(["\r", "\n", ' ', "\t"], '', $b);
+                $a = str_replace(["\r", "\n", ' ', "\t"], '', $a);
+                $b = str_replace(["\r", "\n", ' ', "\t"], '', $b);
                 $curve->setCoefficients(new BigInteger($a), new BigInteger($b));
-                $x = \str_replace(["\r", "\n", ' ', "\t"], '', $x);
-                $y = \str_replace(["\r", "\n", ' ', "\t"], '', $y);
+                $x = str_replace(["\r", "\n", ' ', "\t"], '', $x);
+                $y = str_replace(["\r", "\n", ' ', "\t"], '', $y);
                 $curve->setBasePoint(new BigInteger($x), new BigInteger($y));
-                $order = \str_replace(["\r", "\n", ' ', "\t"], '', $order);
+                $order = str_replace(["\r", "\n", ' ', "\t"], '', $order);
                 $curve->setOrder(new BigInteger($order));
                 return $curve;
             default:
@@ -338,7 +338,7 @@ abstract class XML
         $result = self::encodeParameters($curve, \true, $options);
         if (isset($result['namedCurve'])) {
             $namedCurve = '<' . $pre . 'NamedCurve URI="urn:oid:' . self::$curveOIDs[$result['namedCurve']] . '" />';
-            return self::$rfc4050 ? '<DomainParameters>' . \str_replace('URI', 'URN', $namedCurve) . '</DomainParameters>' : $namedCurve;
+            return self::$rfc4050 ? '<DomainParameters>' . str_replace('URI', 'URN', $namedCurve) . '</DomainParameters>' : $namedCurve;
         }
         if (self::$rfc4050) {
             $xml = '<' . $pre . 'ExplicitParams>' . "\r\n" . '<' . $pre . 'FieldParams>' . "\r\n";

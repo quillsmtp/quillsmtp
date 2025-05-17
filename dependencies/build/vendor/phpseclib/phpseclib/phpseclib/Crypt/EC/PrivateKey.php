@@ -56,11 +56,11 @@ final class PrivateKey extends EC implements Common\PrivateKey
     {
         if ($this->curve instanceof MontgomeryCurve) {
             if ($this->curve instanceof Curve25519 && self::$engines['libsodium']) {
-                return \sodium_crypto_scalarmult($this->dA->toBytes(), $coordinates);
+                return sodium_crypto_scalarmult($this->dA->toBytes(), $coordinates);
             }
-            $point = [$this->curve->convertInteger(new BigInteger(\strrev($coordinates), 256))];
+            $point = [$this->curve->convertInteger(new BigInteger(strrev($coordinates), 256))];
             $point = $this->curve->multiplyPoint($point, $this->dA);
-            return \strrev($point[0]->toBytes(\true));
+            return strrev($point[0]->toBytes(\true));
         }
         if (!$this->curve instanceof TwistedEdwardsCurve) {
             $coordinates = "\x00{$coordinates}";
@@ -96,8 +96,8 @@ final class PrivateKey extends EC implements Common\PrivateKey
         }
         if ($this->curve instanceof TwistedEdwardsCurve) {
             if ($this->curve instanceof Ed25519 && self::$engines['libsodium'] && !isset($this->context)) {
-                $result = \sodium_crypto_sign_detached($message, $this->withPassword()->toString('libsodium'));
-                return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . \strtolower($this->getCurve()), $result) : $result;
+                $result = sodium_crypto_sign_detached($message, $this->withPassword()->toString('libsodium'));
+                return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . strtolower($this->getCurve()), $result) : $result;
             }
             // contexts (Ed25519ctx) are supported but prehashing (Ed25519ph) is not.
             // quoting https://tools.ietf.org/html/rfc8032#section-8.5 ,
@@ -105,42 +105,42 @@ final class PrivateKey extends EC implements Common\PrivateKey
             $A = $this->curve->encodePoint($this->QA);
             $curve = $this->curve;
             $hash = new Hash($curve::HASH);
-            $secret = \substr($hash->hash($this->secret), $curve::SIZE);
+            $secret = substr($hash->hash($this->secret), $curve::SIZE);
             if ($curve instanceof Ed25519) {
-                $dom = !isset($this->context) ? '' : 'SigEd25519 no Ed25519 collisions' . "\x00" . \chr(\strlen($this->context)) . $this->context;
+                $dom = !isset($this->context) ? '' : 'SigEd25519 no Ed25519 collisions' . "\x00" . chr(strlen($this->context)) . $this->context;
             } else {
                 $context = isset($this->context) ? $this->context : '';
-                $dom = 'SigEd448' . "\x00" . \chr(\strlen($context)) . $context;
+                $dom = 'SigEd448' . "\x00" . chr(strlen($context)) . $context;
             }
             // SHA-512(dom2(F, C) || prefix || PH(M))
             $r = $hash->hash($dom . $secret . $message);
-            $r = \strrev($r);
+            $r = strrev($r);
             $r = new BigInteger($r, 256);
             list(, $r) = $r->divide($order);
             $R = $curve->multiplyPoint($curve->getBasePoint(), $r);
             $R = $curve->encodePoint($R);
             $k = $hash->hash($dom . $R . $A . $message);
-            $k = \strrev($k);
+            $k = strrev($k);
             $k = new BigInteger($k, 256);
             list(, $k) = $k->divide($order);
             $S = $k->multiply($dA)->add($r);
             list(, $S) = $S->divide($order);
-            $S = \str_pad(\strrev($S->toBytes()), $curve::SIZE, "\x00");
-            return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . \strtolower($this->getCurve()), $R . $S) : $R . $S;
+            $S = str_pad(strrev($S->toBytes()), $curve::SIZE, "\x00");
+            return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . strtolower($this->getCurve()), $R . $S) : $R . $S;
         }
-        if (self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods())) {
+        if (self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods())) {
             $signature = '';
             // altho PHP's OpenSSL bindings only supported EC key creation in PHP 7.1 they've long
             // supported signing / verification
             // we use specified curves to avoid issues with OpenSSL possibly not supporting a given named curve;
             // doing this may mean some curve-specific optimizations can't be used but idk if OpenSSL even
             // has curve-specific optimizations
-            $result = \openssl_sign($message, $signature, $this->withPassword()->toString('PKCS8', ['namedCurve' => \false]), $this->hash->getHash());
+            $result = openssl_sign($message, $signature, $this->withPassword()->toString('PKCS8', ['namedCurve' => \false]), $this->hash->getHash());
             if ($result) {
                 if ($shortFormat == 'ASN1') {
                     return $signature;
                 }
-                \extract(ASN1Signature::load($signature));
+                extract(ASN1Signature::load($signature));
                 return $shortFormat == 'SSH2' ? $format::save($r, $s, $this->getCurve()) : $format::save($r, $s);
             }
         }

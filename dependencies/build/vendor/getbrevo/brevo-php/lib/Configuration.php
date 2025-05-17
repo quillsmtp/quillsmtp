@@ -104,7 +104,7 @@ class Configuration
      */
     public function __construct()
     {
-        $this->tempFolderPath = \sys_get_temp_dir();
+        $this->tempFolderPath = sys_get_temp_dir();
         $this->userAgent = 'brevo_clientAPI/v' . $GLOBALS['version'] . '/php';
     }
     /**
@@ -249,7 +249,7 @@ class Configuration
      */
     public function setUserAgent($userAgent)
     {
-        if (!\is_string($userAgent)) {
+        if (!is_string($userAgent)) {
             throw new \InvalidArgumentException('User-agent must be a string.');
         }
         $this->userAgent = $userAgent;
@@ -357,8 +357,8 @@ class Configuration
      */
     public static function toDebugReport()
     {
-        $report = 'PHP SDK (Brevo\\Client) Debug Report:' . \PHP_EOL;
-        $report .= '    OS: ' . \php_uname() . \PHP_EOL;
+        $report = 'PHP SDK (Brevo\Client) Debug Report:' . \PHP_EOL;
+        $report .= '    OS: ' . php_uname() . \PHP_EOL;
         $report .= '    PHP Version: ' . \PHP_VERSION . \PHP_EOL;
         $report .= '    OpenAPI Spec Version: 3.0.0' . \PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . \PHP_EOL;

@@ -22,9 +22,9 @@ class MemoryUsageProcessor extends MemoryProcessor
     /**
      * {@inheritDoc}
      */
-    public function __invoke(array $record) : array
+    public function __invoke(array $record): array
     {
-        $usage = \memory_get_usage($this->realUsage);
+        $usage = memory_get_usage($this->realUsage);
         if ($this->useFormatting) {
             $usage = $this->formatBytes($usage);
         }

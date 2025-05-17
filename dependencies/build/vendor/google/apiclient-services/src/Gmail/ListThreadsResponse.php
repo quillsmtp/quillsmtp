@@ -74,4 +74,4 @@ class ListThreadsResponse extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(ListThreadsResponse::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_ListThreadsResponse');
+class_alias(ListThreadsResponse::class, 'QuillSMTP\Vendor\Google_Service_Gmail_ListThreadsResponse');

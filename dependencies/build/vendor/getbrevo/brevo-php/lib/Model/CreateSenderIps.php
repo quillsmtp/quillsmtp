@@ -164,10 +164,10 @@ class CreateSenderIps implements ModelInterface, ArrayAccess
         if ($this->container['domain'] === null) {
             $invalidProperties[] = "'domain' can't be null";
         }
-        if (!\is_null($this->container['weight']) && $this->container['weight'] > 100) {
+        if (!is_null($this->container['weight']) && $this->container['weight'] > 100) {
             $invalidProperties[] = "invalid value for 'weight', must be smaller than or equal to 100.";
         }
-        if (!\is_null($this->container['weight']) && $this->container['weight'] < 1) {
+        if (!is_null($this->container['weight']) && $this->container['weight'] < 1) {
             $invalidProperties[] = "invalid value for 'weight', must be bigger than or equal to 1.";
         }
         return $invalidProperties;
@@ -180,7 +180,7 @@ class CreateSenderIps implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets ip
@@ -242,10 +242,10 @@ class CreateSenderIps implements ModelInterface, ArrayAccess
      */
     public function setWeight($weight)
     {
-        if (!\is_null($weight) && $weight > 100) {
+        if (!is_null($weight) && $weight > 100) {
             throw new \InvalidArgumentException('invalid value for $weight when calling CreateSenderIps., must be smaller than or equal to 100.');
         }
-        if (!\is_null($weight) && $weight < 1) {
+        if (!is_null($weight) && $weight < 1) {
             throw new \InvalidArgumentException('invalid value for $weight when calling CreateSenderIps., must be bigger than or equal to 1.');
         }
         $this->container['weight'] = $weight;
@@ -286,7 +286,7 @@ class CreateSenderIps implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -311,10 +311,10 @@ class CreateSenderIps implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

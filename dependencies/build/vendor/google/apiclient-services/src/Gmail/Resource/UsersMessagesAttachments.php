@@ -44,9 +44,9 @@ class UsersMessagesAttachments extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $messageId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'messageId' => $messageId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], MessagePartBody::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersMessagesAttachments::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersMessagesAttachments');
+class_alias(UsersMessagesAttachments::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersMessagesAttachments');

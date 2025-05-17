@@ -33,9 +33,9 @@ class HttpHandlerFactory
      */
     public static function build(ClientInterface $client = null)
     {
-        if (\is_null($client)) {
+        if (is_null($client)) {
             $stack = null;
-            if (\class_exists(BodySummarizer::class)) {
+            if (class_exists(BodySummarizer::class)) {
                 // double the # of characters before truncation by default
                 $bodySummarizer = new BodySummarizer(240);
                 $stack = HandlerStack::create();
@@ -45,10 +45,10 @@ class HttpHandlerFactory
             $client = new Client(['handler' => $stack]);
         }
         $version = null;
-        if (\defined('QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
+        if (defined('QuillSMTP\Vendor\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
             $version = ClientInterface::MAJOR_VERSION;
-        } elseif (\defined('QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::VERSION')) {
-            $version = (int) \substr(ClientInterface::VERSION, 0, 1);
+        } elseif (defined('QuillSMTP\Vendor\GuzzleHttp\ClientInterface::VERSION')) {
+            $version = (int) substr(ClientInterface::VERSION, 0, 1);
         }
         switch ($version) {
             case 6:

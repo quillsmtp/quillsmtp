@@ -46,7 +46,7 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function create($userId, CseKeyPair $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], CseKeyPair::class);
     }
     /**
@@ -67,7 +67,7 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function disable($userId, $keyPairId, DisableCseKeyPairRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'keyPairId' => $keyPairId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('disable', [$params], CseKeyPair::class);
     }
     /**
@@ -86,7 +86,7 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function enable($userId, $keyPairId, EnableCseKeyPairRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'keyPairId' => $keyPairId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('enable', [$params], CseKeyPair::class);
     }
     /**
@@ -102,7 +102,7 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $keyPairId, $optParams = [])
     {
         $params = ['userId' => $userId, 'keyPairId' => $keyPairId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], CseKeyPair::class);
     }
     /**
@@ -124,7 +124,7 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersSettingsCseKeypairs($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListCseKeyPairsResponse::class);
     }
     /**
@@ -145,9 +145,9 @@ class UsersSettingsCseKeypairs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function obliterate($userId, $keyPairId, ObliterateCseKeyPairRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'keyPairId' => $keyPairId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('obliterate', [$params]);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsCseKeypairs::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsCseKeypairs');
+class_alias(UsersSettingsCseKeypairs::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsCseKeypairs');

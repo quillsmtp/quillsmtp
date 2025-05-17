@@ -52,7 +52,7 @@ class GetExtendedContactDetailsStatistics implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['messagesSent' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'hardBounces' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'softBounces' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'complaints' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]', 'unsubscriptions' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsUnsubscriptions', 'opened' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsOpened[]', 'clicked' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsClicked[]', 'transacAttributes' => 'object[]', 'delivered' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedContactDetailsStatisticsMessagesSent[]'];
+    protected static $swaggerTypes = ['messagesSent' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]', 'hardBounces' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]', 'softBounces' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]', 'complaints' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]', 'unsubscriptions' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedContactDetailsStatisticsUnsubscriptions', 'opened' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsOpened[]', 'clicked' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsClicked[]', 'transacAttributes' => 'object[]', 'delivered' => '\Brevo\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -175,7 +175,7 @@ class GetExtendedContactDetailsStatistics implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets messagesSent
@@ -401,7 +401,7 @@ class GetExtendedContactDetailsStatistics implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -426,10 +426,10 @@ class GetExtendedContactDetailsStatistics implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

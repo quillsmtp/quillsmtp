@@ -52,7 +52,7 @@ class Note implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'text' => 'string', 'contactIds' => 'int[]', 'dealIds' => 'string[]', 'authorId' => 'object', 'createdAt' => '\\DateTime', 'updatedAt' => '\\DateTime'];
+    protected static $swaggerTypes = ['id' => 'string', 'text' => 'string', 'contactIds' => 'int[]', 'dealIds' => 'string[]', 'authorId' => 'object', 'createdAt' => '\DateTime', 'updatedAt' => '\DateTime'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -166,10 +166,10 @@ class Note implements ModelInterface, ArrayAccess
         if ($this->container['text'] === null) {
             $invalidProperties[] = "'text' can't be null";
         }
-        if (\mb_strlen($this->container['text']) > 3000) {
+        if (mb_strlen($this->container['text']) > 3000) {
             $invalidProperties[] = "invalid value for 'text', the character length must be smaller than or equal to 3000.";
         }
-        if (\mb_strlen($this->container['text']) < 1) {
+        if (mb_strlen($this->container['text']) < 1) {
             $invalidProperties[] = "invalid value for 'text', the character length must be bigger than or equal to 1.";
         }
         return $invalidProperties;
@@ -182,7 +182,7 @@ class Note implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets id
@@ -223,10 +223,10 @@ class Note implements ModelInterface, ArrayAccess
      */
     public function setText($text)
     {
-        if (\mb_strlen($text) > 3000) {
+        if (mb_strlen($text) > 3000) {
             throw new \InvalidArgumentException('invalid length for $text when calling Note., must be smaller than or equal to 3000.');
         }
-        if (\mb_strlen($text) < 1) {
+        if (mb_strlen($text) < 1) {
             throw new \InvalidArgumentException('invalid length for $text when calling Note., must be bigger than or equal to 1.');
         }
         $this->container['text'] = $text;
@@ -372,7 +372,7 @@ class Note implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -397,10 +397,10 @@ class Note implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

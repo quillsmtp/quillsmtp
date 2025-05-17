@@ -66,7 +66,7 @@ class Recipient implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['email' => $this->getEmail(), 'first_name' => $this->getFirstName(), 'last_name' => $this->getLastName()], function ($value) {
+        return array_filter(['email' => $this->getEmail(), 'first_name' => $this->getFirstName(), 'last_name' => $this->getLastName()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

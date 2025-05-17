@@ -47,7 +47,7 @@ class Subject implements \JsonSerializable
      */
     public function getSubject()
     {
-        return \mb_convert_encoding((string) $this->subject, 'UTF-8', 'UTF-8');
+        return mb_convert_encoding((string) $this->subject, 'UTF-8', 'UTF-8');
     }
     /**
      * Return an array representing a Subject object for the Twilio SendGrid API

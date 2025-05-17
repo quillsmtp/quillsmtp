@@ -93,7 +93,7 @@ class MailSettings implements \JsonSerializable
             $this->bcc = $bcc;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\BccSettings or a boolean.');
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\BccSettings or a boolean.');
         $this->bcc = new BccSettings($enable, $email);
     }
     /**
@@ -121,7 +121,7 @@ class MailSettings implements \JsonSerializable
             $this->bypass_bounce_management = $bypass_bounce_management;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\BypassBounceManagement
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\BypassBounceManagement
                                                 or a boolean.');
         $this->bypass_bounce_management = new BypassBounceManagement($enable);
     }
@@ -141,7 +141,7 @@ class MailSettings implements \JsonSerializable
             $this->bypass_list_management = $bypass_list_management;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\BypassListManagement
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\BypassListManagement
                                                 or a boolean.');
         $this->bypass_list_management = new BypassListManagement($enable);
     }
@@ -161,7 +161,7 @@ class MailSettings implements \JsonSerializable
             $this->bypass_spam_management = $bypass_spam_management;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\BypassSpamManagement or a boolean.');
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\BypassSpamManagement or a boolean.');
         $this->bypass_spam_management = new BypassSpamManagement($enable);
     }
     /**
@@ -180,7 +180,7 @@ class MailSettings implements \JsonSerializable
             $this->bypass_unsubscribe_management = $bypass_unsubscribe_management;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\BypassUnsubscribeManagement
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\BypassUnsubscribeManagement
                                                 or a boolean.');
         $this->bypass_unsubscribe_management = new BypassUnsubscribeManagement($enable);
     }
@@ -263,7 +263,7 @@ class MailSettings implements \JsonSerializable
             $this->sandbox_mode = $sandbox_mode;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\SandBoxMode or a boolean.');
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\SandBoxMode or a boolean.');
         $this->sandbox_mode = new SandBoxMode($enable);
     }
     /**
@@ -315,7 +315,7 @@ class MailSettings implements \JsonSerializable
             $this->spam_check = $spam_check;
             return;
         }
-        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\\Mail\\SpamCheck or a boolean.');
+        Assert::boolean($enable, 'enable', 'Value "$enable" must be an instance of SendGrid\Mail\SpamCheck or a boolean.');
         $this->spam_check = new SpamCheck($enable, $threshold, $post_to_url);
     }
     /**
@@ -335,7 +335,7 @@ class MailSettings implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['bcc' => $this->getBccSettings(), 'bypass_bounce_management' => $this->getBypassBounceManagement(), 'bypass_list_management' => $this->getBypassListManagement(), 'bypass_spam_management' => $this->getBypassSpamManagement(), 'bypass_unsubscribe_management' => $this->getBypassUnsubscribeManagement(), 'footer' => $this->getFooter(), 'sandbox_mode' => $this->getSandboxMode(), 'spam_check' => $this->getSpamCheck()], function ($value) {
+        return array_filter(['bcc' => $this->getBccSettings(), 'bypass_bounce_management' => $this->getBypassBounceManagement(), 'bypass_list_management' => $this->getBypassListManagement(), 'bypass_spam_management' => $this->getBypassSpamManagement(), 'bypass_unsubscribe_management' => $this->getBypassUnsubscribeManagement(), 'footer' => $this->getFooter(), 'sandbox_mode' => $this->getSandboxMode(), 'spam_check' => $this->getSpamCheck()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

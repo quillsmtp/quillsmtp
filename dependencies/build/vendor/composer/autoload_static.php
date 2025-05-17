@@ -587,7 +587,6 @@ class ComposerStaticInit490a8e9c8b47c784341e5de0a141c71a
         'QuillSMTP\\Vendor\\Google\\Http\\REST' => __DIR__ . '/..' . '/google/apiclient/src/Http/REST.php',
         'QuillSMTP\\Vendor\\Google\\Model' => __DIR__ . '/..' . '/google/apiclient/src/Model.php',
         'QuillSMTP\\Vendor\\Google\\Service' => __DIR__ . '/..' . '/google/apiclient/src/Service.php',
-        'QuillSMTP\\Vendor\\Google\\Service\\Directory' => __DIR__ . '/..' . '/google/apiclient-services/src/Directory.php',
         'QuillSMTP\\Vendor\\Google\\Service\\Exception' => __DIR__ . '/..' . '/google/apiclient/src/Service/Exception.php',
         'QuillSMTP\\Vendor\\Google\\Service\\Gmail' => __DIR__ . '/..' . '/google/apiclient-services/src/Gmail.php',
         'QuillSMTP\\Vendor\\Google\\Service\\Gmail\\AutoForwarding' => __DIR__ . '/..' . '/google/apiclient-services/src/Gmail/AutoForwarding.php',

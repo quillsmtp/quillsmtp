@@ -43,7 +43,7 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function create($userId, Draft $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], Draft::class);
     }
     /**
@@ -59,7 +59,7 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -77,7 +77,7 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], Draft::class);
     }
     /**
@@ -102,7 +102,7 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersDrafts($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListDraftsResponse::class);
     }
     /**
@@ -119,7 +119,7 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function send($userId, Draft $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('send', [$params], Message::class);
     }
     /**
@@ -136,9 +136,9 @@ class UsersDrafts extends \QuillSMTP\Vendor\Google\Service\Resource
     public function update($userId, $id, Draft $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('update', [$params], Draft::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersDrafts::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersDrafts');
+class_alias(UsersDrafts::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersDrafts');

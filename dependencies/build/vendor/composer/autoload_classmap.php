@@ -456,7 +456,6 @@ return array(
     'QuillSMTP\\Vendor\\Google\\Http\\REST' => $vendorDir . '/google/apiclient/src/Http/REST.php',
     'QuillSMTP\\Vendor\\Google\\Model' => $vendorDir . '/google/apiclient/src/Model.php',
     'QuillSMTP\\Vendor\\Google\\Service' => $vendorDir . '/google/apiclient/src/Service.php',
-    'QuillSMTP\\Vendor\\Google\\Service\\Directory' => $vendorDir . '/google/apiclient-services/src/Directory.php',
     'QuillSMTP\\Vendor\\Google\\Service\\Exception' => $vendorDir . '/google/apiclient/src/Service/Exception.php',
     'QuillSMTP\\Vendor\\Google\\Service\\Gmail' => $vendorDir . '/google/apiclient-services/src/Gmail.php',
     'QuillSMTP\\Vendor\\Google\\Service\\Gmail\\AutoForwarding' => $vendorDir . '/google/apiclient-services/src/Gmail/AutoForwarding.php',

@@ -90,14 +90,14 @@ class KoblitzPrime extends Prime
             $this->basis = static::extendedGCD($lambda->toBigInteger(), $this->order);
             ///*
             foreach ($this->basis as $basis) {
-                echo \strtoupper($basis['a']->toHex(\true)) . "\n";
-                echo \strtoupper($basis['b']->toHex(\true)) . "\n\n";
+                echo strtoupper($basis['a']->toHex(\true)) . "\n";
+                echo strtoupper($basis['b']->toHex(\true)) . "\n\n";
             }
             exit;
             //*/
         }
         $npoints = $nscalars = [];
-        for ($i = 0; $i < \count($points); $i++) {
+        for ($i = 0; $i < count($points); $i++) {
             $p = $points[$i];
             $k = $scalars[$i]->toBigInteger();
             // begin split
@@ -121,7 +121,7 @@ class KoblitzPrime extends Prime
             // end split
             $beta = [$p[0]->multiply($this->beta), $p[1], clone $this->one];
             if (isset($p['naf'])) {
-                $beta['naf'] = \array_map(function ($p) {
+                $beta['naf'] = array_map(function ($p) {
                     return [$p[0]->multiply($this->beta), $p[1], clone $this->one];
                 }, $p['naf']);
                 $beta['nafwidth'] = $p['nafwidth'];

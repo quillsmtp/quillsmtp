@@ -138,7 +138,7 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     const EVENT_MISSING_PARAMETER = 'missing_parameter';
     const EVENT_HARD_BOUNCE = 'hardBounce';
     const EVENT_SOFT_BOUNCE = 'softBounce';
-    const EVENT_DELIVERED = 'delivered\\"';
+    const EVENT_DELIVERED = 'delivered\"';
     const EVENT_SPAM = 'spam';
     const EVENT_REQUEST = 'request';
     const EVENT_OPENED = 'opened';
@@ -206,15 +206,15 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'type' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['event'] === null) {
             $invalidProperties[] = "'event' can't be null";
         }
         $allowedValues = $this->getEventAllowableValues();
-        if (!\is_null($this->container['event']) && !\in_array($this->container['event'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'event', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['event']) && !in_array($this->container['event'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'event', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['notifyURL'] === null) {
             $invalidProperties[] = "'notifyURL' can't be null";
@@ -229,7 +229,7 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets days
@@ -334,8 +334,8 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -359,8 +359,8 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     public function setEvent($event)
     {
         $allowedValues = $this->getEventAllowableValues();
-        if (!\in_array($event, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'event', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($event, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'event', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['event'] = $event;
         return $this;
@@ -484,7 +484,7 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -509,10 +509,10 @@ class ExportWebhooksHistory implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

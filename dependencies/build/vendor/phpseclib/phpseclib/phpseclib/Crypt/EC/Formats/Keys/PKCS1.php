@@ -52,31 +52,31 @@ abstract class PKCS1 extends Progenitor
     {
         self::initialize_static_variables();
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
-        if (\strpos($key, 'BEGIN EC PARAMETERS') && \strpos($key, 'BEGIN EC PRIVATE KEY')) {
+        if (strpos($key, 'BEGIN EC PARAMETERS') && strpos($key, 'BEGIN EC PRIVATE KEY')) {
             $components = [];
-            \preg_match('#-*BEGIN EC PRIVATE KEY-*[^-]*-*END EC PRIVATE KEY-*#s', $key, $matches);
+            preg_match('#-*BEGIN EC PRIVATE KEY-*[^-]*-*END EC PRIVATE KEY-*#s', $key, $matches);
             $decoded = parent::load($matches[0], $password);
             $decoded = ASN1::decodeBER($decoded);
             if (!$decoded) {
                 throw new \RuntimeException('Unable to decode BER');
             }
             $ecPrivate = ASN1::asn1map($decoded[0], Maps\ECPrivateKey::MAP);
-            if (!\is_array($ecPrivate)) {
+            if (!is_array($ecPrivate)) {
                 throw new \RuntimeException('Unable to perform ASN1 mapping');
             }
             if (isset($ecPrivate['parameters'])) {
                 $components['curve'] = self::loadCurveByParam($ecPrivate['parameters']);
             }
-            \preg_match('#-*BEGIN EC PARAMETERS-*[^-]*-*END EC PARAMETERS-*#s', $key, $matches);
+            preg_match('#-*BEGIN EC PARAMETERS-*[^-]*-*END EC PARAMETERS-*#s', $key, $matches);
             $decoded = parent::load($matches[0], '');
             $decoded = ASN1::decodeBER($decoded);
             if (!$decoded) {
                 throw new \RuntimeException('Unable to decode BER');
             }
             $ecParams = ASN1::asn1map($decoded[0], Maps\ECParameters::MAP);
-            if (!\is_array($ecParams)) {
+            if (!is_array($ecParams)) {
                 throw new \RuntimeException('Unable to perform ASN1 mapping');
             }
             $ecParams = self::loadCurveByParam($ecParams);
@@ -99,11 +99,11 @@ abstract class PKCS1 extends Progenitor
             throw new \RuntimeException('Unable to decode BER');
         }
         $key = ASN1::asn1map($decoded[0], Maps\ECParameters::MAP);
-        if (\is_array($key)) {
+        if (is_array($key)) {
             return ['curve' => self::loadCurveByParam($key)];
         }
         $key = ASN1::asn1map($decoded[0], Maps\ECPrivateKey::MAP);
-        if (!\is_array($key)) {
+        if (!is_array($key)) {
             throw new \RuntimeException('Unable to perform ASN1 mapping');
         }
         if (!isset($key['parameters'])) {
@@ -127,7 +127,7 @@ abstract class PKCS1 extends Progenitor
             throw new UnsupportedCurveException('TwistedEdwards and Montgomery Curves are not supported');
         }
         $key = self::encodeParameters($curve, \false, $options);
-        return "-----BEGIN EC PARAMETERS-----\r\n" . \chunk_split(Strings::base64_encode($key), 64) . "-----END EC PARAMETERS-----\r\n";
+        return "-----BEGIN EC PARAMETERS-----\r\n" . chunk_split(Strings::base64_encode($key), 64) . "-----END EC PARAMETERS-----\r\n";
     }
     /**
      * Convert a private key to the appropriate format.

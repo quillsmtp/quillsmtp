@@ -47,7 +47,7 @@ class UsersSettingsForwardingAddresses extends \QuillSMTP\Vendor\Google\Service\
     public function create($userId, ForwardingAddress $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], ForwardingAddress::class);
     }
     /**
@@ -65,7 +65,7 @@ class UsersSettingsForwardingAddresses extends \QuillSMTP\Vendor\Google\Service\
     public function delete($userId, $forwardingEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'forwardingEmail' => $forwardingEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -81,7 +81,7 @@ class UsersSettingsForwardingAddresses extends \QuillSMTP\Vendor\Google\Service\
     public function get($userId, $forwardingEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'forwardingEmail' => $forwardingEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], ForwardingAddress::class);
     }
     /**
@@ -97,9 +97,9 @@ class UsersSettingsForwardingAddresses extends \QuillSMTP\Vendor\Google\Service\
     public function listUsersSettingsForwardingAddresses($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListForwardingAddressesResponse::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsForwardingAddresses::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsForwardingAddresses');
+class_alias(UsersSettingsForwardingAddresses::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsForwardingAddresses');

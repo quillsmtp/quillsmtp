@@ -65,26 +65,26 @@ abstract class JWK extends Progenitor
             default:
                 throw new \Exception('Only EC and OKP JWK keys are supported');
         }
-        $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . \str_replace('P-', 'nistp', $key->crv);
+        $curve = '\phpseclib3\Crypt\EC\Curves\\' . str_replace('P-', 'nistp', $key->crv);
         $curve = new $curve();
         if ($curve instanceof TwistedEdwardsCurve) {
             $QA = self::extractPoint(Strings::base64url_decode($key->x), $curve);
             if (!isset($key->d)) {
-                return \compact('curve', 'QA');
+                return compact('curve', 'QA');
             }
             $arr = $curve->extractSecret(Strings::base64url_decode($key->d));
-            return \compact('curve', 'QA') + $arr;
+            return compact('curve', 'QA') + $arr;
         }
         $QA = [$curve->convertInteger(new BigInteger(Strings::base64url_decode($key->x), 256)), $curve->convertInteger(new BigInteger(Strings::base64url_decode($key->y), 256))];
         if (!$curve->verifyPoint($QA)) {
             throw new \RuntimeException('Unable to verify that point exists on curve');
         }
         if (!isset($key->d)) {
-            return \compact('curve', 'QA');
+            return compact('curve', 'QA');
         }
         $dA = new BigInteger(Strings::base64url_decode($key->d), 256);
         $curve->rangeCheck($dA);
-        return \compact('curve', 'dA', 'QA');
+        return compact('curve', 'dA', 'QA');
     }
     /**
      * Returns the alias that corresponds to a curve

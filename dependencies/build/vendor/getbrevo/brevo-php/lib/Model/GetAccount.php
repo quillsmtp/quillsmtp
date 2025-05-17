@@ -50,7 +50,7 @@ class GetAccount extends GetExtendedClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['plan' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountPlan[]', 'relay' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAccountMarketingAutomation'];
+    protected static $swaggerTypes = ['plan' => '\Brevo\Client\Model\GetAccountPlan[]', 'relay' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetAccountRelay', 'marketingAutomation' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetAccountMarketingAutomation'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -168,7 +168,7 @@ class GetAccount extends GetExtendedClient
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets plan
@@ -268,7 +268,7 @@ class GetAccount extends GetExtendedClient
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -293,10 +293,10 @@ class GetAccount extends GetExtendedClient
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

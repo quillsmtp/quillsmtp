@@ -32,7 +32,7 @@ abstract class PuTTY extends Progenitor
      *
      * @var string
      */
-    const PUBLIC_HANDLER = 'QuillSMTP\\Vendor\\phpseclib3\\Crypt\\DSA\\Formats\\Keys\\OpenSSH';
+    const PUBLIC_HANDLER = 'QuillSMTP\Vendor\phpseclib3\Crypt\DSA\Formats\Keys\OpenSSH';
     /**
      * Algorithm Identifier
      *
@@ -52,11 +52,11 @@ abstract class PuTTY extends Progenitor
         if (!isset($components['private'])) {
             return $components;
         }
-        \extract($components);
+        extract($components);
         unset($components['public'], $components['private']);
         list($p, $q, $g, $y) = Strings::unpackSSH2('iiii', $public);
         list($x) = Strings::unpackSSH2('i', $private);
-        return \compact('p', 'q', 'g', 'y', 'x', 'comment');
+        return compact('p', 'q', 'g', 'y', 'x', 'comment');
     }
     /**
      * Convert a private key to the appropriate format.

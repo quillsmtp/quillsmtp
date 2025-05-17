@@ -50,7 +50,7 @@ class GetChildInfo extends GetClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['credits' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoCredits', 'statistics' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoStatistics', 'password' => 'string', 'ips' => 'string[]', 'apiKeys' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetChildInfoApiKeys'];
+    protected static $swaggerTypes = ['credits' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetChildInfoCredits', 'statistics' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetChildInfoStatistics', 'password' => 'string', 'ips' => 'string[]', 'apiKeys' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetChildInfoApiKeys'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -167,7 +167,7 @@ class GetChildInfo extends GetClient
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets credits
@@ -309,7 +309,7 @@ class GetChildInfo extends GetClient
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -334,10 +334,10 @@ class GetChildInfo extends GetClient
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -177,7 +177,7 @@ class SendTransacSms implements ModelInterface, ArrayAccess
         if ($this->container['sender'] === null) {
             $invalidProperties[] = "'sender' can't be null";
         }
-        if (\mb_strlen($this->container['sender']) > 15) {
+        if (mb_strlen($this->container['sender']) > 15) {
             $invalidProperties[] = "invalid value for 'sender', the character length must be smaller than or equal to 15.";
         }
         if ($this->container['recipient'] === null) {
@@ -187,8 +187,8 @@ class SendTransacSms implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'content' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -200,7 +200,7 @@ class SendTransacSms implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets sender
@@ -220,7 +220,7 @@ class SendTransacSms implements ModelInterface, ArrayAccess
      */
     public function setSender($sender)
     {
-        if (\mb_strlen($sender) > 15) {
+        if (mb_strlen($sender) > 15) {
             throw new \InvalidArgumentException('invalid length for $sender when calling SendTransacSms., must be smaller than or equal to 15.');
         }
         $this->container['sender'] = $sender;
@@ -287,8 +287,8 @@ class SendTransacSms implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($type) && !\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($type) && !in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -412,7 +412,7 @@ class SendTransacSms implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -437,10 +437,10 @@ class SendTransacSms implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

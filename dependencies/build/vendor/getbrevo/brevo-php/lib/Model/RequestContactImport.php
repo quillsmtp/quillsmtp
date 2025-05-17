@@ -51,7 +51,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'disableNotification' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
+    protected static $swaggerTypes = ['fileUrl' => 'string', 'fileBody' => 'string', 'jsonBody' => '\Brevo\Client\Model\RequestContactImportJsonBody[]', 'listIds' => 'int[]', 'notifyUrl' => 'string', 'newList' => 'QuillSMTP\Vendor\Brevo\Client\Model\RequestContactImportNewList', 'emailBlacklist' => 'bool', 'disableNotification' => 'bool', 'smsBlacklist' => 'bool', 'updateExistingContacts' => 'bool', 'emptyContactsAttributes' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -176,7 +176,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets fileUrl
@@ -444,7 +444,7 @@ class RequestContactImport implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -469,10 +469,10 @@ class RequestContactImport implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

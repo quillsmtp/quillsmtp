@@ -43,11 +43,11 @@ abstract class PKCS1 extends Progenitor
     public static function load($key, $password = '')
     {
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
-        if (\strpos($key, 'PUBLIC') !== \false) {
+        if (strpos($key, 'PUBLIC') !== \false) {
             $components = ['isPublicKey' => \true];
-        } elseif (\strpos($key, 'PRIVATE') !== \false) {
+        } elseif (strpos($key, 'PRIVATE') !== \false) {
             $components = ['isPublicKey' => \false];
         } else {
             $components = [];
@@ -58,7 +58,7 @@ abstract class PKCS1 extends Progenitor
             throw new \RuntimeException('Unable to decode BER');
         }
         $key = ASN1::asn1map($decoded[0], Maps\RSAPrivateKey::MAP);
-        if (\is_array($key)) {
+        if (is_array($key)) {
             $components += ['modulus' => $key['modulus'], 'publicExponent' => $key['publicExponent'], 'privateExponent' => $key['privateExponent'], 'primes' => [1 => $key['prime1'], $key['prime2']], 'exponents' => [1 => $key['exponent1'], $key['exponent2']], 'coefficients' => [2 => $key['coefficient']]];
             if ($key['version'] == 'multi') {
                 foreach ($key['otherPrimeInfos'] as $primeInfo) {
@@ -73,7 +73,7 @@ abstract class PKCS1 extends Progenitor
             return $components;
         }
         $key = ASN1::asn1map($decoded[0], Maps\RSAPublicKey::MAP);
-        if (!\is_array($key)) {
+        if (!is_array($key)) {
             throw new \RuntimeException('Unable to perform ASN1 mapping');
         }
         if (!isset($components['isPublicKey'])) {
@@ -96,7 +96,7 @@ abstract class PKCS1 extends Progenitor
      */
     public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
-        $num_primes = \count($primes);
+        $num_primes = count($primes);
         $key = ['version' => $num_primes == 2 ? 'two-prime' : 'multi', 'modulus' => $n, 'publicExponent' => $e, 'privateExponent' => $d, 'prime1' => $primes[1], 'prime2' => $primes[2], 'exponent1' => $exponents[1], 'exponent2' => $exponents[2], 'coefficient' => $coefficients[2]];
         for ($i = 3; $i <= $num_primes; $i++) {
             $key['otherPrimeInfos'][] = ['prime' => $primes[$i], 'exponent' => $exponents[$i], 'coefficient' => $coefficients[$i]];

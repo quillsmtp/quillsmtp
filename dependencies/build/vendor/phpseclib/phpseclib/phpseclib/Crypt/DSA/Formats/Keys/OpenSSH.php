@@ -46,11 +46,11 @@ abstract class OpenSSH extends Progenitor
                 throw new \RuntimeException("The public and private keys are not of the same type ({$type} vs {$parsed['type']})");
             }
             list($p, $q, $g, $y, $x, $comment) = Strings::unpackSSH2('i5s', $parsed['paddedKey']);
-            return \compact('p', 'q', 'g', 'y', 'x', 'comment');
+            return compact('p', 'q', 'g', 'y', 'x', 'comment');
         }
         list($p, $q, $g, $y) = Strings::unpackSSH2('iiii', $parsed['publicKey']);
         $comment = $parsed['comment'];
-        return \compact('p', 'q', 'g', 'y', 'comment');
+        return compact('p', 'q', 'g', 'y', 'comment');
     }
     /**
      * Convert a public key to the appropriate format
@@ -78,7 +78,7 @@ abstract class OpenSSH extends Progenitor
             return $DSAPublicKey;
         }
         $comment = isset($options['comment']) ? $options['comment'] : self::$comment;
-        $DSAPublicKey = 'ssh-dss ' . \base64_encode($DSAPublicKey) . ' ' . $comment;
+        $DSAPublicKey = 'ssh-dss ' . base64_encode($DSAPublicKey) . ' ' . $comment;
         return $DSAPublicKey;
     }
     /**

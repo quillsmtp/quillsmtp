@@ -69,7 +69,7 @@ class OverflowHandler extends AbstractHandler implements FormattableHandlerInter
      *
      * {@inheritDoc}
      */
-    public function handle(array $record) : bool
+    public function handle(array $record): bool
     {
         if ($record['level'] < $this->level) {
             return \false;
@@ -98,22 +98,22 @@ class OverflowHandler extends AbstractHandler implements FormattableHandlerInter
     /**
      * {@inheritDoc}
      */
-    public function setFormatter(FormatterInterface $formatter) : HandlerInterface
+    public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
         if ($this->handler instanceof FormattableHandlerInterface) {
             $this->handler->setFormatter($formatter);
             return $this;
         }
-        throw new \UnexpectedValueException('The nested handler of type ' . \get_class($this->handler) . ' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type ' . get_class($this->handler) . ' does not support formatters.');
     }
     /**
      * {@inheritDoc}
      */
-    public function getFormatter() : FormatterInterface
+    public function getFormatter(): FormatterInterface
     {
         if ($this->handler instanceof FormattableHandlerInterface) {
             return $this->handler->getFormatter();
         }
-        throw new \UnexpectedValueException('The nested handler of type ' . \get_class($this->handler) . ' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type ' . get_class($this->handler) . ' does not support formatters.');
     }
 }

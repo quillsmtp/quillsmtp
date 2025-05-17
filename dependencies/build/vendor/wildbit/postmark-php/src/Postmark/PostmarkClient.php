@@ -110,7 +110,7 @@ class PostmarkClient extends PostmarkClientBase
         if ($trackLinks !== NULL) {
             $body['TrackLinks'] = $trackLinks;
         }
-        if (\is_int($templateIdOrAlias)) {
+        if (is_int($templateIdOrAlias)) {
             $body['TemplateId'] = $templateIdOrAlias;
             // Uses the Template Alias if specified instead of Template ID.
         } else {
@@ -151,11 +151,11 @@ class PostmarkClient extends PostmarkClientBase
         $final = array();
         foreach ($emailBatch as $email) {
             foreach ($email as $emailIdx => $emailValue) {
-                if (\strtolower($emailIdx) == 'headers') {
+                if (strtolower($emailIdx) == 'headers') {
                     $email[$emailIdx] = $this->fixHeaders($emailValue);
                 }
             }
-            \array_push($final, $email);
+            array_push($final, $email);
         }
         return new DynamicResponseModel($this->processRestRequest('POST', '/email/batch', $final));
     }
@@ -175,7 +175,7 @@ class PostmarkClient extends PostmarkClientBase
         $final = array();
         foreach ($emailBatch as $email) {
             foreach ($email as $emailIdx => $emailValue) {
-                if (\strtolower($emailIdx) === 'headers') {
+                if (strtolower($emailIdx) === 'headers') {
                     $email[$emailIdx] = $this->fixHeaders($emailValue);
                 }
             }

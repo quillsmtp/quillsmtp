@@ -50,7 +50,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function create($userId, SendAs $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], SendAs::class);
     }
     /**
@@ -67,7 +67,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $sendAsEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -84,7 +84,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $sendAsEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], SendAs::class);
     }
     /**
@@ -101,7 +101,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersSettingsSendAs($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListSendAsResponse::class);
     }
     /**
@@ -118,7 +118,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function patch($userId, $sendAsEmail, SendAs $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('patch', [$params], SendAs::class);
     }
     /**
@@ -138,7 +138,7 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function update($userId, $sendAsEmail, SendAs $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('update', [$params], SendAs::class);
     }
     /**
@@ -156,9 +156,9 @@ class UsersSettingsSendAs extends \QuillSMTP\Vendor\Google\Service\Resource
     public function verify($userId, $sendAsEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'sendAsEmail' => $sendAsEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('verify', [$params]);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsSendAs::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsSendAs');
+class_alias(UsersSettingsSendAs::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsSendAs');

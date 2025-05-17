@@ -52,7 +52,7 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'string', 'type' => 'string', 'text' => 'string', 'visitorId' => 'string', 'agentId' => 'string', 'agentName' => 'string', 'createdAt' => 'int', 'isPushed' => 'bool', 'receivedFrom' => 'string', 'file' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\ConversationsMessageFile'];
+    protected static $swaggerTypes = ['id' => 'string', 'type' => 'string', 'text' => 'string', 'visitorId' => 'string', 'agentId' => 'string', 'agentName' => 'string', 'createdAt' => 'int', 'isPushed' => 'bool', 'receivedFrom' => 'string', 'file' => 'QuillSMTP\Vendor\Brevo\Client\Model\ConversationsMessageFile'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -178,10 +178,10 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
-        if (!\is_null($this->container['createdAt']) && $this->container['createdAt'] < 0) {
+        if (!is_null($this->container['createdAt']) && $this->container['createdAt'] < 0) {
             $invalidProperties[] = "invalid value for 'createdAt', must be bigger than or equal to 0.";
         }
         return $invalidProperties;
@@ -194,7 +194,7 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets id
@@ -236,8 +236,8 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($type) && !\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($type) && !in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -344,7 +344,7 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
      */
     public function setCreatedAt($createdAt)
     {
-        if (!\is_null($createdAt) && $createdAt < 0) {
+        if (!is_null($createdAt) && $createdAt < 0) {
             throw new \InvalidArgumentException('invalid value for $createdAt when calling ConversationsMessage., must be bigger than or equal to 0.');
         }
         $this->container['createdAt'] = $createdAt;
@@ -448,7 +448,7 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -473,10 +473,10 @@ class ConversationsMessage implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

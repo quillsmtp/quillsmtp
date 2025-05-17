@@ -64,7 +64,7 @@ class Attachment implements \JsonSerializable
     {
         Assert::minLength($content, 'content', 1);
         if (!$this->isBase64($content)) {
-            $this->content = \base64_encode($content);
+            $this->content = base64_encode($content);
         } else {
             $this->content = $content;
         }
@@ -171,8 +171,8 @@ class Attachment implements \JsonSerializable
      */
     private function isBase64($string)
     {
-        $decoded_data = \base64_decode($string, \true);
-        $encoded_data = \base64_encode($decoded_data);
+        $decoded_data = base64_decode($string, \true);
+        $encoded_data = base64_encode($decoded_data);
         if ($encoded_data != $string) {
             return \false;
         }
@@ -186,7 +186,7 @@ class Attachment implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['content' => $this->getContent(), 'type' => $this->getType(), 'filename' => $this->getFilename(), 'disposition' => $this->getDisposition(), 'content_id' => $this->getContentID()], function ($value) {
+        return array_filter(['content' => $this->getContent(), 'type' => $this->getType(), 'filename' => $this->getFilename(), 'disposition' => $this->getDisposition(), 'content_id' => $this->getContentID()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

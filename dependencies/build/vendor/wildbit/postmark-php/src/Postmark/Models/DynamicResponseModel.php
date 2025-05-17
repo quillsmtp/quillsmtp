@@ -43,7 +43,7 @@ class DynamicResponseModel extends CaseInsensitiveArray
         $value = $this[$name];
         // If there's a value and it's an array,
         // convert it to a dynamic response object, too.
-        if ($value != NULL && \is_array($value)) {
+        if ($value != NULL && is_array($value)) {
             $value = new DynamicResponseModel($value);
         }
         return $value;
@@ -55,7 +55,7 @@ class DynamicResponseModel extends CaseInsensitiveArray
     public function offsetGet($offset)
     {
         $result = parent::offsetGet($offset);
-        if ($result != NULL && \is_array($result)) {
+        if ($result != NULL && is_array($result)) {
             $result = new DynamicResponseModel($result);
         }
         return $result;

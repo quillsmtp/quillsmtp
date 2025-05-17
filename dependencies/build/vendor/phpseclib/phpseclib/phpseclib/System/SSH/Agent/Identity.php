@@ -96,7 +96,7 @@ class Identity implements PrivateKey
     public function withPublicKey(PublicKey $key)
     {
         if ($key instanceof EC) {
-            if (\is_array($key->getCurve()) || !isset(self::$curveAliases[$key->getCurve()])) {
+            if (is_array($key->getCurve()) || !isset(self::$curveAliases[$key->getCurve()])) {
                 throw new UnsupportedAlgorithmException('The only supported curves are nistp256, nistp384, nistp512 and Ed25519');
             }
         }
@@ -138,7 +138,7 @@ class Identity implements PrivateKey
     public function withHash($hash)
     {
         $new = clone $this;
-        $hash = \strtolower($hash);
+        $hash = strtolower($hash);
         if ($this->key instanceof RSA) {
             $new->flags = 0;
             switch ($hash) {
@@ -241,10 +241,10 @@ class Identity implements PrivateKey
         // the last parameter (currently 0) is for flags and ssh-agent only defines one flag (for ssh-dss): SSH_AGENT_OLD_SIGNATURE
         $packet = Strings::packSSH2('CssN', Agent::SSH_AGENTC_SIGN_REQUEST, $this->key_blob, $message, $this->flags);
         $packet = Strings::packSSH2('s', $packet);
-        if (\strlen($packet) != \fputs($this->fsock, $packet)) {
+        if (strlen($packet) != fputs($this->fsock, $packet)) {
             throw new \RuntimeException('Connection closed during signing');
         }
-        $length = \current(\unpack('N', $this->readBytes(4)));
+        $length = current(unpack('N', $this->readBytes(4)));
         $packet = $this->readBytes($length);
         list($type, $signature_blob) = Strings::unpackSSH2('Cs', $packet);
         if ($type != Agent::SSH_AGENT_SIGN_RESPONSE) {

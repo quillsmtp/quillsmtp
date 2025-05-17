@@ -51,16 +51,16 @@ abstract class EvalBarrett extends Base
      */
     protected static function generateCustomReduction(BCMath $m, $class)
     {
-        $m_length = \strlen($m);
+        $m_length = strlen($m);
         if ($m_length < 5) {
             $code = 'return bcmod($x, $n);';
             eval('$func = function ($n) { ' . $code . '};');
             self::$custom_reduction = $func;
             return;
         }
-        $lhs = '1' . \str_repeat('0', $m_length + ($m_length >> 1));
-        $u = \bcdiv($lhs, $m, 0);
-        $m1 = \bcsub($lhs, \bcmul($u, $m));
+        $lhs = '1' . str_repeat('0', $m_length + ($m_length >> 1));
+        $u = bcdiv($lhs, $m, 0);
+        $m1 = bcsub($lhs, bcmul($u, $m));
         $cutoff = $m_length + ($m_length >> 1);
         $m = "'{$m}'";
         $u = "'{$u}'";
@@ -80,7 +80,7 @@ abstract class EvalBarrett extends Base
             $result = bcsub($n, $temp);
 
             if ($result[0] == \'-\') {
-                $temp = \'1' . \str_repeat('0', $m_length + 1) . '\';
+                $temp = \'1' . str_repeat('0', $m_length + 1) . '\';
                 $result = bcadd($result, $temp);
             }
 

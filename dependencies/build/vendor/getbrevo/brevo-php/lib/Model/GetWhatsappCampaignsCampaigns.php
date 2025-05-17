@@ -51,7 +51,7 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['id' => 'int', 'campaignName' => 'string', 'templateId' => 'string', 'campaignStatus' => 'string', 'scheduledAt' => 'string', 'errorReason' => 'string', 'invalidatedContacts' => 'int', 'readPercentage' => 'float', 'stats' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\WhatsappCampStats', 'createdAt' => 'string', 'modifiedAt' => 'string'];
+    protected static $swaggerTypes = ['id' => 'int', 'campaignName' => 'string', 'templateId' => 'string', 'campaignStatus' => 'string', 'scheduledAt' => 'string', 'errorReason' => 'string', 'invalidatedContacts' => 'int', 'readPercentage' => 'float', 'stats' => 'QuillSMTP\Vendor\Brevo\Client\Model\WhatsappCampStats', 'createdAt' => 'string', 'modifiedAt' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -196,8 +196,8 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'campaignStatus' can't be null";
         }
         $allowedValues = $this->getCampaignStatusAllowableValues();
-        if (!\is_null($this->container['campaignStatus']) && !\in_array($this->container['campaignStatus'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'campaignStatus', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['campaignStatus']) && !in_array($this->container['campaignStatus'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'campaignStatus', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['scheduledAt'] === null) {
             $invalidProperties[] = "'scheduledAt' can't be null";
@@ -218,7 +218,7 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets id
@@ -302,8 +302,8 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
     public function setCampaignStatus($campaignStatus)
     {
         $allowedValues = $this->getCampaignStatusAllowableValues();
-        if (!\in_array($campaignStatus, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'campaignStatus', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($campaignStatus, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'campaignStatus', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['campaignStatus'] = $campaignStatus;
         return $this;
@@ -490,7 +490,7 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -515,10 +515,10 @@ class GetWhatsappCampaignsCampaigns implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

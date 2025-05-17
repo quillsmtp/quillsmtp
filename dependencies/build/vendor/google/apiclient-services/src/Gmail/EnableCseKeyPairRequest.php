@@ -21,4 +21,4 @@ class EnableCseKeyPairRequest extends \QuillSMTP\Vendor\Google\Model
 {
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(EnableCseKeyPairRequest::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_EnableCseKeyPairRequest');
+class_alias(EnableCseKeyPairRequest::class, 'QuillSMTP\Vendor\Google_Service_Gmail_EnableCseKeyPairRequest');

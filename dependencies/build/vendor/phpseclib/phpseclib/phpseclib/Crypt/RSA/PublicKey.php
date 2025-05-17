@@ -67,7 +67,7 @@ final class PublicKey extends RSA implements Common\PublicKey
     private function rsassa_pkcs1_v1_5_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
@@ -86,13 +86,13 @@ final class PublicKey extends RSA implements Common\PublicKey
         // too short" and stop.
         try {
             $em2 = $this->emsa_pkcs1_v1_5_encode($m, $this->k);
-            $r1 = \hash_equals($em, $em2);
+            $r1 = hash_equals($em, $em2);
         } catch (\LengthException $e) {
             $exception = \true;
         }
         try {
             $em3 = $this->emsa_pkcs1_v1_5_encode_without_null($m, $this->k);
-            $r2 = \hash_equals($em, $em3);
+            $r2 = hash_equals($em, $em3);
         } catch (\LengthException $e) {
             $exception = \true;
         } catch (UnsupportedAlgorithmException $e) {
@@ -124,7 +124,7 @@ final class PublicKey extends RSA implements Common\PublicKey
     private function rsassa_pkcs1_v1_5_relaxed_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
@@ -140,12 +140,12 @@ final class PublicKey extends RSA implements Common\PublicKey
         if (Strings::shift($em, 2) != "\x00\x01") {
             return \false;
         }
-        $em = \ltrim($em, "\xff");
+        $em = ltrim($em, "\xff");
         if (Strings::shift($em) != "\x00") {
             return \false;
         }
         $decoded = ASN1::decodeBER($em);
-        if (!\is_array($decoded) || empty($decoded[0]) || \strlen($em) > $decoded[0]['length']) {
+        if (!is_array($decoded) || empty($decoded[0]) || strlen($em) > $decoded[0]['length']) {
             return \false;
         }
         static $oids;
@@ -177,11 +177,11 @@ final class PublicKey extends RSA implements Common\PublicKey
             return \false;
         }
         $hash = $decoded['digestAlgorithm']['algorithm'];
-        $hash = \substr($hash, 0, 3) == 'id-' ? \substr($hash, 3) : $hash;
+        $hash = substr($hash, 0, 3) == 'id-' ? substr($hash, 3) : $hash;
         $hash = new Hash($hash);
         $em = $hash->hash($m);
         $em2 = $decoded['digest'];
-        return \hash_equals($em, $em2);
+        return hash_equals($em, $em2);
     }
     /**
      * EMSA-PSS-VERIFY
@@ -204,27 +204,27 @@ final class PublicKey extends RSA implements Common\PublicKey
         if ($emLen < $this->hLen + $sLen + 2) {
             return \false;
         }
-        if ($em[\strlen($em) - 1] != \chr(0xbc)) {
+        if ($em[strlen($em) - 1] != chr(0xbc)) {
             return \false;
         }
-        $maskedDB = \substr($em, 0, -$this->hLen - 1);
-        $h = \substr($em, -$this->hLen - 1, $this->hLen);
-        $temp = \chr(0xff << ($emBits & 7));
+        $maskedDB = substr($em, 0, -$this->hLen - 1);
+        $h = substr($em, -$this->hLen - 1, $this->hLen);
+        $temp = chr(0xff << ($emBits & 7));
         if ((~$maskedDB[0] & $temp) != $temp) {
             return \false;
         }
         $dbMask = $this->mgf1($h, $emLen - $this->hLen - 1);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~\chr(0xff << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr(0xff << ($emBits & 7)) & $db[0];
         $temp = $emLen - $this->hLen - $sLen - 2;
-        if (\substr($db, 0, $temp) != \str_repeat(\chr(0), $temp) || \ord($db[$temp]) != 1) {
+        if (substr($db, 0, $temp) != str_repeat(chr(0), $temp) || ord($db[$temp]) != 1) {
             return \false;
         }
-        $salt = \substr($db, $temp + 1);
+        $salt = substr($db, $temp + 1);
         // should be $sLen long
         $m2 = "\x00\x00\x00\x00\x00\x00\x00\x00" . $mHash . $salt;
         $h2 = $this->hash->hash($m2);
-        return \hash_equals($h, $h2);
+        return hash_equals($h, $h2);
     }
     /**
      * RSASSA-PSS-VERIFY
@@ -238,11 +238,11 @@ final class PublicKey extends RSA implements Common\PublicKey
     private function rsassa_pss_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
-        $modBits = \strlen($this->modulus->toBits());
+        $modBits = strlen($this->modulus->toBits());
         $s2 = $this->os2ip($s);
         $m2 = $this->rsavp1($s2);
         $em = $this->i2osp($m2, $this->k);
@@ -284,7 +284,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     private function rsaes_pkcs1_v1_5_encrypt($m, $pkcs15_compat = \false)
     {
-        $mLen = \strlen($m);
+        $mLen = strlen($m);
         // Length checking
         if ($mLen > $this->k - 11) {
             throw new \LengthException('Message too long');
@@ -292,13 +292,13 @@ final class PublicKey extends RSA implements Common\PublicKey
         // EME-PKCS1-v1_5 encoding
         $psLen = $this->k - $mLen - 3;
         $ps = '';
-        while (\strlen($ps) != $psLen) {
-            $temp = Random::string($psLen - \strlen($ps));
-            $temp = \str_replace("\x00", '', $temp);
+        while (strlen($ps) != $psLen) {
+            $temp = Random::string($psLen - strlen($ps));
+            $temp = str_replace("\x00", '', $temp);
             $ps .= $temp;
         }
         $type = 2;
-        $em = \chr(0) . \chr($type) . $ps . \chr(0) . $m;
+        $em = chr(0) . chr($type) . $ps . chr(0) . $m;
         // RSA encryption
         $m = $this->os2ip($em);
         $c = $this->rsaep($m);
@@ -318,7 +318,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     private function rsaes_oaep_encrypt($m)
     {
-        $mLen = \strlen($m);
+        $mLen = strlen($m);
         // Length checking
         // if $l is larger than two million terrabytes and you're using sha1, PKCS#1 suggests a "Label too long" error
         // be output.
@@ -327,14 +327,14 @@ final class PublicKey extends RSA implements Common\PublicKey
         }
         // EME-OAEP encoding
         $lHash = $this->hash->hash($this->label);
-        $ps = \str_repeat(\chr(0), $this->k - $mLen - 2 * $this->hLen - 2);
-        $db = $lHash . $ps . \chr(1) . $m;
+        $ps = str_repeat(chr(0), $this->k - $mLen - 2 * $this->hLen - 2);
+        $db = $lHash . $ps . chr(1) . $m;
         $seed = Random::string($this->hLen);
         $dbMask = $this->mgf1($seed, $this->k - $this->hLen - 1);
         $maskedDB = $db ^ $dbMask;
         $seedMask = $this->mgf1($maskedDB, $this->hLen);
         $maskedSeed = $seed ^ $seedMask;
-        $em = \chr(0) . $maskedSeed . $maskedDB;
+        $em = chr(0) . $maskedSeed . $maskedDB;
         // RSA encryption
         $m = $this->os2ip($em);
         $c = $this->rsaep($m);
@@ -368,7 +368,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     private function raw_encrypt($m)
     {
-        if (\strlen($m) > $this->k) {
+        if (strlen($m) > $this->k) {
             throw new \LengthException('Message too long');
         }
         $temp = $this->os2ip($m);

@@ -179,8 +179,8 @@ class TaskReminder implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'unit' can't be null";
         }
         $allowedValues = $this->getUnitAllowableValues();
-        if (!\is_null($this->container['unit']) && !\in_array($this->container['unit'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'unit', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['unit']) && !in_array($this->container['unit'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'unit', must be one of '%s'", implode("', '", $allowedValues));
         }
         if ($this->container['types'] === null) {
             $invalidProperties[] = "'types' can't be null";
@@ -195,7 +195,7 @@ class TaskReminder implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets value
@@ -237,8 +237,8 @@ class TaskReminder implements ModelInterface, ArrayAccess
     public function setUnit($unit)
     {
         $allowedValues = $this->getUnitAllowableValues();
-        if (!\in_array($unit, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'unit', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($unit, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'unit', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['unit'] = $unit;
         return $this;
@@ -299,7 +299,7 @@ class TaskReminder implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -324,10 +324,10 @@ class TaskReminder implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

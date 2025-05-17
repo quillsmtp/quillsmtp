@@ -57,4 +57,4 @@ class ForwardingAddress extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(ForwardingAddress::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_ForwardingAddress');
+class_alias(ForwardingAddress::class, 'QuillSMTP\Vendor\Google_Service_Gmail_ForwardingAddress');

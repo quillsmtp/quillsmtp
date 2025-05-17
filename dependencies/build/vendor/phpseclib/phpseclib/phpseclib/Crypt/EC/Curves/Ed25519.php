@@ -150,7 +150,7 @@ class Ed25519 extends TwistedEdwards
      */
     public function extractSecret($str)
     {
-        if (\strlen($str) != 32) {
+        if (strlen($str) != 32) {
             throw new \LengthException('Private Key should be 32-bytes long');
         }
         // 1.  Hash the 32-byte private key using SHA-512, storing the digest in
@@ -158,13 +158,13 @@ class Ed25519 extends TwistedEdwards
         //     used for generating the public key.
         $hash = new Hash('sha512');
         $h = $hash->hash($str);
-        $h = \substr($h, 0, 32);
+        $h = substr($h, 0, 32);
         // 2.  Prune the buffer: The lowest three bits of the first octet are
         //     cleared, the highest bit of the last octet is cleared, and the
         //     second highest bit of the last octet is set.
-        $h[0] = $h[0] & \chr(0xf8);
-        $h = \strrev($h);
-        $h[0] = $h[0] & \chr(0x3f) | \chr(0x40);
+        $h[0] = $h[0] & chr(0xf8);
+        $h = strrev($h);
+        $h[0] = $h[0] & chr(0x3f) | chr(0x40);
         // 3.  Interpret the buffer as the little-endian integer, forming a
         //     secret scalar s.
         $dA = new BigInteger($h, 256);
@@ -180,11 +180,11 @@ class Ed25519 extends TwistedEdwards
     {
         list($x, $y) = $point;
         $y = $y->toBytes();
-        $y[0] = $y[0] & \chr(0x7f);
+        $y[0] = $y[0] & chr(0x7f);
         if ($x->isOdd()) {
-            $y[0] = $y[0] | \chr(0x80);
+            $y[0] = $y[0] | chr(0x80);
         }
-        $y = \strrev($y);
+        $y = strrev($y);
         return $y;
     }
     /**
@@ -228,7 +228,7 @@ class Ed25519 extends TwistedEdwards
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p)) {
+        if (!count($p)) {
             return [];
         }
         if (!isset($p[2])) {
@@ -260,11 +260,11 @@ class Ed25519 extends TwistedEdwards
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
-            if (\count($q)) {
+        if (!count($p) || !count($q)) {
+            if (count($q)) {
                 return $q;
             }
-            if (\count($p)) {
+            if (count($p)) {
                 return $p;
             }
             return [];

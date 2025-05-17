@@ -124,4 +124,4 @@ class MessagePart extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(MessagePart::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_MessagePart');
+class_alias(MessagePart::class, 'QuillSMTP\Vendor\Google_Service_Gmail_MessagePart');

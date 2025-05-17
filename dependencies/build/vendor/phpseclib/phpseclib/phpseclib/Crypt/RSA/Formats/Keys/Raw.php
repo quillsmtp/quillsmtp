@@ -39,10 +39,10 @@ abstract class Raw
      */
     public static function load($key, $password = '')
     {
-        if (!\is_array($key)) {
-            throw new \UnexpectedValueException('Key should be a array - not a ' . \gettype($key));
+        if (!is_array($key)) {
+            throw new \UnexpectedValueException('Key should be a array - not a ' . gettype($key));
         }
-        $key = \array_change_key_case($key, \CASE_LOWER);
+        $key = array_change_key_case($key, \CASE_LOWER);
         $components = ['isPublicKey' => \false];
         foreach (['e', 'exponent', 'publicexponent', 0, 'privateexponent', 'd'] as $index) {
             if (isset($key[$index])) {
@@ -128,14 +128,14 @@ abstract class Raw
      */
     public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
-        if (!empty($password) && \is_string($password)) {
+        if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('Raw private keys do not support encryption');
         }
-        return ['e' => clone $e, 'n' => clone $n, 'd' => clone $d, 'primes' => \array_map(function ($var) {
+        return ['e' => clone $e, 'n' => clone $n, 'd' => clone $d, 'primes' => array_map(function ($var) {
             return clone $var;
-        }, $primes), 'exponents' => \array_map(function ($var) {
+        }, $primes), 'exponents' => array_map(function ($var) {
             return clone $var;
-        }, $exponents), 'coefficients' => \array_map(function ($var) {
+        }, $exponents), 'coefficients' => array_map(function ($var) {
             return clone $var;
         }, $coefficients)];
     }

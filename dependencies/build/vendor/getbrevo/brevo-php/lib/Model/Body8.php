@@ -51,7 +51,7 @@ class Body8 implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'duration' => 'int', 'taskTypeId' => 'string', 'date' => '\\DateTime', 'notes' => 'string', 'done' => 'bool', 'assignToId' => 'string', 'contactsIds' => 'int[]', 'dealsIds' => 'string[]', 'companiesIds' => 'string[]', 'reminder' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\TaskReminder'];
+    protected static $swaggerTypes = ['name' => 'string', 'duration' => 'int', 'taskTypeId' => 'string', 'date' => '\DateTime', 'notes' => 'string', 'done' => 'bool', 'assignToId' => 'string', 'contactsIds' => 'int[]', 'dealsIds' => 'string[]', 'companiesIds' => 'string[]', 'reminder' => 'QuillSMTP\Vendor\Brevo\Client\Model\TaskReminder'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -169,7 +169,7 @@ class Body8 implements ModelInterface, ArrayAccess
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if (!\is_null($this->container['duration']) && $this->container['duration'] < 0) {
+        if (!is_null($this->container['duration']) && $this->container['duration'] < 0) {
             $invalidProperties[] = "invalid value for 'duration', must be bigger than or equal to 0.";
         }
         if ($this->container['taskTypeId'] === null) {
@@ -188,7 +188,7 @@ class Body8 implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets name
@@ -229,7 +229,7 @@ class Body8 implements ModelInterface, ArrayAccess
      */
     public function setDuration($duration)
     {
-        if (!\is_null($duration) && $duration < 0) {
+        if (!is_null($duration) && $duration < 0) {
             throw new \InvalidArgumentException('invalid value for $duration when calling Body8., must be bigger than or equal to 0.');
         }
         $this->container['duration'] = $duration;
@@ -459,7 +459,7 @@ class Body8 implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -484,10 +484,10 @@ class Body8 implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -26,3 +26,10 @@ class TwilioEmail extends BaseSendGridClientInterface
         parent::__construct($auth, $host, $options);
     }
 }
+/**
+ * This library allows you to quickly and easily send emails through Twilio
+ * SendGrid using PHP.
+ *
+ * @package SendGrid\Mail
+ */
+\class_alias('QuillSMTP\Vendor\TwilioEmail', 'TwilioEmail', \false);

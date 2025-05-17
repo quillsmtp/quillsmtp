@@ -31,7 +31,7 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
     /**
      * {@inheritDoc}
      */
-    public function handle(array $record) : bool
+    public function handle(array $record): bool
     {
         if (!$this->isHandling($record)) {
             return \false;
@@ -49,7 +49,7 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
      *
      * @phpstan-param FormattedRecord $record
      */
-    protected abstract function write(array $record) : void;
+    abstract protected function write(array $record): void;
     /**
      * @return void
      */

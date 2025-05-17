@@ -14,7 +14,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     private $_pointer = 0;
     private function fixOffsetName($offset)
     {
-        return \preg_replace('/_/', '', \strtolower($offset));
+        return preg_replace('/_/', '', strtolower($offset));
     }
     /**
      * Initialize a CaseInsensitiveArray from an existing array.
@@ -23,15 +23,15 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
      */
     public function __construct(array $initialArray = array())
     {
-        $this->_container = \array_change_key_case($initialArray);
+        $this->_container = array_change_key_case($initialArray);
     }
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_string($offset)) {
+        if (is_string($offset)) {
             $offset = $this->fixOffsetName($offset);
         }
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->_container[] = $value;
         } else {
             $this->_container[$offset] = $value;
@@ -40,7 +40,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
-        if (\is_string($offset)) {
+        if (is_string($offset)) {
             $offset = $this->fixOffsetName($offset);
         }
         return isset($this->_container[$offset]);
@@ -48,7 +48,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
-        if (\is_string($offset)) {
+        if (is_string($offset)) {
             $offset = $this->fixOffsetName($offset);
         }
         unset($this->_container[$offset]);
@@ -56,7 +56,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        if (\is_string($offset)) {
+        if (is_string($offset)) {
             $offset = $this->fixOffsetName($offset);
         }
         return isset($this->_container[$offset]) ? $this->_container[$offset] : null;
@@ -71,7 +71,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function key()
     {
-        $keys = \array_keys($this->_container);
+        $keys = array_keys($this->_container);
         return $keys[$this->_pointer];
     }
     #[\ReturnTypeWillChange]
@@ -87,6 +87,6 @@ class CaseInsensitiveArray implements \ArrayAccess, \Iterator
     #[\ReturnTypeWillChange]
     public function valid()
     {
-        return \count(\array_keys($this->_container)) > $this->_pointer;
+        return count(array_keys($this->_container)) > $this->_pointer;
     }
 }

@@ -66,21 +66,21 @@ class Iam
     public function signBlob($email, $accessToken, $stringToSign, array $delegates = [])
     {
         $httpHandler = $this->httpHandler;
-        $name = \sprintf(self::SERVICE_ACCOUNT_NAME, $email);
-        $apiRoot = \str_replace('UNIVERSE_DOMAIN', $this->universeDomain, self::IAM_API_ROOT_TEMPLATE);
-        $uri = $apiRoot . '/' . \sprintf(self::SIGN_BLOB_PATH, $name);
+        $name = sprintf(self::SERVICE_ACCOUNT_NAME, $email);
+        $apiRoot = str_replace('UNIVERSE_DOMAIN', $this->universeDomain, self::IAM_API_ROOT_TEMPLATE);
+        $uri = $apiRoot . '/' . sprintf(self::SIGN_BLOB_PATH, $name);
         if ($delegates) {
             foreach ($delegates as &$delegate) {
-                $delegate = \sprintf(self::SERVICE_ACCOUNT_NAME, $delegate);
+                $delegate = sprintf(self::SERVICE_ACCOUNT_NAME, $delegate);
             }
         } else {
             $delegates = [$name];
         }
-        $body = ['delegates' => $delegates, 'payload' => \base64_encode($stringToSign)];
+        $body = ['delegates' => $delegates, 'payload' => base64_encode($stringToSign)];
         $headers = ['Authorization' => 'Bearer ' . $accessToken];
-        $request = new Psr7\Request('POST', $uri, $headers, Utils::streamFor(\json_encode($body)));
+        $request = new Psr7\Request('POST', $uri, $headers, Utils::streamFor(json_encode($body)));
         $res = $httpHandler($request);
-        $body = \json_decode((string) $res->getBody(), \true);
+        $body = json_decode((string) $res->getBody(), \true);
         return $body['signedBlob'];
     }
 }

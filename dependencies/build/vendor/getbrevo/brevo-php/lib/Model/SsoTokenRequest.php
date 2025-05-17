@@ -180,8 +180,8 @@ class SsoTokenRequest implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'id' can't be null";
         }
         $allowedValues = $this->getTargetAllowableValues();
-        if (!\is_null($this->container['target']) && !\in_array($this->container['target'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'target', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['target']) && !in_array($this->container['target'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'target', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -193,7 +193,7 @@ class SsoTokenRequest implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets id
@@ -256,8 +256,8 @@ class SsoTokenRequest implements ModelInterface, ArrayAccess
     public function setTarget($target)
     {
         $allowedValues = $this->getTargetAllowableValues();
-        if (!\is_null($target) && !\in_array($target, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'target', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($target) && !in_array($target, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'target', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['target'] = $target;
         return $this;
@@ -318,7 +318,7 @@ class SsoTokenRequest implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -343,10 +343,10 @@ class SsoTokenRequest implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -51,7 +51,7 @@ class UpdateWebhook implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['url' => 'string', 'description' => 'string', 'events' => 'string[]', 'domain' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookAuth', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookHeaders[]'];
+    protected static $swaggerTypes = ['url' => 'string', 'description' => 'string', 'events' => 'string[]', 'domain' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetWebhookAuth', 'headers' => '\Brevo\Client\Model\GetWebhookHeaders[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -198,7 +198,7 @@ class UpdateWebhook implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets url
@@ -261,8 +261,8 @@ class UpdateWebhook implements ModelInterface, ArrayAccess
     public function setEvents($events)
     {
         $allowedValues = $this->getEventsAllowableValues();
-        if (!\is_null($events) && \array_diff($events, $allowedValues)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'events', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($events) && array_diff($events, $allowedValues)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'events', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['events'] = $events;
         return $this;
@@ -386,7 +386,7 @@ class UpdateWebhook implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -411,10 +411,10 @@ class UpdateWebhook implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

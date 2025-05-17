@@ -171,11 +171,11 @@ abstract class DSA extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        if (\count($args) == 2 && \is_int($args[0]) && \is_int($args[1])) {
+        if (count($args) == 2 && is_int($args[0]) && is_int($args[1])) {
             $params = self::createParameters($args[0], $args[1]);
-        } elseif (\count($args) == 1 && $args[0] instanceof Parameters) {
+        } elseif (count($args) == 1 && $args[0] instanceof Parameters) {
             $params = $args[0];
-        } elseif (!\count($args)) {
+        } elseif (!count($args)) {
             $params = self::createParameters();
         } else {
             throw new InsufficientSetupException('Valid parameters are either two integers (L and N), a single DSA object or no parameters at all.');
@@ -250,7 +250,7 @@ abstract class DSA extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        return self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
+        return self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
     }
     /**
      * Returns the parameters

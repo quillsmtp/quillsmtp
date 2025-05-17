@@ -51,7 +51,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
      *
      * @return string
      */
-    public function getIndex() : string
+    public function getIndex(): string
     {
         return $this->index;
     }
@@ -60,7 +60,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
      *
      * @return string
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -70,7 +70,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
      * @param  mixed[] $record Log message
      * @return mixed[]
      */
-    protected function getDocument(array $record) : array
+    protected function getDocument(array $record): array
     {
         $record['_index'] = $this->index;
         $record['_type'] = $this->type;

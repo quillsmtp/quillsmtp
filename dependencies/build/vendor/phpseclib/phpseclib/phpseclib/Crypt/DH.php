@@ -80,18 +80,18 @@ abstract class DH extends AsymmetricKey
             throw new \RuntimeException('createParameters() should not be called from final classes (' . static::class . ')');
         }
         $params = new Parameters();
-        if (\count($args) == 2 && $args[0] instanceof BigInteger && $args[1] instanceof BigInteger) {
+        if (count($args) == 2 && $args[0] instanceof BigInteger && $args[1] instanceof BigInteger) {
             //if (!$args[0]->isPrime()) {
             //    throw new \InvalidArgumentException('The first parameter should be a prime number');
             //}
             $params->prime = $args[0];
             $params->base = $args[1];
             return $params;
-        } elseif (\count($args) == 1 && \is_numeric($args[0])) {
+        } elseif (count($args) == 1 && is_numeric($args[0])) {
             $params->prime = BigInteger::randomPrime($args[0]);
             $params->base = new BigInteger(2);
             return $params;
-        } elseif (\count($args) != 1 || !\is_string($args[0])) {
+        } elseif (count($args) != 1 || !is_string($args[0])) {
             throw new \InvalidArgumentException('Valid parameters are either: two BigInteger\'s (prime and base), a single integer (the length of the prime; base is assumed to be 2) or a string');
         }
         switch ($args[0]) {
@@ -187,13 +187,13 @@ abstract class DH extends AsymmetricKey
                         throw new \InvalidArgumentException('The public and private key do not share the same prime and / or base numbers');
                     }
                     return $public->publicKey->powMod($private->privateKey, $private->prime)->toBytes(\true);
-                case \is_string($public):
+                case is_string($public):
                     $public = new BigInteger($public, -256);
                 // fall-through
                 case $public instanceof BigInteger:
                     return $public->powMod($private->privateKey, $private->prime)->toBytes(\true);
                 default:
-                    throw new \InvalidArgumentException('$public needs to be an instance of DH\\PublicKey, a BigInteger or a string');
+                    throw new \InvalidArgumentException('$public needs to be an instance of DH\PublicKey, a BigInteger or a string');
             }
         }
         if ($private instanceof EC\PrivateKey) {
@@ -201,7 +201,7 @@ abstract class DH extends AsymmetricKey
                 case $public instanceof EC\PublicKey:
                     $public = $public->getEncodedCoordinates();
                 // fall-through
-                case \is_string($public):
+                case is_string($public):
                     $point = $private->multiply($public);
                     switch ($private->getCurve()) {
                         case 'Curve25519':
@@ -210,7 +210,7 @@ abstract class DH extends AsymmetricKey
                             break;
                         default:
                             // according to https://www.secg.org/sec1-v2.pdf#page=33 only X is returned
-                            $secret = \substr($point, 1, \strlen($point) - 1 >> 1);
+                            $secret = substr($point, 1, strlen($point) - 1 >> 1);
                     }
                     /*
                     if (($secret[0] & "\x80") === "\x80") {
@@ -219,7 +219,7 @@ abstract class DH extends AsymmetricKey
                     */
                     return $secret;
                 default:
-                    throw new \InvalidArgumentException('$public needs to be an instance of EC\\PublicKey or a string (an encoded coordinate)');
+                    throw new \InvalidArgumentException('$public needs to be an instance of EC\PublicKey or a string (an encoded coordinate)');
             }
         }
     }

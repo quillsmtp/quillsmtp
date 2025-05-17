@@ -64,7 +64,7 @@ class BypassSpamManagement implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['enable' => $this->getEnable()], function ($value) {
+        return array_filter(['enable' => $this->getEnable()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

@@ -27,7 +27,7 @@ abstract class PuTTY extends Progenitor
      *
      * @var string
      */
-    const PUBLIC_HANDLER = 'QuillSMTP\\Vendor\\phpseclib3\\Crypt\\RSA\\Formats\\Keys\\OpenSSH';
+    const PUBLIC_HANDLER = 'QuillSMTP\Vendor\phpseclib3\Crypt\RSA\Formats\Keys\OpenSSH';
     /**
      * Algorithm Identifier
      *
@@ -51,7 +51,7 @@ abstract class PuTTY extends Progenitor
         if (!isset($components['private'])) {
             return $components;
         }
-        \extract($components);
+        extract($components);
         unset($components['public'], $components['private']);
         $isPublicKey = \false;
         $result = Strings::unpackSSH2('ii', $public);
@@ -69,7 +69,7 @@ abstract class PuTTY extends Progenitor
         $exponents = [1 => $publicExponent->modInverse($temp)];
         $temp = $primes[2]->subtract($one);
         $exponents[] = $publicExponent->modInverse($temp);
-        return \compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
+        return compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
     }
     /**
      * Convert a private key to the appropriate format.
@@ -86,7 +86,7 @@ abstract class PuTTY extends Progenitor
      */
     public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
-        if (\count($primes) != 2) {
+        if (count($primes) != 2) {
             throw new \InvalidArgumentException('PuTTY does not support multi-prime RSA keys');
         }
         $public = Strings::packSSH2('ii', $e, $n);

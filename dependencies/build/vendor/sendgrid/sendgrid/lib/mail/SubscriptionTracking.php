@@ -183,7 +183,7 @@ class SubscriptionTracking implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['enable' => $this->getEnable(), 'text' => $this->getText(), 'html' => $this->getHtml(), 'substitution_tag' => $this->getSubstitutionTag()], function ($value) {
+        return array_filter(['enable' => $this->getEnable(), 'text' => $this->getText(), 'html' => $this->getHtml(), 'substitution_tag' => $this->getSubstitutionTag()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

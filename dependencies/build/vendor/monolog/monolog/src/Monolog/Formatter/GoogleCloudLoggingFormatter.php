@@ -24,7 +24,7 @@ use QuillSMTP\Vendor\Monolog\LogRecord;
 final class GoogleCloudLoggingFormatter extends JsonFormatter
 {
     /** {@inheritdoc} **/
-    public function format(array $record) : string
+    public function format(array $record): string
     {
         // Re-key level for GCP logging
         $record['severity'] = $record['level_name'];

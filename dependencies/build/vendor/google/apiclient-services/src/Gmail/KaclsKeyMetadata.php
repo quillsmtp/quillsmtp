@@ -57,4 +57,4 @@ class KaclsKeyMetadata extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(KaclsKeyMetadata::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_KaclsKeyMetadata');
+class_alias(KaclsKeyMetadata::class, 'QuillSMTP\Vendor\Google_Service_Gmail_KaclsKeyMetadata');

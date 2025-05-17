@@ -38,7 +38,7 @@ abstract class JWK extends Progenitor
         $count = $publicCount = 0;
         $vars = ['n', 'e', 'd', 'p', 'q', 'dp', 'dq', 'qi'];
         foreach ($vars as $var) {
-            if (!isset($key->{$var}) || !\is_string($key->{$var})) {
+            if (!isset($key->{$var}) || !is_string($key->{$var})) {
                 continue;
             }
             $count++;
@@ -71,7 +71,7 @@ abstract class JWK extends Progenitor
                     $components['coefficients'][2] = $value;
             }
         }
-        if ($count == \count($vars)) {
+        if ($count == count($vars)) {
             return $components + ['isPublicKey' => \false];
         }
         if ($count == 2 && $publicCount == 2) {
@@ -94,7 +94,7 @@ abstract class JWK extends Progenitor
      */
     public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
-        if (\count($primes) != 2) {
+        if (count($primes) != 2) {
             throw new \InvalidArgumentException('JWK does not support multi-prime RSA keys');
         }
         $key = ['kty' => 'RSA', 'n' => Strings::base64url_encode($n->toBytes()), 'e' => Strings::base64url_encode($e->toBytes()), 'd' => Strings::base64url_encode($d->toBytes()), 'p' => Strings::base64url_encode($primes[1]->toBytes()), 'q' => Strings::base64url_encode($primes[2]->toBytes()), 'dp' => Strings::base64url_encode($exponents[1]->toBytes()), 'dq' => Strings::base64url_encode($exponents[2]->toBytes()), 'qi' => Strings::base64url_encode($coefficients[2]->toBytes())];

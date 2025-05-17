@@ -116,16 +116,16 @@ class Agent
                     throw new BadConfigurationException('SSH_AUTH_SOCK not found');
             }
         }
-        if (\in_array('unix', \stream_get_transports())) {
-            $this->fsock = \fsockopen('unix://' . $address, 0, $errno, $errstr);
+        if (in_array('unix', stream_get_transports())) {
+            $this->fsock = fsockopen('unix://' . $address, 0, $errno, $errstr);
             if (!$this->fsock) {
                 throw new \RuntimeException("Unable to connect to ssh-agent (Error {$errno}: {$errstr})");
             }
         } else {
-            if (\substr($address, 0, 9) != '\\\\.\\pipe\\' || \strpos(\substr($address, 9), '\\') !== \false) {
+            if (substr($address, 0, 9) != '\\\\.\pipe\\' || strpos(substr($address, 9), '\\') !== \false) {
                 throw new \RuntimeException('Address is not formatted as a named pipe should be');
             }
-            $this->fsock = \fopen($address, 'r+b');
+            $this->fsock = fopen($address, 'r+b');
             if (!$this->fsock) {
                 throw new \RuntimeException('Unable to open address');
             }
@@ -145,11 +145,11 @@ class Agent
         if (!$this->fsock) {
             return [];
         }
-        $packet = \pack('NC', 1, self::SSH_AGENTC_REQUEST_IDENTITIES);
-        if (\strlen($packet) != \fputs($this->fsock, $packet)) {
+        $packet = pack('NC', 1, self::SSH_AGENTC_REQUEST_IDENTITIES);
+        if (strlen($packet) != fputs($this->fsock, $packet)) {
             throw new \RuntimeException('Connection closed while requesting identities');
         }
-        $length = \current(\unpack('N', $this->readBytes(4)));
+        $length = current(unpack('N', $this->readBytes(4)));
         $packet = $this->readBytes($length);
         list($type, $keyCount) = Strings::unpackSSH2('CN', $packet);
         if ($type != self::SSH_AGENT_IDENTITIES_ANSWER) {
@@ -167,7 +167,7 @@ class Agent
                 case 'ecdsa-sha2-nistp256':
                 case 'ecdsa-sha2-nistp384':
                 case 'ecdsa-sha2-nistp521':
-                    $key = PublicKeyLoader::load($key_type . ' ' . \base64_encode($key_blob));
+                    $key = PublicKeyLoader::load($key_type . ' ' . base64_encode($key_blob));
             }
             // resources are passed by reference by default
             if (isset($key)) {
@@ -230,24 +230,24 @@ class Agent
     {
         if ($this->expected_bytes > 0) {
             $this->socket_buffer .= $data;
-            $this->expected_bytes -= \strlen($data);
+            $this->expected_bytes -= strlen($data);
         } else {
-            $agent_data_bytes = \current(\unpack('N', $data));
-            $current_data_bytes = \strlen($data);
+            $agent_data_bytes = current(unpack('N', $data));
+            $current_data_bytes = strlen($data);
             $this->socket_buffer = $data;
             if ($current_data_bytes != $agent_data_bytes + 4) {
                 $this->expected_bytes = $agent_data_bytes + 4 - $current_data_bytes;
                 return \false;
             }
         }
-        if (\strlen($this->socket_buffer) != \fwrite($this->fsock, $this->socket_buffer)) {
+        if (strlen($this->socket_buffer) != fwrite($this->fsock, $this->socket_buffer)) {
             throw new \RuntimeException('Connection closed attempting to forward data to SSH agent');
         }
         $this->socket_buffer = '';
         $this->expected_bytes = 0;
-        $agent_reply_bytes = \current(\unpack('N', $this->readBytes(4)));
+        $agent_reply_bytes = current(unpack('N', $this->readBytes(4)));
         $agent_reply_data = $this->readBytes($agent_reply_bytes);
-        $agent_reply_data = \current(\unpack('a*', $agent_reply_data));
-        return \pack('Na*', $agent_reply_bytes, $agent_reply_data);
+        $agent_reply_data = current(unpack('a*', $agent_reply_data));
+        return pack('Na*', $agent_reply_bytes, $agent_reply_data);
     }
 }

@@ -166,8 +166,8 @@ class Client
      */
     public function __construct(array $config = [])
     {
-        $this->config = \array_merge(['application_name' => '', 'base_path' => self::API_BASE_PATH, 'client_id' => '', 'client_secret' => '', 'credentials' => null, 'scopes' => null, 'quota_project' => null, 'redirect_uri' => null, 'state' => null, 'developer_key' => '', 'use_application_default_credentials' => \false, 'signing_key' => null, 'signing_algorithm' => null, 'subject' => null, 'hd' => '', 'prompt' => '', 'openid.realm' => '', 'include_granted_scopes' => null, 'login_hint' => '', 'request_visible_actions' => '', 'access_type' => 'online', 'approval_prompt' => 'auto', 'retry' => [], 'retry_map' => null, 'cache' => null, 'cache_config' => [], 'token_callback' => null, 'jwt' => null, 'api_format_v2' => \false, 'universe_domain' => \getenv('GOOGLE_CLOUD_UNIVERSE_DOMAIN') ?: GetUniverseDomainInterface::DEFAULT_UNIVERSE_DOMAIN], $config);
-        if (!\is_null($this->config['credentials'])) {
+        $this->config = array_merge(['application_name' => '', 'base_path' => self::API_BASE_PATH, 'client_id' => '', 'client_secret' => '', 'credentials' => null, 'scopes' => null, 'quota_project' => null, 'redirect_uri' => null, 'state' => null, 'developer_key' => '', 'use_application_default_credentials' => \false, 'signing_key' => null, 'signing_algorithm' => null, 'subject' => null, 'hd' => '', 'prompt' => '', 'openid.realm' => '', 'include_granted_scopes' => null, 'login_hint' => '', 'request_visible_actions' => '', 'access_type' => 'online', 'approval_prompt' => 'auto', 'retry' => [], 'retry_map' => null, 'cache' => null, 'cache_config' => [], 'token_callback' => null, 'jwt' => null, 'api_format_v2' => \false, 'universe_domain' => getenv('GOOGLE_CLOUD_UNIVERSE_DOMAIN') ?: GetUniverseDomainInterface::DEFAULT_UNIVERSE_DOMAIN], $config);
+        if (!is_null($this->config['credentials'])) {
             if ($this->config['credentials'] instanceof CredentialsLoader) {
                 $this->credentials = $this->config['credentials'];
             } else {
@@ -175,22 +175,22 @@ class Client
             }
             unset($this->config['credentials']);
         }
-        if (!\is_null($this->config['scopes'])) {
+        if (!is_null($this->config['scopes'])) {
             $this->setScopes($this->config['scopes']);
             unset($this->config['scopes']);
         }
         // Set a default token callback to update the in-memory access token
-        if (\is_null($this->config['token_callback'])) {
+        if (is_null($this->config['token_callback'])) {
             $this->config['token_callback'] = function ($cacheKey, $newAccessToken) {
                 $this->setAccessToken([
                     'access_token' => $newAccessToken,
                     'expires_in' => 3600,
                     // Google default
-                    'created' => \time(),
+                    'created' => time(),
                 ]);
             };
         }
-        if (!\is_null($this->config['cache'])) {
+        if (!is_null($this->config['cache'])) {
             $this->setCache($this->config['cache']);
             unset($this->config['cache']);
         }
@@ -226,7 +226,7 @@ class Client
      */
     public function fetchAccessTokenWithAuthCode($code, $codeVerifier = null)
     {
-        if (\strlen($code) == 0) {
+        if (strlen($code) == 0) {
             throw new InvalidArgumentException("Invalid code");
         }
         $auth = $this->getOAuth2Service();
@@ -238,7 +238,7 @@ class Client
         $httpHandler = HttpHandlerFactory::build($this->getHttpClient());
         $creds = $auth->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
-            $creds['created'] = \time();
+            $creds['created'] = time();
             $this->setAccessToken($creds);
         }
         return $creds;
@@ -262,14 +262,14 @@ class Client
     public function fetchAccessTokenWithAssertion(ClientInterface $authHttp = null)
     {
         if (!$this->isUsingApplicationDefaultCredentials()) {
-            throw new DomainException('set the JSON service account credentials using' . ' Google\\Client::setAuthConfig or set the path to your JSON file' . ' with the "GOOGLE_APPLICATION_CREDENTIALS" environment variable' . ' and call Google\\Client::useApplicationDefaultCredentials to' . ' refresh a token with assertion.');
+            throw new DomainException('set the JSON service account credentials using' . ' Google\Client::setAuthConfig or set the path to your JSON file' . ' with the "GOOGLE_APPLICATION_CREDENTIALS" environment variable' . ' and call Google\Client::useApplicationDefaultCredentials to' . ' refresh a token with assertion.');
         }
         $this->getLogger()->log('info', 'OAuth2 access token refresh with Signed JWT assertion grants.');
         $credentials = $this->createApplicationDefaultCredentials();
         $httpHandler = HttpHandlerFactory::build($authHttp);
         $creds = $credentials->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
-            $creds['created'] = \time();
+            $creds['created'] = time();
             $this->setAccessToken($creds);
         }
         return $creds;
@@ -304,7 +304,7 @@ class Client
         $httpHandler = HttpHandlerFactory::build($this->getHttpClient());
         $creds = $auth->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
-            $creds['created'] = \time();
+            $creds['created'] = time();
             if (!isset($creds['refresh_token'])) {
                 $creds['refresh_token'] = $refreshToken;
             }
@@ -325,18 +325,18 @@ class Client
         if (empty($scope)) {
             $scope = $this->prepareScopes();
         }
-        if (\is_array($scope)) {
-            $scope = \implode(' ', $scope);
+        if (is_array($scope)) {
+            $scope = implode(' ', $scope);
         }
         // only accept one of prompt or approval_prompt
         $approvalPrompt = $this->config['prompt'] ? null : $this->config['approval_prompt'];
         // include_granted_scopes should be string "true", string "false", or null
-        $includeGrantedScopes = $this->config['include_granted_scopes'] === null ? null : \var_export($this->config['include_granted_scopes'], \true);
-        $params = \array_filter(['access_type' => $this->config['access_type'], 'approval_prompt' => $approvalPrompt, 'hd' => $this->config['hd'], 'include_granted_scopes' => $includeGrantedScopes, 'login_hint' => $this->config['login_hint'], 'openid.realm' => $this->config['openid.realm'], 'prompt' => $this->config['prompt'], 'redirect_uri' => $this->config['redirect_uri'], 'response_type' => 'code', 'scope' => $scope, 'state' => $this->config['state']]) + $queryParams;
+        $includeGrantedScopes = $this->config['include_granted_scopes'] === null ? null : var_export($this->config['include_granted_scopes'], \true);
+        $params = array_filter(['access_type' => $this->config['access_type'], 'approval_prompt' => $approvalPrompt, 'hd' => $this->config['hd'], 'include_granted_scopes' => $includeGrantedScopes, 'login_hint' => $this->config['login_hint'], 'openid.realm' => $this->config['openid.realm'], 'prompt' => $this->config['prompt'], 'redirect_uri' => $this->config['redirect_uri'], 'response_type' => 'code', 'scope' => $scope, 'state' => $this->config['state']]) + $queryParams;
         // If the list of scopes contains plus.login, add request_visible_actions
         // to auth URL.
         $rva = $this->config['request_visible_actions'];
-        if (\strlen($rva) > 0 && \false !== \strpos($scope, 'plus.login')) {
+        if (strlen($rva) > 0 && \false !== strpos($scope, 'plus.login')) {
             $params['request_visible_actions'] = $rva;
         }
         $auth = $this->getOAuth2Service();
@@ -426,8 +426,8 @@ class Client
      */
     public function setAccessToken($token)
     {
-        if (\is_string($token)) {
-            if ($json = \json_decode($token, \true)) {
+        if (is_string($token)) {
+            if ($json = json_decode($token, \true)) {
                 $token = $json;
             } else {
                 // assume $token is just the token string
@@ -474,9 +474,9 @@ class Client
             // using this for convenience to save a round trip request
             // to the Google API server
             $idToken = $this->token['id_token'];
-            if (\substr_count($idToken, '.') == 2) {
-                $parts = \explode('.', $idToken);
-                $payload = \json_decode(\base64_decode($parts[1]), \true);
+            if (substr_count($idToken, '.') == 2) {
+                $parts = explode('.', $idToken);
+                $payload = json_decode(base64_decode($parts[1]), \true);
                 if ($payload && isset($payload['iat'])) {
                     $created = $payload['iat'];
                 }
@@ -487,7 +487,7 @@ class Client
             return \true;
         }
         // If the token is set to expire in the next 30 seconds.
-        return $created + ($this->token['expires_in'] - 30) < \time();
+        return $created + ($this->token['expires_in'] - 30) < time();
     }
     /**
      * @deprecated See UPGRADING.md for more information
@@ -592,8 +592,8 @@ class Client
      */
     public function setRequestVisibleActions($requestVisibleActions)
     {
-        if (\is_array($requestVisibleActions)) {
-            $requestVisibleActions = \implode(" ", $requestVisibleActions);
+        if (is_array($requestVisibleActions)) {
+            $requestVisibleActions = implode(" ", $requestVisibleActions);
         }
         $this->config['request_visible_actions'] = $requestVisibleActions;
     }
@@ -714,9 +714,9 @@ class Client
      */
     public function addScope($scope_or_scopes)
     {
-        if (\is_string($scope_or_scopes) && !\in_array($scope_or_scopes, $this->requestedScopes)) {
+        if (is_string($scope_or_scopes) && !in_array($scope_or_scopes, $this->requestedScopes)) {
             $this->requestedScopes[] = $scope_or_scopes;
-        } elseif (\is_array($scope_or_scopes)) {
+        } elseif (is_array($scope_or_scopes)) {
             foreach ($scope_or_scopes as $scope) {
                 $this->addScope($scope);
             }
@@ -740,7 +740,7 @@ class Client
         if (empty($this->requestedScopes)) {
             return null;
         }
-        return \implode(' ', $this->requestedScopes);
+        return implode(' ', $this->requestedScopes);
     }
     /**
      * Helper method to execute deferred HTTP requests.
@@ -753,7 +753,7 @@ class Client
      */
     public function execute(RequestInterface $request, $expectedClass = null)
     {
-        $request = $request->withHeader('User-Agent', \sprintf('%s %s%s', $this->config['application_name'], self::USER_AGENT_SUFFIX, $this->getLibraryVersion()))->withHeader('x-goog-api-client', \sprintf('gl-php/%s gdcl/%s', \phpversion(), $this->getLibraryVersion()));
+        $request = $request->withHeader('User-Agent', sprintf('%s %s%s', $this->config['application_name'], self::USER_AGENT_SUFFIX, $this->getLibraryVersion()))->withHeader('x-goog-api-client', sprintf('gl-php/%s gdcl/%s', phpversion(), $this->getLibraryVersion()));
         if ($this->config['api_format_v2']) {
             $request = $request->withHeader('X-GOOG-API-FORMAT-VERSION', '2');
         }
@@ -780,7 +780,7 @@ class Client
      */
     public function isAppEngine()
     {
-        return isset($_SERVER['SERVER_SOFTWARE']) && \strpos($_SERVER['SERVER_SOFTWARE'], 'Google App Engine') !== \false;
+        return isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Google App Engine') !== \false;
     }
     public function setConfig($name, $value)
     {
@@ -812,12 +812,12 @@ class Client
      */
     public function setAuthConfig($config)
     {
-        if (\is_string($config)) {
-            if (!\file_exists($config)) {
-                throw new InvalidArgumentException(\sprintf('file "%s" does not exist', $config));
+        if (is_string($config)) {
+            if (!file_exists($config)) {
+                throw new InvalidArgumentException(sprintf('file "%s" does not exist', $config));
             }
-            $json = \file_get_contents($config);
-            if (!($config = \json_decode($json, \true))) {
+            $json = file_get_contents($config);
+            if (!$config = json_decode($json, \true)) {
                 throw new LogicException('invalid json for auth config');
             }
         }
@@ -981,15 +981,15 @@ class Client
     protected function createDefaultHttpClient()
     {
         $guzzleVersion = null;
-        if (\defined('\\QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::MAJOR_VERSION')) {
+        if (defined('QuillSMTP\Vendor\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
             $guzzleVersion = ClientInterface::MAJOR_VERSION;
-        } elseif (\defined('\\QuillSMTP\\Vendor\\GuzzleHttp\\ClientInterface::VERSION')) {
-            $guzzleVersion = (int) \substr(ClientInterface::VERSION, 0, 1);
+        } elseif (defined('QuillSMTP\Vendor\GuzzleHttp\ClientInterface::VERSION')) {
+            $guzzleVersion = (int) substr(ClientInterface::VERSION, 0, 1);
         }
         if (5 === $guzzleVersion) {
             $options = ['base_url' => $this->config['base_path'], 'defaults' => ['exceptions' => \false]];
             if ($this->isAppEngine()) {
-                if (\class_exists(StreamHandler::class)) {
+                if (class_exists(StreamHandler::class)) {
                     // set StreamHandler on AppEngine by default
                     $options['handler'] = new StreamHandler();
                     $options['defaults']['verify'] = '/etc/ca-certificates.crt';
@@ -1046,14 +1046,14 @@ class Client
     }
     private function createUserRefreshCredentials($scope, $refreshToken)
     {
-        $creds = \array_filter(['client_id' => $this->getClientId(), 'client_secret' => $this->getClientSecret(), 'refresh_token' => $refreshToken]);
+        $creds = array_filter(['client_id' => $this->getClientId(), 'client_secret' => $this->getClientSecret(), 'refresh_token' => $refreshToken]);
         return new UserRefreshCredentials($scope, $creds);
     }
     private function checkUniverseDomain($credentials)
     {
         $credentialsUniverse = $credentials instanceof GetUniverseDomainInterface ? $credentials->getUniverseDomain() : GetUniverseDomainInterface::DEFAULT_UNIVERSE_DOMAIN;
         if ($credentialsUniverse !== $this->getUniverseDomain()) {
-            throw new DomainException(\sprintf('The configured universe domain (%s) does not match the credential universe domain (%s)', $this->getUniverseDomain(), $credentialsUniverse));
+            throw new DomainException(sprintf('The configured universe domain (%s) does not match the credential universe domain (%s)', $this->getUniverseDomain(), $credentialsUniverse));
         }
     }
     public function getUniverseDomain()

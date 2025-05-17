@@ -33,7 +33,7 @@ abstract class ASN1
      */
     public static function load($sig)
     {
-        if (!\is_string($sig)) {
+        if (!is_string($sig)) {
             return \false;
         }
         $decoded = Encoder::decodeBER($sig);
@@ -52,6 +52,6 @@ abstract class ASN1
      */
     public static function save(BigInteger $r, BigInteger $s)
     {
-        return Encoder::encodeDER(\compact('r', 's'), Maps\DssSigValue::MAP);
+        return Encoder::encodeDER(compact('r', 's'), Maps\DssSigValue::MAP);
     }
 }

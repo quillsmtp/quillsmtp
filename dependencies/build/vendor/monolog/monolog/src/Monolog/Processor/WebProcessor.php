@@ -38,7 +38,7 @@ class WebProcessor implements ProcessorInterface
     {
         if (null === $serverData) {
             $this->serverData =& $_SERVER;
-        } elseif (\is_array($serverData) || $serverData instanceof \ArrayAccess) {
+        } elseif (is_array($serverData) || $serverData instanceof \ArrayAccess) {
             $this->serverData = $serverData;
         } else {
             throw new \UnexpectedValueException('$serverData must be an array or object implementing ArrayAccess.');
@@ -52,8 +52,8 @@ class WebProcessor implements ProcessorInterface
             $extraFields = $defaultEnabled;
         }
         if (isset($extraFields[0])) {
-            foreach (\array_keys($this->extraFields) as $fieldName) {
-                if (!\in_array($fieldName, $extraFields)) {
+            foreach (array_keys($this->extraFields) as $fieldName) {
+                if (!in_array($fieldName, $extraFields)) {
                     unset($this->extraFields[$fieldName]);
                 }
             }
@@ -64,7 +64,7 @@ class WebProcessor implements ProcessorInterface
     /**
      * {@inheritDoc}
      */
-    public function __invoke(array $record) : array
+    public function __invoke(array $record): array
     {
         // skip processing if for some reason request data
         // is not present (CLI or wonky SAPIs)
@@ -74,7 +74,7 @@ class WebProcessor implements ProcessorInterface
         $record['extra'] = $this->appendExtraFields($record['extra']);
         return $record;
     }
-    public function addExtraField(string $extraName, string $serverName) : self
+    public function addExtraField(string $extraName, string $serverName): self
     {
         $this->extraFields[$extraName] = $serverName;
         return $this;
@@ -83,7 +83,7 @@ class WebProcessor implements ProcessorInterface
      * @param  mixed[] $extra
      * @return mixed[]
      */
-    private function appendExtraFields(array $extra) : array
+    private function appendExtraFields(array $extra): array
     {
         foreach ($this->extraFields as $extraName => $serverName) {
             $extra[$extraName] = $this->serverData[$serverName] ?? null;

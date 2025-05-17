@@ -94,4 +94,4 @@ class WatchRequest extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(WatchRequest::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_WatchRequest');
+class_alias(WatchRequest::class, 'QuillSMTP\Vendor\Google_Service_Gmail_WatchRequest');

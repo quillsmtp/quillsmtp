@@ -48,7 +48,7 @@ class Guzzle6AuthHandler
     }
     public function attachToken(ClientInterface $http, array $token, array $scopes)
     {
-        $tokenFunc = function ($scopes) use($token) {
+        $tokenFunc = function ($scopes) use ($token) {
             return $token['access_token'];
         };
         $middleware = new ScopedAccessTokenMiddleware($tokenFunc, $scopes, $this->cacheConfig, $this->cache);

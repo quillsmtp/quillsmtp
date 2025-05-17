@@ -134,9 +134,9 @@ class Prime extends Base
     {
         switch (\true) {
             case !$x instanceof BigInteger && !$x instanceof PrimeInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
             case !$y instanceof BigInteger && !$y instanceof PrimeInteger:
-                throw new \UnexpectedValueException('QuillSMTP\\Vendor\\Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
         }
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
@@ -258,11 +258,11 @@ class Prime extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
-            if (\count($q)) {
+        if (!count($p) || !count($q)) {
+            if (count($q)) {
                 return $q;
             }
-            if (\count($p)) {
+            if (count($p)) {
                 return $p;
             }
             return [];
@@ -358,7 +358,7 @@ class Prime extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p)) {
+        if (!count($p)) {
             return [];
         }
         // use jacobian coordinates
@@ -381,7 +381,7 @@ class Prime extends Base
      */
     public function derivePoint($m)
     {
-        $y = \ord(Strings::shift($m));
+        $y = ord(Strings::shift($m));
         $x = new BigInteger($m, 256);
         $xp = $this->convertInteger($x);
         switch ($y) {
@@ -456,7 +456,7 @@ class Prime extends Base
      */
     public function multiplyAddPoints(array $points, array $scalars)
     {
-        $length = \count($points);
+        $length = count($points);
         foreach ($points as &$point) {
             $point = $this->convertToInternal($point);
         }
@@ -475,7 +475,7 @@ class Prime extends Base
             if ($wndWidth[$a] != 1 || $wndWidth[$b] != 1) {
                 $naf[$a] = $scalars[$a]->getNAF($wndWidth[$a]);
                 $naf[$b] = $scalars[$b]->getNAF($wndWidth[$b]);
-                $max = \max(\count($naf[$a]), \count($naf[$b]), $max);
+                $max = max(count($naf[$a]), count($naf[$b]), $max);
                 continue;
             }
             $comb = [
@@ -509,10 +509,10 @@ class Prime extends Base
                 3,
             ];
             $jsf = self::getJSFPoints($scalars[$a], $scalars[$b]);
-            $max = \max(\count($jsf[0]), $max);
+            $max = max(count($jsf[0]), $max);
             if ($max > 0) {
-                $naf[$a] = \array_fill(0, $max, 0);
-                $naf[$b] = \array_fill(0, $max, 0);
+                $naf[$a] = array_fill(0, $max, 0);
+                $naf[$b] = array_fill(0, $max, 0);
             } else {
                 $naf[$a] = [];
                 $naf[$b] = [];

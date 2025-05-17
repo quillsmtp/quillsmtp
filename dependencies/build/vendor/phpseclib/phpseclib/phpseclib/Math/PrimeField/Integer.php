@@ -117,7 +117,7 @@ class Integer extends Base
     public static function checkInstance(self $x, self $y)
     {
         if ($x->instanceID != $y->instanceID) {
-            throw new \UnexpectedValueException('The instances of the two PrimeField\\Integer objects do not match');
+            throw new \UnexpectedValueException('The instances of the two PrimeField\Integer objects do not match');
         }
     }
     /**
@@ -278,7 +278,7 @@ class Integer extends Base
     {
         if (isset(static::$modulo[$this->instanceID])) {
             $length = static::$modulo[$this->instanceID]->getLengthInBytes();
-            return \str_pad($this->value->toBytes(), $length, "\x00", \STR_PAD_LEFT);
+            return str_pad($this->value->toBytes(), $length, "\x00", \STR_PAD_LEFT);
         }
         return $this->value->toBytes();
     }
@@ -303,7 +303,7 @@ class Integer extends Base
         if (!isset($length)) {
             $length = static::$modulo[$this->instanceID]->getLength();
         }
-        return \str_pad($this->value->toBits(), $length, '0', \STR_PAD_LEFT);
+        return str_pad($this->value->toBits(), $length, '0', \STR_PAD_LEFT);
     }
     /**
      * Returns the w-ary non-adjacent form (wNAF)

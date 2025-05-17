@@ -51,7 +51,7 @@ class GetTransacSmsReportReports implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['date' => '\\DateTime', 'requests' => 'int', 'delivered' => 'int', 'hardBounces' => 'int', 'softBounces' => 'int', 'blocked' => 'int', 'unsubscribed' => 'int', 'replied' => 'int', 'accepted' => 'int', 'rejected' => 'int'];
+    protected static $swaggerTypes = ['date' => '\DateTime', 'requests' => 'int', 'delivered' => 'int', 'hardBounces' => 'int', 'softBounces' => 'int', 'blocked' => 'int', 'unsubscribed' => 'int', 'replied' => 'int', 'accepted' => 'int', 'rejected' => 'int'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -175,7 +175,7 @@ class GetTransacSmsReportReports implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets date
@@ -422,7 +422,7 @@ class GetTransacSmsReportReports implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -447,10 +447,10 @@ class GetTransacSmsReportReports implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

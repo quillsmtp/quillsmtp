@@ -159,10 +159,10 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-        if (!\is_null($this->container['width']) && $this->container['width'] < 0) {
+        if (!is_null($this->container['width']) && $this->container['width'] < 0) {
             $invalidProperties[] = "invalid value for 'width', must be bigger than or equal to 0.";
         }
-        if (!\is_null($this->container['height']) && $this->container['height'] < 0) {
+        if (!is_null($this->container['height']) && $this->container['height'] < 0) {
             $invalidProperties[] = "invalid value for 'height', must be bigger than or equal to 0.";
         }
         return $invalidProperties;
@@ -175,7 +175,7 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets width
@@ -195,7 +195,7 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
      */
     public function setWidth($width)
     {
-        if (!\is_null($width) && $width < 0) {
+        if (!is_null($width) && $width < 0) {
             throw new \InvalidArgumentException('invalid value for $width when calling ConversationsMessageFileImageInfo., must be bigger than or equal to 0.');
         }
         $this->container['width'] = $width;
@@ -219,7 +219,7 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
      */
     public function setHeight($height)
     {
-        if (!\is_null($height) && $height < 0) {
+        if (!is_null($height) && $height < 0) {
             throw new \InvalidArgumentException('invalid value for $height when calling ConversationsMessageFileImageInfo., must be bigger than or equal to 0.');
         }
         $this->container['height'] = $height;
@@ -281,7 +281,7 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -306,10 +306,10 @@ class ConversationsMessageFileImageInfo implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

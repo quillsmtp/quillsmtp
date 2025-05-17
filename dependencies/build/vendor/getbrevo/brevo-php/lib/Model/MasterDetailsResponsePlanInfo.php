@@ -52,7 +52,7 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['currencyCode' => 'string', 'nextBillingAt' => 'int', 'price' => 'float', 'planPeriod' => 'string', 'subAccounts' => 'int', 'features' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\MasterDetailsResponsePlanInfoFeatures[]'];
+    protected static $swaggerTypes = ['currencyCode' => 'string', 'nextBillingAt' => 'int', 'price' => 'float', 'planPeriod' => 'string', 'subAccounts' => 'int', 'features' => '\Brevo\Client\Model\MasterDetailsResponsePlanInfoFeatures[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -174,8 +174,8 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
         $allowedValues = $this->getPlanPeriodAllowableValues();
-        if (!\is_null($this->container['planPeriod']) && !\in_array($this->container['planPeriod'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'planPeriod', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['planPeriod']) && !in_array($this->container['planPeriod'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'planPeriod', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -187,7 +187,7 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets currencyCode
@@ -271,8 +271,8 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
     public function setPlanPeriod($planPeriod)
     {
         $allowedValues = $this->getPlanPeriodAllowableValues();
-        if (!\is_null($planPeriod) && !\in_array($planPeriod, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'planPeriod', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($planPeriod) && !in_array($planPeriod, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'planPeriod', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['planPeriod'] = $planPeriod;
         return $this;
@@ -354,7 +354,7 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -379,10 +379,10 @@ class MasterDetailsResponsePlanInfo implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -51,7 +51,7 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['name' => 'string', 'category' => 'string', 'type' => 'string', 'enumeration' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetAttributesEnumeration[]', 'calculatedValue' => 'string'];
+    protected static $swaggerTypes = ['name' => 'string', 'category' => 'string', 'type' => 'string', 'enumeration' => '\Brevo\Client\Model\GetAttributesEnumeration[]', 'calculatedValue' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -195,12 +195,12 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'category' can't be null";
         }
         $allowedValues = $this->getCategoryAllowableValues();
-        if (!\is_null($this->container['category']) && !\in_array($this->container['category'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'category', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'category', must be one of '%s'", implode("', '", $allowedValues));
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -212,7 +212,7 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets name
@@ -254,8 +254,8 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
     public function setCategory($category)
     {
         $allowedValues = $this->getCategoryAllowableValues();
-        if (!\in_array($category, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'category', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($category, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'category', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['category'] = $category;
         return $this;
@@ -279,8 +279,8 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($type) && !\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($type) && !in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -362,7 +362,7 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -387,10 +387,10 @@ class GetAttributesAttributes implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

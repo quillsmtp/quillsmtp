@@ -52,7 +52,7 @@ trait IamSignerTrait
             $signer = $this instanceof GetUniverseDomainInterface ? new Iam($httpHandler, $this->getUniverseDomain()) : new Iam($httpHandler);
         }
         $email = $this->getClientName($httpHandler);
-        if (\is_null($accessToken)) {
+        if (is_null($accessToken)) {
             $previousToken = $this->getLastReceivedToken();
             $accessToken = $previousToken ? $previousToken['access_token'] : $this->fetchAuthToken($httpHandler)['access_token'];
         }

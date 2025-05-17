@@ -73,4 +73,4 @@ class CseIdentity extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(CseIdentity::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_CseIdentity');
+class_alias(CseIdentity::class, 'QuillSMTP\Vendor\Google_Service_Gmail_CseIdentity');

@@ -95,14 +95,14 @@ class Verify
             try {
                 $args = [$idToken];
                 $publicKey = $this->getPublicKey($cert);
-                if (\class_exists(Key::class)) {
+                if (class_exists(Key::class)) {
                     $args[] = new Key($publicKey, 'RS256');
                 } else {
                     $args[] = $publicKey;
                     $args[] = ['RS256'];
                 }
                 $payload = \call_user_func_array([$this->jwt, 'decode'], $args);
-                if (\property_exists($payload, 'aud')) {
+                if (property_exists($payload, 'aud')) {
                     if ($audience && $payload->aud != $audience) {
                         return \false;
                     }
@@ -110,7 +110,7 @@ class Verify
                 // support HTTP and HTTPS issuers
                 // @see https://developers.google.com/identity/sign-in/web/backend-auth
                 $issuers = [self::OAUTH2_ISSUER, self::OAUTH2_ISSUER_HTTPS];
-                if (!isset($payload->iss) || !\in_array($payload->iss, $issuers)) {
+                if (!isset($payload->iss) || !in_array($payload->iss, $issuers)) {
                     return \false;
                 }
                 return (array) $payload;
@@ -141,18 +141,18 @@ class Verify
     private function retrieveCertsFromLocation($url)
     {
         // If we're retrieving a local file, just grab it.
-        if (0 !== \strpos($url, 'http')) {
-            if (!($file = \file_get_contents($url))) {
+        if (0 !== strpos($url, 'http')) {
+            if (!$file = file_get_contents($url)) {
                 throw new GoogleException("Failed to retrieve verification certificates: '" . $url . "'.");
             }
-            return \json_decode($file, \true);
+            return json_decode($file, \true);
         }
         // @phpstan-ignore-next-line
         $response = $this->http->get($url);
         if ($response->getStatusCode() == 200) {
-            return \json_decode((string) $response->getBody(), \true);
+            return json_decode((string) $response->getBody(), \true);
         }
-        throw new GoogleException(\sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
+        throw new GoogleException(sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
     }
     // Gets federated sign-on certificates to use for verifying identity tokens.
     // Returns certs as array structure, where keys are key ids, and values
@@ -205,12 +205,12 @@ class Verify
      */
     private function setPhpsecConstants()
     {
-        if (\filter_var(\getenv('GAE_VM'), \FILTER_VALIDATE_BOOLEAN)) {
-            if (!\defined('QuillSMTP\\Vendor\\MATH_BIGINTEGER_OPENSSL_ENABLED')) {
-                \define('QuillSMTP\\Vendor\\MATH_BIGINTEGER_OPENSSL_ENABLED', \true);
+        if (filter_var(getenv('GAE_VM'), \FILTER_VALIDATE_BOOLEAN)) {
+            if (!defined('MATH_BIGINTEGER_OPENSSL_ENABLED')) {
+                define('MATH_BIGINTEGER_OPENSSL_ENABLED', \true);
             }
-            if (!\defined('QuillSMTP\\Vendor\\CRYPT_RSA_MODE')) {
-                \define('QuillSMTP\\Vendor\\CRYPT_RSA_MODE', AES::ENGINE_OPENSSL);
+            if (!defined('CRYPT_RSA_MODE')) {
+                define('CRYPT_RSA_MODE', AES::ENGINE_OPENSSL);
             }
         }
     }

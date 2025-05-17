@@ -46,8 +46,8 @@ class Curve25519 extends Montgomery
         //$r = strrev(sodium_crypto_scalarmult($d->toBytes(), strrev($p[0]->toBytes())));
         //return [$this->factory->newInteger(new BigInteger($r, 256))];
         $d = $d->toBytes();
-        $d &= "\xf8" . \str_repeat("\xff", 30) . "";
-        $d = \strrev($d);
+        $d &= "\xf8" . str_repeat("\xff", 30) . "";
+        $d = strrev($d);
         $d |= "@";
         $d = new BigInteger($d, -256);
         return parent::multiplyPoint($p, $d);

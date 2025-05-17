@@ -51,7 +51,7 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['to' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailBcc[]', 'cc' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\SendSmtpEmailReplyTo1', 'subject' => 'string'];
+    protected static $swaggerTypes = ['to' => '\Brevo\Client\Model\SendSmtpEmailTo1[]', 'params' => 'map[string,object]', 'bcc' => '\Brevo\Client\Model\SendSmtpEmailBcc[]', 'cc' => '\Brevo\Client\Model\SendSmtpEmailCc[]', 'replyTo' => 'QuillSMTP\Vendor\Brevo\Client\Model\SendSmtpEmailReplyTo1', 'subject' => 'string'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -174,7 +174,7 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets to
@@ -337,7 +337,7 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -362,10 +362,10 @@ class SendSmtpEmailMessageVersions implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

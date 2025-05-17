@@ -41,20 +41,20 @@ abstract class libsodium
      */
     public static function load($key, $password = '')
     {
-        switch (\strlen($key)) {
+        switch (strlen($key)) {
             case 32:
                 $public = $key;
                 break;
             case 64:
-                $private = \substr($key, 0, 32);
-                $public = \substr($key, -32);
+                $private = substr($key, 0, 32);
+                $public = substr($key, -32);
                 break;
             case 96:
-                $public = \substr($key, -32);
-                if (\substr($key, 32, 32) != $public) {
+                $public = substr($key, -32);
+                if (substr($key, 32, 32) != $public) {
                     throw new \RuntimeException('Keys with 96 bytes should have the 2nd and 3rd set of 32 bytes match');
                 }
-                $private = \substr($key, 0, 32);
+                $private = substr($key, 0, 32);
                 break;
             default:
                 throw new \RuntimeException('libsodium keys need to either be 32 bytes long, 64 bytes long or 96 bytes long');
@@ -95,10 +95,10 @@ abstract class libsodium
         if (!isset($secret)) {
             throw new \RuntimeException('Private Key does not have a secret set');
         }
-        if (\strlen($secret) != 32) {
+        if (strlen($secret) != 32) {
             throw new \RuntimeException('Private Key secret is not of the correct length');
         }
-        if (!empty($password) && \is_string($password)) {
+        if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('libsodium private keys do not support encryption');
         }
         return $secret . $curve->encodePoint($publicKey);

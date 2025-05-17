@@ -170,8 +170,8 @@ class Stats
      */
     protected function validateOptions($name, $value, $options)
     {
-        if (!\in_array($value, $options)) {
-            throw new Exception($name . ' must be one of: ' . \implode(', ', $options));
+        if (!in_array($value, $options)) {
+            throw new Exception($name . ' must be one of: ' . implode(', ', $options));
         }
     }
     /**
@@ -184,7 +184,7 @@ class Stats
      */
     protected function validateInteger($name, $value)
     {
-        if (!\is_integer($value)) {
+        if (!is_integer($value)) {
             throw new Exception($name . ' must be an integer.');
         }
     }
@@ -211,6 +211,6 @@ class Stats
      */
     protected function isNumeric(array $array)
     {
-        return \array_keys($array) === \range(0, \count($array) - 1);
+        return \array_keys($array) === range(0, \count($array) - 1);
     }
 }

@@ -33,13 +33,13 @@ final class PublicKey extends DSA implements Common\PublicKey
     {
         $format = $this->sigFormat;
         $params = $format::load($signature);
-        if ($params === \false || \count($params) != 2) {
+        if ($params === \false || count($params) != 2) {
             return \false;
         }
-        \extract($params);
-        if (self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods())) {
+        extract($params);
+        if (self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods())) {
             $sig = $format != 'ASN1' ? ASN1Signature::save($r, $s) : $signature;
-            $result = \openssl_verify($message, $sig, $this->toString('PKCS8'), $this->hash->getHash());
+            $result = openssl_verify($message, $sig, $this->toString('PKCS8'), $this->hash->getHash());
             if ($result != -1) {
                 return (bool) $result;
             }

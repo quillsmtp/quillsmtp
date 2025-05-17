@@ -51,7 +51,7 @@ class UpdateSmtpTemplate implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\UpdateSmtpTemplateSender', 'templateName' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'subject' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'attachmentUrl' => 'string', 'isActive' => 'bool'];
+    protected static $swaggerTypes = ['tag' => 'string', 'sender' => 'QuillSMTP\Vendor\Brevo\Client\Model\UpdateSmtpTemplateSender', 'templateName' => 'string', 'htmlContent' => 'string', 'htmlUrl' => 'string', 'subject' => 'string', 'replyTo' => 'string', 'toField' => 'string', 'attachmentUrl' => 'string', 'isActive' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -175,7 +175,7 @@ class UpdateSmtpTemplate implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets tag
@@ -422,7 +422,7 @@ class UpdateSmtpTemplate implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -447,10 +447,10 @@ class UpdateSmtpTemplate implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

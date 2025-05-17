@@ -51,7 +51,7 @@ class CreateDomainModelDnsRecords implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['dkimRecord' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateDomainModelDnsRecordsDkimRecord', 'brevoCode' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateDomainModelDnsRecordsDkimRecord'];
+    protected static $swaggerTypes = ['dkimRecord' => 'QuillSMTP\Vendor\Brevo\Client\Model\CreateDomainModelDnsRecordsDkimRecord', 'brevoCode' => 'QuillSMTP\Vendor\Brevo\Client\Model\CreateDomainModelDnsRecordsDkimRecord'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -167,7 +167,7 @@ class CreateDomainModelDnsRecords implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets dkimRecord
@@ -246,7 +246,7 @@ class CreateDomainModelDnsRecords implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -271,10 +271,10 @@ class CreateDomainModelDnsRecords implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

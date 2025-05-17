@@ -91,12 +91,12 @@ class Salsa20 extends StreamCipher
      */
     public function setKey($key)
     {
-        switch (\strlen($key)) {
+        switch (strlen($key)) {
             case 16:
             case 32:
                 break;
             default:
-                throw new \LengthException('Key of size ' . \strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 32 are supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 32 are supported');
         }
         parent::setKey($key);
     }
@@ -107,8 +107,8 @@ class Salsa20 extends StreamCipher
      */
     public function setNonce($nonce)
     {
-        if (\strlen($nonce) != 8) {
-            throw new \LengthException('Nonce of size ' . \strlen($key) . ' not supported by this algorithm. Only an 64-bit nonce is supported');
+        if (strlen($nonce) != 8) {
+            throw new \LengthException('Nonce of size ' . strlen($key) . ' not supported by this algorithm. Only an 64-bit nonce is supported');
         }
         $this->nonce = $nonce;
         $this->changed = \true;
@@ -140,8 +140,8 @@ class Salsa20 extends StreamCipher
         $c = clone $this;
         $c->setCounter(0);
         $c->usePoly1305 = \false;
-        $block = $c->encrypt(\str_repeat("\x00", 256));
-        $this->setPoly1305Key(\substr($block, 0, 32));
+        $block = $c->encrypt(str_repeat("\x00", 256));
+        $this->setPoly1305Key(substr($block, 0, 32));
         if ($this->counter == 0) {
             $this->counter++;
         }
@@ -182,14 +182,14 @@ class Salsa20 extends StreamCipher
             $this->createPoly1305Key();
         }
         $key = $this->key;
-        if (\strlen($key) == 16) {
+        if (strlen($key) == 16) {
             $constant = 'expand 16-byte k';
             $key .= $key;
         } else {
             $constant = 'expand 32-byte k';
         }
-        $this->p1 = \substr($constant, 0, 4) . \substr($key, 0, 16) . \substr($constant, 4, 4) . $this->nonce . "\x00\x00\x00\x00";
-        $this->p2 = \substr($constant, 8, 4) . \substr($key, 16, 16) . \substr($constant, 12, 4);
+        $this->p1 = substr($constant, 0, 4) . substr($key, 0, 16) . substr($constant, 4, 4) . $this->nonce . "\x00\x00\x00\x00";
+        $this->p2 = substr($constant, 8, 4) . substr($key, 16, 16) . substr($constant, 12, 4);
     }
     /**
      * Setup the key (expansion)
@@ -232,7 +232,7 @@ class Salsa20 extends StreamCipher
                 throw new InsufficientSetupException('Authentication Tag has not been set');
             }
             $newtag = $this->poly1305($ciphertext);
-            if ($this->oldtag != \substr($newtag, 0, \strlen($this->oldtag))) {
+            if ($this->oldtag != substr($newtag, 0, strlen($this->oldtag))) {
                 $this->oldtag = \false;
                 throw new BadDecryptionException('Derived authentication tag and supplied authentication tag do not match');
             }
@@ -272,64 +272,64 @@ class Salsa20 extends StreamCipher
         $this->setup();
         if (!$this->continuousBuffer) {
             if ($this->engine == self::ENGINE_OPENSSL) {
-                $iv = \pack('V', $this->counter) . $this->p2;
-                return \openssl_encrypt($text, $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
+                $iv = pack('V', $this->counter) . $this->p2;
+                return openssl_encrypt($text, $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
             }
             $i = $this->counter;
-            $blocks = \str_split($text, 64);
+            $blocks = str_split($text, 64);
             foreach ($blocks as &$block) {
-                $block ^= static::salsa20($this->p1 . \pack('V', $i++) . $this->p2);
+                $block ^= static::salsa20($this->p1 . pack('V', $i++) . $this->p2);
             }
-            return \implode('', $blocks);
+            return implode('', $blocks);
         }
         if ($mode == self::ENCRYPT) {
             $buffer =& $this->enbuffer;
         } else {
             $buffer =& $this->debuffer;
         }
-        if (!\strlen($buffer['ciphertext'])) {
+        if (!strlen($buffer['ciphertext'])) {
             $ciphertext = '';
         } else {
-            $ciphertext = $text ^ Strings::shift($buffer['ciphertext'], \strlen($text));
-            $text = \substr($text, \strlen($ciphertext));
-            if (!\strlen($text)) {
+            $ciphertext = $text ^ Strings::shift($buffer['ciphertext'], strlen($text));
+            $text = substr($text, strlen($ciphertext));
+            if (!strlen($text)) {
                 return $ciphertext;
             }
         }
-        $overflow = \strlen($text) % 64;
+        $overflow = strlen($text) % 64;
         // & 0x3F
         if ($overflow) {
             $text2 = Strings::pop($text, $overflow);
             if ($this->engine == self::ENGINE_OPENSSL) {
-                $iv = \pack('V', $buffer['counter']) . $this->p2;
+                $iv = pack('V', $buffer['counter']) . $this->p2;
                 // at this point $text should be a multiple of 64
-                $buffer['counter'] += (\strlen($text) >> 6) + 1;
+                $buffer['counter'] += (strlen($text) >> 6) + 1;
                 // ie. divide by 64
-                $encrypted = \openssl_encrypt($text . \str_repeat("\x00", 64), $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
+                $encrypted = openssl_encrypt($text . str_repeat("\x00", 64), $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
                 $temp = Strings::pop($encrypted, 64);
             } else {
-                $blocks = \str_split($text, 64);
-                if (\strlen($text)) {
+                $blocks = str_split($text, 64);
+                if (strlen($text)) {
                     foreach ($blocks as &$block) {
-                        $block ^= static::salsa20($this->p1 . \pack('V', $buffer['counter']++) . $this->p2);
+                        $block ^= static::salsa20($this->p1 . pack('V', $buffer['counter']++) . $this->p2);
                     }
                 }
-                $encrypted = \implode('', $blocks);
-                $temp = static::salsa20($this->p1 . \pack('V', $buffer['counter']++) . $this->p2);
+                $encrypted = implode('', $blocks);
+                $temp = static::salsa20($this->p1 . pack('V', $buffer['counter']++) . $this->p2);
             }
             $ciphertext .= $encrypted . ($text2 ^ $temp);
-            $buffer['ciphertext'] = \substr($temp, $overflow);
-        } elseif (!\strlen($buffer['ciphertext'])) {
+            $buffer['ciphertext'] = substr($temp, $overflow);
+        } elseif (!strlen($buffer['ciphertext'])) {
             if ($this->engine == self::ENGINE_OPENSSL) {
-                $iv = \pack('V', $buffer['counter']) . $this->p2;
-                $buffer['counter'] += \strlen($text) >> 6;
-                $ciphertext .= \openssl_encrypt($text, $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
+                $iv = pack('V', $buffer['counter']) . $this->p2;
+                $buffer['counter'] += strlen($text) >> 6;
+                $ciphertext .= openssl_encrypt($text, $this->cipher_name_openssl, $this->key, \OPENSSL_RAW_DATA, $iv);
             } else {
-                $blocks = \str_split($text, 64);
+                $blocks = str_split($text, 64);
                 foreach ($blocks as &$block) {
-                    $block ^= static::salsa20($this->p1 . \pack('V', $buffer['counter']++) . $this->p2);
+                    $block ^= static::salsa20($this->p1 . pack('V', $buffer['counter']++) . $this->p2);
                 }
-                $ciphertext .= \implode('', $blocks);
+                $ciphertext .= implode('', $blocks);
             }
         }
         return $ciphertext;
@@ -410,14 +410,14 @@ class Salsa20 extends StreamCipher
      */
     protected static function salsa20($x)
     {
-        $z = $x = \unpack('V*', $x);
+        $z = $x = unpack('V*', $x);
         for ($i = 0; $i < 10; $i++) {
             static::doubleRound($z[1], $z[2], $z[3], $z[4], $z[5], $z[6], $z[7], $z[8], $z[9], $z[10], $z[11], $z[12], $z[13], $z[14], $z[15], $z[16]);
         }
         for ($i = 1; $i <= 16; $i++) {
             $x[$i] += $z[$i];
         }
-        return \pack('V*', ...$x);
+        return pack('V*', ...$x);
     }
     /**
      * Calculates Poly1305 MAC
@@ -448,7 +448,7 @@ class Salsa20 extends StreamCipher
             phpseclib opts to use the IETF construction, even when the nonce is 64-bits
             instead of 96-bits
             */
-            return parent::poly1305(self::nullPad128($this->aad) . self::nullPad128($ciphertext) . \pack('V', \strlen($this->aad)) . "\x00\x00\x00\x00" . \pack('V', \strlen($ciphertext)) . "\x00\x00\x00\x00");
+            return parent::poly1305(self::nullPad128($this->aad) . self::nullPad128($ciphertext) . pack('V', strlen($this->aad)) . "\x00\x00\x00\x00" . pack('V', strlen($ciphertext)) . "\x00\x00\x00\x00");
         }
     }
 }

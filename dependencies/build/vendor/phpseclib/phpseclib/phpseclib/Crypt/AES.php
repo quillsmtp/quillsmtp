@@ -99,13 +99,13 @@ class AES extends Rijndael
      */
     public function setKey($key)
     {
-        switch (\strlen($key)) {
+        switch (strlen($key)) {
             case 16:
             case 24:
             case 32:
                 break;
             default:
-                throw new \LengthException('Key of size ' . \strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
         }
         parent::setKey($key);
     }

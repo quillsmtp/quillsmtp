@@ -45,7 +45,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function batchDelete($userId, BatchDeleteMessagesRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('batchDelete', [$params]);
     }
     /**
@@ -60,7 +60,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function batchModify($userId, BatchModifyMessagesRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('batchModify', [$params]);
     }
     /**
@@ -76,7 +76,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -99,7 +99,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], Message::class);
     }
     /**
@@ -129,7 +129,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function import($userId, Message $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('import', [$params], Message::class);
     }
     /**
@@ -153,7 +153,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function insert($userId, Message $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('insert', [$params], Message::class);
     }
     /**
@@ -185,7 +185,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersMessages($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListMessagesResponse::class);
     }
     /**
@@ -202,7 +202,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function modify($userId, $id, ModifyMessageRequest $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('modify', [$params], Message::class);
     }
     /**
@@ -221,7 +221,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function send($userId, Message $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('send', [$params], Message::class);
     }
     /**
@@ -237,7 +237,7 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function trash($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('trash', [$params], Message::class);
     }
     /**
@@ -253,9 +253,9 @@ class UsersMessages extends \QuillSMTP\Vendor\Google\Service\Resource
     public function untrash($userId, $id, $optParams = [])
     {
         $params = ['userId' => $userId, 'id' => $id];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('untrash', [$params], Message::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersMessages::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersMessages');
+class_alias(UsersMessages::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersMessages');

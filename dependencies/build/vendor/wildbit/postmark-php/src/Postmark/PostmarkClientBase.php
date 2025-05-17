@@ -50,7 +50,7 @@ abstract class PostmarkClientBase
     {
         $this->authorization_header = $header;
         $this->authorization_token = $token;
-        $this->version = \phpversion();
+        $this->version = phpversion();
         $this->os = \PHP_OS;
         $this->timeout = $timeout;
     }
@@ -97,7 +97,7 @@ abstract class PostmarkClientBase
         $client = $this->getClient();
         $options = [RequestOptions::HTTP_ERRORS => \false, RequestOptions::HEADERS => ['User-Agent' => "Postmark-PHP (PHP Version:{$this->version}, OS:{$this->os})", 'Accept' => 'application/json', 'Content-Type' => 'application/json', $this->authorization_header => $this->authorization_token]];
         if (!empty($body)) {
-            $cleanParams = \array_filter($body, function ($value) {
+            $cleanParams = array_filter($body, function ($value) {
                 return $value !== null;
             });
             switch ($method) {
@@ -118,7 +118,7 @@ abstract class PostmarkClientBase
         switch ($response->getStatusCode()) {
             case 200:
                 // Casting BIGINT as STRING instead of the default FLOAT, to avoid loss of precision.
-                return \json_decode($response->getBody(), \true, 512, \JSON_BIGINT_AS_STRING);
+                return json_decode($response->getBody(), \true, 512, \JSON_BIGINT_AS_STRING);
             case 401:
                 $ex = new PostmarkException();
                 $ex->message = 'Unauthorized: Missing or incorrect API token in header. ' . 'Please verify that you used the correct token when you constructed your client.';
@@ -137,7 +137,7 @@ abstract class PostmarkClientBase
             // This should cover case 422, and any others that are possible:
             default:
                 $ex = new PostmarkException();
-                $body = \json_decode($response->getBody(), \true);
+                $body = json_decode($response->getBody(), \true);
                 $ex->httpStatusCode = $response->getStatusCode();
                 $ex->postmarkApiErrorCode = $body['ErrorCode'];
                 $ex->message = $body['Message'];

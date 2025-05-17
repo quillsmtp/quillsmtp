@@ -202,8 +202,8 @@ class GetEmailEventReportEvents implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'event' can't be null";
         }
         $allowedValues = $this->getEventAllowableValues();
-        if (!\is_null($this->container['event']) && !\in_array($this->container['event'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'event', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['event']) && !in_array($this->container['event'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'event', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -215,7 +215,7 @@ class GetEmailEventReportEvents implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets email
@@ -320,8 +320,8 @@ class GetEmailEventReportEvents implements ModelInterface, ArrayAccess
     public function setEvent($event)
     {
         $allowedValues = $this->getEventAllowableValues();
-        if (!\in_array($event, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'event', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!in_array($event, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'event', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['event'] = $event;
         return $this;
@@ -487,7 +487,7 @@ class GetEmailEventReportEvents implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -512,10 +512,10 @@ class GetEmailEventReportEvents implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

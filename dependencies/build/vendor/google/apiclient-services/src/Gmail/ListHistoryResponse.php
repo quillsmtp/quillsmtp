@@ -74,4 +74,4 @@ class ListHistoryResponse extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(ListHistoryResponse::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_ListHistoryResponse');
+class_alias(ListHistoryResponse::class, 'QuillSMTP\Vendor\Google_Service_Gmail_ListHistoryResponse');

@@ -51,7 +51,7 @@ class CreateWebhook implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['url' => 'string', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'domain' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookAuth', 'headers' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetWebhookHeaders[]'];
+    protected static $swaggerTypes = ['url' => 'string', 'description' => 'string', 'events' => 'string[]', 'type' => 'string', 'domain' => 'string', 'batched' => 'bool', 'auth' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetWebhookAuth', 'headers' => '\Brevo\Client\Model\GetWebhookHeaders[]'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -208,8 +208,8 @@ class CreateWebhook implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'events' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($this->container['type']) && !\in_array($this->container['type'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -221,7 +221,7 @@ class CreateWebhook implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets url
@@ -284,8 +284,8 @@ class CreateWebhook implements ModelInterface, ArrayAccess
     public function setEvents($events)
     {
         $allowedValues = $this->getEventsAllowableValues();
-        if (\array_diff($events, $allowedValues)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'events', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (array_diff($events, $allowedValues)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'events', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['events'] = $events;
         return $this;
@@ -309,8 +309,8 @@ class CreateWebhook implements ModelInterface, ArrayAccess
     public function setType($type)
     {
         $allowedValues = $this->getTypeAllowableValues();
-        if (!\is_null($type) && !\in_array($type, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'type', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($type) && !in_array($type, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'type', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['type'] = $type;
         return $this;
@@ -434,7 +434,7 @@ class CreateWebhook implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -459,10 +459,10 @@ class CreateWebhook implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

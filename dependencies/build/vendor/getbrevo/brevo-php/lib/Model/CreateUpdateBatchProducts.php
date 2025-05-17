@@ -51,7 +51,7 @@ class CreateUpdateBatchProducts implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['products' => '\\QuillSMTP\\Vendor\\Brevo\\Client\\Model\\CreateUpdateProducts[]', 'updateEnabled' => 'bool'];
+    protected static $swaggerTypes = ['products' => '\Brevo\Client\Model\CreateUpdateProducts[]', 'updateEnabled' => 'bool'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -170,7 +170,7 @@ class CreateUpdateBatchProducts implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets products
@@ -249,7 +249,7 @@ class CreateUpdateBatchProducts implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -274,10 +274,10 @@ class CreateUpdateBatchProducts implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

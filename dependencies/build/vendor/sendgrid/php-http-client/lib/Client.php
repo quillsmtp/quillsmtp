@@ -330,12 +330,12 @@ class Client
      */
     private function buildUrl($queryParams = null)
     {
-        $path = '/' . \implode('/', $this->path);
+        $path = '/' . implode('/', $this->path);
         if (isset($queryParams)) {
             // Regex replaces `[0]=`, `[1]=`, etc. with `=`.
-            $path .= '?' . \preg_replace('/%5B(?:\\d|[1-9]\\d+)%5D=/', '=', \http_build_query($queryParams));
+            $path .= '?' . preg_replace('/%5B(?:\d|[1-9]\d+)%5D=/', '=', http_build_query($queryParams));
         }
-        return \sprintf('%s%s%s', $this->host, $this->version ?: '', $path);
+        return sprintf('%s%s%s', $this->host, $this->version ?: '', $path);
     }
     /**
      * Creates curl options for a request
@@ -349,21 +349,21 @@ class Client
      */
     private function createCurlOptions($method, $body = null, $headers = null)
     {
-        $options = [\CURLOPT_RETURNTRANSFER => \true, \CURLOPT_HEADER => \true, \CURLOPT_CUSTOMREQUEST => \strtoupper($method), \CURLOPT_SSL_VERIFYPEER => $this->verifySSLCerts, \CURLOPT_FAILONERROR => \false] + $this->curlOptions;
+        $options = [\CURLOPT_RETURNTRANSFER => \true, \CURLOPT_HEADER => \true, \CURLOPT_CUSTOMREQUEST => strtoupper($method), \CURLOPT_SSL_VERIFYPEER => $this->verifySSLCerts, \CURLOPT_FAILONERROR => \false] + $this->curlOptions;
         if (isset($headers)) {
-            $headers = \array_merge($this->headers, $headers);
+            $headers = array_merge($this->headers, $headers);
         } else {
             $headers = $this->headers;
         }
         if (isset($body)) {
-            $encodedBody = \json_encode($body);
+            $encodedBody = json_encode($body);
             $options[\CURLOPT_POSTFIELDS] = $encodedBody;
-            $headers = \array_merge($headers, ['Content-Type: application/json']);
+            $headers = array_merge($headers, ['Content-Type: application/json']);
         }
         $options[\CURLOPT_HTTPHEADER] = $headers;
-        if (\class_exists('QuillSMTP\\Vendor\\Composer\\CaBundle\\CaBundle') && \method_exists('QuillSMTP\\Vendor\\Composer\\CaBundle\\CaBundle', 'getSystemCaRootBundlePath')) {
+        if (class_exists('QuillSMTP\Vendor\Composer\CaBundle\CaBundle') && method_exists('QuillSMTP\Vendor\Composer\CaBundle\CaBundle', 'getSystemCaRootBundlePath')) {
             $caPathOrFile = \QuillSMTP\Vendor\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
-            if (\is_dir($caPathOrFile) || \is_link($caPathOrFile) && \is_dir(\readlink($caPathOrFile))) {
+            if (is_dir($caPathOrFile) || is_link($caPathOrFile) && is_dir(readlink($caPathOrFile))) {
                 $options[\CURLOPT_CAPATH] = $caPathOrFile;
             } else {
                 $options[\CURLOPT_CAINFO] = $caPathOrFile;
@@ -379,7 +379,7 @@ class Client
      */
     private function createSavedRequest(array $requestData, $retryOnLimit = \false)
     {
-        return \array_merge($requestData, ['retryOnLimit' => $retryOnLimit]);
+        return array_merge($requestData, ['retryOnLimit' => $retryOnLimit]);
     }
     /**
      * @param array $requests
@@ -389,12 +389,12 @@ class Client
     private function createCurlMultiHandle(array $requests)
     {
         $channels = [];
-        $multiHandle = \curl_multi_init();
+        $multiHandle = curl_multi_init();
         foreach ($requests as $id => $data) {
-            $channels[$id] = \curl_init($data['url']);
+            $channels[$id] = curl_init($data['url']);
             $curlOpts = $this->createCurlOptions($data['method'], $data['body'], $data['headers']);
-            \curl_setopt_array($channels[$id], $curlOpts);
-            \curl_multi_add_handle($multiHandle, $channels[$id]);
+            curl_setopt_array($channels[$id], $curlOpts);
+            curl_multi_add_handle($multiHandle, $channels[$id]);
         }
         return [$channels, $multiHandle];
     }
@@ -408,12 +408,12 @@ class Client
      */
     private function parseResponse($channel, $content)
     {
-        $headerSize = \curl_getinfo($channel, \CURLINFO_HEADER_SIZE);
-        $statusCode = \curl_getinfo($channel, \CURLINFO_HTTP_CODE);
-        $responseBody = \mb_substr($content, $headerSize);
-        $responseHeaders = \mb_substr($content, 0, $headerSize);
-        $responseHeaders = \explode("\n", $responseHeaders);
-        $responseHeaders = \array_map('trim', $responseHeaders);
+        $headerSize = curl_getinfo($channel, \CURLINFO_HEADER_SIZE);
+        $statusCode = curl_getinfo($channel, \CURLINFO_HTTP_CODE);
+        $responseBody = mb_substr($content, $headerSize);
+        $responseHeaders = mb_substr($content, 0, $headerSize);
+        $responseHeaders = explode("\n", $responseHeaders);
+        $responseHeaders = array_map('trim', $responseHeaders);
         return new Response($statusCode, $responseBody, $responseHeaders);
     }
     /**
@@ -431,8 +431,8 @@ class Client
      */
     private function retryRequest(array $responseHeaders, $method, $url, $body, $headers)
     {
-        $sleepDurations = $responseHeaders['X-Ratelimit-Reset'] - \time();
-        \sleep($sleepDurations > 0 ? $sleepDurations : 0);
+        $sleepDurations = $responseHeaders['X-Ratelimit-Reset'] - time();
+        sleep($sleepDurations > 0 ? $sleepDurations : 0);
         return $this->makeRequest($method, $url, $body, $headers, \false);
     }
     /**
@@ -451,19 +451,19 @@ class Client
      */
     public function makeRequest($method, $url, $body = null, $headers = null, $retryOnLimit = \false)
     {
-        $channel = \curl_init($url);
+        $channel = curl_init($url);
         $options = $this->createCurlOptions($method, $body, $headers);
-        \curl_setopt_array($channel, $options);
-        $content = \curl_exec($channel);
+        curl_setopt_array($channel, $options);
+        $content = curl_exec($channel);
         if ($content === \false) {
-            throw new InvalidRequest(\curl_error($channel), \curl_errno($channel));
+            throw new InvalidRequest(curl_error($channel), curl_errno($channel));
         }
         $response = $this->parseResponse($channel, $content);
         if ($retryOnLimit && $response->statusCode() === self::TOO_MANY_REQUESTS_HTTP_CODE) {
             $responseHeaders = $response->headers(\true);
             return $this->retryRequest($responseHeaders, $method, $url, $body, $headers);
         }
-        \curl_close($channel);
+        curl_close($channel);
         return $response;
     }
     /**
@@ -484,33 +484,33 @@ class Client
         // running all requests
         $isRunning = null;
         do {
-            \curl_multi_exec($multiHandle, $isRunning);
+            curl_multi_exec($multiHandle, $isRunning);
         } while ($isRunning);
         // get response and close all handles
         $retryRequests = [];
         $responses = [];
         $sleepDurations = 0;
         foreach ($channels as $id => $channel) {
-            $content = \curl_multi_getcontent($channel);
+            $content = curl_multi_getcontent($channel);
             if ($content === \false) {
-                throw new InvalidRequest(\curl_error($channel), \curl_errno($channel));
+                throw new InvalidRequest(curl_error($channel), curl_errno($channel));
             }
             $response = $this->parseResponse($channel, $content);
             if ($requests[$id]['retryOnLimit'] && $response->statusCode() === self::TOO_MANY_REQUESTS_HTTP_CODE) {
                 $headers = $response->headers(\true);
-                $sleepDurations = \max($sleepDurations, $headers['X-Ratelimit-Reset'] - \time());
+                $sleepDurations = max($sleepDurations, $headers['X-Ratelimit-Reset'] - time());
                 $requestData = ['method' => $requests[$id]['method'], 'url' => $requests[$id]['url'], 'body' => $requests[$id]['body'], 'headers' => $headers];
                 $retryRequests[] = $this->createSavedRequest($requestData, \false);
             } else {
                 $responses[] = $response;
             }
-            \curl_multi_remove_handle($multiHandle, $channel);
+            curl_multi_remove_handle($multiHandle, $channel);
         }
-        \curl_multi_close($multiHandle);
+        curl_multi_close($multiHandle);
         // retry requests
         if (!empty($retryRequests)) {
-            \sleep($sleepDurations > 0 ? $sleepDurations : 0);
-            $responses = \array_merge($responses, $this->makeAllRequests($retryRequests));
+            sleep($sleepDurations > 0 ? $sleepDurations : 0);
+            $responses = array_merge($responses, $this->makeAllRequests($retryRequests));
         }
         return $responses;
     }
@@ -547,7 +547,7 @@ class Client
      */
     public function __call($name, $args)
     {
-        $name = \mb_strtolower($name);
+        $name = mb_strtolower($name);
         if ($name === 'version') {
             $this->version = $args[0];
             return $this->_();

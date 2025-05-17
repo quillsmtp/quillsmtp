@@ -99,7 +99,7 @@ final class Item implements CacheItemInterface
             $this->expiration = $expiration;
             return $this;
         }
-        $error = \sprintf('Argument 1 passed to %s::expiresAt() must implement interface DateTimeInterface, %s given', \get_class($this), \gettype($expiration));
+        $error = sprintf('Argument 1 passed to %s::expiresAt() must implement interface DateTimeInterface, %s given', get_class($this), gettype($expiration));
         throw new TypeError($error);
     }
     /**
@@ -107,7 +107,7 @@ final class Item implements CacheItemInterface
      */
     public function expiresAfter($time)
     {
-        if (\is_int($time)) {
+        if (is_int($time)) {
             $this->expiration = $this->currentTime()->add(new \DateInterval("PT{$time}S"));
         } elseif ($time instanceof \DateInterval) {
             $this->expiration = $this->currentTime()->add($time);
@@ -115,7 +115,7 @@ final class Item implements CacheItemInterface
             $this->expiration = $time;
         } else {
             $message = 'Argument 1 passed to %s::expiresAfter() must be an ' . 'instance of DateInterval or of the type integer, %s given';
-            $error = \sprintf($message, \get_class($this), \gettype($time));
+            $error = sprintf($message, get_class($this), gettype($time));
             throw new TypeError($error);
         }
         return $this;

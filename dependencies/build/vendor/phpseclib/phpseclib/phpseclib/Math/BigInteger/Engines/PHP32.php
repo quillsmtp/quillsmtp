@@ -51,7 +51,7 @@ class PHP32 extends PHP
         $val = $this->value;
         $this->value = [];
         $vals =& $this->value;
-        $i = \strlen($val);
+        $i = strlen($val);
         if (!$i) {
             return;
         }
@@ -61,31 +61,31 @@ class PHP32 extends PHP
                 if ($i == -4) {
                     break;
                 }
-                $val = \substr($val, 0, 4 + $i);
-                $val = \str_pad($val, 4, "\x00", \STR_PAD_LEFT);
+                $val = substr($val, 0, 4 + $i);
+                $val = str_pad($val, 4, "\x00", \STR_PAD_LEFT);
                 if ($val == "\x00\x00\x00\x00") {
                     break;
                 }
                 $i = 0;
             }
-            list(, $digit) = \unpack('N', \substr($val, $i, 4));
+            list(, $digit) = unpack('N', substr($val, $i, 4));
             if ($digit < 0) {
                 $digit += 0xffffffff + 1;
             }
-            $step = \count($vals) & 3;
+            $step = count($vals) & 3;
             if ($step) {
-                $digit = (int) \floor($digit / \pow(2, 2 * $step));
+                $digit = (int) floor($digit / pow(2, 2 * $step));
             }
             if ($step != 3) {
-                $digit = (int) \fmod($digit, static::BASE_FULL);
+                $digit = (int) fmod($digit, static::BASE_FULL);
                 $i++;
             }
             $vals[] = $digit;
         }
-        while (\end($vals) === 0) {
-            \array_pop($vals);
+        while (end($vals) === 0) {
+            array_pop($vals);
         }
-        \reset($vals);
+        reset($vals);
     }
     /**
      * Test for engine validity

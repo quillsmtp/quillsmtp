@@ -22,7 +22,7 @@ class Assert
     public static function string($value, $property, $message = null)
     {
         if (!\is_string($value)) {
-            $message = \sprintf($message ?: '"$%s" must be a string. Got: %s', $property, $value);
+            $message = sprintf($message ?: '"$%s" must be a string. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -40,9 +40,9 @@ class Assert
         static::string($value, $property, $message);
         //  Define additional flags for filter_var to verify unicode characters on local part
         //  Constant FILTER_FLAG_EMAIL_UNICODE is available since PHP 7.1
-        $flags = \defined('FILTER_FLAG_EMAIL_UNICODE') ? \FILTER_FLAG_EMAIL_UNICODE : null;
-        if (\filter_var($value, \FILTER_VALIDATE_EMAIL, $flags) === \false) {
-            $message = \sprintf($message ?: '"$%s" must be a valid email address. Got: %s', $property, $value);
+        $flags = defined('FILTER_FLAG_EMAIL_UNICODE') ? \FILTER_FLAG_EMAIL_UNICODE : null;
+        if (filter_var($value, \FILTER_VALIDATE_EMAIL, $flags) === \false) {
+            $message = sprintf($message ?: '"$%s" must be a valid email address. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -57,8 +57,8 @@ class Assert
      */
     public static function integer($value, $property, $message = null)
     {
-        if (\filter_var($value, \FILTER_VALIDATE_INT) === \false) {
-            $message = \sprintf($message ?: '"$%s" must be an integer. Got: %s', $property, $value);
+        if (filter_var($value, \FILTER_VALIDATE_INT) === \false) {
+            $message = sprintf($message ?: '"$%s" must be an integer. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -74,7 +74,7 @@ class Assert
     public static function boolean($value, $property, $message = null)
     {
         if (!\is_bool($value)) {
-            $message = \sprintf($message ?: '"$%s" must be a boolean. Got: %s', $property, $value);
+            $message = sprintf($message ?: '"$%s" must be a boolean. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -91,7 +91,7 @@ class Assert
     public static function isInstanceOf($value, $property, $className, $message = null)
     {
         if (!$value instanceof $className) {
-            $message = \sprintf($message ?: '"$%s" must be an instance of "%s". Got: %s', $property, $className, \is_object($value) ? \get_class($value) : (string) $value);
+            $message = sprintf($message ?: '"$%s" must be an instance of "%s". Got: %s', $property, $className, \is_object($value) ? \get_class($value) : (string) $value);
             throw new TypeException($message);
         }
     }
@@ -107,7 +107,7 @@ class Assert
     public static function isArray($value, $property, $message = null)
     {
         if (!\is_array($value)) {
-            $message = \sprintf($message ?: '"$%s" must be an array. Got: %s', $property, $value);
+            $message = sprintf($message ?: '"$%s" must be an array. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -123,7 +123,7 @@ class Assert
     public static function isCallable($value, $property, $message = null)
     {
         if (!\is_callable($value)) {
-            $message = \sprintf($message ?: '"$%s" must be callable. Got: %s', $property, $value);
+            $message = sprintf($message ?: '"$%s" must be callable. Got: %s', $property, $value);
             throw new TypeException($message);
         }
     }
@@ -141,7 +141,7 @@ class Assert
     {
         static::isCallable($callback, 'callback', $message);
         if (!$callback($value)) {
-            $message = \sprintf($message ?: '"$%s" is not valid.', $property);
+            $message = sprintf($message ?: '"$%s" is not valid.', $property);
             throw new TypeException($message);
         }
     }
@@ -159,7 +159,7 @@ class Assert
     {
         static::isArray($value, $property, $message);
         if (\count($value) > $size) {
-            $message = \sprintf($message ?: 'Number of elements in "$%s" can not be more than %d.', $property, $size);
+            $message = sprintf($message ?: 'Number of elements in "$%s" can not be more than %d.', $property, $size);
             throw new TypeException($message);
         }
     }
@@ -177,7 +177,7 @@ class Assert
     {
         static::isArray($value, $property, $message);
         if (\count($value) < $size) {
-            $message = \sprintf($message ?: 'Number of elements in "$%s" can not be less than %d.', $property, $size);
+            $message = sprintf($message ?: 'Number of elements in "$%s" can not be less than %d.', $property, $size);
             throw new TypeException($message);
         }
     }
@@ -196,7 +196,7 @@ class Assert
         static::integer($value, $property, $message);
         $limit = (int) $limit;
         if ($value > $limit) {
-            $message = \sprintf($message ?: '"$%s" expected to be at most %d. Got: %s', $property, $limit, $value);
+            $message = sprintf($message ?: '"$%s" expected to be at most %d. Got: %s', $property, $limit, $value);
             throw new TypeException($message);
         }
     }
@@ -215,7 +215,7 @@ class Assert
         static::integer($value, $property, $message);
         $limit = (int) $limit;
         if ($value < $limit) {
-            $message = \sprintf($message ?: '"$%s" expected to be at least %d. Got: %s', $property, $limit, $value);
+            $message = sprintf($message ?: '"$%s" expected to be at least %d. Got: %s', $property, $limit, $value);
             throw new TypeException($message);
         }
     }
@@ -232,9 +232,9 @@ class Assert
     public static function maxLength($value, $property, $limit, $message = null)
     {
         static::string($value, $property, $message);
-        $length = \mb_strlen($value, 'utf8');
+        $length = mb_strlen($value, 'utf8');
         if ($length > $limit) {
-            $message = \sprintf($message ?: '"$%s" must have no more than %d characters. Got: %d', $property, $limit, $length);
+            $message = sprintf($message ?: '"$%s" must have no more than %d characters. Got: %d', $property, $limit, $length);
             throw new TypeException($message);
         }
     }
@@ -251,9 +251,9 @@ class Assert
     public static function minLength($value, $property, $limit, $message = null)
     {
         static::string($value, $property, $message);
-        $length = \mb_strlen($value, 'utf8');
+        $length = mb_strlen($value, 'utf8');
         if ($length < $limit) {
-            $message = \sprintf($message ?: '"$%s" must have at least %d characters. Got: %d', $property, $limit, $length);
+            $message = sprintf($message ?: '"$%s" must have at least %d characters. Got: %d', $property, $limit, $length);
             throw new TypeException($message);
         }
     }
@@ -270,7 +270,7 @@ class Assert
     public static function anyOf($value, $property, array $choices, $message = null)
     {
         if (!\in_array($value, $choices, \true)) {
-            $message = \sprintf($message ?: '"$%s" must be any of "%s". Got: %s', $property, \implode(', ', $choices), $value);
+            $message = sprintf($message ?: '"$%s" must be any of "%s". Got: %s', $property, implode(', ', $choices), $value);
             throw new TypeException($message);
         }
     }

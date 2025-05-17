@@ -56,7 +56,7 @@ abstract class OpenSSH extends Progenitor
             $temp = $primes[2]->subtract($one);
             $exponents[] = $publicExponent->modInverse($temp);
             $isPublicKey = \false;
-            return \compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
+            return compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
         }
         list($publicExponent, $modulus) = Strings::unpackSSH2('ii', $parsed['publicKey']);
         return ['isPublicKey' => \true, 'modulus' => $modulus, 'publicExponent' => $publicExponent, 'comment' => $parsed['comment']];
@@ -76,7 +76,7 @@ abstract class OpenSSH extends Progenitor
             return $RSAPublicKey;
         }
         $comment = isset($options['comment']) ? $options['comment'] : self::$comment;
-        $RSAPublicKey = 'ssh-rsa ' . \base64_encode($RSAPublicKey) . ' ' . $comment;
+        $RSAPublicKey = 'ssh-rsa ' . base64_encode($RSAPublicKey) . ' ' . $comment;
         return $RSAPublicKey;
     }
     /**

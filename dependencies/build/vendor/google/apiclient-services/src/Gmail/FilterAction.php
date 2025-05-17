@@ -76,4 +76,4 @@ class FilterAction extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(FilterAction::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_FilterAction');
+class_alias(FilterAction::class, 'QuillSMTP\Vendor\Google_Service_Gmail_FilterAction');

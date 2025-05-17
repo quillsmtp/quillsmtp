@@ -16,7 +16,7 @@ final class BodySummarizer implements BodySummarizerInterface
     /**
      * Returns a summarized message body.
      */
-    public function summarize(MessageInterface $message) : ?string
+    public function summarize(MessageInterface $message): ?string
     {
         return $this->truncateAt === null ? \QuillSMTP\Vendor\GuzzleHttp\Psr7\Message::bodySummary($message) : \QuillSMTP\Vendor\GuzzleHttp\Psr7\Message::bodySummary($message, $this->truncateAt);
     }

@@ -183,4 +183,4 @@ class FilterCriteria extends \QuillSMTP\Vendor\Google\Model
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(FilterCriteria::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_FilterCriteria');
+class_alias(FilterCriteria::class, 'QuillSMTP\Vendor\Google_Service_Gmail_FilterCriteria');

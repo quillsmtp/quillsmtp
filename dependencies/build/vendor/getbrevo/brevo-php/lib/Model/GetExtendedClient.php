@@ -50,7 +50,7 @@ class GetExtendedClient extends GetClient
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['address' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\GetExtendedClientAddress'];
+    protected static $swaggerTypes = ['address' => 'QuillSMTP\Vendor\Brevo\Client\Model\GetExtendedClientAddress'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -163,7 +163,7 @@ class GetExtendedClient extends GetClient
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets address
@@ -221,7 +221,7 @@ class GetExtendedClient extends GetClient
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -246,10 +246,10 @@ class GetExtendedClient extends GetClient
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -51,7 +51,7 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
      *
      * @var string[]
      */
-    protected static $swaggerTypes = ['winningVersion' => 'string', 'winningCriteria' => 'string', 'winningSubjectLine' => 'string', 'openRate' => 'string', 'clickRate' => 'string', 'winningVersionRate' => 'string', 'statistics' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestCampaignResultStatistics', 'clickedLinks' => 'QuillSMTP\\Vendor\\Brevo\\Client\\Model\\AbTestCampaignResultClickedLinks'];
+    protected static $swaggerTypes = ['winningVersion' => 'string', 'winningCriteria' => 'string', 'winningSubjectLine' => 'string', 'openRate' => 'string', 'clickRate' => 'string', 'winningVersionRate' => 'string', 'statistics' => 'QuillSMTP\Vendor\Brevo\Client\Model\AbTestCampaignResultStatistics', 'clickedLinks' => 'QuillSMTP\Vendor\Brevo\Client\Model\AbTestCampaignResultClickedLinks'];
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
@@ -189,12 +189,12 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
         $allowedValues = $this->getWinningVersionAllowableValues();
-        if (!\is_null($this->container['winningVersion']) && !\in_array($this->container['winningVersion'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'winningVersion', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['winningVersion']) && !in_array($this->container['winningVersion'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'winningVersion', must be one of '%s'", implode("', '", $allowedValues));
         }
         $allowedValues = $this->getWinningCriteriaAllowableValues();
-        if (!\is_null($this->container['winningCriteria']) && !\in_array($this->container['winningCriteria'], $allowedValues, \true)) {
-            $invalidProperties[] = \sprintf("invalid value for 'winningCriteria', must be one of '%s'", \implode("', '", $allowedValues));
+        if (!is_null($this->container['winningCriteria']) && !in_array($this->container['winningCriteria'], $allowedValues, \true)) {
+            $invalidProperties[] = sprintf("invalid value for 'winningCriteria', must be one of '%s'", implode("', '", $allowedValues));
         }
         return $invalidProperties;
     }
@@ -206,7 +206,7 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        return \count($this->listInvalidProperties()) === 0;
+        return count($this->listInvalidProperties()) === 0;
     }
     /**
      * Gets winningVersion
@@ -227,8 +227,8 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
     public function setWinningVersion($winningVersion)
     {
         $allowedValues = $this->getWinningVersionAllowableValues();
-        if (!\is_null($winningVersion) && !\in_array($winningVersion, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'winningVersion', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($winningVersion) && !in_array($winningVersion, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'winningVersion', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['winningVersion'] = $winningVersion;
         return $this;
@@ -252,8 +252,8 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
     public function setWinningCriteria($winningCriteria)
     {
         $allowedValues = $this->getWinningCriteriaAllowableValues();
-        if (!\is_null($winningCriteria) && !\in_array($winningCriteria, $allowedValues, \true)) {
-            throw new \InvalidArgumentException(\sprintf("Invalid value for 'winningCriteria', must be one of '%s'", \implode("', '", $allowedValues)));
+        if (!is_null($winningCriteria) && !in_array($winningCriteria, $allowedValues, \true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'winningCriteria', must be one of '%s'", implode("', '", $allowedValues)));
         }
         $this->container['winningCriteria'] = $winningCriteria;
         return $this;
@@ -419,7 +419,7 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (\is_null($offset)) {
+        if (is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -444,10 +444,10 @@ class AbTestCampaignResult implements ModelInterface, ArrayAccess
      */
     public function __toString()
     {
-        if (\defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) {
             // use JSON pretty print
-            return \json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
+            return json_encode(ObjectSerializer::sanitizeForSerialization($this), \JSON_PRETTY_PRINT);
         }
-        return \json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -43,7 +43,7 @@ class RedisHandler extends AbstractProcessingHandler
     public function __construct($redis, string $key, $level = Logger::DEBUG, bool $bubble = \true, int $capSize = 0)
     {
         if (!($redis instanceof \QuillSMTP\Vendor\Predis\Client || $redis instanceof \Redis)) {
-            throw new \InvalidArgumentException('Predis\\Client or Redis instance required');
+            throw new \InvalidArgumentException('Predis\Client or Redis instance required');
         }
         $this->redisClient = $redis;
         $this->redisKey = $key;
@@ -53,7 +53,7 @@ class RedisHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record) : void
+    protected function write(array $record): void
     {
         if ($this->capSize) {
             $this->writeCapped($record);
@@ -67,15 +67,15 @@ class RedisHandler extends AbstractProcessingHandler
      *
      * @phpstan-param FormattedRecord $record
      */
-    protected function writeCapped(array $record) : void
+    protected function writeCapped(array $record): void
     {
         if ($this->redisClient instanceof \Redis) {
-            $mode = \defined('\\Redis::MULTI') ? \Redis::MULTI : 1;
+            $mode = defined('\Redis::MULTI') ? \Redis::MULTI : 1;
             $this->redisClient->multi($mode)->rpush($this->redisKey, $record["formatted"])->ltrim($this->redisKey, -$this->capSize, -1)->exec();
         } else {
             $redisKey = $this->redisKey;
             $capSize = $this->capSize;
-            $this->redisClient->transaction(function ($tx) use($record, $redisKey, $capSize) {
+            $this->redisClient->transaction(function ($tx) use ($record, $redisKey, $capSize) {
                 $tx->rpush($redisKey, $record["formatted"]);
                 $tx->ltrim($redisKey, -$capSize, -1);
             });
@@ -84,7 +84,7 @@ class RedisHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function getDefaultFormatter() : FormatterInterface
+    protected function getDefaultFormatter(): FormatterInterface
     {
         return new LineFormatter();
     }

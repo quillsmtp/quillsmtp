@@ -79,9 +79,9 @@ abstract class PSS extends Progenitor
     {
         self::initialize_static_variables();
         if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
+            throw new \UnexpectedValueException('Key should be a string - not a ' . gettype($key));
         }
-        $components = ['isPublicKey' => \strpos($key, 'PUBLIC') !== \false];
+        $components = ['isPublicKey' => strpos($key, 'PUBLIC') !== \false];
         $key = parent::load($key, $password);
         $type = isset($key['privateKey']) ? 'private' : 'public';
         $result = $components + PKCS1::load($key[$type . 'Key']);
@@ -106,8 +106,8 @@ abstract class PSS extends Progenitor
         if (!isset($params['hashAlgorithm']['algorithm'])) {
             $params['hashAlgorithm']['algorithm'] = 'id-sha1';
         }
-        $result['hash'] = \str_replace('id-', '', $params['hashAlgorithm']['algorithm']);
-        $result['MGFHash'] = \str_replace('id-', '', $params['maskGenAlgorithm']['parameters']['algorithm']);
+        $result['hash'] = str_replace('id-', '', $params['hashAlgorithm']['algorithm']);
+        $result['MGFHash'] = str_replace('id-', '', $params['maskGenAlgorithm']['parameters']['algorithm']);
         if (isset($params['saltLength'])) {
             $result['saltLength'] = (int) $params['saltLength']->toString();
         }

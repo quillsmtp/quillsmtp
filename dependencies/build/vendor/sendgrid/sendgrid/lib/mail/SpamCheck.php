@@ -128,7 +128,7 @@ class SpamCheck implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['enable' => $this->getEnable(), 'threshold' => $this->getThreshold(), 'post_to_url' => $this->getPostToUrl()], function ($value) {
+        return array_filter(['enable' => $this->getEnable(), 'threshold' => $this->getThreshold(), 'post_to_url' => $this->getPostToUrl()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

@@ -70,7 +70,7 @@ class Substitution implements \JsonSerializable
     public function setValue($value)
     {
         Assert::accept($value, 'value', static function ($val) {
-            return \is_string($val) || \filter_var($val, \FILTER_VALIDATE_INT) !== \false || \is_float($val) || \is_bool($val) || \is_array($val) || \is_object($val);
+            return \is_string($val) || filter_var($val, \FILTER_VALIDATE_INT) !== \false || \is_float($val) || \is_bool($val) || \is_array($val) || \is_object($val);
         }, '"$value" must be an array, object, boolean, string, numeric or integer.');
         $this->value = $value;
     }
@@ -91,7 +91,7 @@ class Substitution implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return \array_filter(['key' => $this->getKey(), 'value' => $this->getValue()], function ($value) {
+        return array_filter(['key' => $this->getKey(), 'value' => $this->getValue()], function ($value) {
             return $value !== null;
         }) ?: null;
     }

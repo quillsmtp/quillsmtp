@@ -30,7 +30,7 @@ abstract class PuTTY extends Progenitor
      *
      * @var string
      */
-    const PUBLIC_HANDLER = 'QuillSMTP\\Vendor\\phpseclib3\\Crypt\\EC\\Formats\\Keys\\OpenSSH';
+    const PUBLIC_HANDLER = 'QuillSMTP\Vendor\phpseclib3\Crypt\EC\Formats\Keys\OpenSSH';
     /**
      * Supported Key Types
      *
@@ -80,16 +80,16 @@ abstract class PuTTY extends Progenitor
     public static function savePrivateKey(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = \false, array $options = [])
     {
         self::initialize_static_variables();
-        $public = \explode(' ', OpenSSH::savePublicKey($curve, $publicKey));
+        $public = explode(' ', OpenSSH::savePublicKey($curve, $publicKey));
         $name = $public[0];
         $public = Strings::base64_decode($public[1]);
-        list(, $length) = \unpack('N', Strings::shift($public, 4));
+        list(, $length) = unpack('N', Strings::shift($public, 4));
         Strings::shift($public, $length);
         // PuTTY pads private keys with a null byte per the following:
         // https://github.com/github/putty/blob/a3d14d77f566a41fc61dfdc5c2e0e384c9e6ae8b/sshecc.c#L1926
         if (!$curve instanceof TwistedEdwardsCurve) {
             $private = $privateKey->toBytes();
-            if (!(\strlen($privateKey->toBits()) & 7)) {
+            if (!(strlen($privateKey->toBits()) & 7)) {
                 $private = "\x00{$private}";
             }
         }
@@ -105,10 +105,10 @@ abstract class PuTTY extends Progenitor
      */
     public static function savePublicKey(BaseCurve $curve, array $publicKey)
     {
-        $public = \explode(' ', OpenSSH::savePublicKey($curve, $publicKey));
+        $public = explode(' ', OpenSSH::savePublicKey($curve, $publicKey));
         $type = $public[0];
         $public = Strings::base64_decode($public[1]);
-        list(, $length) = \unpack('N', Strings::shift($public, 4));
+        list(, $length) = unpack('N', Strings::shift($public, 4));
         Strings::shift($public, $length);
         return self::wrapPublicKey($public, $type);
     }

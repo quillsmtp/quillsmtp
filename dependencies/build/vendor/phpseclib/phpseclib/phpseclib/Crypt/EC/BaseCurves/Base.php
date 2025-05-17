@@ -83,7 +83,7 @@ abstract class Base
         $alreadyInternal = isset($p[2]);
         $r = $alreadyInternal ? [[], $p] : [[], $this->convertToInternal($p)];
         $d = $d->toBits();
-        for ($i = 0; $i < \strlen($d); $i++) {
+        for ($i = 0; $i < strlen($d); $i++) {
             $d_i = (int) $d[$i];
             $r[1 - $d_i] = $this->addPoint($r[0], $r[1]);
             $r[$d_i] = $this->doublePoint($r[$d_i]);

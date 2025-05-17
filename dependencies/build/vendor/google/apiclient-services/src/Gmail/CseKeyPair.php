@@ -146,4 +146,4 @@ class CseKeyPair extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(CseKeyPair::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_CseKeyPair');
+class_alias(CseKeyPair::class, 'QuillSMTP\Vendor\Google_Service_Gmail_CseKeyPair');

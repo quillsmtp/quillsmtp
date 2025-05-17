@@ -52,7 +52,7 @@ class UsersSettingsDelegates extends \QuillSMTP\Vendor\Google\Service\Resource
     public function create($userId, Delegate $postBody, $optParams = [])
     {
         $params = ['userId' => $userId, 'postBody' => $postBody];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('create', [$params], Delegate::class);
     }
     /**
@@ -72,7 +72,7 @@ class UsersSettingsDelegates extends \QuillSMTP\Vendor\Google\Service\Resource
     public function delete($userId, $delegateEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'delegateEmail' => $delegateEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('delete', [$params]);
     }
     /**
@@ -92,7 +92,7 @@ class UsersSettingsDelegates extends \QuillSMTP\Vendor\Google\Service\Resource
     public function get($userId, $delegateEmail, $optParams = [])
     {
         $params = ['userId' => $userId, 'delegateEmail' => $delegateEmail];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('get', [$params], Delegate::class);
     }
     /**
@@ -109,9 +109,9 @@ class UsersSettingsDelegates extends \QuillSMTP\Vendor\Google\Service\Resource
     public function listUsersSettingsDelegates($userId, $optParams = [])
     {
         $params = ['userId' => $userId];
-        $params = \array_merge($params, $optParams);
+        $params = array_merge($params, $optParams);
         return $this->call('list', [$params], ListDelegatesResponse::class);
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(UsersSettingsDelegates::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Resource_UsersSettingsDelegates');
+class_alias(UsersSettingsDelegates::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Resource_UsersSettingsDelegates');

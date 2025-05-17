@@ -92,4 +92,4 @@ class Thread extends \QuillSMTP\Vendor\Google\Collection
     }
 }
 // Adding a class alias for backwards compatibility with the previous class name.
-\class_alias(Thread::class, 'QuillSMTP\\Vendor\\Google_Service_Gmail_Thread');
+class_alias(Thread::class, 'QuillSMTP\Vendor\Google_Service_Gmail_Thread');

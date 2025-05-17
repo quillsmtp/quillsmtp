@@ -209,12 +209,12 @@ trait Common
      */
     protected static function loadCurveByParam(array $params)
     {
-        if (\count($params) > 1) {
+        if (count($params) > 1) {
             throw new \RuntimeException('No parameters are present');
         }
         if (isset($params['namedCurve'])) {
-            $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $params['namedCurve'];
-            if (!\class_exists($curve)) {
+            $curve = '\phpseclib3\Crypt\EC\Curves\\' . $params['namedCurve'];
+            if (!class_exists($curve)) {
                 throw new UnsupportedCurveException('Named Curve of ' . $params['namedCurve'] . ' is not supported');
             }
             return new $curve();
@@ -254,7 +254,7 @@ trait Common
                     }
                     $modulo[] = 0;
                     $curve->setModulo(...$modulo);
-                    $len = \ceil($modulo[0] / 8);
+                    $len = ceil($modulo[0] / 8);
                     $curve->setCoefficients(Strings::bin2hex($data['curve']['a']), Strings::bin2hex($data['curve']['b']));
                     $point = self::extractPoint("\x00" . $data['base'], $curve);
                     $curve->setBasePoint(...$point);
@@ -282,9 +282,9 @@ trait Common
             // https://tools.ietf.org/html/rfc8032#section-5.1.3
             // https://tools.ietf.org/html/rfc8032#section-5.2.3
             $y = $str;
-            $y = \strrev($y);
-            $sign = (bool) (\ord($y[0]) & 0x80);
-            $y[0] = $y[0] & \chr(0x7f);
+            $y = strrev($y);
+            $sign = (bool) (ord($y[0]) & 0x80);
+            $y[0] = $y[0] & chr(0x7f);
             $y = new BigInteger($y, 256);
             if ($y->compare($curve->getModulo()) >= 0) {
                 throw new \RuntimeException('The Y coordinate should not be >= the modulo');
@@ -303,7 +303,7 @@ trait Common
         if ($str == "\x00") {
             return [];
         }
-        $keylen = \strlen($str);
+        $keylen = strlen($str);
         $order = $curve->getLengthInBytes();
         // point compression is being used
         if ($keylen == $order + 1) {
@@ -311,7 +311,7 @@ trait Common
         }
         // point compression is not being used
         if ($keylen == 2 * $order + 1) {
-            \preg_match("#(.)(.{{$order}})(.{{$order}})#s", $str, $matches);
+            preg_match("#(.)(.{{$order}})(.{{$order}})#s", $str, $matches);
             list(, $w, $x, $y) = $matches;
             if ($w != "\x04") {
                 throw new \UnexpectedValueException('The first byte of an uncompressed point should be 04 - not ' . Strings::bin2hex($val));
@@ -351,7 +351,7 @@ trait Common
                     continue;
                 }
                 $testName = $file->getBasename('.php');
-                $class = 'phpseclib3\\Crypt\\EC\\Curves\\' . $testName;
+                $class = 'phpseclib3\Crypt\EC\Curves\\' . $testName;
                 $reflect = new \ReflectionClass($class);
                 if ($reflect->isFinal()) {
                     continue;
@@ -433,9 +433,9 @@ trait Common
         }
         if ($curve instanceof BinaryCurve) {
             $modulo = $curve->getModulo();
-            $basis = \count($modulo);
-            $m = \array_shift($modulo);
-            \array_pop($modulo);
+            $basis = count($modulo);
+            $m = array_shift($modulo);
+            array_pop($modulo);
             // the last parameter should always be 0
             //rsort($modulo);
             switch ($basis) {
@@ -452,12 +452,12 @@ trait Common
             }
             $params = ASN1::encodeDER(['m' => new BigInteger($m), 'basis' => $basis, 'parameters' => $modulo], Maps\Characteristic_two::MAP);
             $params = new ASN1\Element($params);
-            $a = \ltrim($curve->getA()->toBytes(), "\x00");
-            if (!\strlen($a)) {
+            $a = ltrim($curve->getA()->toBytes(), "\x00");
+            if (!strlen($a)) {
                 $a = "\x00";
             }
-            $b = \ltrim($curve->getB()->toBytes(), "\x00");
-            if (!\strlen($b)) {
+            $b = ltrim($curve->getB()->toBytes(), "\x00");
+            if (!strlen($b)) {
                 $b = "\x00";
             }
             $data = ['version' => 'ecdpVer1', 'fieldID' => ['fieldType' => 'characteristic-two-field', 'parameters' => $params], 'curve' => ['a' => $a, 'b' => $b], 'base' => "\x04" . $x . $y, 'order' => $order];
