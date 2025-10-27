@@ -42,17 +42,25 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 		 */
 		$enable_from_email_routing = apply_filters( 'quillsmtp_enable_from_email_routing', true );
 
-		// Try to find connection by from email first
-		if ( $enable_from_email_routing && ! empty( $this->From ) ) {
-			$matched_connection_id = Settings::get_connection_by_from_email( $this->From );
-			if ( $matched_connection_id ) {
-				$default_connection_id = $matched_connection_id;
-			}
-		}
+		// Check for explicit connection selection via filter FIRST (highest priority)
+		$filtered_connection_id = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
 
-		// Fall back to default connection selection if no match found
-		if ( ! $default_connection_id ) {
-			$default_connection_id = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
+		// If filter returns a specific connection (not from settings), use it and skip auto-routing
+		if ( $filtered_connection_id && $filtered_connection_id !== Settings::get( 'default_connection' ) ) {
+			$default_connection_id = $filtered_connection_id;
+		} else {
+			// Try auto-routing if no explicit connection selected
+			if ( $enable_from_email_routing && ! empty( $this->From ) ) {
+				$matched_connection_id = Settings::get_connection_by_from_email( $this->From );
+				if ( $matched_connection_id ) {
+					$default_connection_id = $matched_connection_id;
+				}
+			}
+
+			// Fall back to filtered/default connection if auto-routing didn't match
+			if ( ! $default_connection_id ) {
+				$default_connection_id = $filtered_connection_id;
+			}
 		}
 
 		$fallback_connection_id = Settings::get( 'fallback_connection' );
