@@ -33,7 +33,28 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	public function send() {
 		do_action( 'quillsmtp_before_get_settings' );
 		$connections            = Settings::get( 'connections', [] ) ?? [];
-		$default_connection_id  = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
+		$default_connection_id  = null;
+
+		/**
+		 * Filter to enable/disable from email routing
+		 *
+		 * @param bool $enable Enable from email routing. Default true.
+		 */
+		$enable_from_email_routing = apply_filters( 'quillsmtp_enable_from_email_routing', true );
+
+		// Try to find connection by from email first
+		if ( $enable_from_email_routing && ! empty( $this->From ) ) {
+			$matched_connection_id = Settings::get_connection_by_from_email( $this->From );
+			if ( $matched_connection_id ) {
+				$default_connection_id = $matched_connection_id;
+			}
+		}
+
+		// Fall back to default connection selection if no match found
+		if ( ! $default_connection_id ) {
+			$default_connection_id = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
+		}
+
 		$fallback_connection_id = Settings::get( 'fallback_connection' );
 		$first_connection_id    = is_array( $connections ) ? array_key_first( $connections ) : null;
 		$default_connection_id  = $default_connection_id ?: $first_connection_id;
@@ -45,6 +66,28 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 			return parent::send();
 		}
 
+		// Apply force from email BEFORE provider processing
+		if ( $default_connection ) {
+			$force_from_email      = $default_connection['force_from_email'] ?? false;
+			$connection_from_email = $default_connection['from_email'] ?? '';
+
+			if ( $force_from_email && ! empty( $connection_from_email ) && is_email( $connection_from_email ) ) {
+				$original_from = $this->From;
+				$this->From    = $connection_from_email;
+
+				/**
+				 * Fires when force from email is applied.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param string $forced_email The forced from email address.
+				 * @param string $original_email The original from email address.
+				 * @param string $connection_id The connection ID.
+				 */
+				do_action( 'quillsmtp_force_from_email_applied', $connection_from_email, $original_from, $default_connection_id );
+			}
+		}
+
 		$mailer = Mailers::get_mailer( $default_connection['mailer'] );
 		if ( ! $mailer ) {
 			return false;
@@ -52,6 +95,17 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 		$result = $mailer->process( $this, $default_connection_id, $default_connection )->send();
 
 		if ( ! $result && $fallback_connection ) {
+			// Apply force from email for fallback connection too
+			$force_from_email      = $fallback_connection['force_from_email'] ?? false;
+			$connection_from_email = $fallback_connection['from_email'] ?? '';
+
+			if ( $force_from_email && ! empty( $connection_from_email ) && is_email( $connection_from_email ) ) {
+				$original_from = $this->From;
+				$this->From    = $connection_from_email;
+
+				do_action( 'quillsmtp_force_from_email_applied', $connection_from_email, $original_from, $fallback_connection_id );
+			}
+
 			$mailer = Mailers::get_mailer( $fallback_connection['mailer'] );
 			if ( ! $mailer ) {
 				return false;
