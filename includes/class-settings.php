@@ -117,4 +117,50 @@ class Settings {
 		return delete_option( self::OPTION_NAME );
 	}
 
+	/**
+	 * Get connection by from email address
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $from_email From email address.
+	 * @return string|null Connection ID if found, null otherwise.
+	 */
+	public static function get_connection_by_from_email( $from_email ) {
+		if ( empty( $from_email ) || ! is_email( $from_email ) ) {
+			return null;
+		}
+
+		$connections = self::get( 'connections', array() );
+		if ( ! is_array( $connections ) || empty( $connections ) ) {
+			return null;
+		}
+
+		// Normalize email for comparison
+		$from_email = strtolower( trim( $from_email ) );
+
+		foreach ( $connections as $connection_id => $connection ) {
+			$connection_from_email = $connection['from_email'] ?? '';
+			if ( empty( $connection_from_email ) ) {
+				continue;
+			}
+
+			// Normalize connection email for comparison
+			$connection_from_email = strtolower( trim( $connection_from_email ) );
+
+			// Exact match
+			if ( $from_email === $connection_from_email ) {
+				/**
+				 * Filter the matched connection ID
+				 *
+				 * @param string $connection_id Connection ID that matched.
+				 * @param string $from_email From email address.
+				 * @param array  $connection Connection configuration.
+				 */
+				return apply_filters( 'quillsmtp_matched_connection', $connection_id, $from_email, $connection );
+			}
+		}
+
+		return null;
+	}
+
 }

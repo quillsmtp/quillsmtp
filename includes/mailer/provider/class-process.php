@@ -296,12 +296,11 @@ abstract class Process {
 	 */
 	public function get_from_email() {
 		$connection_from_email = $this->connection['from_email'] ?? '';
-		$force_from_email      = $this->connection['force_from_email'] ?? false;
 		$from_email            = $this->phpmailer->From ?? $connection_from_email;
 
-		if ( $force_from_email && ! empty( $connection_from_email && is_email( $connection_from_email ) ) ) {
-			$from_email = $connection_from_email;
-		}
+		// Note: force_from_email is now applied earlier in PHPMailer::send()
+		// This method just returns the from email that's already been set
+		// Kept for backwards compatibility and provider-specific overrides
 
 		return apply_filters( 'quillsmtp_mailer_get_from_email', $from_email, $this->provider );
 	}

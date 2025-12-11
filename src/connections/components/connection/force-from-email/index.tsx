@@ -43,7 +43,7 @@ const ForceFromEmail: React.FC<Props> = ({ connectionId }) => {
 			/>
 			<FormHelperText>
 				{__(
-					'If enabled, the from name will be forced to the above name.',
+					'If enabled, the from email will be forced to the above email address, overriding any email set by WordPress or plugins.',
 					'quillsmtp'
 				)}
 			</FormHelperText>
