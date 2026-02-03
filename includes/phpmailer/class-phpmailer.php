@@ -43,11 +43,23 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 		$enable_from_email_routing = apply_filters( 'quillsmtp_enable_from_email_routing', true );
 
 		// Check for explicit connection selection via filter FIRST (highest priority)
-		$filtered_connection_id = apply_filters( 'quillsmtp_default_connection', Settings::get( 'default_connection' ) );
+		// Store the default connection value before applying filters
+		$settings_default_connection = Settings::get( 'default_connection' );
 
-		// If filter returns a specific connection (not from settings), use it and skip auto-routing
-		if ( $filtered_connection_id && $filtered_connection_id !== Settings::get( 'default_connection' ) ) {
-			$default_connection_id = $filtered_connection_id;
+		// Track if a filter has modified the connection
+		$filter_modified_connection = false;
+		$filtered_connection_id = apply_filters(
+			'quillsmtp_default_connection',
+			$settings_default_connection,
+			$filter_modified_connection
+		);
+
+		// Use a separate filter to detect if connection was explicitly set
+		$explicit_connection = apply_filters( 'quillsmtp_explicit_connection', null );
+
+		// If explicit connection is set via filter, use it and skip auto-routing
+		if ( $explicit_connection ) {
+			$default_connection_id = $explicit_connection;
 		} else {
 			// Try auto-routing if no explicit connection selected
 			if ( $enable_from_email_routing && ! empty( $this->From ) ) {

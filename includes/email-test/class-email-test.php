@@ -93,8 +93,9 @@ class Email_Test {
 			wp_send_json_error( __( 'Connection not found.', 'quillsmtp' ) );
 		}
 
+		// Use explicit connection filter to bypass auto-routing
 		add_filter(
-			'quillsmtp_default_connection',
+			'quillsmtp_explicit_connection',
 			function() use ( $connection_id ) {
 				return $connection_id;
 			}
