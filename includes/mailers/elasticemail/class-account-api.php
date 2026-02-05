@@ -82,12 +82,13 @@ class Account_API {
 	}
 
 	/**
-	 * Send batch emails using Elastic Email API v4
+	 * Send batch emails using Elastic Email API v4 Bulk Endpoint
 	 *
-	 * Native bulk sending with personalization support.
-	 * Uses {field} syntax for merge fields in subject and body.
+	 * Uses the /v4/emails bulk endpoint to send all recipients in a single API call.
+	 * Elastic Email handles {field} merge tag replacement server-side using the
+	 * Fields property for each recipient.
 	 *
-	 * @see https://elasticemail.com/developers/api-documentation/rest-api#operation/emailsTransactionalPost
+	 * @see https://elasticemail.com/developers/api-documentation/rest-api#operation/emailsPost
 	 *
 	 * @since 1.0.0
 	 *
@@ -115,9 +116,9 @@ class Account_API {
 			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
 		}
 
-		// Elastic Email API v4 supports up to 1000 recipients per request
-		if ( count( $batch_args['to'] ) > 1000 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quillsmtp' ) );
+		// Elastic Email bulk endpoint supports large batches
+		if ( count( $batch_args['to'] ) > 10000 ) {
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 10000 recipients per batch.', 'quillsmtp' ) );
 		}
 
 		$recipients = [];
@@ -132,8 +133,9 @@ class Account_API {
 			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
 		}
 
-		// Build recipients array with MergeFields for personalization
-		$api_recipients = [];
+		// Build recipients array with Fields for personalization (merge tags)
+		// Elastic Email will replace {field} in subject/body with these values server-side
+		$recipients_data = [];
 		foreach ( $recipients as $email ) {
 			$recipient = [
 				'Email' => $email,
@@ -144,23 +146,23 @@ class Account_API {
 				$recipient['Fields'] = $batch_args['recipient_variables'][ $email ];
 			}
 
-			$api_recipients[] = $recipient;
+			$recipients_data[] = $recipient;
 		}
 
-		// Build the API v4 payload
+		// Build the from address
+		$from_email = $batch_args['from_email'] ?? '';
+		$from_name  = $batch_args['from_name'] ?? '';
+		$from       = ! empty( $from_name ) ? "{$from_name} <{$from_email}>" : $from_email;
+
+		// Build the Bulk API v4 payload
 		$payload = [
-			'Recipients' => $api_recipients,
+			'Recipients' => $recipients_data,
 			'Content'    => [
-				'From'    => $batch_args['from_email'] ?? '',
+				'From'    => $from,
 				'Subject' => $batch_args['subject'] ?? '',
 				'Body'    => [],
 			],
 		];
-
-		// Add from name
-		if ( ! empty( $batch_args['from_name'] ) ) {
-			$payload['Content']['FromName'] = $batch_args['from_name'];
-		}
 
 		// Add HTML body
 		if ( ! empty( $batch_args['html'] ) ) {
@@ -194,13 +196,14 @@ class Account_API {
 			$payload['Options']['ChannelName'] = $batch_args['tags'][0];
 		}
 
-		// Send via Elastic Email API v4
+
+		// Send via Elastic Email Bulk API v4 (single request for all recipients)
 		$response = wp_remote_post(
-			'https://api.elasticemail.com/v4/emails/transactional',
+			'https://api.elasticemail.com/v4/emails',
 			[
 				'headers' => [
-					'Accept'       => 'application/json',
-					'Content-Type' => 'application/json',
+					'Accept'                => 'application/json',
+					'Content-Type'          => 'application/json',
 					'X-ElasticEmail-ApiKey' => $this->api_key,
 				],
 				'body'    => wp_json_encode( $payload ),
@@ -218,19 +221,19 @@ class Account_API {
 		$body_data   = json_decode( $body, true );
 
 		// Check for errors
-		if ( $status_code >= 400 || ( isset( $body_data['Success'] ) && ! $body_data['Success'] ) ) {
+		if ( $status_code >= 400 || ( isset( $body_data['Success'] ) && $body_data['Success'] === false ) ) {
 			$error_message = $body_data['Error'] ?? $body_data['Message'] ?? __( 'Unknown API error.', 'quillsmtp' );
 			$error         = new WP_Error( 'elasticemail_error', $error_message, [ 'status' => $status_code, 'body' => $body ] );
 			$this->log_batch_emails( $batch_args, $recipients, $error );
 			return $error;
 		}
 
-		// Success - API v4 returns TransactionID and MessageID
+		// Success - build result
 		$result = [
-			'id'            => $body_data['TransactionID'] ?? $body_data['MessageID'] ?? '',
-			'message'       => __( 'Batch email sent successfully.', 'quillsmtp' ),
-			'sent_count'    => count( $recipients ),
-			'failed'        => [],
+			'id'             => $body_data['MessageID'] ?? $body_data['TransactionID'] ?? '',
+			'message'        => __( 'Batch email sent successfully.', 'quillsmtp' ),
+			'sent_count'     => count( $recipients ),
+			'failed'         => [],
 			'transaction_id' => $body_data['TransactionID'] ?? '',
 		];
 

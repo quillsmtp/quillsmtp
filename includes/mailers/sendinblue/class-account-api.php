@@ -95,7 +95,6 @@ class Account_API {
 	 * @return WP_Error|array
 	 */
 	public function send_batch( $batch_args ) {
-		xdebug_break();
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
 			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
