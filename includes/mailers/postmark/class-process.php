@@ -237,12 +237,12 @@ class Process extends Abstract_Process {
 				$body['MessageStream'] = $message_stream_id;
 			}
 			$results = $client->sendEmailBatch( [ $body ] );
-			if ( 'OK' === $results[0]->getMessage() ) {
+			if ( 'OK' === $results[0]->Message ) {
 				$this->log_result(
 					[
 						'status'   => self::SUCCEEDED,
 						'response' => [
-							'message_id' => $results[0]->getMessageId(),
+							'message_id' => $results[0]->MessageID,
 						],
 					]
 				);
@@ -252,7 +252,7 @@ class Process extends Abstract_Process {
 					[
 						'status'   => self::FAILED,
 						'response' => [
-							'message' => $results[0]->getMessage(),
+							'message' => $results[0]->Message,
 						],
 					]
 				);
