@@ -74,24 +74,42 @@ const WizardContent = ({ connectionId, mode, setSetUpWizard }) => {
 		setIsSaving(true);
 
 		const updatedConnection = { ...connection };
+		const existingConnections = ConfigAPI.getInitialPayload().connections || {};
+		const isFirstConnection = Object.keys(existingConnections).length === 0;
+
+		// Prepare the data to save
+		const dataToSave: any = {
+			connections: {
+				...existingConnections,
+				[connectionId]: updatedConnection,
+			},
+		};
+
+		// If this is the first connection, set it as default
+		if (isFirstConnection) {
+			dataToSave.default_connection = connectionId;
+		}
+
 		apiFetch({
 			path: `/qsmtp/v1/settings`,
 			method: 'POST',
-			data: {
-				connections: {
-					...ConfigAPI.getInitialPayload().connections,
-					[connectionId]: updatedConnection,
-				},
-			},
+			data: dataToSave,
 		}).then((res: any) => {
 			if (res.success) {
-				ConfigAPI.setInitialPayload({
+				const updatedPayload: any = {
 					...ConfigAPI.getInitialPayload(),
 					connections: {
-						...ConfigAPI.getInitialPayload().connections,
+						...existingConnections,
 						[connectionId]: connection,
 					},
-				});
+				};
+
+				// Update the default connection in the payload if this is the first connection
+				if (isFirstConnection) {
+					updatedPayload.default_connection = connectionId;
+				}
+
+				ConfigAPI.setInitialPayload(updatedPayload);
 				setStep(step + 1);
 				if (mode === 'add') {
 					addConnection(connectionId, connection);

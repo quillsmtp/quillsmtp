@@ -32,54 +32,14 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 */
 	public function send() {
 		do_action( 'quillsmtp_before_get_settings' );
-		$connections            = Settings::get( 'connections', [] ) ?? [];
-		$default_connection_id  = null;
 
-		/**
-		 * Filter to enable/disable from email routing
-		 *
-		 * @param bool $enable Enable from email routing. Default true.
-		 */
-		$enable_from_email_routing = apply_filters( 'quillsmtp_enable_from_email_routing', true );
+		// Get smart route based on from email
+		$route                  = Settings::get_smart_route( $this->From );
+		$default_connection_id  = $route['default_connection_id'];
+		$default_connection     = $route['default_connection'];
+		$fallback_connection_id = $route['fallback_connection_id'];
+		$fallback_connection    = $route['fallback_connection'];
 
-		// Check for explicit connection selection via filter FIRST (highest priority)
-		// Store the default connection value before applying filters
-		$settings_default_connection = Settings::get( 'default_connection' );
-
-		// Track if a filter has modified the connection
-		$filter_modified_connection = false;
-		$filtered_connection_id = apply_filters(
-			'quillsmtp_default_connection',
-			$settings_default_connection,
-			$filter_modified_connection
-		);
-
-		// Use a separate filter to detect if connection was explicitly set
-		$explicit_connection = apply_filters( 'quillsmtp_explicit_connection', null );
-
-		// If explicit connection is set via filter, use it and skip auto-routing
-		if ( $explicit_connection ) {
-			$default_connection_id = $explicit_connection;
-		} else {
-			// Try auto-routing if no explicit connection selected
-			if ( $enable_from_email_routing && ! empty( $this->From ) ) {
-				$matched_connection_id = Settings::get_connection_by_from_email( $this->From );
-				if ( $matched_connection_id ) {
-					$default_connection_id = $matched_connection_id;
-				}
-			}
-
-			// Fall back to filtered/default connection if auto-routing didn't match
-			if ( ! $default_connection_id ) {
-				$default_connection_id = $filtered_connection_id;
-			}
-		}
-
-		$fallback_connection_id = Settings::get( 'fallback_connection' );
-		$first_connection_id    = is_array( $connections ) ? array_key_first( $connections ) : null;
-		$default_connection_id  = $default_connection_id ?: $first_connection_id;
-		$default_connection     = $connections[ $default_connection_id ] ?? null;
-		$fallback_connection    = $connections[ $fallback_connection_id ] ?? null;
 		do_action( 'quillsmtp_after_get_settings' );
 
 		if ( ! $default_connection ) {
