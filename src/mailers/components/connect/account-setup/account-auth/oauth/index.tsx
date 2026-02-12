@@ -10,6 +10,7 @@ import { useSelect } from '@wordpress/data';
  */
 import Button from '@mui/material/Button';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AddIcon from '@mui/icons-material/Add';
 
 /**
  * Internal Dependencies
@@ -21,6 +22,7 @@ interface Props {
 	labels?: AccountsLabels;
 	onAdded: (id: string, account: { name: string }) => void;
 	Instructions?: React.FC;
+	hasExistingAccounts?: boolean;
 }
 
 const Oauth: React.FC<Props> = ({
@@ -28,6 +30,7 @@ const Oauth: React.FC<Props> = ({
 	labels,
 	onAdded,
 	Instructions,
+	hasExistingAccounts = false,
 }) => {
 	const { mailer } = useSelect((select) => {
 		return {
@@ -56,17 +59,30 @@ const Oauth: React.FC<Props> = ({
 		);
 	};
 
+	const buttonLabel = hasExistingAccounts
+		? sprintf(
+				__('Add New %s', 'quillsmtp'),
+				labels?.singular ?? __('Account', 'quillsmtp')
+		  )
+		: sprintf(
+				__('Authorize Your %s', 'quillsmtp'),
+				labels?.singular ?? __('Account', 'quillsmtp')
+		  );
+
 	return (
 		<div className="mailer-auth-oauth">
 			<Button
 				onClick={authorize}
-				variant="contained"
-				startIcon={<AdminPanelSettingsIcon />}
+				variant={hasExistingAccounts ? 'outlined' : 'contained'}
+				startIcon={
+					hasExistingAccounts ? (
+						<AddIcon />
+					) : (
+						<AdminPanelSettingsIcon />
+					)
+				}
 			>
-				{sprintf(
-					__('Authorize Your %s', 'quillsmtp'),
-					labels?.singular ?? __('Account', 'quillsmtp')
-				)}
+				{buttonLabel}
 			</Button>
 			{Instructions && (
 				<div className="mailer-auth-instructions">

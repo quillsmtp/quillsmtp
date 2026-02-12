@@ -329,15 +329,44 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 								</RadioGroup>
 							</FormControl>
 						)}
-					{main.accounts.auth.type === 'oauth' &&
-						size(accounts) > 0 && (
-							<div>
-								{__('Connected with', 'quillsmtp')}{' '}
-								<strong>
-									{map(accounts, 'name').join(', ')}
-								</strong>
-							</div>
-						)}
+				{main.accounts.auth.type === 'oauth' &&
+					size(accounts) > 0 && (
+						<FormControl component="fieldset" fullWidth>
+							<FormLabel component="legend">
+								{__('Select an account', 'quillsmtp')}
+							</FormLabel>
+							<RadioGroup
+								aria-label="account"
+								name="account"
+								value={account_id}
+								onChange={(e) => onChange(e.target.value)}
+							>
+								{map(accounts, (account, id) => (
+									<div key={id}>
+										<div>
+											<FormControlLabel
+												value={id}
+												control={<Radio />}
+												label={account.name}
+											/>
+											<IconButton
+												aria-label={__(
+													'Delete account',
+													'quillsmtp'
+												)}
+												onClick={() =>
+													setDeleteAccountID(id)
+												}
+												color="error"
+											>
+												<DeleteIcon />
+											</IconButton>
+										</div>
+									</div>
+								))}
+							</RadioGroup>
+						</FormControl>
+					)}
 				</div>
 				{deleteAccountID && (
 					<Dialog
@@ -427,15 +456,24 @@ const AccountSelector: React.FC<Props> = ({ connectionId, main }) => {
 						{__('Add new account', 'quillsmtp')}
 					</Button>
 				)}
-				{showingAddNewAccount && (
+			{showingAddNewAccount && (
+				<AccountAuth
+					connectionId={connectionId}
+					data={main.accounts}
+					onAdding={setAddingNewAccount}
+					onAdded={onAdded}
+				/>
+			)}
+			{main.accounts.auth.type === 'oauth' &&
+				size(accounts) > 0 && (
 					<AccountAuth
 						connectionId={connectionId}
 						data={main.accounts}
-						onAdding={setAddingNewAccount}
 						onAdded={onAdded}
+						hasExistingAccounts={true}
 					/>
 				)}
-			</div>
+		</div>
 			<AccountSettings />
 		</>
 	);

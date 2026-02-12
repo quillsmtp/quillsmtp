@@ -15,6 +15,7 @@ interface Props {
 	data: ConnectMainAccounts;
 	onAdding?: (status: boolean) => void;
 	onAdded: (id: string, account: { name: string }) => void;
+	hasExistingAccounts?: boolean;
 }
 
 const AccountAuth: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const AccountAuth: React.FC<Props> = ({
 	data,
 	onAdding,
 	onAdded,
+	hasExistingAccounts = false,
 }) => {
 	return (
 		<div className="mailer-auth">
@@ -31,6 +33,7 @@ const AccountAuth: React.FC<Props> = ({
 					labels={data.labels}
 					Instructions={data.auth.Instructions}
 					onAdded={onAdded}
+					hasExistingAccounts={hasExistingAccounts}
 				/>
 			) : (
 				<Credentials
