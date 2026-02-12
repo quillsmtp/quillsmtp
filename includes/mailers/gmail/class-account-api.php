@@ -45,6 +45,20 @@ class Account_API {
 	private $refresh_token;
 
 	/**
+	 * Client ID (per-account)
+	 *
+	 * @var string
+	 */
+	private $client_id;
+
+	/**
+	 * Client Secret (per-account)
+	 *
+	 * @var string
+	 */
+	private $client_secret;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -55,8 +69,10 @@ class Account_API {
 	 */
 	public function __construct( $app, $account_id, $account_data ) {
 		$this->app           = $app;
-		$this->access_token  = $account_data['credentials']['access_token'];
-		$this->refresh_token = $account_data['credentials']['refresh_token'];
+		$this->access_token  = $account_data['credentials']['access_token'] ?? '';
+		$this->refresh_token = $account_data['credentials']['refresh_token'] ?? '';
+		$this->client_id     = $account_data['credentials']['client_id'] ?? '';
+		$this->client_secret = $account_data['credentials']['client_secret'] ?? '';
 	}
 
 	/**
@@ -66,11 +82,23 @@ class Account_API {
 	 */
 	public function get_client() {
 		try {
-			$app_credentials = $this->app->get_app_credentials();
-			$client          = new Google_Client();
+			// Use per-account credentials if available, fallback to global app credentials.
+			if ( ! empty( $this->client_id ) && ! empty( $this->client_secret ) ) {
+				$client_id     = $this->client_id;
+				$client_secret = $this->client_secret;
+			} else {
+				$app_credentials = $this->app->get_app_credentials();
+				if ( empty( $app_credentials ) ) {
+					throw new \Exception( esc_html__( 'Cannot find app credentials', 'quillsmtp' ) );
+				}
+				$client_id     = $app_credentials['client_id'];
+				$client_secret = $app_credentials['client_secret'];
+			}
+
+			$client = new Google_Client();
 			$client->setApplicationName( 'QuillSMTP' );
-			$client->setClientId( $app_credentials['client_id'] );
-			$client->setClientSecret( $app_credentials['client_secret'] );
+			$client->setClientId( $client_id );
+			$client->setClientSecret( $client_secret );
 			$client->setAccessToken( $this->access_token );
 			$client->setAccessType( 'offline' );
 			$client->setApprovalPrompt( 'force' );

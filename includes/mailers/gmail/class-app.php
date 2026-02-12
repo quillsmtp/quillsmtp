@@ -49,10 +49,24 @@ class App {
 			return;
 		}
 
-		$app_credentials = $this->get_app_credentials();
+		$account_id = esc_attr( $_GET['account_id'] ?? '' );
+		if ( empty( $account_id ) ) {
+			// Fallback to global app credentials for backward compatibility.
+			$app_credentials = $this->get_app_credentials();
+		} else {
+			// Get account-specific credentials.
+			$app_credentials = $this->get_account_app_credentials( $account_id );
+		}
+
 		if ( empty( $app_credentials ) ) {
 			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp' );
 			exit;
+		}
+
+		// Pass account_id through OAuth state so we know which account to update on callback.
+		$state = 'quillsmtp-gmail';
+		if ( ! empty( $account_id ) ) {
+			$state .= ':' . $account_id;
 		}
 
 		$auth_url = add_query_arg(
@@ -61,7 +75,7 @@ class App {
 				'access_type'   => 'offline',
 				'client_id'     => $app_credentials['client_id'],
 				'redirect_uri'  => urlencode( $this->get_redirect_uri() ),
-				'state'         => 'quillsmtp-gmail',
+				'state'         => $state,
 				'scope'         => Gmail::MAIL_GOOGLE_COM . ' ' . Gmail::GMAIL_SEND,
 				'prompt'        => 'consent',
 			],
@@ -78,9 +92,13 @@ class App {
 	 */
 	public function maybe_add_account() {
 		$state = esc_attr( $_GET['state'] ?? '' );
-		if ( $state !== 'quillsmtp-gmail' ) {
+		if ( strpos( $state, 'quillsmtp-gmail' ) !== 0 ) {
 			return;
 		}
+
+		// Extract account_id from state if present.
+		$state_parts = explode( ':', $state );
+		$account_id_from_state = isset( $state_parts[1] ) ? $state_parts[1] : '';
 
 		// ensure authorize code.
 		$code = esc_attr( $_GET['code'] ?? '' );
@@ -89,7 +107,18 @@ class App {
 			exit;
 		}
 
-		$app_credentials = $this->get_app_credentials();
+		// Get credentials based on whether we have an account_id.
+		if ( ! empty( $account_id_from_state ) ) {
+			$app_credentials = $this->get_account_app_credentials( $account_id_from_state );
+		} else {
+			$app_credentials = $this->get_app_credentials();
+		}
+
+		if ( empty( $app_credentials ) ) {
+			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp' );
+			exit;
+		}
+
 		// get account tokens.
 		$tokens = $this->get_tokens(
 			[
@@ -107,7 +136,7 @@ class App {
 		}
 
 		// get account details.
-		$account_api       = new Account_API( $this, '', [ 'credentials' => $tokens ] );
+		$account_api       = new Account_API( $this, '', [ 'credentials' => array_merge( $app_credentials, $tokens ) ] );
 		$accounts_response = $account_api->get_profile();
 
 		if ( is_wp_error( $accounts_response ) ) {
@@ -123,13 +152,19 @@ class App {
 		}
 
 		$account      = $accounts_response;
-		$account_id   = str_replace( '@gmail.com', '', $account->emailAddress );
 		$account_name = $account->emailAddress;
 
-		// account data for adding or updating.
+		// If we have an account_id from state, use it. Otherwise generate from email.
+		if ( ! empty( $account_id_from_state ) ) {
+			$account_id = $account_id_from_state;
+		} else {
+			$account_id = str_replace( '@gmail.com', '', $account->emailAddress );
+		}
+
+		// account data for adding or updating - include client_id and client_secret in credentials.
 		$account_data = [
 			'name'        => $account_name,
-			'credentials' => $tokens,
+			'credentials' => array_merge( $app_credentials, $tokens ),
 		];
 
 		// check account existence.
@@ -205,7 +240,7 @@ class App {
 	}
 
 	/**
-	 * Get app credentials
+	 * Get global app credentials
 	 *
 	 * @return array|false Array of client_id & client_secret. false on failure.
 	 */
@@ -216,6 +251,27 @@ class App {
 		} else {
 			return $app_settings;
 		}
+	}
+
+	/**
+	 * Get account-specific app credentials (client_id & client_secret stored in account credentials)
+	 *
+	 * @param string $account_id Account id.
+	 * @return array|false Array of client_id & client_secret. false on failure.
+	 */
+	public function get_account_app_credentials( $account_id ) {
+		$account_data = $this->provider->accounts->get_account_data( $account_id );
+		if ( empty( $account_data ) ) {
+			return false;
+		}
+		$credentials = $account_data['credentials'] ?? [];
+		if ( empty( $credentials['client_id'] ) || empty( $credentials['client_secret'] ) ) {
+			return false;
+		}
+		return [
+			'client_id'     => $credentials['client_id'],
+			'client_secret' => $credentials['client_secret'],
+		];
 	}
 
 	/**
