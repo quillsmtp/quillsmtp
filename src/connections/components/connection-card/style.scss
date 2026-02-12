@@ -1,3 +1,10 @@
+.qsmtp-connection-card__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
 .qsmtp-connection-card__edit-icon {
     cursor: pointer;
     display: flex;
@@ -8,5 +15,22 @@
     svg {
         margin-bottom: 0 !important;
         margin:0 5px;
+    }
+}
+
+.qsmtp-connection-card__delete-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d32f2f !important;
+
+    svg {
+        margin-bottom: 0 !important;
+        margin: 0 5px;
+    }
+
+    &:hover {
+        opacity: 0.8;
     }
 }
