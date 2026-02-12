@@ -44,7 +44,8 @@ class App {
 	 * @return void
 	 */
 	public function maybe_authorize() {
-		$action = esc_attr( $_GET['quillsmtp-gmail'] ?? '' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce not required for checking action parameter
+		$action = isset( $_GET['quillsmtp-gmail'] ) ? sanitize_text_field( wp_unslash( $_GET['quillsmtp-gmail'] ) ) : '';
 		if ( $action !== 'authorize' ) {
 			return;
 		}
@@ -91,8 +92,14 @@ class App {
 	 * @return void
 	 */
 	public function maybe_add_account() {
+<<<<<<< HEAD
 		$state = esc_attr( $_GET['state'] ?? '' );
 		if ( strpos( $state, 'quillsmtp-gmail' ) !== 0 ) {
+=======
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- OAuth callback, nonce not applicable
+		$state = isset( $_GET['state'] ) ? sanitize_text_field( wp_unslash( $_GET['state'] ) ) : '';
+		if ( $state !== 'quillsmtp-gmail' ) {
+>>>>>>> 4fe8502 (Update QuillSMTP plugin to version 1.8.0)
 			return;
 		}
 
@@ -101,7 +108,8 @@ class App {
 		$account_id_from_state = isset( $state_parts[1] ) ? $state_parts[1] : '';
 
 		// ensure authorize code.
-		$code = esc_attr( $_GET['code'] ?? '' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- OAuth callback, nonce not applicable
+		$code = isset( $_GET['code'] ) ? sanitize_text_field( wp_unslash( $_GET['code'] ) ) : '';
 		if ( empty( $code ) ) {
 			echo esc_html__( 'Error, There is no authorize code passed!', 'quillsmtp' );
 			exit;

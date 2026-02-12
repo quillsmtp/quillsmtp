@@ -40,30 +40,34 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		// set pro updates data.
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'init_pro_updates' ) );
+		// Note: Custom update checks have been commented out to comply with WordPress.org guidelines.
+		// WordPress.org provides update hosting, so plugins must not phone home to other servers
+		// for updates or interfere with the built-in updater.
 
-		// filter pro plugins info.
-		add_filter( 'plugins_api', array( $this, 'filter_plugins_api' ), 10, 3 );
+		// // set pro updates data.
+		// add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'init_pro_updates' ) );
 
-		// add additional messages to pro plugin row.
-		add_action(
-			'in_plugin_update_message-quillsmtp-pro/quillsmtp-pro.php',
-			array( $this, 'add_in_plugin_update_message' ),
-			10
-		);
+		// // filter pro plugins info.
+		// add_filter( 'plugins_api', array( $this, 'filter_plugins_api' ), 10, 3 );
 
-		// clear pro updates cache on upgrader process complete.
-		add_action(
-			'upgrader_process_complete',
-			function() {
-				update_option( 'quillsmtp_pro_update_cache_needs_clear', true );
-			}
-		);
-		if ( get_option( 'quillsmtp_pro_update_cache_needs_clear' ) ) {
-			update_option( 'quillsmtp_pro_update_cache_needs_clear', false );
-			$this->clear_pro_update_cache();
-		}
+		// // add additional messages to pro plugin row.
+		// add_action(
+		// 	'in_plugin_update_message-quillsmtp-pro/quillsmtp-pro.php',
+		// 	array( $this, 'add_in_plugin_update_message' ),
+		// 	10
+		// );
+
+		// // clear pro updates cache on upgrader process complete.
+		// add_action(
+		// 	'upgrader_process_complete',
+		// 	function() {
+		// 		update_option( 'quillsmtp_pro_update_cache_needs_clear', true );
+		// 	}
+		// );
+		// if ( get_option( 'quillsmtp_pro_update_cache_needs_clear' ) ) {
+		// 	update_option( 'quillsmtp_pro_update_cache_needs_clear', false );
+		// 	$this->clear_pro_update_cache();
+		// }
 	}
 
 	/**
@@ -248,14 +252,17 @@ class Updater {
 	 * @return void
 	 */
 	public function clear_pro_update_cache() {
-		// delete updates transient.
-		delete_transient( 'quillsmtp_pro_updates' );
+		// Note: This method is now a no-op as custom update checks have been commented out
+		// to comply with WordPress.org guidelines.
 
-		// clear wp plugins cache.
-		if ( ! function_exists( 'wp_clean_plugins_cache' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		wp_clean_plugins_cache();
+		// // delete updates transient.
+		// delete_transient( 'quillsmtp_pro_updates' );
+
+		// // clear wp plugins cache.
+		// if ( ! function_exists( 'wp_clean_plugins_cache' ) ) {
+		// 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		// }
+		// wp_clean_plugins_cache();
 	}
 
 }
