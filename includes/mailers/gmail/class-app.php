@@ -92,14 +92,9 @@ class App {
 	 * @return void
 	 */
 	public function maybe_add_account() {
-<<<<<<< HEAD
-		$state = esc_attr( $_GET['state'] ?? '' );
-		if ( strpos( $state, 'quillsmtp-gmail' ) !== 0 ) {
-=======
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- OAuth callback, nonce not applicable
 		$state = isset( $_GET['state'] ) ? sanitize_text_field( wp_unslash( $_GET['state'] ) ) : '';
 		if ( $state !== 'quillsmtp-gmail' ) {
->>>>>>> 4fe8502 (Update QuillSMTP plugin to version 1.8.0)
 			return;
 		}
 
