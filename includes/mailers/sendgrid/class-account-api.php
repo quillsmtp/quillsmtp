@@ -109,12 +109,12 @@ class Account_API {
 	public function send_batch( $batch_args ) {
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		// SendGrid limit: 1000 personalizations per request
 		if ( count( $batch_args['to'] ) > 1000 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = [];
@@ -126,7 +126,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		try {
@@ -203,7 +203,7 @@ class Account_API {
 			if ( $status_code === 202 ) {
 				$result = [
 					'id'         => '', // SendGrid doesn't return message ID in batch send
-					'message'    => __( 'Batch email sent successfully.', 'quillsmtp' ),
+					'message'    => __( 'Batch email sent successfully.', 'quill-smtp' ),
 					'sent_count' => count( $recipients ),
 					'failed'     => [],
 				];
@@ -216,7 +216,7 @@ class Account_API {
 				$body  = $response->body();
 				$error = new WP_Error(
 					'sendgrid_batch_error',
-					__( 'SendGrid API error.', 'quillsmtp' ),
+					__( 'SendGrid API error.', 'quill-smtp' ),
 					[
 						'status' => $status_code,
 						'body'   => $body,

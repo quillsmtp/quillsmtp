@@ -290,7 +290,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SendInBlue API Error', 'quillsmtp' ),
+				esc_html__( 'SendInBlue API Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_sendinblue_send_error',
 					'error' => [

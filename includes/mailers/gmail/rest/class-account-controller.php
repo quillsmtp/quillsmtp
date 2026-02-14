@@ -71,7 +71,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id    = $request->get_param( 'id' );
 
 		if ( empty( $client_id ) || empty( $client_secret ) ) {
-			return new WP_Error( 'invalid_credentials', __( 'Client ID and Client Secret are required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_credentials', __( 'Client ID and Client Secret are required.', 'quill-smtp' ) );
 		}
 
 		return [

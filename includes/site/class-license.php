@@ -97,7 +97,7 @@ class License {
 	// 	$this->check_authorization();
 
 	// 	if ( $this->plugin_data['is_installed'] ) {
-	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is already installed', 'quillsmtp' ), 403 );
+	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is already installed', 'quill-smtp' ), 403 );
 	// 		exit;
 	// 	}
 
@@ -120,12 +120,12 @@ class License {
 	// 	$this->check_authorization();
 
 	// 	if ( ! $this->plugin_data['is_installed'] ) {
-	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is not installed', 'quillsmtp' ), 403 );
+	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is not installed', 'quill-smtp' ), 403 );
 	// 		exit;
 	// 	}
 
 	// 	if ( $this->plugin_data['is_active'] ) {
-	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is already active', 'quillsmtp' ), 403 );
+	// 		wp_send_json_error( esc_html__( 'QuillSMTP Pro is already active', 'quill-smtp' ), 403 );
 	// 		exit;
 	// 	}
 
@@ -137,23 +137,23 @@ class License {
 	// 		$result = activate_plugin( $this->plugin_data['plugin_file'] );
 	// 		if ( is_wp_error( $result ) ) {
 	// 			quillsmtp_get_logger()->error(
-	// 				esc_html__( 'Cannot activate QuillSMTP Pro', 'quillsmtp' ),
+	// 				esc_html__( 'Cannot activate QuillSMTP Pro', 'quill-smtp' ),
 	// 				array(
 	// 					'code'  => 'cannot_activate_pro',
 	// 					'error' => $result,
 	// 				)
 	// 			);
 	// 		}
-	// 		wp_send_json_success( esc_html__( 'QuillSMTP Pro activated successfully', 'quillsmtp' ), 200 );
+	// 		wp_send_json_success( esc_html__( 'QuillSMTP Pro activated successfully', 'quill-smtp' ), 200 );
 	// 	} catch ( \Exception $e ) {
 	// 		quillsmtp_get_logger()->error(
-	// 			esc_html__( 'Cannot activate QuillSMTP Pro', 'quillsmtp' ),
+	// 			esc_html__( 'Cannot activate QuillSMTP Pro', 'quill-smtp' ),
 	// 			array(
 	// 				'code'  => 'cannot_activate_pro',
 	// 				'error' => $e,
 	// 			)
 	// 		);
-	// 		wp_send_json_error( esc_html__( 'Cannot activate QuillSMTP Pro, check log for details', 'quillsmtp' ) );
+	// 		wp_send_json_error( esc_html__( 'Cannot activate QuillSMTP Pro, check log for details', 'quill-smtp' ) );
 	// 	}
 	// }
 
@@ -202,7 +202,7 @@ class License {
 	// 	if ( $this->plugin_data['is_installed'] ) {
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'QuillSMTP Pro is already installed', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'QuillSMTP Pro is already installed', 'quill-smtp' ),
 	// 		);
 	// 	}
 
@@ -211,7 +211,7 @@ class License {
 	// 	if ( ! $license ) {
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'No license found', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'No license found', 'quill-smtp' ),
 	// 		);
 	// 	}
 
@@ -228,7 +228,7 @@ class License {
 	// 	$download_link = $plugin_data['data']['download_link'] ?? null;
 	// 	if ( empty( $download_link ) ) {
 	// 		quillsmtp_get_logger()->debug(
-	// 			esc_html__( 'Cannot get plugin info', 'quillsmtp' ),
+	// 			esc_html__( 'Cannot get plugin info', 'quill-smtp' ),
 	// 			array(
 	// 				'code'        => 'cannot_get_plugin_info',
 	// 				'plugin_slug' => $this->plugin_data['slug'],
@@ -237,7 +237,7 @@ class License {
 	// 		);
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'Cannot get plugin info, please check your license', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'Cannot get plugin info, please check your license', 'quill-smtp' ),
 	// 		);
 	// 	}
 
@@ -251,7 +251,7 @@ class License {
 	// 	if ( ! $filesystem_access ) {
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin automatically, please download it and install it manually', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin automatically, please download it and install it manually', 'quill-smtp' ),
 	// 		);
 	// 	}
 
@@ -261,7 +261,7 @@ class License {
 	// 	// check wp_error.
 	// 	if ( is_wp_error( $installer_skin->result ) ) {
 	// 		quillsmtp_get_logger()->error(
-	// 			esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quillsmtp' ),
+	// 			esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quill-smtp' ),
 	// 			array(
 	// 				'code'        => 'cannot_install_plugin_plugin',
 	// 				'plugin_slug' => $plugin_slug,
@@ -274,14 +274,14 @@ class License {
 	// 		);
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quill-smtp' ),
 	// 		);
 	// 	}
 
 	// 	// check failed installation.
 	// 	if ( ! $installer_skin->result || ! $installer->plugin_info() ) {
 	// 		quillsmtp_get_logger()->error(
-	// 			esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quillsmtp' ),
+	// 			esc_html__( 'Cannot install QuillSMTP Pro plugin plugin', 'quill-smtp' ),
 	// 			array(
 	// 				'code'             => 'cannot_install_plugin_plugin',
 	// 				'plugin_slug'      => $plugin_slug,
@@ -290,7 +290,7 @@ class License {
 	// 		);
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quill-smtp' ),
 	// 		);
 	// 	}
 
@@ -301,7 +301,7 @@ class License {
 	// 		}
 	// 		$removed = delete_plugins( array( $installer->plugin_info() ) );
 	// 		quillsmtp_get_logger()->critical(
-	// 			esc_html__( 'Invalid QuillSMTP Pro plugin installation detected', 'quillsmtp' ),
+	// 			esc_html__( 'Invalid QuillSMTP Pro plugin installation detected', 'quill-smtp' ),
 	// 			array(
 	// 				'code'                  => 'invalid_plugin_installation',
 	// 				'plugin_slug'           => $plugin_slug,
@@ -313,13 +313,13 @@ class License {
 	// 		);
 	// 		return array(
 	// 			'success' => false,
-	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quillsmtp' ),
+	// 			'message' => esc_html__( 'Cannot install QuillSMTP Pro plugin, check log for details', 'quill-smtp' ),
 	// 		);
 	// 	}
 
 	// 	// log successful installation.
 	// 	quillsmtp_get_logger()->info(
-	// 		esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quillsmtp' ),
+	// 		esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quill-smtp' ),
 	// 		array(
 	// 			'code'             => 'plugin_installed_successfully',
 	// 			'plugin_slug'      => $this->plugin_data['slug'],
@@ -328,7 +328,7 @@ class License {
 	// 	);
 	// 	return array(
 	// 		'success' => true,
-	// 		'message' => esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quillsmtp' ),
+	// 		'message' => esc_html__( 'QuillSMTP Pro plugin installed successfully', 'quill-smtp' ),
 	// 	);
 	// }
 
@@ -342,13 +342,13 @@ class License {
 	private function define_plans() {
 		$this->plans = array(
 			'basic'      => array(
-				'label' => esc_html__( 'Basic', 'quillsmtp' ),
+				'label' => esc_html__( 'Basic', 'quill-smtp' ),
 			),
 			'plus'       => array(
-				'label' => esc_html__( 'Plus', 'quillsmtp' ),
+				'label' => esc_html__( 'Plus', 'quill-smtp' ),
 			),
 			'enterprise' => array(
-				'label' => esc_html__( 'Enterprise', 'quillsmtp' ),
+				'label' => esc_html__( 'Enterprise', 'quill-smtp' ),
 			),
 		);
 	}
@@ -424,7 +424,7 @@ class License {
 		if ( empty( $license['key'] ) ) {
 			return array(
 				'success' => false,
-				'message' => esc_html__( 'No license key found', 'quillsmtp' ),
+				'message' => esc_html__( 'No license key found', 'quill-smtp' ),
 			);
 		}
 
@@ -442,7 +442,7 @@ class License {
 			$license['last_check'] = gmdate( 'Y-m-d H:i:s' );
 			update_option( 'quillsmtp_license', $license );
 
-			$message = $response['message'] ?? esc_html__( 'An error occurred, please try again', 'quillsmtp' );
+			$message = $response['message'] ?? esc_html__( 'An error occurred, please try again', 'quill-smtp' );
 			return array(
 				'success' => false,
 				'message' => $message,
@@ -528,7 +528,7 @@ class License {
 
 			if ( $result['success'] ) {
 				quillsmtp_get_logger()->debug(
-					esc_html__( 'License update task done', 'quillsmtp' ),
+					esc_html__( 'License update task done', 'quill-smtp' ),
 					array(
 						'code'    => 'license_update_task_done',
 						'trigger' => $trigger,
@@ -536,7 +536,7 @@ class License {
 				);
 			} else {
 				quillsmtp_get_logger()->warning(
-					esc_html__( 'License update task failed', 'quillsmtp' ),
+					esc_html__( 'License update task failed', 'quill-smtp' ),
 					array(
 						'code'    => 'license_update_task_failed',
 						'trigger' => $trigger,
@@ -558,14 +558,14 @@ class License {
 
 		// check current license.
 		if ( ! empty( get_option( 'quillsmtp_license' ) ) ) {
-			wp_send_json_error( esc_html__( 'Current license must be deactivated first', 'quillsmtp' ), 403 );
+			wp_send_json_error( esc_html__( 'Current license must be deactivated first', 'quill-smtp' ), 403 );
 			exit;
 		}
 
 		// posted license key.
 		$license_key = trim( sanitize_text_field( $_POST['license_key'] ?? '' ) );
 		if ( empty( $license_key ) ) {
-			wp_send_json_error( esc_html__( 'License key is required', 'quillsmtp' ), 400 );
+			wp_send_json_error( esc_html__( 'License key is required', 'quill-smtp' ), 400 );
 			exit;
 		}
 
@@ -579,7 +579,7 @@ class License {
 
 		// failed request.
 		if ( ! $response['success'] ) {
-			$message = $response['message'] ?? esc_html__( 'An error occurred, please try again', 'quillsmtp' );
+			$message = $response['message'] ?? esc_html__( 'An error occurred, please try again', 'quill-smtp' );
 			wp_send_json_error( $message, 422 );
 			exit;
 		}
@@ -588,22 +588,22 @@ class License {
 		if ( ! ( $response['data']['success'] ?? false ) ) {
 			$status_label = $this->get_status_label( $response['data']['error'] ?? null );
 			if ( $status_label ) {
-				$message = esc_html__( 'License error', 'quillsmtp' ) . ": $status_label";
+				$message = esc_html__( 'License error', 'quill-smtp' ) . ": $status_label";
 			} else {
-				$message = esc_html__( 'An error occurred, please try again', 'quillsmtp' );
+				$message = esc_html__( 'An error occurred, please try again', 'quill-smtp' );
 			}
 			wp_send_json_error( $message, 422 );
 			exit;
 		}
 
 		if ( 'valid' !== $response['data']['license'] ) {
-			$message = esc_html__( 'Invalid license', 'quillsmtp' );
+			$message = esc_html__( 'Invalid license', 'quill-smtp' );
 			wp_send_json_error( $message, 422 );
 			exit;
 		}
 
 		if ( empty( $response['data']['plan'] ) ) {
-			$message = esc_html__( 'Server error, please contact the support', 'quillsmtp' );
+			$message = esc_html__( 'Server error, please contact the support', 'quill-smtp' );
 			wp_send_json_error( $message, 422 );
 			exit;
 		}
@@ -674,7 +674,7 @@ class License {
 			Updater::instance()->clear_pro_update_cache();
 		}
 
-		wp_send_json_success( esc_html__( 'License removed successfully', 'quillsmtp' ), 200 );
+		wp_send_json_success( esc_html__( 'License removed successfully', 'quill-smtp' ), 200 );
 	}
 
 	/**
@@ -688,28 +688,28 @@ class License {
 	public function get_status_label( $status ) {
 		switch ( $status ) {
 			case 'valid':
-				return esc_html__( 'Valid', 'quillsmtp' );
+				return esc_html__( 'Valid', 'quill-smtp' );
 
 			case 'expired':
-				return esc_html__( 'Expired', 'quillsmtp' );
+				return esc_html__( 'Expired', 'quill-smtp' );
 
 			case 'disabled':
 			case 'revoked':
-				return esc_html__( 'Disabled', 'quillsmtp' );
+				return esc_html__( 'Disabled', 'quill-smtp' );
 
 			case 'missing':
 			case 'invalid':
-				return esc_html__( 'Invalid', 'quillsmtp' );
+				return esc_html__( 'Invalid', 'quill-smtp' );
 
 			case 'inactive':
 			case 'site_inactive':
-				return esc_html__( 'Not active for this website', 'quillsmtp' );
+				return esc_html__( 'Not active for this website', 'quill-smtp' );
 
 			case 'item_name_mismatch':
-				return esc_html__( 'Invalid key for a plan', 'quillsmtp' );
+				return esc_html__( 'Invalid key for a plan', 'quill-smtp' );
 
 			case 'no_activations_left':
-				return esc_html__( 'Key reached its activation limit', 'quillsmtp' );
+				return esc_html__( 'Key reached its activation limit', 'quill-smtp' );
 
 			default:
 				return null;
@@ -727,13 +727,13 @@ class License {
 	private function check_authorization() {
 		// check for valid nonce field.
 		if ( ! check_ajax_referer( 'quillsmtp_license', '_nonce', false ) ) {
-			wp_send_json_error( esc_html__( 'Invalid nonce', 'quillsmtp' ), 403 );
+			wp_send_json_error( esc_html__( 'Invalid nonce', 'quill-smtp' ), 403 );
 			exit;
 		}
 
 		// check for user capability.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'quillsmtp' ), 403 );
+			wp_send_json_error( esc_html__( 'Forbidden', 'quill-smtp' ), 403 );
 			exit;
 		}
 	}

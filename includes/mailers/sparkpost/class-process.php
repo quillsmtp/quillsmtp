@@ -262,7 +262,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SparkPost API Error', 'quillsmtp' ),
+				esc_html__( 'SparkPost API Error', 'quill-smtp' ),
 				[
 					'code'  => 'quillsmtp_sparkpost_send_error',
 					'error' => [

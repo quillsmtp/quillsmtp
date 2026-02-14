@@ -71,7 +71,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_api_key', __( 'Invalid API key.', 'quill-smtp' ) );
 		}
 
 		$api_key  = sanitize_text_field( $api_key );
@@ -94,13 +94,13 @@ class Account_Controller extends Abstract_Account_Controller {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( $body['status'] !== 'success' ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
 
 		}
 

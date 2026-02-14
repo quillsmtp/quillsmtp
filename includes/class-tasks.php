@@ -167,7 +167,7 @@ class Tasks {
 				$meta = $this->get_meta( $meta_id );
 				if ( ! isset( $meta['value'] ) ) {
 					quillsmtp_get_logger()->critical(
-						esc_html__( 'Cannot find task meta', 'quillsmtp' ),
+						esc_html__( 'Cannot find task meta', 'quill-smtp' ),
 						array(
 							'code'    => 'cannot_find_task_meta',
 							'hook'    => $hook,
@@ -182,7 +182,7 @@ class Tasks {
 					call_user_func_array( $callback, $meta['value'] );
 				} catch ( Throwable $e ) {
 					quillsmtp_get_logger()->error(
-						esc_html__( 'Task threw an exception', 'quillsmtp' ),
+						esc_html__( 'Task threw an exception', 'quill-smtp' ),
 						array(
 							'code'      => 'task_threw_exception',
 							'hook'      => $hook,

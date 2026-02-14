@@ -54,7 +54,7 @@ class Admin_Loader {
 	 */
 	public static function is_admin_page() : bool {
 		$current_screen = get_current_screen();
-		if ( false === strpos( $current_screen->id, 'quillsmtp' ) ) {
+		if ( false === strpos( $current_screen->id, 'quill-smtp' ) ) {
 			return false;
 		}
 		return true;
@@ -183,7 +183,7 @@ class Admin_Loader {
 			array(
 				'adminUrl'       => admin_url(),
 				'assetsBuildUrl' => QUILLSMTP_PLUGIN_URL,
-				'submenuPages'   => $submenu['quillsmtp'] ?? [],
+				'submenuPages'   => $submenu['quill-smtp'] ?? [],
 				'adminUrl'       => admin_url(),
 				'license_nonce'  => wp_create_nonce( 'quillsmtp_license' ),
 			)

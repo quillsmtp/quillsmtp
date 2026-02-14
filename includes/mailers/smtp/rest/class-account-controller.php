@@ -97,23 +97,23 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id     = $request->get_param( 'id' );
 
 		if ( empty( $smtp_host ) ) {
-			return new WP_Error( 'quillsmtp_rest_invalid_smtp_host', __( 'Invalid SMTP Host.', 'quillsmtp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'quillsmtp_rest_invalid_smtp_host', __( 'Invalid SMTP Host.', 'quill-smtp' ), array( 'status' => 400 ) );
 		}
 
 		if ( empty( $smtp_port ) ) {
-			return new WP_Error( 'quillsmtp_rest_invalid_smtp_port', __( 'Invalid SMTP Port.', 'quillsmtp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'quillsmtp_rest_invalid_smtp_port', __( 'Invalid SMTP Port.', 'quill-smtp' ), array( 'status' => 400 ) );
 		}
 
 		if ( empty( $encryption ) ) {
-			return new WP_Error( 'quillsmtp_rest_invalid_encryption', __( 'Invalid Encryption.', 'quillsmtp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'quillsmtp_rest_invalid_encryption', __( 'Invalid Encryption.', 'quill-smtp' ), array( 'status' => 400 ) );
 		}
 
 		if ( $authentication && empty( $username ) ) {
-			return new WP_Error( 'quillsmtp_rest_invalid_username', __( 'Invalid Username.', 'quillsmtp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'quillsmtp_rest_invalid_username', __( 'Invalid Username.', 'quill-smtp' ), array( 'status' => 400 ) );
 		}
 
 		if ( $authentication && empty( $password ) ) {
-			return new WP_Error( 'quillsmtp_rest_invalid_password', __( 'Invalid Password.', 'quillsmtp' ), array( 'status' => 400 ) );
+			return new WP_Error( 'quillsmtp_rest_invalid_password', __( 'Invalid Password.', 'quill-smtp' ), array( 'status' => 400 ) );
 		}
 
 		return array(

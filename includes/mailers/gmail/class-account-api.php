@@ -89,7 +89,7 @@ class Account_API {
 			} else {
 				$app_credentials = $this->app->get_app_credentials();
 				if ( empty( $app_credentials ) ) {
-					throw new \Exception( esc_html__( 'Cannot find app credentials', 'quillsmtp' ) );
+					throw new \Exception( esc_html__( 'Cannot find app credentials', 'quill-smtp' ) );
 				}
 				$client_id     = $app_credentials['client_id'];
 				$client_secret = $app_credentials['client_secret'];
@@ -115,7 +115,7 @@ class Account_API {
 			}
 
 			if ( ! $client->getAccessToken() ) {
-				throw new \Exception( esc_html__( 'Unable to get access token', 'quillsmtp' ) );
+				throw new \Exception( esc_html__( 'Unable to get access token', 'quill-smtp' ) );
 			}
 
 			return $client;

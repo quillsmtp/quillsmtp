@@ -100,7 +100,7 @@ class Summary_Email {
 		$message = $this->build_email();
 		wp_mail(
 			$email,
-			__( 'QuillSMTP Weekly Summary', 'quillsmtp' ),
+			__( 'QuillSMTP Weekly Summary', 'quill-smtp' ),
 			$message,
 			$this->get_headers()
 		);

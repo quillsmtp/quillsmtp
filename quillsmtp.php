@@ -11,7 +11,7 @@
  *
  * Author URI: https://quillsmtp.com
  *
- * Text Domain: quillsmtp
+ * Text Domain: quill-smtp
  *
  * Domain Path: /languages
  *

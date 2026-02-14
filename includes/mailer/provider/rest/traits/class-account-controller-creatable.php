@@ -115,7 +115,7 @@ trait Account_Controller_Creatable {
 		}
 
 		if ( empty( $result ) || is_wp_error( $result ) ) {
-			return new WP_Error( "quillsmtp_{$this->provider->slug}_cannot_save_account", esc_html__( 'Cannot save account', 'quillsmtp' ) );
+			return new WP_Error( "quillsmtp_{$this->provider->slug}_cannot_save_account", esc_html__( 'Cannot save account', 'quill-smtp' ) );
 		}
 
 		return new WP_REST_Response(

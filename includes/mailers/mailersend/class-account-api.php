@@ -107,12 +107,12 @@ class Account_API {
 	public function send_batch( $batch_args ) {
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		// MailerSend limits: 500 emails per bulk request (5 for trial accounts)
 		if ( count( $batch_args['to'] ) > 500 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 500 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 500 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = [];
@@ -124,7 +124,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		// Build the from object
@@ -217,7 +217,7 @@ class Account_API {
 
 		// Check for success (202 Accepted)
 		if ( $status_code !== 202 ) {
-			$error_message = $body_data['message'] ?? __( 'Unknown API error.', 'quillsmtp' );
+			$error_message = $body_data['message'] ?? __( 'Unknown API error.', 'quill-smtp' );
 			$error         = new WP_Error( 'mailersend_bulk_error', $error_message, [ 'status' => $status_code, 'body' => $body ] );
 			$this->log_batch_emails( $batch_args, $recipients, $error );
 			return $error;
@@ -226,7 +226,7 @@ class Account_API {
 		// Build success result
 		$result = [
 			'id'            => $body_data['bulk_email_id'] ?? '',
-			'message'       => $body_data['message'] ?? __( 'Bulk email is being processed.', 'quillsmtp' ),
+			'message'       => $body_data['message'] ?? __( 'Bulk email is being processed.', 'quill-smtp' ),
 			'bulk_email_id' => $body_data['bulk_email_id'] ?? '',
 		];
 
@@ -338,7 +338,7 @@ class Account_API {
 		$body_data   = json_decode( $body, true );
 
 		if ( $status_code !== 200 ) {
-			return new WP_Error( 'mailersend_status_error', __( 'Failed to get bulk email status.', 'quillsmtp' ), [ 'status' => $status_code ] );
+			return new WP_Error( 'mailersend_status_error', __( 'Failed to get bulk email status.', 'quill-smtp' ), [ 'status' => $status_code ] );
 		}
 
 		return $body_data['data'] ?? $body_data;

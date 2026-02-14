@@ -65,17 +65,17 @@ class Account_API {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
 		}
 
 		if ( ! isset( $body['success'] ) || ( isset( $body['success'] ) && ! $body['success'] ) ) {
-			return new WP_Error( 'could_not_send', isset( $body['error'] ) ? $body['error'] : __( 'Could not send email.', 'quillsmtp' ) );
+			return new WP_Error( 'could_not_send', isset( $body['error'] ) ? $body['error'] : __( 'Could not send email.', 'quill-smtp' ) );
 		}
 
 		return $body;
@@ -113,12 +113,12 @@ class Account_API {
 	public function send_batch( $batch_args ) {
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		// Elastic Email bulk endpoint supports large batches
 		if ( count( $batch_args['to'] ) > 10000 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 10000 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 10000 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = [];
@@ -130,7 +130,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		// Build recipients array with Fields for personalization (merge tags)
@@ -222,7 +222,7 @@ class Account_API {
 
 		// Check for errors
 		if ( $status_code >= 400 || ( isset( $body_data['Success'] ) && $body_data['Success'] === false ) ) {
-			$error_message = $body_data['Error'] ?? $body_data['Message'] ?? __( 'Unknown API error.', 'quillsmtp' );
+			$error_message = $body_data['Error'] ?? $body_data['Message'] ?? __( 'Unknown API error.', 'quill-smtp' );
 			$error         = new WP_Error( 'elasticemail_error', $error_message, [ 'status' => $status_code, 'body' => $body ] );
 			$this->log_batch_emails( $batch_args, $recipients, $error );
 			return $error;
@@ -231,7 +231,7 @@ class Account_API {
 		// Success - build result
 		$result = [
 			'id'             => $body_data['MessageID'] ?? $body_data['TransactionID'] ?? '',
-			'message'        => __( 'Batch email sent successfully.', 'quillsmtp' ),
+			'message'        => __( 'Batch email sent successfully.', 'quill-smtp' ),
 			'sent_count'     => count( $recipients ),
 			'failed'         => [],
 			'transaction_id' => $body_data['TransactionID'] ?? '',
@@ -331,13 +331,13 @@ class Account_API {
 
 		$body = wp_remote_retrieve_body( $response );
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! isset( $body['success'] ) || ( isset( $body['success'] ) && ! $body['success'] ) ) {
-			return new WP_Error( 'invalid_api_key', __( 'Failed to get account.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_api_key', __( 'Failed to get account.', 'quill-smtp' ) );
 		}
 
 		return $body;

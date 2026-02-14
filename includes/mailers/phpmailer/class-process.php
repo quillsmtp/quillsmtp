@@ -149,7 +149,7 @@ class Process extends Abstract_Process {
 				$this->log_result(
 					array(
 						'status'   => self::SUCCEEDED,
-						'response' => $send_email ? __( 'Email sent successfully.', 'quillsmtp' ) : __( 'Email failed to send.', 'quillsmtp' ),
+						'response' => $send_email ? __( 'Email sent successfully.', 'quill-smtp' ) : __( 'Email failed to send.', 'quill-smtp' ),
 					)
 				);
 
@@ -163,7 +163,7 @@ class Process extends Abstract_Process {
 			}
 
 			quillsmtp_get_logger()->error(
-				esc_html__( 'PHPMailer Error', 'quillsmtp' ),
+				esc_html__( 'PHPMailer Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_phpmailer_send_error',
 					'error' => [

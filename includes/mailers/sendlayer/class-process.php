@@ -285,7 +285,7 @@ class Process extends Abstract_Process {
 			);
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SendLayer API Error', 'quillsmtp' ),
+				esc_html__( 'SendLayer API Error', 'quill-smtp' ),
 				[
 					'code'  => 'quillsmtp_sendlayer_send_error',
 					'error' => [

@@ -208,7 +208,7 @@ class REST_Log_Controller extends REST_Controller {
 		$deleted = Log_Handler_DB::delete( $request->get_param( 'log_id' ) );
 
 		if ( ! $deleted ) {
-			return new WP_Error( 'quillsmtp_logs_db_error_on_deleting_log', __( 'Error on deleting log in db!', 'quillsmtp' ), array( 'status' => 422 ) );
+			return new WP_Error( 'quillsmtp_logs_db_error_on_deleting_log', __( 'Error on deleting log in db!', 'quill-smtp' ), array( 'status' => 422 ) );
 		}
 
 		return new WP_REST_Response();

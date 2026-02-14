@@ -177,7 +177,7 @@ class Account_API {
 						$results['message_ids'][ $email ] = $parsed['message_id'];
 					}
 				} else {
-					$results['failed'][ $email ] = $parsed['error'] ?? __( 'Unknown error', 'quillsmtp' );
+					$results['failed'][ $email ] = $parsed['error'] ?? __( 'Unknown error', 'quill-smtp' );
 				}
 			}
 
@@ -227,14 +227,14 @@ class Account_API {
 		);
 
 		if ( empty( $response ) ) {
-			$result['error'] = __( 'Empty response from SMTP2GO', 'quillsmtp' );
+			$result['error'] = __( 'Empty response from SMTP2GO', 'quill-smtp' );
 			return $result;
 		}
 
 		$body = json_decode( $response, true );
 
 		if ( ! is_array( $body ) ) {
-			$result['error'] = __( 'Invalid JSON response from SMTP2GO', 'quillsmtp' );
+			$result['error'] = __( 'Invalid JSON response from SMTP2GO', 'quill-smtp' );
 			return $result;
 		}
 
@@ -253,11 +253,11 @@ class Account_API {
 		} elseif ( $http_code >= 400 ) {
 			$result['error'] = sprintf(
 				/* translators: %d: HTTP status code */
-				__( 'HTTP error %d from SMTP2GO', 'quillsmtp' ),
+				__( 'HTTP error %d from SMTP2GO', 'quill-smtp' ),
 				$http_code
 			);
 		} else {
-			$result['error'] = __( 'Unknown error from SMTP2GO', 'quillsmtp' );
+			$result['error'] = __( 'Unknown error from SMTP2GO', 'quill-smtp' );
 		}
 
 		return $result;

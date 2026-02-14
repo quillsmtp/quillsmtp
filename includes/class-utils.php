@@ -125,7 +125,7 @@ final class Utils {
 		if ( ! $fp ) {
 			return new WP_Error(
 				'quillsmtp_cannot_create_file',
-				esc_html__( 'Cannot create export file', 'quillsmtp' ),
+				esc_html__( 'Cannot create export file', 'quill-smtp' ),
 				[ 'status' => 500 ]
 			);
 		}

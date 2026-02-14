@@ -118,7 +118,7 @@ class Settings_Controller extends Abstract_Settings_Controller {
 			);
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Gmail Getting User Profile Error', 'quillsmtp' ),
+				esc_html__( 'Gmail Getting User Profile Error', 'quill-smtp' ),
 				array(
 					'code'  => 'gmail_get_user_profile_error',
 					'error' => [

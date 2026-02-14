@@ -49,7 +49,7 @@ class Process extends Abstract_Process {
 			$this->phpmailer->Sender = $email;
 		} catch ( \Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Gmail Send Error', 'quillsmtp' ),
+				esc_html__( 'Gmail Send Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_gmail_send_error',
 					'error' => [
@@ -150,7 +150,7 @@ class Process extends Abstract_Process {
 			return true;
 		} catch ( \Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Gmail Send Error', 'quillsmtp' ),
+				esc_html__( 'Gmail Send Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_gmail_send_error',
 					'error' => [

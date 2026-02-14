@@ -142,7 +142,7 @@ abstract class Accounts {
 			if ( ! isset( $accounts_data[ $account_id ] ) ) {
 				return new WP_Error(
 					"quillsmtp_{$this->provider->slug}_cannot_find_account_data",
-					esc_html__( 'Cannot find account data', 'quillsmtp' )
+					esc_html__( 'Cannot find account data', 'quill-smtp' )
 				);
 			}
 			// init account api.
@@ -151,7 +151,7 @@ abstract class Accounts {
 			} catch ( Exception $e ) {
 				return new WP_Error(
 					"quillsmtp_{$this->provider->slug}_cannot_init_account_api",
-					esc_html__( 'Cannot connect to account api', 'quillsmtp' )
+					esc_html__( 'Cannot connect to account api', 'quill-smtp' )
 				);
 			}
 		}
@@ -215,7 +215,7 @@ abstract class Accounts {
 		$data = $this->get_accounts_data();
 		if ( isset( $data[ $account_id ] ) ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Account id already exists', 'quillsmtp' ),
+				esc_html__( 'Account id already exists', 'quill-smtp' ),
 				array(
 					'source'     => static::class . '->' . __FUNCTION__,
 					'code'       => 'account_id_already_exists',
@@ -241,7 +241,7 @@ abstract class Accounts {
 		$data = $this->get_accounts_data();
 		if ( ! isset( $data[ $account_id ] ) ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Cannot find account to update', 'quillsmtp' ),
+				esc_html__( 'Cannot find account to update', 'quill-smtp' ),
 				array(
 					'source'     => static::class . '->' . __FUNCTION__,
 					'code'       => 'cannot_find_account_to_update',

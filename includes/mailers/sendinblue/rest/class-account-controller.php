@@ -73,7 +73,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'quillsmtp_sendinblue_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
+			return new WP_Error( 'quillsmtp_sendinblue_api_key_missing', __( 'API key is missing.', 'quill-smtp' ) );
 		}
 
 		$config       = Configuration::getDefaultConfiguration()->setApiKey( 'api-key', $api_key );
@@ -87,7 +87,7 @@ class Account_Controller extends Abstract_Account_Controller {
 				'name' => $account_name,
 			];
 		} catch ( \Exception $e ) {
-			return new WP_Error( 'quillsmtp_sendinblue_api_key_invalid', __( 'API key is invalid.', 'quillsmtp' ) );
+			return new WP_Error( 'quillsmtp_sendinblue_api_key_invalid', __( 'API key is invalid.', 'quill-smtp' ) );
 		}
 	}
 

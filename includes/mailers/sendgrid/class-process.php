@@ -269,7 +269,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SendGrid API Error', 'quillsmtp' ),
+				esc_html__( 'SendGrid API Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_sendgrid_send_error',
 					'error' => [

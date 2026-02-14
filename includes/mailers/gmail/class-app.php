@@ -60,7 +60,7 @@ class App {
 		}
 
 		if ( empty( $app_credentials ) ) {
-			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp' );
+			echo esc_html__( 'Cannot find app credentials!', 'quill-smtp' );
 			exit;
 		}
 
@@ -106,7 +106,7 @@ class App {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- OAuth callback, nonce not applicable
 		$code = isset( $_GET['code'] ) ? sanitize_text_field( wp_unslash( $_GET['code'] ) ) : '';
 		if ( empty( $code ) ) {
-			echo esc_html__( 'Error, There is no authorize code passed!', 'quillsmtp' );
+			echo esc_html__( 'Error, There is no authorize code passed!', 'quill-smtp' );
 			exit;
 		}
 
@@ -118,7 +118,7 @@ class App {
 		}
 
 		if ( empty( $app_credentials ) ) {
-			echo esc_html__( 'Cannot find app credentials!', 'quillsmtp' );
+			echo esc_html__( 'Cannot find app credentials!', 'quill-smtp' );
 			exit;
 		}
 
@@ -134,7 +134,7 @@ class App {
 		);
 
 		if ( empty( $tokens ) ) {
-			echo esc_html__( 'Error, Cannot get account tokens!', 'quillsmtp' );
+			echo esc_html__( 'Error, Cannot get account tokens!', 'quill-smtp' );
 			exit;
 		}
 
@@ -150,7 +150,7 @@ class App {
 					'error' => $accounts_response,
 				]
 			);
-			echo esc_html__( 'Error, Cannot get profile details!', 'quillsmtp' );
+			echo esc_html__( 'Error, Cannot get profile details!', 'quill-smtp' );
 			exit;
 		}
 
@@ -174,13 +174,13 @@ class App {
 		if ( in_array( $account_id, array_keys( $this->provider->accounts->get_accounts() ), true ) ) {
 			$result = $this->provider->accounts->update_account( $account_id, $account_data );
 			if ( empty( $result ) || is_wp_error( $result ) ) {
-				echo esc_html__( 'Error, Cannot update the account!', 'quillsmtp' );
+				echo esc_html__( 'Error, Cannot update the account!', 'quill-smtp' );
 				exit;
 			}
 		} else {
 			$result = $this->provider->accounts->add_account( $account_id, $account_data );
 			if ( empty( $result ) || is_wp_error( $result ) ) {
-				echo esc_html__( 'Error, Cannot add the new account!', 'quillsmtp' );
+				echo esc_html__( 'Error, Cannot add the new account!', 'quill-smtp' );
 				exit;
 			}
 		}
@@ -196,7 +196,7 @@ class App {
 			<title>Authorization done</title>
 		</head>
 		<body>
-			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quillsmtp' ); ?>
+			<?php echo esc_html__( "The account is added/updated successfully. If this window isn't closed automatically. Please close it and refersh your accounts select menu.", 'quill-smtp' ); ?>
 			<script>
 				if ( typeof window.opener.add_new_gmail_account === 'function' ) {
 					window.opener.add_new_gmail_account( '<?php echo  esc_attr( $account_id ); ?>', '<?php echo esc_attr( $account_name ); ?>' );

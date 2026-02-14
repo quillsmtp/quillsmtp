@@ -43,25 +43,25 @@ $failed_change       = $failed > $last_weekend_failed ? '+' . ( $failed - $last_
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width">
-	<title><?php echo esc_html__( 'QuillSMTP Test Email', 'quillsmtp' ); ?></title>
+	<title><?php echo esc_html__( 'QuillSMTP Test Email', 'quill-smtp' ); ?></title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', 'Arial', sans-serif; background-color: #f5f5f5;">
 	<div id="wrapper" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 		<div id="header" style="text-align: center; margin-bottom: 20px; color: #3498db;">
 			<h1 style="font-size: 32px; margin: 0; font-weight: bold; color: #2c3e50;">
-				<?php echo esc_html__( 'QuillSMTP', 'quillsmtp' ) . ' ' . esc_html( $blogname ) . ' ' . esc_html__( 'Weekly Email Report', 'quillsmtp' ); ?>
+				<?php echo esc_html__( 'QuillSMTP', 'quill-smtp' ) . ' ' . esc_html( $blogname ) . ' ' . esc_html__( 'Weekly Email Report', 'quill-smtp' ); ?>
 			</h1>
 			<p style="font-size: 14px; color: #555555;">
-				<?php echo esc_html( 'Unlock insights into your email performance.', 'quillsmtp' ); ?>
+				<?php echo esc_html( 'Unlock insights into your email performance.', 'quill-smtp' ); ?>
 			</p>
 		</div>
 		<div id="body" style="color: #555555; text-align: center;">
-			<p><?php echo esc_html__( 'Greetings! Here is your weekly summary of emails sent by QuillSMTP.', 'quillsmtp' ); ?></p>
+			<p><?php echo esc_html__( 'Greetings! Here is your weekly summary of emails sent by QuillSMTP.', 'quill-smtp' ); ?></p>
 			<div class="box-container" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
 				<div class="box total-box" style="flex: 1; margin: 10px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #ffffff; border: 2px solid #3498db; color: #3498db;">
 					<h2 style="font-size: 18px; margin-bottom: 10px; color: #333333;">
 						<span class="icon">✉️</span>
-						<?php echo esc_html__( 'Total Emails', 'quillsmtp' ); ?>
+						<?php echo esc_html__( 'Total Emails', 'quill-smtp' ); ?>
 					</h2>
 					<p style="margin: 0; font-size: 14px; color: #555555;">
 						<?php echo esc_html( $total_emails ); ?>
@@ -75,7 +75,7 @@ $failed_change       = $failed > $last_weekend_failed ? '+' . ( $failed - $last_
 						<span class="icon" style="color: #2ecc71;">
 							✅
 						</span>
-						<?php echo esc_html__( 'Succeeded', 'quillsmtp' ); ?>
+						<?php echo esc_html__( 'Succeeded', 'quill-smtp' ); ?>
 					</h2>
 					<p style="margin: 0; font-size: 14px; color: #555555;">
 						<?php echo esc_html( $succeeded ); ?>
@@ -89,7 +89,7 @@ $failed_change       = $failed > $last_weekend_failed ? '+' . ( $failed - $last_
 						<span class="icon">
 							❌
 						</span>
-						<?php echo esc_html__( 'Failed', 'quillsmtp' ); ?>
+						<?php echo esc_html__( 'Failed', 'quill-smtp' ); ?>
 					</h2>
 					<p style="margin: 0; font-size: 14px; color: #555555;">
 						<?php echo esc_html( $failed ); ?>
@@ -102,7 +102,7 @@ $failed_change       = $failed > $last_weekend_failed ? '+' . ( $failed - $last_
 		</div>
 		<div id="footer" style="text-align: center; margin-top: 20px; color: #777777;">
 			<p style="font-size: 14px; color: #555555;">
-				<?php echo esc_html__( 'Stay informed with QuillSMTP - Your email delivery companion.', 'quillsmtp' ); ?>
+				<?php echo esc_html__( 'Stay informed with QuillSMTP - Your email delivery companion.', 'quill-smtp' ); ?>
 			</p>
 		</div>
 	</div>

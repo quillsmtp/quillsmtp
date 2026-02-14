@@ -514,7 +514,7 @@ class Handler_DB {
 
 		if ( ! $initiator ) {
 			$initiator = array(
-				'name' => esc_html__( 'Unknown', 'quillsmtp' ),
+				'name' => esc_html__( 'Unknown', 'quill-smtp' ),
 				'slug' => 'unknown',
 				'type' => 'unknown',
 			);
@@ -633,7 +633,7 @@ class Handler_DB {
 			strpos( $file_path, $wp_admin ) === 0
 		) {
 			return [
-				'name' => esc_html__( 'WP Core', 'quillsmtp' ),
+				'name' => esc_html__( 'WP Core', 'quill-smtp' ),
 				'slug' => 'wp-core',
 				'type' => 'wp-core',
 			];

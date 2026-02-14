@@ -106,7 +106,7 @@ final class QuillSMTP {
 	 * @since 1.0.0
 	 */
 	public function load_objects() {
-		$this->tasks = new Tasks( 'quillsmtp' );
+		$this->tasks = new Tasks( 'quill-smtp' );
 		Summary_Email::instance();
 		Site::instance();
 	}

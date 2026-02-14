@@ -354,7 +354,7 @@ class Process extends Abstract_Process {
 			return true;
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'ElasticEmail API Error', 'quillsmtp' ),
+				esc_html__( 'ElasticEmail API Error', 'quill-smtp' ),
 				[
 					'code'  => 'quillsmtp_elasticemail_send_error',
 					'error' => [

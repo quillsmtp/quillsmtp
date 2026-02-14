@@ -146,7 +146,7 @@ abstract class Settings_Controller {
 		if ( $updated ) {
 			return new WP_REST_Response( array( 'success' => true ) );
 		} else {
-			return new WP_Error( "quillsmtp_{$this->mailer->slug}_settings_update", esc_html__( 'Cannot update settings', 'quillsmtp' ) );
+			return new WP_Error( "quillsmtp_{$this->mailer->slug}_settings_update", esc_html__( 'Cannot update settings', 'quill-smtp' ) );
 		}
 	}
 

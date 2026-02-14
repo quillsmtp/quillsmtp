@@ -124,12 +124,12 @@ class REST_Email_Log_Controller extends REST_Controller {
 		$ids = explode( ',', $ids );
 
 		if ( empty( $ids ) ) {
-			return new WP_Error( 'quillsmtp_logs_no_ids', esc_html__( 'No ids provided', 'quillsmtp' ), array( 'status' => 422 ) );
+			return new WP_Error( 'quillsmtp_logs_no_ids', esc_html__( 'No ids provided', 'quill-smtp' ), array( 'status' => 422 ) );
 		}
 
 		$logs = Handler_DB::get( $ids );
 		if ( empty( $logs ) ) {
-			return new WP_Error( 'quillsmtp_logs_no_logs', esc_html__( 'No logs found', 'quillsmtp' ), array( 'status' => 422 ) );
+			return new WP_Error( 'quillsmtp_logs_no_logs', esc_html__( 'No logs found', 'quill-smtp' ), array( 'status' => 422 ) );
 		}
 
 		foreach ( $logs as $log ) {
@@ -416,7 +416,7 @@ class REST_Email_Log_Controller extends REST_Controller {
 		$deleted = Handler_DB::delete( $request->get_param( 'log_id' ) );
 
 		if ( ! $deleted ) {
-			return new WP_Error( 'quillsmtp_logs_db_error_on_deleting_log', __( 'Error on deleting log in db!', 'quillsmtp' ), array( 'status' => 422 ) );
+			return new WP_Error( 'quillsmtp_logs_db_error_on_deleting_log', __( 'Error on deleting log in db!', 'quill-smtp' ), array( 'status' => 422 ) );
 		}
 
 		return new WP_REST_Response( array( 'success' => true ), 200 );

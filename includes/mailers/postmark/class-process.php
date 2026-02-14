@@ -260,7 +260,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Postmark API Error', 'quillsmtp' ),
+				esc_html__( 'Postmark API Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_postmark_send_error',
 					'error' => [

@@ -169,7 +169,7 @@ class Updater {
 			'versions'   => array(
 				'php'       => phpversion(),
 				'wp'        => get_bloginfo( 'version' ),
-				'quillsmtp' => QUILLSMTP_PLUGIN_VERSION,
+				'quill-smtp' => QUILLSMTP_PLUGIN_VERSION,
 			),
 		);
 
@@ -239,7 +239,7 @@ class Updater {
 
 		// invalid license.
 		if ( ! $license_info || 'valid' !== $license_info['status'] ) {
-			echo '&nbsp;<strong><a href="' . esc_attr($license_page) . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quillsmtp' ) . '</a></strong>';
+			echo '&nbsp;<strong><a href="' . esc_attr($license_page) . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quill-smtp' ) . '</a></strong>';
 			return;
 		}
 	}

@@ -123,11 +123,11 @@ class Account_API {
 		// Validate recipients
 		// ----------------------------
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		if ( count( $batch_args['to'] ) > 1000 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = [];
@@ -139,7 +139,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		// ----------------------------
@@ -326,13 +326,13 @@ class Account_API {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
 		}
 
 		if ( ! empty( $body['error'] ) ) {
@@ -342,7 +342,7 @@ class Account_API {
 		// Check HTTP status code for errors
 		$status_code = wp_remote_retrieve_response_code( $response );
 		if ( $status_code >= 400 ) {
-			$error_message = $body['message'] ?? __( 'Unknown API error.', 'quillsmtp' );
+			$error_message = $body['message'] ?? __( 'Unknown API error.', 'quill-smtp' );
 			return new WP_Error( 'api_error', $error_message, [ 'status' => $status_code ] );
 		}
 

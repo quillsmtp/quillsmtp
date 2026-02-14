@@ -78,19 +78,19 @@ class Email_Test {
 
 		// Check connection.
 		if ( ! $connection_id ) {
-			wp_send_json_error( __( 'Please select a connection.', 'quillsmtp' ) );
+			wp_send_json_error( __( 'Please select a connection.', 'quill-smtp' ) );
 		}
 
 		// check if email is valid.
 		if ( ! is_email( $email ) ) {
-			wp_send_json_error( __( 'Please enter a valid email address.', 'quillsmtp' ) );
+			wp_send_json_error( __( 'Please enter a valid email address.', 'quill-smtp' ) );
 		}
 
 		$connections = Settings::get( 'connections' );
 		$connection  = $connections[ $connection_id ] ?? null;
 
 		if ( ! $connection ) {
-			wp_send_json_error( __( 'Connection not found.', 'quillsmtp' ) );
+			wp_send_json_error( __( 'Connection not found.', 'quill-smtp' ) );
 		}
 
 		// Use explicit connection filter to bypass auto-routing
@@ -104,15 +104,15 @@ class Email_Test {
 		$message = $this->build_email();
 		$result  = wp_mail(
 			$email,
-			__( 'QuillSMTP Test Email', 'quillsmtp' ),
+			__( 'QuillSMTP Test Email', 'quill-smtp' ),
 			$message,
 			$this->get_headers()
 		);
 
 		if ( $result ) {
-			wp_send_json_success( __( 'Email sent successfully.', 'quillsmtp' ) );
+			wp_send_json_success( __( 'Email sent successfully.', 'quill-smtp' ) );
 		} else {
-			wp_send_json_error( __( 'Failed to send email.', 'quillsmtp' ) );
+			wp_send_json_error( __( 'Failed to send email.', 'quill-smtp' ) );
 		}
 	}
 

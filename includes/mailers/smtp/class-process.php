@@ -172,7 +172,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $exc ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'PHPMailer Error', 'quillsmtp' ),
+				esc_html__( 'PHPMailer Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_phpmailer_send_error',
 					'error' => [

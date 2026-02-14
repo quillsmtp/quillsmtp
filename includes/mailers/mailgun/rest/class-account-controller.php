@@ -76,15 +76,15 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'quillsmtp_mailgun_api_key_missing', __( 'API key is missing.', 'quillsmtp' ) );
+			return new WP_Error( 'quillsmtp_mailgun_api_key_missing', __( 'API key is missing.', 'quill-smtp' ) );
 		}
 
 		if ( empty( $domain_name ) ) {
-			return new WP_Error( 'quillsmtp_mailgun_domain_name_missing', __( 'Domain name is missing.', 'quillsmtp' ) );
+			return new WP_Error( 'quillsmtp_mailgun_domain_name_missing', __( 'Domain name is missing.', 'quill-smtp' ) );
 		}
 
 		if ( empty( $region ) ) {
-			return new WP_Error( 'quillsmtp_mailgun_region_missing', __( 'Region is missing.', 'quillsmtp' ) );
+			return new WP_Error( 'quillsmtp_mailgun_region_missing', __( 'Region is missing.', 'quill-smtp' ) );
 		}
 		$response = wp_remote_request(
 			'eu' === $region ? 'https://api.eu.mailgun.net/v3/domains/' . $domain_name : 'https://api.mailgun.net/v3/domains/' . $domain_name,

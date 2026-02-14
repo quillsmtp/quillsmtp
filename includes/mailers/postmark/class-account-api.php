@@ -102,12 +102,12 @@ class Account_API {
 	public function send_batch( $batch_args ) {
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		// Postmark limit: 500 messages per batch
 		if ( count( $batch_args['to'] ) > 500 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 500 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 500 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = array();
@@ -119,7 +119,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		// Build from address
@@ -219,7 +219,7 @@ class Account_API {
 				'id'         => $results[0]->MessageID ?? '',
 				'message'    => sprintf(
 					/* translators: 1: sent count, 2: total count */
-					__( 'Sent %1$d of %2$d emails successfully.', 'quillsmtp' ),
+					__( 'Sent %1$d of %2$d emails successfully.', 'quill-smtp' ),
 					$sent_count,
 					count( $recipients )
 				),
@@ -227,12 +227,12 @@ class Account_API {
 				'failed'     => $failed,
 			);
 
-			$this->log_batch_emails( $batch_args, $recipients, $sent_count > 0 ? $response : new WP_Error( 'all_failed', __( 'All emails failed to send.', 'quillsmtp' ) ) );
+			$this->log_batch_emails( $batch_args, $recipients, $sent_count > 0 ? $response : new WP_Error( 'all_failed', __( 'All emails failed to send.', 'quill-smtp' ) ) );
 
 			if ( $sent_count === 0 ) {
 				return new WP_Error(
 					'batch_send_failed',
-					__( 'All emails in batch failed to send.', 'quillsmtp' ),
+					__( 'All emails in batch failed to send.', 'quill-smtp' ),
 					array( 'failed' => $failed )
 				);
 			}

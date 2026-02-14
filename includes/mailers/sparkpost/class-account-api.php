@@ -96,13 +96,13 @@ class Account_API {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
 		}
 
 		if ( ! empty( $body['error'] ) ) {
@@ -147,12 +147,12 @@ class Account_API {
 	public function send_batch( $batch_args ) {
 		// Validate recipients
 		if ( empty( $batch_args['to'] ) || ! is_array( $batch_args['to'] ) ) {
-			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quillsmtp' ) );
+			return new WP_Error( 'invalid_recipients', __( 'Recipients array is required.', 'quill-smtp' ) );
 		}
 
 		// SparkPost limit: 1000 recipients per transmission
 		if ( count( $batch_args['to'] ) > 1000 ) {
-			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quillsmtp' ) );
+			return new WP_Error( 'too_many_recipients', __( 'Maximum 1000 recipients per batch.', 'quill-smtp' ) );
 		}
 
 		$recipients = array();
@@ -164,7 +164,7 @@ class Account_API {
 		}
 
 		if ( empty( $recipients ) ) {
-			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quillsmtp' ) );
+			return new WP_Error( 'no_valid_recipients', __( 'No valid recipient emails found.', 'quill-smtp' ) );
 		}
 
 		// Build recipients array with substitution_data
@@ -254,7 +254,7 @@ class Account_API {
 
 		// Check for errors
 		if ( ! empty( $body_data['errors'] ) ) {
-			$error_message = $body_data['errors'][0]['message'] ?? __( 'Unknown API error.', 'quillsmtp' );
+			$error_message = $body_data['errors'][0]['message'] ?? __( 'Unknown API error.', 'quill-smtp' );
 			$error         = new WP_Error(
 				'sparkpost_error',
 				$error_message,
@@ -270,7 +270,7 @@ class Account_API {
 		// Success
 		$result = array(
 			'id'             => $body_data['results']['id'] ?? '',
-			'message'        => __( 'Batch email sent successfully.', 'quillsmtp' ),
+			'message'        => __( 'Batch email sent successfully.', 'quill-smtp' ),
 			'sent_count'     => $body_data['results']['total_accepted_recipients'] ?? count( $recipients ),
 			'rejected_count' => $body_data['results']['total_rejected_recipients'] ?? 0,
 			'failed'         => array(),

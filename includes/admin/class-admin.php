@@ -73,10 +73,10 @@ class Admin {
 	 */
 	public function create_admin_menu_pages() {
 		add_menu_page(
-			__( 'Quill SMTP', 'quillsmtp' ),
-			__( 'Quill SMTP', 'quillsmtp' ),
+			__( 'Quill SMTP', 'quill-smtp' ),
+			__( 'Quill SMTP', 'quill-smtp' ),
 			'manage_options',
-			'quillsmtp',
+			'quill-smtp',
 			array( Admin_Loader::class, 'page_wrapper' ),
 			'data:image/svg+xml;base64,' . base64_encode(
 				'<svg xmlns="http://www.w3.org/2000/svg" version="1.2" viewBox="0 0 1350 1539" width="1350" height="1539">
@@ -123,19 +123,19 @@ class Admin {
 
 		// Home.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'Home', 'quillsmtp' ),
-			__( 'Home', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'Home', 'quill-smtp' ),
+			__( 'Home', 'quill-smtp' ),
 			'manage_options',
-			'quillsmtp',
+			'quill-smtp',
 			array( Admin_Loader::class, 'page_wrapper' )
 		);
 
 		// Settings.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'Settings', 'quillsmtp' ),
-			__( 'Settings', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'Settings', 'quill-smtp' ),
+			__( 'Settings', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=settings',
 			array( Admin_Loader::class, 'page_wrapper' )
@@ -143,9 +143,9 @@ class Admin {
 
 		// Email Test.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'Email Test', 'quillsmtp' ),
-			__( 'Email Test', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'Email Test', 'quill-smtp' ),
+			__( 'Email Test', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=email-test',
 			array( Admin_Loader::class, 'page_wrapper' )
@@ -153,7 +153,7 @@ class Admin {
 
 		// Alerts.
 		add_submenu_page(
-			'quillsmtp',
+			'quill-smtp',
 			__( 'Alerts', 'quillsmtp-pro' ),
 			__( 'Alerts', 'quillsmtp-pro' ),
 			'manage_options',
@@ -163,9 +163,9 @@ class Admin {
 
 		// Logs.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'Logs', 'quillsmtp' ),
-			__( 'Logs', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'Logs', 'quill-smtp' ),
+			__( 'Logs', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=logs',
 			array( Admin_Loader::class, 'page_wrapper' )
@@ -173,9 +173,9 @@ class Admin {
 
 		// Debug.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'Debug', 'quillsmtp' ),
-			__( 'Debug', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'Debug', 'quill-smtp' ),
+			__( 'Debug', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=debug',
 			array( Admin_Loader::class, 'page_wrapper' )
@@ -183,9 +183,9 @@ class Admin {
 
 		// License.
 		add_submenu_page(
-			'quillsmtp',
-			__( 'License', 'quillsmtp' ),
-			__( 'License', 'quillsmtp' ),
+			'quill-smtp',
+			__( 'License', 'quill-smtp' ),
+			__( 'License', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=license',
 			array( Admin_Loader::class, 'page_wrapper' )
