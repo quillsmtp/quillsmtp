@@ -323,6 +323,11 @@ Currently, Quill SMTP is a fully-featured free plugin. We may introduce premium 
 == Changelog ==
 
 = 1.8.3 - February 14, 2026
+* Updated plugin version in `quillsmtp.php` and `readme.txt` to 1.8.3.
+* Changed mailer implementation from PHPMailer to a new Defaultmailer class for improved functionality.
+* Added filesystem initialization in the Utils class to enhance file handling.
+* Removed deprecated PHPMailer classes to streamline the codebase.
+* Added exit checks for direct access in several files for security.
 
 = 1.8.2 - February 14, 2026
 * Update the plugin text domain to match the plugin slug 
