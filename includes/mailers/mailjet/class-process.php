@@ -247,7 +247,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Mailjet Send Email Error', 'quillsmtp-pro' ),
+				esc_html__( 'Mailjet Send Email Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_mailjet_send_error',
 					'error' => [

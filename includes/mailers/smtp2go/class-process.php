@@ -264,7 +264,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'SMTP2GO Send Email Error', 'quillsmtp-pro' ),
+				esc_html__( 'SMTP2GO Send Email Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_smtp2go_send_error',
 					'error' => [

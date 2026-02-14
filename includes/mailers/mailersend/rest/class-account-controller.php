@@ -66,7 +66,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_token ) ) {
-			return new WP_Error( 'quillsmtp_mailersend_api_token_missing', __( 'API token is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_mailersend_api_token_missing', __( 'API token is missing.', 'quill-smtp' ) );
 		}
 
 		return [

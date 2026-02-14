@@ -236,7 +236,7 @@ class Process extends Abstract_Process {
 			}
 		} catch ( Exception $e ) {
 			quillsmtp_get_logger()->error(
-				esc_html__( 'Loops Send Email Error', 'quillsmtp-pro' ),
+				esc_html__( 'Loops Send Email Error', 'quill-smtp' ),
 				array(
 					'code'  => 'quillsmtp_loops_send_error',
 					'error' => [

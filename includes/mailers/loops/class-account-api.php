@@ -79,13 +79,13 @@ class Account_API {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return new WP_Error( 'empty_response', __( 'Empty response.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'empty_response', __( 'Empty response.', 'quill-smtp' ) );
 		}
 
 		$body = json_decode( $body, true );
 
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'invalid_response', __( 'Invalid response.', 'quill-smtp' ) );
 		}
 
 		return $body;

@@ -71,11 +71,11 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id       = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'quillsmtp_loops_api_key_missing', __( 'API key is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_loops_api_key_missing', __( 'API key is missing.', 'quill-smtp' ) );
 		}
 
 		if ( empty( $transactional_id ) ) {
-			return new WP_Error( 'quillsmtp_loops_transactional_id_missing', __( 'Transactional ID is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_loops_transactional_id_missing', __( 'Transactional ID is missing.', 'quill-smtp' ) );
 		}
 
 		$response = wp_remote_request(
@@ -98,7 +98,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$data = json_decode( $body, true );
 
 		if ( ! isset( $data['success'] ) || $data['success'] !== true ) {
-			return new WP_Error( 'quillsmtp_loops_api_key_invalid', __( 'Invalid API key.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_loops_api_key_invalid', __( 'Invalid API key.', 'quill-smtp' ) );
 		}
 
 		return [

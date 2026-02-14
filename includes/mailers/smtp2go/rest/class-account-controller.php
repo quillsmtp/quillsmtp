@@ -66,7 +66,7 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'quillsmtp_smtp2go_api_key_missing', __( 'API key is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_smtp2go_api_key_missing', __( 'API key is missing.', 'quill-smtp' ) );
 		}
 
 		return [

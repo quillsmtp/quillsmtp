@@ -71,11 +71,11 @@ class Account_Controller extends Abstract_Account_Controller {
 		$account_id   = $request->get_param( 'id' );
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'quillsmtp_mailjet_api_key_missing', __( 'API key is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_mailjet_api_key_missing', __( 'API key is missing.', 'quill-smtp' ) );
 		}
 
 		if ( empty( $secret_key ) ) {
-			return new WP_Error( 'quillsmtp_mailjet_secret_key_missing', __( 'Secret key is missing.', 'quillsmtp-pro' ) );
+			return new WP_Error( 'quillsmtp_mailjet_secret_key_missing', __( 'Secret key is missing.', 'quill-smtp' ) );
 		}
 
 		return [

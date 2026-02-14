@@ -154,8 +154,8 @@ class Admin {
 		// Alerts.
 		add_submenu_page(
 			'quill-smtp',
-			__( 'Alerts', 'quillsmtp-pro' ),
-			__( 'Alerts', 'quillsmtp-pro' ),
+			__( 'Alerts', 'quill-smtp' ),
+			__( 'Alerts', 'quill-smtp' ),
 			'manage_options',
 			'quillsmtp&path=alerts',
 			array( Admin_Loader::class, 'page_wrapper' )

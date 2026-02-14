@@ -177,7 +177,7 @@ class License {
 		$plugins_dir = trailingslashit( dirname( dirname( QUILLSMTP_PLUGIN_FILE ) ) );
 
 		// get plugin data.
-		$plugin_file      = 'quillsmtp-pro/quillsmtp-pro.php';
+		$plugin_file      = 'quill-smtp/quill-smtp.php';
 		$full_plugin_file = $plugins_dir . $plugin_file;
 		$plugin_exists    = file_exists( $full_plugin_file );
 		$plugin_data      = $plugin_exists ? get_plugin_data( $full_plugin_file, true, false ) : array();
@@ -188,7 +188,7 @@ class License {
 		$data['is_installed']     = $plugin_exists;
 		$data['is_active']        = is_plugin_active( $plugin_file );
 		$data['version']          = $plugin_data['Version'] ?? null;
-		$data['slug']             = 'quillsmtp-pro';
+		$data['slug']             = 'quill-smtp';
 
 		$this->plugin_data = $data;
 	}
@@ -224,7 +224,7 @@ class License {
 	// 		array(
 	// 			'edd_action' => 'get_version',
 	// 			'license'    => $license['key'],
-	// 			'item_id'    => 'quillsmtp-pro',
+	// 			'item_id'    => 'quill-smtp',
 	// 		)
 	// 	);
 
