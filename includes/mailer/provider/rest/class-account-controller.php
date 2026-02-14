@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Mailer\Provider\REST;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\Abstracts\REST_Controller;
 use QuillSMTP\Mailer\Provider\Provider;
 use WP_Error;

@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Mailer\Provider\REST;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\Mailer\Provider\Provider;
 use QuillSMTP\Mailer\REST\REST as Abstract_REST;
 use QuillSMTP\Settings;

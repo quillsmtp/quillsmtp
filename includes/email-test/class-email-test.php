@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Email_Test;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 use QuillSMTP\Settings;
 

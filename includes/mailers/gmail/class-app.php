@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Mailers\Gmail;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\Vendor\Google\Service\Gmail;
 
 /**

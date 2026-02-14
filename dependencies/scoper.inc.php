@@ -1,4 +1,10 @@
 <?php
+/**
+ * PHP-Scoper configuration file.
+ *
+ * @package QuillSMTP
+ */
+
 declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;

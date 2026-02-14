@@ -15,7 +15,7 @@ use QuillSMTP\Mailers\Mailgun\Mailgun;
 use QuillSMTP\Mailers\SMTPcom\SMTPcom;
 use QuillSMTP\Mailers\SparkPost\SparkPost;
 use QuillSMTP\Mailers\SMTP\SMTP;
-use QuillSMTP\Mailers\PHPMailer\PHPMailer;
+use QuillSMTP\Mailers\Defaultmailer\Defaultmailer;
 use QuillSMTP\Mailers\ElasticEmail\ElasticEmail;
 use QuillSMTP\Mailers\SendGrid\SendGrid;
 use QuillSMTP\Mailers\Gmail\Gmail;
@@ -95,7 +95,7 @@ final class Mailers {
 			'smtpcom'      => SMTPcom::class,
 			'sparkpost'    => SparkPost::class,
 			'smtp'         => SMTP::class,
-			'phpmailer'    => PHPMailer::class,
+			'phpmailer'    => Defaultmailer::class,
 			'elasticemail' => ElasticEmail::class,
 			'sendgrid'     => SendGrid::class,
 			'gmail'        => Gmail::class,

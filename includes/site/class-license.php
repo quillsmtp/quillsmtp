@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Site;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\QuillSMTP;
 use Automatic_Upgrader_Skin;
 use Plugin_Upgrader;
@@ -471,9 +475,6 @@ class License {
 		// update option.
 		update_option( 'quillsmtp_license', $license );
 
-		// clear plugin update cache.
-		Updater::instance()->clear_pro_update_cache();
-
 		return array( 'success' => true );
 	}
 
@@ -622,9 +623,6 @@ class License {
 		// update option.
 		update_option( 'quillsmtp_license', $license );
 
-		// clear plugin update cache.
-		Updater::instance()->clear_pro_update_cache();
-
 		// return new license info.
 		wp_send_json_success( $this->get_license_info(), 200 );
 	}
@@ -669,9 +667,6 @@ class License {
 			);
 
 			delete_option( 'quillsmtp_license' );
-
-			// clear plugin update cache.
-			Updater::instance()->clear_pro_update_cache();
 		}
 
 		wp_send_json_success( esc_html__( 'License removed successfully', 'quill-smtp' ), 200 );

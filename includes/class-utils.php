@@ -101,6 +101,25 @@ final class Utils {
 	}
 
 	/**
+	 * Initialize WP_Filesystem.
+	 *
+	 * @return bool True if filesystem is initialized.
+	 */
+	private static function init_filesystem() {
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		if ( ! WP_Filesystem() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Export items with pagination and file creation.
 	 *
 	 * @param array    $params
@@ -109,6 +128,8 @@ final class Utils {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public static function export_items( $params, $callback ) {
+		global $wp_filesystem;
+
 		$file_id   = ! empty( $params['file_id'] ) ? $params['file_id'] : time();
 		$file_path = self::get_temp_file_path( $params['file_prefix'], $file_id );
 
@@ -120,18 +141,22 @@ final class Utils {
 			self::export_json( $file_path );
 		}
 
-		$fp = file_exists( $file_path ) ? fopen( $file_path, 'a' ) : fopen( $file_path, 'w' );
-
-		if ( ! $fp ) {
+		if ( ! self::init_filesystem() ) {
 			return new WP_Error(
-				'quillsmtp_cannot_create_file',
-				esc_html__( 'Cannot create export file', 'quill-smtp' ),
+				'quillsmtp_filesystem_error',
+				esc_html__( 'Cannot initialize filesystem', 'quill-smtp' ),
 				[ 'status' => 500 ]
 			);
 		}
 
+		// Get existing content or start fresh.
+		$existing_content = '';
+		if ( $wp_filesystem->exists( $file_path ) ) {
+			$existing_content = $wp_filesystem->get_contents( $file_path );
+		}
+
 		if ( $params['offset'] === 0 ) {
-			fwrite( $fp, "[\n" );
+			$existing_content = "[\n";
 		}
 
 		$start_time         = microtime( true );
@@ -141,9 +166,9 @@ final class Utils {
 			$logs = call_user_func( $callback, $params['filter'], $params['offset'], $params['limit'] );
 
 			if ( empty( $logs ) ) {
-				fseek( $fp, -2, SEEK_END );
-				fwrite( $fp, "\n]\n" );
-				fclose( $fp );
+				// Remove trailing comma and newline, then close the array.
+				$existing_content = rtrim( $existing_content, ",\n" ) . "\n]\n";
+				$wp_filesystem->put_contents( $file_path, $existing_content, FS_CHMOD_FILE );
 
 				return new WP_REST_Response(
 					[
@@ -155,12 +180,12 @@ final class Utils {
 			}
 
 			foreach ( $logs as $log ) {
-				fwrite( $fp, json_encode( $log ) . ",\n" );
+				$existing_content .= wp_json_encode( $log ) . ",\n";
 				$params['offset']++;
 			}
 		}
 
-		fclose( $fp );
+		$wp_filesystem->put_contents( $file_path, $existing_content, FS_CHMOD_FILE );
 
 		return new WP_REST_Response(
 			[
@@ -178,17 +203,25 @@ final class Utils {
 	 * @param string $file_path
 	 */
 	public static function export_json( $file_path ) {
+		global $wp_filesystem;
+
+		if ( ! self::init_filesystem() ) {
+			return;
+		}
+
 		$filename = 'logs_export.json';
+		$filesize = $wp_filesystem->size( $file_path );
+		$content  = $wp_filesystem->get_contents( $file_path );
 
 		nocache_headers();
 		header( 'X-Robots-Tag: noindex', true );
 		header( 'Content-Type: application/json' );
 		header( 'Content-Description: File Transfer' );
 		header( "Content-Disposition: attachment; filename=\"$filename\";" );
-		header( 'Content-Length: ' . filesize( $file_path ) );
+		header( 'Content-Length: ' . $filesize );
 
-		readfile( $file_path );
-		unlink( $file_path );
+		echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON file content.
+		wp_delete_file( $file_path );
 		exit;
 	}
 

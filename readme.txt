@@ -2,9 +2,9 @@
 Contributors: quillforms, mdmag
 Tags: smtp, email, mailer, mail, wp-mail
 Requires at least: 4.6
-Tested up to: 6.7.1
+Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 1.8.0
+Stable tag: 1.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -321,6 +321,11 @@ Currently, Quill SMTP is a fully-featured free plugin. We may introduce premium 
 7. Fallback provider setup - Configure backup SMTP providers for redundancy
 
 == Changelog ==
+
+= 1.8.3 - February 14, 2026
+
+= 1.8.2 - February 14, 2026
+* Update the plugin text domain to match the plugin slug 
 
 = 1.8.1 - February 14, 2026
 * Shortening the plugin title and description 

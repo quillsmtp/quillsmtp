@@ -10,6 +10,10 @@
 
 namespace QuillSMTP\Email_Log;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\Vendor\Automattic\Jetpack\Constants;
 use QuillSMTP\Settings;
 use QuillSMTP\Mailers\Mailers;
@@ -191,9 +195,14 @@ class Handler_DB {
 
 		$table_name = $wpdb->prefix . 'quillsmtp_email_log';
 
-		$result = $wpdb->update( $table_name, $data, array( 'log_id' => $log_id ) );
-
-		return $wpdb->query( $result );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->update(
+			$table_name,
+			$data,
+			array( 'log_id' => absint( $log_id ) ),
+			null,
+			array( '%d' )
+		);
 	}
 
 	/**

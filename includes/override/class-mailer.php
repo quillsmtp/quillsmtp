@@ -1,14 +1,14 @@
 <?php
 /**
- * Class PHPMailer
+ * Class Mailer
  *
  * @since 1.0.0
  *
  * @package QuillSMTP
- * @subpackage phpmailer
+ * @subpackage override
  */
 
-namespace QuillSMTP\PHPMailer;
+namespace QuillSMTP\Override;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -16,12 +16,12 @@ use QuillSMTP\Settings;
 use QuillSMTP\Mailers\Mailers;
 
 /**
- * PHPMailer class.
+ * Mailer class.
  * Override the default PHPMailer class to catch emails.
  *
  * @since 1.0.0
  */
-class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
+class Mailer extends \PHPMailer\PHPMailer\PHPMailer {
 
 	/**
 	 * Modify the default send method to catch emails.

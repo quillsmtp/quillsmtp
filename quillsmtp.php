@@ -5,7 +5,7 @@
  * Description: A plugin to send emails using SMTP instead of the default PHP mail() function.
  *
 
- * Version: 1.8.1
+ * Version: 1.8.3
  *
  * Author: quillforms
  *
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants.
-define( 'QUILLSMTP_PLUGIN_VERSION', '1.8.1' );
+define( 'QUILLSMTP_PLUGIN_VERSION', '1.8.3' );
 define( 'QUILLSMTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'QUILLSMTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'QUILLSMTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

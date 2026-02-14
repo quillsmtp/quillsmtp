@@ -8,7 +8,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\PHPMailer;
+namespace QuillSMTP\Mailers\Defaultmailer;
 
 use QuillSMTP\Mailer\Provider\Process as Abstract_Process;
 use Exception;

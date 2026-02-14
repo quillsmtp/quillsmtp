@@ -8,6 +8,10 @@
 
 namespace QuillSMTP\Site;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Site class
  *
@@ -41,7 +45,6 @@ class Site {
 	 */
 	private function __construct() {
 		License::instance();
-		Updater::instance();
 	}
 
 	/**

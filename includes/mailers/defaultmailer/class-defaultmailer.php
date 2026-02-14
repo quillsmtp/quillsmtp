@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPMailer Mailer.
+ * Default Mailer.
  *
  * @since 1.0.0
  *
@@ -8,7 +8,7 @@
  * @subpackage mailers
  */
 
-namespace QuillSMTP\Mailers\PHPMailer;
+namespace QuillSMTP\Mailers\Defaultmailer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -16,11 +16,11 @@ use QuillSMTP\Mailer\Provider\Provider;
 use QuillSMTP\Mailer\Settings;
 
 /**
- * PHPMailer Mailer Class.
+ * Default Mailer Class.
  *
  * @since 1.0.0
  */
-class PHPMailer extends Provider {
+class Defaultmailer extends Provider {
 
 	/**
 	 * Mailer slug.
@@ -38,7 +38,7 @@ class PHPMailer extends Provider {
 	 *
 	 * @var string
 	 */
-	public $name = 'PHPMailer';
+	public $name = 'Default';
 
 	/**
 	 * App

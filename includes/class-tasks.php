@@ -8,6 +8,10 @@
 
 namespace QuillSMTP;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Throwable;
 
 /**

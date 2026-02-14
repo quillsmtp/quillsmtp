@@ -15,7 +15,7 @@ use QuillSMTP\Admin\Admin;
 use QuillSMTP\Admin\Admin_Loader;
 use QuillSMTP\REST_API\REST_API;
 use QuillSMTP\Mailers\Mailers;
-use QuillSMTP\PHPMailer\PHPMailer;
+use QuillSMTP\Override\Mailer;
 use QuillSMTP\Log_Handlers\Log_Handler_DB;
 use QuillSMTP\Email_Test\Email_Test;
 use QuillSMTP\Tasks;
@@ -97,7 +97,7 @@ final class QuillSMTP {
 			require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
 		}
 
-		$phpmailer = new PHPMailer();
+		$phpmailer = new Mailer();
 	}
 
 	/**

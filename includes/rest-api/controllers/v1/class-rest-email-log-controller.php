@@ -9,6 +9,10 @@
 
 namespace QuillSMTP\REST_API\Controllers\V1;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use QuillSMTP\Abstracts\REST_Controller;
 use QuillSMTP\Email_Log\Handler_DB;
 use QuillSMTP\QuillSMTP;
